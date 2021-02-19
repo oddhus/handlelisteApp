@@ -22,5 +22,6 @@ namespace handlelisteApp
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+        //TESTE KOMMENTAR
     }
 }
