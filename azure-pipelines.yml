@@ -1,0 +1,93 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  - master
+
+pool:
+  vmImage: "windows-latest"
+
+variables:
+  solution: "**/*.sln"
+  buildPlatform: "Any CPU"
+  buildConfiguration: "Release"
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "8.x"
+    displayName: "Install Node.js"
+
+  - script: |
+      cd handlelisteApp/client-app
+      rm -rf node_modules
+    displayName: "Remove node_modules"
+
+  - script: |
+      cd handlelisteApp/client-app
+      rm package-lock.json
+    displayName: "Remove package-lock.json"
+
+  - script: |
+      cd handlelisteApp/client-app
+      npm install
+    displayName: "Run npm install"
+
+  - script: |
+      cd handlelisteApp/client-app
+      npm run test:ci
+    displayName: "Run npm test"
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: "JUnit" # Options: JUnit, NUnit, VSTest, xUnit
+      testResultsFiles: "**/junit.xml"
+    displayName: "Publish test results"
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: "Cobertura"
+      summaryFileLocation: "**/cobertura-coverage.xml"
+    displayName: "Publish Code Coverage"
+
+  - task: NuGetToolInstaller@1
+
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: "$(solution)"
+
+  - task: VSBuild@1
+    inputs:
+      solution: "$(solution)"
+      platform: "$(buildPlatform)"
+      configuration: "$(buildConfiguration)"
+
+  - task: VSTest@2
+    displayName: "VsTest - testAssemblies"
+    inputs:
+      testAssemblyVer2: |
+        **\bin\$(BuildConfiguration)\**\*TEST.dll
+        !**\obj\**
+        !**\bin\**\ref\**
+        !**\xunit.runner.visualstudio.testadapter.dll
+        !**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+      runTestsInIsolation: true
+      codeCoverageEnabled: true
+      platform: "$(BuildPlatform)"
+      configuration: "$(BuildConfiguration)"
+
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: "publish"
+      publishWebProjects: false
+      projects: "handlelisteApp/handlelisteApp.csproj"
+      arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+      zipAfterPublish: true
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Upload Artifacts"
+    inputs:
+      pathtoPublish: "$(Build.ArtifactStagingDirectory)"
+      artifactName: "weather"
