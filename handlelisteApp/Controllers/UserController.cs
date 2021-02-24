@@ -7,14 +7,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using handlelisteApp.Services;
 
 namespace handlelisteApp.Controllers
 {
     [ApiController]
-    [Route("[user]")]
+    [Route("[controller]")]
     public class UserController : Controller
     {
-        ShoppingListContext context;
+        private readonly ShoppingListContext _context;
+
+        private readonly UserService _userService;
+
+
+        public UserController(UserService userService, ShoppingListContext context)
+        {
+            _context = context;
+        }
+
 
         [HttpGet]
         public IEnumerable<User> Get()
@@ -23,7 +33,7 @@ namespace handlelisteApp.Controllers
 
 
 
-            return context.Users.ToList();
+            return _context.Users.ToList();
         }
 
 
