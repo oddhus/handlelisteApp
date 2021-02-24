@@ -9,6 +9,7 @@ import { ShoppingLists } from "../pages/ShoppingLists";
 import { ShoppingList } from "../pages/ShoppingList";
 import { Settings } from "../pages/Settings";
 import { Household } from "../pages/Household";
+import { NoMatch } from "../pages/NoMatch";
 
 interface Props {}
 
@@ -27,6 +28,7 @@ export const AppRoutes: React.FC<Props> = () => {
       <Route path="/settings/blacklist" component={Settings} />
       <Route path="/settings/household" component={Settings} />
       <Route path="/household" component={Household} />
+      <Route component={NoMatch} />
     </Switch>
   );
 };
