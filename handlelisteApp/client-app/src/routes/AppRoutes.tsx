@@ -14,18 +14,19 @@ interface Props {}
 
 export const AppRoutes: React.FC<Props> = () => {
   return (
-    <React.Fragment>
-      <Switch>
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/create-recipe" component={CreateRecipe} />
-        <Route path="/recipes" component={Recipes} />
-        <Route path="/recipes/:recipeId" component={Recipe} />
-        <Route path="/shopping-list" component={ShoppingLists} />
-        <Route path="/shopping-list/:listId" component={ShoppingList} />
-        <Route path="/settings" component={Settings} />
-        <Route path="/household" component={Household} />
-      </Switch>
-    </React.Fragment>
+    <Switch>
+      <Route path="/signin" component={SignIn} />
+      <Route path="/signup" component={SignUp} />
+      <Route path="/create-recipe" component={CreateRecipe} />
+      <Route path="/recipes" component={Recipes} />
+      <Route path="/recipes/:recipeId" component={Recipe} />
+      <Route path="/shopping-list" component={ShoppingLists} />
+      <Route path="/shopping-list/:listId" component={ShoppingList} />
+      <Route path="/settings/user" component={Settings} />
+      <Route path="/settings/accessibility" component={Settings} />
+      <Route path="/settings/blacklist" component={Settings} />
+      <Route path="/settings/household" component={Settings} />
+      <Route path="/household" component={Household} />
+    </Switch>
   );
 };
