@@ -7,6 +7,9 @@ namespace handlelisteApp.Data
     {
         bool SaveChanges();
         void AddShoppingList(ShoppingList shoppingList);
-        ShoppingList AddItemsToShoppingList(int id, List<ItemOnShoppingList> items);
+        void UpdateShoppingList(ShoppingList shoppingList);
+        void DeleteShoppingList(ShoppingList shoppingList);
+        ShoppingList FindShoppingListById(int id);
+        List<ShoppingList> FindShoppingListByUserId(int id);
     }
 }
