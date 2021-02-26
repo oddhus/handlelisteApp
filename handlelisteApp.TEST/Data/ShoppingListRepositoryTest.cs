@@ -19,6 +19,8 @@ namespace handlelisteApp.TEST.Data
 
         private ShoppingListRepository _repo;
 
+        private Mock<ShoppingListContext> _mockContext;
+
         public ShoppingListRepositoryTest()
         {
             var data = new List<ShoppingList>
@@ -35,22 +37,28 @@ namespace handlelisteApp.TEST.Data
             _mockSet.As<IQueryable<ShoppingList>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
 
-            var mockContext = new Mock<ShoppingListContext>();
-            mockContext.Setup(m => m.ShoppingLists).Returns(_mockSet.Object);
+            _mockContext = new Mock<ShoppingListContext>();
+            _mockContext.Setup(m => m.ShoppingLists).Returns(_mockSet.Object);
 
-            _repo = new ShoppingListRepository(mockContext.Object);
+            _repo = new ShoppingListRepository(_mockContext.Object);
         }
 
+        [Fact]
+        public void ShouldCallSaveChangesOnShoppingListRepo()
+        {
+            _repo.SaveChanges();
+            _mockContext.Verify(m => m.SaveChanges(), Times.Once());
+        }
 
         [Fact]
-        public void ShouldCallAddEmptyShoppingList()
+        public void ShouldCallAddOnShoppingListRepo()
         {
             _repo.AddShoppingList(new ShoppingList());
             _mockSet.Verify(m => m.Add(It.IsAny<ShoppingList>()), Times.Once());
         }
 
         [Fact]
-        public void ShouldCallRemoveShoppingList()
+        public void ShouldCallRemoveOnShoppingListRepo()
         {
             _repo.DeleteShoppingList(new ShoppingList());
             _mockSet.Verify(m => m.Remove(It.IsAny<ShoppingList>()), Times.Once());
