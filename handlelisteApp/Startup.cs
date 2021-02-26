@@ -28,6 +28,8 @@ namespace handlelisteApp
             services.AddDbContext<ShoppingListContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
+
 
             services.AddScoped<UserService>();
 

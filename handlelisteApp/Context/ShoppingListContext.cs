@@ -24,10 +24,10 @@ namespace handlelisteApp.Context
             }
         }
 
-        public DbSet<Item> Items { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<ItemOnShoppingList> ItemOnShoppingLists { get; set; }
-        public DbSet<ShoppingList> ShoppingLists { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<ItemOnShoppingList> ItemOnShoppingLists { get; set; }
+        public virtual DbSet<ShoppingList> ShoppingLists { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
