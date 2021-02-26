@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using handlelisteApp.Services;
+using Scrypt;
+using handlelisteApp.Models.DTO;
 
 namespace handlelisteApp.Controllers
 {
@@ -19,10 +21,14 @@ namespace handlelisteApp.Controllers
 
         private readonly UserService _userService;
 
+        private ScryptEncoder _encoder;
 
-        public UserController(UserService userService, ShoppingListContext context)
+
+        public UserController(UserService userService, ShoppingListContext context, ScryptEncoder encoder)
         {
             _context = context;
+            _userService = userService;
+            _encoder = encoder;
         }
 
 
@@ -49,12 +55,16 @@ namespace handlelisteApp.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public ActionResult<UserDTO> PostUser(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            
+            user.HashedPassword = _encoder.Encode(user.HashedPassword);
+            //_context.Users.Add(user);
+            //await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUser), new { id = user.UserID }, user);
+            UserDTO userDTO = _userService.CreateNewUser(user);
+
+            return CreatedAtAction(nameof(GetUser), userDTO);
         }
 
 
