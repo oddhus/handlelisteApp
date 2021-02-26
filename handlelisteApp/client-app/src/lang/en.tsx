@@ -1,7 +1,6 @@
 import React from "react";
 
 export const
-    sayHello = (): string => "Hello",
     shoppingList = (): string => "Shopping list",
     createShoppingList = (): string => "Create shopping list", 
     login = (): string => "Login",
