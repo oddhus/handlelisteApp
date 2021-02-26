@@ -13,6 +13,6 @@ namespace handlelisteApp.Models
         public String HashedPassword { get; set; }
         public int UserAge { get; set; }
         public ICollection<ShoppingList> ShoppingLists { get; set; }
-        
+
     }
 }
