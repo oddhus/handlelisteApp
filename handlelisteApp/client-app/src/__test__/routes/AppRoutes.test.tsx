@@ -12,6 +12,12 @@ const setup = (path:string) => {
     )
 }
 
+const routeComponentPropsMock = {
+    history: {} as any,
+    location: {} as any,
+    match: {} as any,
+}
+
 describe('AppRoutes', () =>{
     describe('Layout', () =>{
 
@@ -21,9 +27,9 @@ describe('AppRoutes', () =>{
         })
         
         it('displays SignInPage when url is /signin', () =>{
-            const {container} = setup('/signin')
-            const header = container.querySelector('div')
-            expect(header).toHaveTextContent('SignIn')
+            const {getByTestId} = setup('/signin')
+            expect(getByTestId('login-container')).toBeInTheDocument()
+
         })
 
         it('displays SignUp when url is /signup', () =>{
