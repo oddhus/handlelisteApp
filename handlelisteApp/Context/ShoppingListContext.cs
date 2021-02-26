@@ -16,12 +16,14 @@ namespace handlelisteApp.Context
         }
         public ShoppingListContext(DbContextOptions options) : base(options)
         {
+            /*
             if (!_created)
             {
                 _created = true;
                 Database.EnsureDeleted();
                 Database.EnsureCreated();
             }
+            */
         }
 
         public DbSet<Item> Items { get; set; }

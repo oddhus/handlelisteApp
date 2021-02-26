@@ -32,8 +32,29 @@ namespace handlelisteApp.Controllers
             //var json = JsonSerializer.Serialize(context.Users.ToList());
 
 
-
+            
             return _context.Users.ToList();
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<User>> GetUser(int id)
+        {
+            User result = await _context.Users.FindAsync(id);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return result;
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser(User user)
+        {
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetUser), new { id = user.UserID }, user);
         }
 
 
@@ -55,6 +76,8 @@ namespace handlelisteApp.Controllers
             return View();
         }
 
+
+        /*
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -69,13 +92,19 @@ namespace handlelisteApp.Controllers
                 return View();
             }
         }
+        */
+
+        /*
 
         // GET: UserController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
+        */
 
+
+        /*
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,12 +120,17 @@ namespace handlelisteApp.Controllers
             }
         }
 
+        */
+
+        /*
         // GET: UserController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
+        */
 
+        /*
         // POST: UserController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -111,5 +145,6 @@ namespace handlelisteApp.Controllers
                 return View();
             }
         }
+        */
     }
 }
