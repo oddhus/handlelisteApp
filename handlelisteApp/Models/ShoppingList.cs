@@ -9,6 +9,9 @@ namespace handlelisteApp.Models
     {
         public int ShoppingListID { get; set; }
         public virtual ICollection<Item> Items { get; set; }
-        
+
+        public int UserId { get; set; }
+
+        public User user { get; set; }
     }
 }
