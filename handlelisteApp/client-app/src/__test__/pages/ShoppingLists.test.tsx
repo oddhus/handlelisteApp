@@ -9,7 +9,7 @@ describe('ShoppingListsPage', () =>{
         it('has header of ShoppingLists', () => {
             const {container} = render(<ShoppingLists/>)
             const div = container.querySelector('div')
-            expect(div).toHaveTextContent('ShoppingLists')
+            expect(div).toHaveTextContent('Shopping lists')
         })
 
     })

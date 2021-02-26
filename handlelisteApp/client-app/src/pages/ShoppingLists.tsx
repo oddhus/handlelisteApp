@@ -1,10 +1,9 @@
 import React from 'react';
 import {Language} from '../lang/ActiveLanguage';
 
-interface Props {
-}
-
+interface Props {}
 
 export const ShoppingLists: React.FC<Props> = () => {
-    return <div> {Language.shoppingLists()} </div>
+  return <div>{Language.shoppingLists()}</div>;
+
 };

@@ -10,7 +10,7 @@ export const
     password = (): string => "Passord",
     weNeverShareEmail = (): string => "Vi vil ikke dele din epost addresse med noen.",
 
-    shoppingList = (): string => "Handleliste",
+    shoppingList = (): string[] => ["Antall", "Enhet"],
     shoppingLists = (): string => "Handlelister",
     createShoppingList = (): string => "Lag ny handleliste",
 

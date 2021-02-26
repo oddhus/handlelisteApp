@@ -9,7 +9,7 @@ describe('SignUpPage', () =>{
         it('has header of sign up', () => {
             const {container} = render(<SignUp/>)
             const div = container.querySelector('div')
-            expect(div).toHaveTextContent('SignUp')
+            expect(div).toHaveTextContent('Sign up')
         })
         
     })

@@ -32,15 +32,15 @@ describe('AppRoutes', () =>{
 
         })
 
-        it('displays SignUp when url is /signup', () =>{
+        it('displays Sign up when url is /signup', () =>{
             const {container} = setup('/signup')
             const header = container.querySelector('div')
-            expect(header).toHaveTextContent('SignUp')
+            expect(header).toHaveTextContent('Sign up')
         })
-        it('displays createRecipePage when url is /create-recipe', () =>{
+        it('displays Create recipe when url is /create-recipe', () =>{
             const {container} = setup('/create-recipe')
             const header = container.querySelector('div')
-            expect(header).toHaveTextContent('CreateRecipe')
+            expect(header).toHaveTextContent('Create recipe')
         })
 
         it('displays recipesPage when url is /recipes', () =>{
@@ -55,16 +55,16 @@ describe('AppRoutes', () =>{
             expect(header).toHaveTextContent('Recipe')
         })
 
-        it('displays ShoppingLists when url is shopping-list', () =>{
+        it('displays Shopping lists when url is shopping-list', () =>{
             const {container} = setup('/shopping-list')
             const header = container.querySelector('div')
-            expect(header).toHaveTextContent('ShoppingLists')
+            expect(header).toHaveTextContent('Shopping lists')
         })
 
         it('displays ShoppingList when url is /shopping-list/:listId', () =>{
             const {container} = setup('/shopping-list/:listId')
-            const header = container.querySelector('div')
-            expect(header).toHaveTextContent('ShoppingList')
+            const table = container.querySelector('table')
+            expect(table).toBeVisible()
         })
 
         it('displays SettingPage when url is /settings/user', () =>{

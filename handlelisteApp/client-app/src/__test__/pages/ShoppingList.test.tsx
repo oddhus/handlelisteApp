@@ -3,13 +3,13 @@ import {render} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect'
 import {ShoppingList} from "../../pages/ShoppingList";
 
-describe('SignUpPage', () =>{
+describe('ShoppingList', () =>{
     describe('Layout', () =>{
 
-        it('has header of ShoppingList', () => {
+        it('has a wisible table', () => {
             const {container} = render(<ShoppingList/>)
-            const div = container.querySelector('div')
-            expect(div).toHaveTextContent('ShoppingList')
+            const table = container.querySelector('table')
+            expect(table).toBeVisible();
         })
 
     })

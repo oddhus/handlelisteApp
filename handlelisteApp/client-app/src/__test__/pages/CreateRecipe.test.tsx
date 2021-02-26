@@ -9,7 +9,7 @@ describe('CreateRecipePage', () =>{
         it('has header of Household', () => {
             const {container} = render(<CreateRecipe/>)
             const div = container.querySelector('div')
-            expect(div).toHaveTextContent('CreateRecipe')
+            expect(div).toHaveTextContent('Create recipe')
         })
 
     })
