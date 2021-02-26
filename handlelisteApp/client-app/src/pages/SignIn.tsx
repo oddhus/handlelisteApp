@@ -1,5 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import {RouteComponentProps} from 'react-router-dom';
+import {Language} from '../lang/ActiveLanguage';
+
 
 import {
     Input,
@@ -44,17 +46,17 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = ({match, history}) =
       <Container 
           data-testid='login-container'
           style={{top: '50%', left: '50%'}}>
-          <Heading style={{marginTop: '10px'}}>Login</Heading>
+          <Heading style={{marginTop: '10px'}}>{Language.login()}</Heading>
           <FormControl style={{marginTop: '10px'}} id="username">
-              <FormLabel>Email address</FormLabel>
+              <FormLabel>{Language.emailAddress()}</FormLabel>
               <Input 
                   type="text" 
                     onChange={(event:ChangeEvent<HTMLInputElement>) => onChangeUsernameHandler(event)}
               />
-              <FormHelperText>We'll never share your email.</FormHelperText>
+              <FormHelperText>{Language.weNeverShareEmail()}</FormHelperText>
           </FormControl>
           <FormControl style={{marginTop: '10px'}} id="email">
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{Language.password()}</FormLabel>
               <Input 
                   type="password"
                   onChange={(event:ChangeEvent<HTMLInputElement>) => onChangePasswordHandler(event)}
@@ -64,7 +66,7 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = ({match, history}) =
               style={{marginTop: '10px'}} 
               colorScheme="blue"
               onClick={isLoadingFake} // testing the loading icone
-              isLoading={isLoading}>Login</Button>
+              isLoading={isLoading}>{Language.login()}</Button>
       </Container>
       
       

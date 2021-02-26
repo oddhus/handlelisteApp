@@ -1,7 +1,8 @@
 import React from "react";
+import {Language} from '../lang/ActiveLanguage';
 
 interface Props {}
 
 export const Household: React.FC<Props> = () => {
-  return <div>Household</div>;
+  return <div>{Language.household()}</div>;
 };
