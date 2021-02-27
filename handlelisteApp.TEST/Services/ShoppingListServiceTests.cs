@@ -38,12 +38,11 @@ namespace handlelisteApp.TEST.Data
             readDTO = new ShoppingListReadDTO()
             {
                 ShoppingListID = 1,
-                Items = new List<ItemOnShoppingList>()
+                Items = new List<ItemOnShoppingListReadDTO>()
                 {
-                    new ItemOnShoppingList()
+                    new ItemOnShoppingListReadDTO()
                     {
                         ItemId = 123,
-                        ShoppingListId = 1,
                         Quantity = 2
                     }
                 }

@@ -28,9 +28,6 @@ namespace handlelisteApp.Services
                 Items = new List<ItemOnShoppingList>()
             };
 
-            //Start tracking to get id
-            _shoppingListRepo.AddShoppingList(shoppingList);
-
             //Add all items in a join table
             foreach (var item in shoppingListDTO.Items)
             {
@@ -43,6 +40,7 @@ namespace handlelisteApp.Services
                 });
             }
 
+            _shoppingListRepo.AddShoppingList(shoppingList);
             _shoppingListRepo.SaveChanges();
 
             return _mapper.Map<ShoppingListReadDTO>(shoppingList);

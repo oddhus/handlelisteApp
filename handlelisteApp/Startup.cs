@@ -34,6 +34,8 @@ namespace handlelisteApp
 
 
             services.AddScoped<UserService>();
+            services.AddScoped<ShoppingListService>();
+
 
             services.AddControllersWithViews();
 
