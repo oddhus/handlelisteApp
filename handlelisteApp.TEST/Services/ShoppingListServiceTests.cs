@@ -4,6 +4,7 @@ using System.Linq;
 using AutoMapper;
 using handlelisteApp.Context;
 using handlelisteApp.Data;
+using handlelisteApp.Mappings.Profiles;
 using handlelisteApp.Models;
 using handlelisteApp.Models.DTO;
 using handlelisteApp.Services;
@@ -20,9 +21,17 @@ namespace handlelisteApp.TEST.Data
         private Mock<IShoppingListRepository> _mockRepo;
         private ShoppingListService _service;
         private ShoppingListCreateDTO createDTO;
-        private ShoppingListReadDTO readDTO;
         public ShoppingListServiceTests()
         {
+            //Configure mapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new ShoppingListProfile());
+                mc.AddProfile(new ItemOnShoppingListProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+
+            //Create input
             createDTO = new ShoppingListCreateDTO()
             {
                 Items = new List<ItemOnShoppingListDTO>(){
@@ -34,25 +43,10 @@ namespace handlelisteApp.TEST.Data
                 }
             };
 
-            readDTO = new ShoppingListReadDTO()
-            {
-                ShoppingListID = 1,
-                Items = new List<ItemOnShoppingListReadDTO>()
-                {
-                    new ItemOnShoppingListReadDTO()
-                    {
-                        ItemId = 123,
-                        Quantity = 2
-                    }
-                }
-            };
-
+            //mock repo
             _mockRepo = new Mock<IShoppingListRepository>();
-            var mapper = new Mock<IMapper>();
 
-            mapper.Setup(m => m.Map<ShoppingListReadDTO>(It.IsAny<ShoppingList>())).Returns(readDTO);
-
-            _service = new ShoppingListService(_mockRepo.Object, mapper.Object);
+            _service = new ShoppingListService(_mockRepo.Object, mapper);
         }
 
         [Fact]
@@ -73,8 +67,8 @@ namespace handlelisteApp.TEST.Data
         public void ShouldReturnShoppingListReadDTOWhenCreatingShoppingList()
         {
             var retValue = _service.CreateShoppingList(1, createDTO);
-            Assert.StrictEqual(retValue, readDTO);
+            Assert.NotNull(retValue);
+            Assert.NotNull(createDTO.Items.FirstOrDefault(i => i.ItemId == retValue.Items[0].ItemId));
         }
-
     }
 }
