@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Scrypt;
 using System;
 using System.Linq;
+using AutoMapper;
 
 namespace handlelisteApp
 {
@@ -37,6 +38,8 @@ namespace handlelisteApp
             services.AddControllersWithViews();
 
             services.AddScoped<ScryptEncoder, ScryptEncoder>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

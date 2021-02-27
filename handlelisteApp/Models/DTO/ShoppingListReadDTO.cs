@@ -1,16 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace handlelisteApp.Models
+namespace handlelisteApp.Models.DTO
 {
-    public class ShoppingList
+    public class ShoppingListReadDTO
     {
         public int ShoppingListID { get; set; }
-        public virtual ICollection<ItemOnShoppingList> Items { get; set; }
-        public int UserId { get; set; }
-        public User user { get; set; }
+        public List<ItemOnShoppingList> Items { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
     }

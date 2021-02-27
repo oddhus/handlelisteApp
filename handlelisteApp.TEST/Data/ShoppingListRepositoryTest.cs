@@ -44,21 +44,21 @@ namespace handlelisteApp.TEST.Data
         }
 
         [Fact]
-        public void ShouldCallSaveChangesOnShoppingListRepo()
+        public void ShouldCallSaveChangesOnShoppingListContext()
         {
             _repo.SaveChanges();
             _mockContext.Verify(m => m.SaveChanges(), Times.Once());
         }
 
         [Fact]
-        public void ShouldCallAddOnShoppingListRepo()
+        public void ShouldCallAddOnShoppingListContext()
         {
             _repo.AddShoppingList(new ShoppingList());
             _mockSet.Verify(m => m.Add(It.IsAny<ShoppingList>()), Times.Once());
         }
 
         [Fact]
-        public void ShouldCallRemoveOnShoppingListRepo()
+        public void ShouldCallRemoveOnShoppingListContext()
         {
             _repo.DeleteShoppingList(new ShoppingList());
             _mockSet.Verify(m => m.Remove(It.IsAny<ShoppingList>()), Times.Once());

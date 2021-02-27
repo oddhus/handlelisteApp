@@ -26,6 +26,13 @@ namespace handlelisteApp.Context
             */
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<ItemOnShoppingList>()
+                .HasKey(s => new { s.ShoppingListId, s.ItemId });
+        }
+
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<ItemOnShoppingList> ItemOnShoppingLists { get; set; }
