@@ -7,22 +7,27 @@ using handlelisteApp.Data;
 using handlelisteApp.Models;
 using handlelisteApp.Models.DTO;
 using handlelisteApp.Services;
+using handlelisteApp.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-
-namespace handlelisteApp.TEST.Data
+namespace handlelisteApp.TEST.Controllers
 {
 
-    public class ShoppingListServiceTests
+    public class ShoppingListControllerTests
     {
-        private Mock<IShoppingListRepository> _mockRepo;
-        private ShoppingListService _service;
+        private Mock<IShoppingListService> _mockService;
+        private ShoppingListController _controller;
         private ShoppingListCreateDTO createDTO;
         private ShoppingListReadDTO readDTO;
-        public ShoppingListServiceTests()
+
+
+        public ShoppingListControllerTests()
         {
+            //Create two test objects
             createDTO = new ShoppingListCreateDTO()
             {
                 Items = new List<ItemOnShoppingListDTO>(){
@@ -47,33 +52,26 @@ namespace handlelisteApp.TEST.Data
                 }
             };
 
-            _mockRepo = new Mock<IShoppingListRepository>();
-            var mapper = new Mock<IMapper>();
+            //Mock service
+            _mockService = new Mock<IShoppingListService>();
+            _mockService.Setup(s => s.CreateShoppingList(It.IsAny<int>(), It.IsAny<ShoppingListCreateDTO>())).Returns(readDTO);
 
-            mapper.Setup(m => m.Map<ShoppingListReadDTO>(It.IsAny<ShoppingList>())).Returns(readDTO);
-
-            _service = new ShoppingListService(_mockRepo.Object, mapper.Object);
+            //Inject mocked service
+            _controller = new ShoppingListController(_mockService.Object);
         }
 
         [Fact]
-        public void ShouldCallAddShoppingListOnRepoWhenUsingCreateShoppingList()
+        public void ShouldCallCreateShoppingListOnServiceWhenUsingCreateShoppingList()
         {
-            _service.CreateShoppingList(1, createDTO);
-            _mockRepo.Verify(m => m.AddShoppingList(It.IsAny<ShoppingList>()), Times.Once());
+            _controller.CreateShoppingList(createDTO);
+            _mockService.Verify(s => s.CreateShoppingList(It.IsAny<int>(), It.IsAny<ShoppingListCreateDTO>()), Times.Once());
         }
 
         [Fact]
-        public void ShouldCallSaveChangesOnRepoWhenUsingCreateShoppingList()
+        public void ShouldReturnShoppingListReadDTOWhenUsingCreateShoppingList()
         {
-            _service.CreateShoppingList(1, createDTO);
-            _mockRepo.Verify(m => m.SaveChanges(), Times.Once());
-        }
-
-        [Fact]
-        public void ShouldReturnShoppingListReadDTOWhenCreatingShoppingList()
-        {
-            var retValue = _service.CreateShoppingList(1, createDTO);
-            Assert.StrictEqual(retValue, readDTO);
+            var newList = _controller.CreateShoppingList(createDTO);
+            Assert.StrictEqual(newList, readDTO);
         }
 
     }

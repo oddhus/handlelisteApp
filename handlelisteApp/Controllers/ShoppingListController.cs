@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication;
 using handlelisteApp.Models.DTO;
+using handlelisteApp.Data;
 
 namespace handlelisteApp.Controllers
 {
@@ -15,13 +16,10 @@ namespace handlelisteApp.Controllers
     [Route("[controller]")]
     public class ShoppingListController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IShoppingListService _shoppingListService;
 
-        private readonly ShoppingListService _shoppingListService;
-
-        public ShoppingListController(ILogger<WeatherForecastController> logger, ShoppingListService shoppingListService)
+        public ShoppingListController(IShoppingListService shoppingListService)
         {
-            _logger = logger;
             _shoppingListService = shoppingListService;
         }
 

@@ -7,7 +7,7 @@ using handlelisteApp.Models.DTO;
 
 namespace handlelisteApp.Services
 {
-    public class ShoppingListService
+    public class ShoppingListService : IShoppingListService
     {
         private readonly IShoppingListRepository _shoppingListRepo;
         private readonly IMapper _mapper;
