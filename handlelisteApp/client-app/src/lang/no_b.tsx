@@ -22,4 +22,8 @@ export const
 
     household = (): string => "Hushold",
 
-    noMatch = (): string => "Ingen treff"
+    noMatch = (): string => "Ingen treff",
+
+    Username = (): string => "Brukernavn",
+
+    passwordRepeat = (): string => 'Gjenta passordet'
