@@ -7,6 +7,6 @@ namespace handlelisteApp.Models.DTO
 {
     public class ShoppingListCreateUpdateDTO
     {
-        public ICollection<ItemOnShoppingListDTO> Items { get; set; }
+        public ICollection<ItemOnShoppingListCreateDTO> Items { get; set; }
     }
 }

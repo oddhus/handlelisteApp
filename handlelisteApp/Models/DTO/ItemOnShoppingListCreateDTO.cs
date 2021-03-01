@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace handlelisteApp.Models.DTO
 {
-    public class ItemOnShoppingListDTO
+    public class ItemOnShoppingListCreateDTO
     {
-        public int ItemId { get; set; }
+        public string ItemName { get; set; }
         public int Quantity { get; set; }
-        public string Measurement { get; set; }
+        public string Unit { get; set; }
     }
 }

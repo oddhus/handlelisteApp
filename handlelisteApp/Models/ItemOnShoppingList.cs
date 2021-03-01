@@ -12,6 +12,6 @@ namespace handlelisteApp.Models
         public int ItemId { get; set; }
         public virtual Item Item { get; set; }
         public int Quantity { get; set; }
-        public string Measurement { get; set; }
+        public string Unit { get; set; }
     }
 }

@@ -11,7 +11,11 @@ namespace handlelisteApp.Mappings.Profiles
     {
         public ItemOnShoppingListProfile()
         {
-            CreateMap<ItemOnShoppingList, ItemOnShoppingListReadDTO>();
+            CreateMap<ItemOnShoppingList, ItemOnShoppingListReadDTO>()
+                .ForMember(s => s.ItemName, opt =>
+                {
+                    opt.MapFrom(i => i.Item.ItemName);
+                });
         }
     }
 }

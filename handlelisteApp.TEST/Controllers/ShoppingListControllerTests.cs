@@ -32,10 +32,10 @@ namespace handlelisteApp.TEST.Controllers
             //Create two test objects
             createDTO = new ShoppingListCreateUpdateDTO()
             {
-                Items = new List<ItemOnShoppingListDTO>(){
-                    new ItemOnShoppingListDTO()
+                Items = new List<ItemOnShoppingListCreateDTO>(){
+                    new ItemOnShoppingListCreateDTO()
                     {
-                        ItemId = 123,
+                        ItemName = "Brus",
                         Quantity = 2,
                     }
                 }
@@ -48,7 +48,7 @@ namespace handlelisteApp.TEST.Controllers
                 {
                     new ItemOnShoppingListReadDTO()
                     {
-                        ItemId = 123,
+                        ItemName = "Brus",
                         Quantity = 2
                     }
                 }
@@ -61,7 +61,7 @@ namespace handlelisteApp.TEST.Controllers
                 {
                     new ItemOnShoppingListReadDTO()
                     {
-                        ItemId = 123,
+                        ItemName = "Brus",
                         Quantity = 2
                     }
                 }
