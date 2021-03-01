@@ -78,7 +78,7 @@ steps:
       projects: $(solution)
       arguments: --configuration $(BuildConfiguration) --collect "XPlat Code Coverage"
 
-  - script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml;$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
+  - script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml;$(Build.SourcesDirectory)/**/cobertura-coverage.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
     displayName: "Create Code Coverage Reports"
 
   - task: PublishCodeCoverageResults@1
