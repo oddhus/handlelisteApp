@@ -2,7 +2,6 @@ import React, {ChangeEvent, useState} from "react";
 import {RouteComponentProps} from 'react-router-dom';
 import {Language} from '../lang/ActiveLanguage';
 
-
 import {
     Input,
     Container,
@@ -32,8 +31,6 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = ({match, history}) =
         
         
     }
-
-
     const onChangeUsernameHandler = (event:any) => {
         setUsername(event.target.value)
     }
@@ -51,18 +48,23 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = ({match, history}) =
               <FormLabel>{Language.emailAddress()}</FormLabel>
               <Input 
                   type="text" 
-                    onChange={(event:ChangeEvent<HTMLInputElement>) => onChangeUsernameHandler(event)}
+                  onChange={(event:ChangeEvent<HTMLInputElement>) => onChangeUsernameHandler(event)}
+                  placeholder='Email address'
+                  value={userName}
               />
               <FormHelperText>{Language.weNeverShareEmail()}</FormHelperText>
           </FormControl>
           <FormControl style={{marginTop: '10px'}} id="email">
               <FormLabel>{Language.password()}</FormLabel>
-              <Input 
-                  type="password"
+              <Input
+                  type='password'
                   onChange={(event:ChangeEvent<HTMLInputElement>) => onChangePasswordHandler(event)}
+                  placeholder='Your password'
+                  value={password}
               />
           </FormControl>
-          <Button 
+          <Button
+              data-testid='login-Button'
               style={{marginTop: '10px'}} 
               colorScheme="blue"
               onClick={isLoadingFake} // testing the loading icone

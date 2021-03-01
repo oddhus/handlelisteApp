@@ -22,5 +22,8 @@ export const
 
     household = (): string => "Household",
     
-    noMatch = (): string => "No match"
+    noMatch = (): string => "No match",
+
+    Username = (): string => "Your username",
     
+    passwordRepeat = (): string => 'Repeat your password'

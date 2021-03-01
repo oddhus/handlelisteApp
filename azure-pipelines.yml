@@ -90,4 +90,5 @@ steps:
     displayName: "Upload Artifacts"
     inputs:
       pathtoPublish: "$(Build.ArtifactStagingDirectory)"
-      artifactName: "weather"
+
+
