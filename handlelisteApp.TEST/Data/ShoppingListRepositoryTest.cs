@@ -65,10 +65,24 @@ namespace handlelisteApp.TEST.Data
         }
 
         [Fact]
+        public void ShouldThrowExceptionIfShoppingListIsNullInDeleteList()
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() => _repo.DeleteShoppingList(null));
+            Assert.Equal("Value cannot be null. (Parameter 'shoppingList')", ex.Message);
+        }
+
+        [Fact]
         public void ShouldFindShoppingListById()
         {
             var foundShoppingList = _repo.FindShoppingListById(1);
             Assert.True(foundShoppingList.ShoppingListID == 1);
+        }
+
+        [Fact]
+        public void ShouldThrowExceptionIfShoppingListIsNullInAddShoppingList()
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() => _repo.AddShoppingList(null));
+            Assert.Equal("Value cannot be null. (Parameter 'shoppingList')", ex.Message);
         }
 
         [Fact]
