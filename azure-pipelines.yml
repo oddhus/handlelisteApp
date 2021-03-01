@@ -15,6 +15,13 @@ variables:
   buildConfiguration: "Release"
 
 steps:
+ task: DotNetCoreCLI@2
+  displayName: 'Install dotnet-reportgenerator-globaltool'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install --tool-path . dotnet-reportgenerator-globaltool
+
   - task: NodeTool@0
     inputs:
       versionSpec: 10.14.2
@@ -63,6 +70,23 @@ steps:
       solution: "$(solution)"
       platform: "$(buildPlatform)"
       configuration: "$(buildConfiguration)"
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Test $(buildConfiguration)'
+    inputs:
+      command: test
+      projects: $(solution)
+      arguments: --configuration $(BuildConfiguration) --collect "XPlat Code Coverage" 
+
+  - script: ./reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
+    displayName: 'Create Code Coverage Reports'
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish Code Coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: $(Build.SourcesDirectory)/TestResults/Coverage/Reports/Cobertura.xml
+      failIfCoverageEmpty: false 
 
   - task: VSTest@2
     displayName: "VsTest - testAssemblies"
