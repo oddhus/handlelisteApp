@@ -46,19 +46,19 @@ namespace handlelisteApp.Data
             _context.ShoppingLists.Remove(shoppingList);
         }
 
-        public ShoppingList FindShoppingListById(int id)
+        public ShoppingList FindShoppingListByUserIdAndListId(int userId, int shoppingListId)
         {
             return _context.ShoppingLists
-                .Where(s => s.ShoppingListID == id)
+                .Where(s => s.ShoppingListID == shoppingListId && s.UserId == userId)
                 .Include(s => s.Items)
                 .FirstOrDefault();
         }
 
 
-        public List<ShoppingList> FindShoppingListByUserId(int id)
+        public IEnumerable<ShoppingList> FindShoppingListsByUserId(int userId)
         {
             return _context.ShoppingLists
-                .Where(s => s.UserId == id)
+                .Where(s => s.UserId == userId)
                 .ToList();
         }
 

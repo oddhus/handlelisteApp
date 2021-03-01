@@ -21,14 +21,14 @@ namespace handlelisteApp.TEST.Controllers
     {
         private Mock<IShoppingListService> _mockService;
         private ShoppingListController _controller;
-        private ShoppingListCreateDTO createDTO;
+        private ShoppingListCreateUpdateDTO createDTO;
         private ShoppingListReadDTO readDTO;
 
 
         public ShoppingListControllerTests()
         {
             //Create two test objects
-            createDTO = new ShoppingListCreateDTO()
+            createDTO = new ShoppingListCreateUpdateDTO()
             {
                 Items = new List<ItemOnShoppingListDTO>(){
                     new ItemOnShoppingListDTO()
@@ -54,7 +54,7 @@ namespace handlelisteApp.TEST.Controllers
 
             //Mock service
             _mockService = new Mock<IShoppingListService>();
-            _mockService.Setup(s => s.CreateShoppingList(It.IsAny<int>(), It.IsAny<ShoppingListCreateDTO>())).Returns(readDTO);
+            _mockService.Setup(s => s.CreateShoppingList(It.IsAny<int>(), It.IsAny<ShoppingListCreateUpdateDTO>())).Returns(readDTO);
 
             //Inject mocked service
             _controller = new ShoppingListController(_mockService.Object);
@@ -64,7 +64,7 @@ namespace handlelisteApp.TEST.Controllers
         public void ShouldCallCreateShoppingListOnServiceWhenUsingCreateShoppingList()
         {
             _controller.CreateShoppingList(createDTO);
-            _mockService.Verify(s => s.CreateShoppingList(It.IsAny<int>(), It.IsAny<ShoppingListCreateDTO>()), Times.Once());
+            _mockService.Verify(s => s.CreateShoppingList(It.IsAny<int>(), It.IsAny<ShoppingListCreateUpdateDTO>()), Times.Once());
         }
 
         [Fact]

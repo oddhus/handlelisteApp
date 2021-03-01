@@ -9,7 +9,7 @@ namespace handlelisteApp.Data
         void AddShoppingList(ShoppingList shoppingList);
         void UpdateShoppingList(ShoppingList shoppingList);
         void DeleteShoppingList(ShoppingList shoppingList);
-        ShoppingList FindShoppingListById(int id);
-        List<ShoppingList> FindShoppingListByUserId(int id);
+        ShoppingList FindShoppingListByUserIdAndListId(int userId, int shoppingListId);
+        IEnumerable<ShoppingList> FindShoppingListsByUserId(int userId);
     }
 }

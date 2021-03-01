@@ -24,7 +24,7 @@ namespace handlelisteApp.Controllers
         }
 
         [HttpPost]
-        public ShoppingListReadDTO CreateShoppingList([FromBody] ShoppingListCreateDTO createDTO)
+        public ShoppingListReadDTO CreateShoppingList([FromBody] ShoppingListCreateUpdateDTO createDTO)
         {
             //Here we should normally get userID from context
             var userId = 1; //GetUserId()

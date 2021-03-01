@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace handlelisteApp.Models.DTO
 {
-    public class ShoppingListCreateDTO
+    public class ShoppingListCreateUpdateDTO
     {
         public ICollection<ItemOnShoppingListDTO> Items { get; set; }
     }

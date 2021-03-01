@@ -74,7 +74,7 @@ namespace handlelisteApp.TEST.Data
         [Fact]
         public void ShouldFindShoppingListById()
         {
-            var foundShoppingList = _repo.FindShoppingListById(1);
+            var foundShoppingList = _repo.FindShoppingListByUserIdAndListId(1, 1);
             Assert.True(foundShoppingList.ShoppingListID == 1);
         }
 
@@ -88,7 +88,7 @@ namespace handlelisteApp.TEST.Data
         [Fact]
         public void ShouldFindAllOfUsersShoppingListsById()
         {
-            var foundShoppingLists = _repo.FindShoppingListByUserId(1);
+            var foundShoppingLists = _repo.FindShoppingListsByUserId(1);
             Assert.True(foundShoppingLists.Count() == 2);
         }
     }
