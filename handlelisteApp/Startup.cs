@@ -63,6 +63,7 @@ namespace handlelisteApp
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
 
             services.AddScoped<IUserService, UserService>();

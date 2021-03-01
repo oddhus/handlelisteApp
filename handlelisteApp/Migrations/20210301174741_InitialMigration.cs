@@ -1,11 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace handlelisteApp.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    ItemID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ItemName = table.Column<string>(type: "TEXT", nullable: true),
+                    Weight = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.ItemID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -27,74 +42,56 @@ namespace handlelisteApp.Migrations
                 {
                     ShoppingListID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserID = table.Column<int>(type: "INTEGER", nullable: true)
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShoppingLists", x => x.ShoppingListID);
                     table.ForeignKey(
-                        name: "FK_ShoppingLists_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_ShoppingLists_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Items",
-                columns: table => new
-                {
-                    ItemID = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ItemName = table.Column<string>(type: "TEXT", nullable: true),
-                    Weight = table.Column<double>(type: "REAL", nullable: false),
-                    ShoppingListID = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Items", x => x.ItemID);
-                    table.ForeignKey(
-                        name: "FK_Items_ShoppingLists_ShoppingListID",
-                        column: x => x.ShoppingListID,
-                        principalTable: "ShoppingLists",
-                        principalColumn: "ShoppingListID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ItemOnShoppingLists",
                 columns: table => new
                 {
-                    ItemOnShoppingListID = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ItemID = table.Column<int>(type: "INTEGER", nullable: true),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
+                    ShoppingListId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ItemId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    Unit = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemOnShoppingLists", x => x.ItemOnShoppingListID);
+                    table.PrimaryKey("PK_ItemOnShoppingLists", x => new { x.ShoppingListId, x.ItemId });
                     table.ForeignKey(
-                        name: "FK_ItemOnShoppingLists_Items_ItemID",
-                        column: x => x.ItemID,
+                        name: "FK_ItemOnShoppingLists_Items_ItemId",
+                        column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "ItemID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemOnShoppingLists_ShoppingLists_ShoppingListId",
+                        column: x => x.ShoppingListId,
+                        principalTable: "ShoppingLists",
+                        principalColumn: "ShoppingListID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemOnShoppingLists_ItemID",
+                name: "IX_ItemOnShoppingLists_ItemId",
                 table: "ItemOnShoppingLists",
-                column: "ItemID");
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_ShoppingListID",
-                table: "Items",
-                column: "ShoppingListID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ShoppingLists_UserID",
+                name: "IX_ShoppingLists_UserId",
                 table: "ShoppingLists",
-                column: "UserID");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
