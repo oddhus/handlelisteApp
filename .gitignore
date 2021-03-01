@@ -240,3 +240,4 @@ _Pvt_Extensions
 
 #JetBrains
 .idea/
+/handlelisteApp.TEST/Controllers/UserControllerTest.cs

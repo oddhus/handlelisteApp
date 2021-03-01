@@ -14,6 +14,11 @@ namespace handlelisteApp.Data
             _context = context;
         }
 
+        public User FindUserByUserName(string username)
+        {
+            return _context.Users.SingleOrDefault(u => u.Username == username);
+        }
+
         public ICollection<User> GetAllUsers()
         {
             return _context.Users.ToList();
@@ -29,7 +34,7 @@ namespace handlelisteApp.Data
 
         User IUserRepository.GetUserById(int id)
         {
-            throw new System.NotImplementedException();
+            return _context.Users.Find(id);
         }
     }
 }

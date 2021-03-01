@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using handlelisteApp.Services;
 using Scrypt;
 using handlelisteApp.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace handlelisteApp.Controllers
 {
@@ -19,33 +21,37 @@ namespace handlelisteApp.Controllers
     {
         private readonly ShoppingListContext _context;
 
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
         private ScryptEncoder _encoder;
+        //private IAuthService _authService;
 
 
-        public UserController(UserService userService, ShoppingListContext context, ScryptEncoder encoder)
+        public UserController(IUserService userService, ShoppingListContext context, ScryptEncoder encoder)
         {
             _context = context;
             _userService = userService;
             _encoder = encoder;
+           
         }
 
 
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<UserDTO> Get()
         {
-            //var json = JsonSerializer.Serialize(context.Users.ToList());
-
-
             
-            return _context.Users.ToList();
+            IEnumerable<UserDTO> result = _userService.GetAllUsers();
+            
+            return result;
         }
 
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
-            User result = await _context.Users.FindAsync(id);
+            //User result = await _context.Users.FindAsync(id);
+            UserDTO result = _userService.GetUser(id);
             if(result == null)
             {
                 return NotFound();
@@ -53,9 +59,9 @@ namespace handlelisteApp.Controllers
             return result;
         }
 
-
+        [AllowAnonymous]
         [HttpPost]
-        public ActionResult<UserDTO> PostUser(User user)
+        public ActionResult<UserDTO> CreateUser(User user)
         {
             
             user.HashedPassword = _encoder.Encode(user.HashedPassword);
@@ -68,93 +74,35 @@ namespace handlelisteApp.Controllers
         }
 
 
-        // GET: UserController
-        public ActionResult Index()
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public ActionResult<LoginResponse> LoginPost([FromBody] LoginRequest login)
         {
-            return View();
-        }
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+            //User user = _context.Users.FirstOrDefault(u => u.Username == login.Username);
+            var response = _userService.LoginUser(login);
 
-        // GET: UserController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-
-        /*
-        // POST: UserController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            if(response == null)
             {
-                return RedirectToAction(nameof(Index));
+                return BadRequest(new { message = "Invalid username or password" });
             }
-            catch
-            {
-                return View();
-            }
-        }
-        */
 
-        /*
+            
 
-        // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-        */
+            return Ok(response);
 
 
-        /*
-        // POST: UserController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
-        */
 
-        /*
-        // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-        */
 
-        /*
-        // POST: UserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        */
+
+
+
+
+
+
+
     }
 }
