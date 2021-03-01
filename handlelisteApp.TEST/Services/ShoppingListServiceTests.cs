@@ -135,7 +135,7 @@ namespace handlelisteApp.TEST.Data
         [Fact]
         public void ShouldFindAllUserShoppingListByUserId()
         {
-            var retValue = _service.GetAllUsersShoppingListByUserId(userId);
+            var retValue = _service.GetAllUserShoppingListsByUserId(userId);
             Assert.NotNull(retValue);
             Assert.True(retValue.Count == 1);
         }

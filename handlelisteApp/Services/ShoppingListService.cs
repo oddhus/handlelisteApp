@@ -79,7 +79,7 @@ namespace handlelisteApp.Services
         {
             return _mapper.Map<ShoppingListReadDTO>(_shoppingListRepo.FindShoppingListByUserIdAndListId(userId, shoppingListId));
         }
-        public List<ShoppingListReadDTO> GetAllUsersShoppingListByUserId(int userId)
+        public List<ShoppingListReadDTO> GetAllUserShoppingListsByUserId(int userId)
         {
             return _mapper.Map<List<ShoppingListReadDTO>>(_shoppingListRepo.FindShoppingListsByUserId(userId));
         }

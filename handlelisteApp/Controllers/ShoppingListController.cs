@@ -23,18 +23,52 @@ namespace handlelisteApp.Controllers
             _shoppingListService = shoppingListService;
         }
 
-        [HttpPost]
-        public ShoppingListReadDTO CreateShoppingList([FromBody] ShoppingListCreateUpdateDTO createDTO)
+        [HttpGet]
+        public ActionResult<List<ShoppingListReadDTO>> GetAllUserShoppingLists()
         {
-            //Here we should normally get userID from context
-            var userId = 1; //GetUserId()
+            return _shoppingListService.GetAllUserShoppingListsByUserId(GetUserId());
+        }
 
-            return _shoppingListService.CreateShoppingList(userId, createDTO);
+        [HttpGet("{shoppingListId}")]
+        public ActionResult<ShoppingListReadDTO> GetShoppingListsById(int shoppingListId)
+        {
+            return _shoppingListService.GetShoppingListByUserIdAndListId(GetUserId(), shoppingListId);
+        }
+
+        [HttpPost]
+        public ActionResult<ShoppingListReadDTO> CreateShoppingList([FromBody] ShoppingListCreateUpdateDTO createDTO)
+        {
+            var newShoppingList = _shoppingListService.CreateShoppingList(GetUserId(), createDTO);
+            if (newShoppingList == null)
+            {
+                return BadRequest();
+            };
+            return newShoppingList;
+        }
+
+        [HttpPut("{shoppingListId}")]
+        public ActionResult<ShoppingListReadDTO> UpdateShoppingList(int shoppingListId, [FromBody] ShoppingListCreateUpdateDTO updateDTO)
+        {
+            var updatedShoppingList = _shoppingListService.UpdateShoppingList(GetUserId(), shoppingListId, updateDTO);
+            if (updatedShoppingList == null)
+            {
+                return BadRequest();
+            };
+            return updatedShoppingList;
+        }
+
+        [HttpDelete("{shoppingListId}")]
+        public ActionResult DeleteShoppingList(int shoppingListId)
+        {
+            _shoppingListService.DeleteShoppingList(GetUserId(), shoppingListId);
+            return NoContent();
         }
 
         private int GetUserId()
         {
-            return Int32.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            //return Int32.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            //Here we should normally get userID from context. Now returns static number
+            return 1; //GetUserId()
         }
     }
 }

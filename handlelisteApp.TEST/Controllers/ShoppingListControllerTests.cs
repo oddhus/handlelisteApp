@@ -23,7 +23,9 @@ namespace handlelisteApp.TEST.Controllers
         private ShoppingListController _controller;
         private ShoppingListCreateUpdateDTO createDTO;
         private ShoppingListReadDTO readDTO;
+        private int userId = 1;
 
+        private int shoppingListId = 12;
 
         public ShoppingListControllerTests()
         {
@@ -52,9 +54,26 @@ namespace handlelisteApp.TEST.Controllers
                 }
             };
 
+            var returnReadDTO = new ShoppingListReadDTO()
+            {
+                ShoppingListID = 1,
+                Items = new List<ItemOnShoppingListReadDTO>()
+                {
+                    new ItemOnShoppingListReadDTO()
+                    {
+                        ItemId = 123,
+                        Quantity = 2
+                    }
+                }
+            };
+
             //Mock service
             _mockService = new Mock<IShoppingListService>();
-            _mockService.Setup(s => s.CreateShoppingList(It.IsAny<int>(), It.IsAny<ShoppingListCreateUpdateDTO>())).Returns(readDTO);
+            _mockService.Setup(s => s.CreateShoppingList(It.IsAny<int>(), It.IsAny<ShoppingListCreateUpdateDTO>())).Returns(returnReadDTO);
+            _mockService.Setup(s => s.UpdateShoppingList(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<ShoppingListCreateUpdateDTO>())).Returns(returnReadDTO);
+            _mockService.Setup(s => s.DeleteShoppingList(It.IsAny<int>(), It.IsAny<int>()));
+            _mockService.Setup(s => s.GetAllUserShoppingListsByUserId(It.IsAny<int>())).Returns(new List<ShoppingListReadDTO>() { returnReadDTO });
+            _mockService.Setup(s => s.GetShoppingListByUserIdAndListId(It.IsAny<int>(), It.IsAny<int>())).Returns(returnReadDTO);
 
             //Inject mocked service
             _controller = new ShoppingListController(_mockService.Object);
@@ -71,7 +90,42 @@ namespace handlelisteApp.TEST.Controllers
         public void ShouldReturnShoppingListReadDTOWhenUsingCreateShoppingList()
         {
             var newList = _controller.CreateShoppingList(createDTO);
-            Assert.StrictEqual(newList, readDTO);
+            Assert.True(newList.Value.ShoppingListID == readDTO.ShoppingListID);
+        }
+
+        [Fact]
+        public void ShouldReturnShoppingListReadDTOWhenUsingUpdateShoppingList()
+        {
+            var newList = _controller.UpdateShoppingList(shoppingListId, createDTO);
+            Assert.True(newList.Value.ShoppingListID == readDTO.ShoppingListID);
+        }
+
+        [Fact]
+        public void ShouldCallDeleteOnServiceWhenUsingDeleteShoppingList()
+        {
+            _controller.DeleteShoppingList(shoppingListId);
+            _mockService.Verify(s => s.DeleteShoppingList(It.IsAny<int>(), It.IsAny<int>()), Times.Once());
+        }
+
+        [Fact]
+        public void ShouldReturnNoContentWhenUsingDeleteShoppingList()
+        {
+            var result = _controller.DeleteShoppingList(shoppingListId);
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public void ShouldReturnListOfShoppingListReadDTOWhenUsingFindUserShoppingLists()
+        {
+            var result = _controller.GetAllUserShoppingLists();
+            Assert.True(result.Value.Count == 1);
+        }
+
+        [Fact]
+        public void ShouldReturnShoppingListReadDTOWhenUsingFindUserShoppingListsById()
+        {
+            var result = _controller.GetShoppingListsById(shoppingListId);
+            Assert.True(result.Value.ShoppingListID == readDTO.ShoppingListID);
         }
 
     }
