@@ -13,6 +13,9 @@ export const
     shoppingList = (): string[] => ["Antall", "Enhet"],
     shoppingLists = (): string => "Handlelister",
     createShoppingList = (): string => "Lag ny handleliste",
+    product = (): string => "Produkt",
+    category = (): string => "Kategori",
+    units = (): string[] => ["KG", "L", "ML", "STK", "PK"],
 
     recipes = (): string => "Oppskrifter",
     recipe = (): string => "Oppskrift",
@@ -26,4 +29,9 @@ export const
 
     Username = (): string => "Brukernavn",
 
-    passwordRepeat = (): string => 'Gjenta passordet'
+    passwordRepeat = (): string => 'Gjenta passordet',
+
+    cancel = (): string => "Avbryt",
+
+    add = (): string => "Legg til"
+
