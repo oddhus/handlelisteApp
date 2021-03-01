@@ -78,7 +78,7 @@ steps:
       projects: $(solution)
       arguments: --configuration $(BuildConfiguration) --collect "XPlat Code Coverage"
 
-  - script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
+  - script: reportgenerator -reports:$(Agent.TempDirectory)/handlelisteApp.TEST/**/coverage.cobertura.xml;$(Agent.TempDirectory)/handlelisteApp/client-app/coverage/coverage.cobertura.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
     displayName: "Create Code Coverage Reports"
 
   - task: PublishCodeCoverageResults@1
@@ -87,20 +87,6 @@ steps:
       codeCoverageTool: Cobertura
       summaryFileLocation: $(Build.SourcesDirectory)/TestResults/Coverage/Reports/Cobertura.xml
       failIfCoverageEmpty: false
-
-  - task: VSTest@2
-    displayName: "VsTest - testAssemblies"
-    inputs:
-      testAssemblyVer2: |
-        **\bin\$(BuildConfiguration)\**\*TEST.dll
-        !**\obj\**
-        !**\bin\**\ref\**
-        !**\xunit.runner.visualstudio.testadapter.dll
-        !**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
-      runTestsInIsolation: true
-      codeCoverageEnabled: true
-      platform: "$(BuildPlatform)"
-      configuration: "$(BuildConfiguration)"
 
   - task: DotNetCoreCLI@2
     inputs:
