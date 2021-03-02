@@ -19,5 +19,9 @@ namespace handlelisteApp.Models
             Username = user.Username;
             Token = token;
         }
+
+        public LoginResponse()
+        {
+        }
     }
 }

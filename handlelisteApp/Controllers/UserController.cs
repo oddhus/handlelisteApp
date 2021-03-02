@@ -19,19 +19,19 @@ namespace handlelisteApp.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        private readonly ShoppingListContext _context;
+        //private readonly ShoppingListContext _context;
 
         private readonly IUserService _userService;
 
-        private ScryptEncoder _encoder;
+        //private ScryptEncoder _encoder;
         //private IAuthService _authService;
 
 
-        public UserController(IUserService userService, ShoppingListContext context, ScryptEncoder encoder)
+        public UserController(IUserService userService)
         {
-            _context = context;
+            //_context = context;
             _userService = userService;
-            _encoder = encoder;
+            //_encoder = encoder;
            
         }
 
@@ -46,7 +46,7 @@ namespace handlelisteApp.Controllers
         }
 
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
@@ -64,13 +64,13 @@ namespace handlelisteApp.Controllers
         public ActionResult<UserDTO> CreateUser(User user)
         {
             
-            user.HashedPassword = _encoder.Encode(user.HashedPassword);
+           
             //_context.Users.Add(user);
             //await _context.SaveChangesAsync();
 
             UserDTO userDTO = _userService.CreateNewUser(user);
 
-            return CreatedAtAction(nameof(GetUser), userDTO);
+            return userDTO;
         }
 
 
@@ -90,7 +90,7 @@ namespace handlelisteApp.Controllers
 
             
 
-            return Ok(response);
+            return response;
 
 
         }

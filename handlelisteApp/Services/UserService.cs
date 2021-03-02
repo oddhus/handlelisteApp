@@ -49,7 +49,7 @@ namespace handlelisteApp.Services
 
         public UserDTO CreateNewUser(User user)
         {
-
+            user.HashedPassword = _sCryptEncoder.Encode(user.HashedPassword);
             User savedUser = _userRepository.CreateNewUser(user);
             UserDTO userDTO = UserToUserDTO(savedUser);
             return userDTO;
@@ -68,7 +68,7 @@ namespace handlelisteApp.Services
         {
             User user = _userRepository.FindUserByUserName(login.Username);
 
-            if(!VerifyPassword(login.Password, user.HashedPassword)){
+            if(user == null || !VerifyPassword(login.Password, user.HashedPassword)){
                 return null;
             }
 
