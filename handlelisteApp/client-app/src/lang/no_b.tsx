@@ -16,6 +16,8 @@ export const
     product = (): string => "Produkt",
     category = (): string => "Kategori",
     units = (): string[] => ["KG", "L", "ML", "STK", "PK"],
+    editList = (): string => "Rediger handleliste",
+
 
     recipes = (): string => "Oppskrifter",
     recipe = (): string => "Oppskrift",

@@ -22,21 +22,27 @@ interface Props {
 export const AddItem: React.FC<Props> = ({ onAdd }) => {
   const [category, setCategory] = useState('');
   const [product, setProduct] = useState('');
-  const [qunatity, setQuantity] = useState('0');
+  const [quantity, setQuantity] = useState(0);
   const [unit, setUnit] = useState('');
 
   const onAddClicked = () => {
     const item: Iitem = {
-      category: category,
-      product: product,
-      qunatity: qunatity,
+      category: category.toLowerCase(),
+      product: product.toLowerCase(),
+      quantity: quantity,
       unit: unit,
-    };
-    onAdd(item);
-  };
+    }
+    onAdd(item)
+  }
 
   return (
-    <Container>
+    <Container
+    mb={5}
+    border="1px"
+    borderRadius="lg"
+    p={4}
+    borderColor="#A0AEC0"
+    >
       <FormControl id='category'>
         <FormLabel>{Language.category()}</FormLabel>
         <Input onChange={(e) => setCategory(e.target.value)} />
@@ -48,7 +54,7 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       <FormControl id='amount'>
         <FormLabel>{Language.shoppingList()[1]}</FormLabel>
         <NumberInput
-          onChange={(valueString) => setQuantity(valueString)}
+          onChange={(valueString) => setQuantity(parseInt(valueString))}
           max={100}
           min={1}
         >
