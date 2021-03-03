@@ -26,6 +26,7 @@ export const AppRoutes: React.FC<Props> = () => {
             <Route exact path="/recipes/:recipeId" component={Recipe}/>
             <Route exact path="/shopping-list" component={ShoppingLists}/>
             <Route exact path="/shopping-list/:listId" component={ShoppingList}/>
+            <Route exact path="/settings" component={Settings}/>
             <Route exact path="/settings/user" component={Settings}/>
             <Route exact path="/settings/accessibility" component={Settings}/>
             <Route exact path="/settings/blacklist" component={Settings}/>
