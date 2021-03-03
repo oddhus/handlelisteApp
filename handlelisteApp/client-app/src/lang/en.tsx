@@ -13,6 +13,10 @@ export const
     shoppingList = (): string[] => ["Quantity", "Unit"],
     shoppingLists = (): string => "Shopping lists",
     createShoppingList = (): string => "Create shopping list",
+    product = (): string => "Product",
+    category = (): string => "Category",
+    units = (): string[] => ["PCS", "KG", "L", "ML", "PCK"],
+    editList = (): string => "Edit shopping list",
 
     recipes = (): string => "Recipes",
     recipe = (): string => "Recipe",
@@ -31,4 +35,8 @@ export const
 
     Username = (): string => "Your username",
     
-    passwordRepeat = (): string => 'Repeat your password'
+    passwordRepeat = (): string => 'Repeat your password',
+
+    cancel = (): string => "Cancel",
+
+    add = (): string => "Add"

@@ -8,5 +8,6 @@ namespace handlelisteApp.Data
         public ICollection<User> GetAllUsers();
         public User GetUserById(int id);
         public User CreateNewUser(User user);
+        public User FindUserByUserName(string username);
     }
 }

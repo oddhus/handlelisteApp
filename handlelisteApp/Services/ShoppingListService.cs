@@ -10,11 +10,13 @@ namespace handlelisteApp.Services
     public class ShoppingListService : IShoppingListService
     {
         private readonly IShoppingListRepository _shoppingListRepo;
+        private readonly IItemRepository _itemRepo;
         private readonly IMapper _mapper;
 
-        public ShoppingListService(IShoppingListRepository shoppingListRepo, IMapper mapper)
+        public ShoppingListService(IShoppingListRepository shoppingListRepo, IItemRepository itemRepo, IMapper mapper)
         {
             _shoppingListRepo = shoppingListRepo;
+            _itemRepo = itemRepo;
             _mapper = mapper;
         }
 
@@ -31,12 +33,21 @@ namespace handlelisteApp.Services
             //Add all items in a join table
             foreach (var item in shoppingListDTO.Items)
             {
+                var foundItem = _itemRepo.FindByItemName(item.ItemName);
+
+                if (foundItem == null)
+                {
+                    foundItem = new Item() { ItemName = item.ItemName };
+                    _itemRepo.AddItem(foundItem);
+                }
+
                 shoppingList.Items.Add(new ItemOnShoppingList()
                 {
-                    ItemId = item.ItemId,
+                    ItemId = foundItem.ItemID,
+                    Item = foundItem,
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = item.Quantity,
-                    Measurement = item.Measurement
+                    Unit = item.Unit
                 });
             }
 
@@ -60,12 +71,21 @@ namespace handlelisteApp.Services
 
             foreach (var item in shoppingListDTO.Items)
             {
+                var foundItem = _itemRepo.FindByItemName(item.ItemName);
+
+                if (foundItem == null)
+                {
+                    foundItem = new Item() { ItemName = item.ItemName };
+                    _itemRepo.AddItem(foundItem);
+                }
+
                 shoppingList.Items.Add(new ItemOnShoppingList()
                 {
-                    ItemId = item.ItemId,
+                    ItemId = foundItem.ItemID,
+                    Item = foundItem,
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = item.Quantity,
-                    Measurement = item.Measurement
+                    Unit = item.Unit
                 });
             }
 

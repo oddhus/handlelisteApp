@@ -12,6 +12,10 @@ using Scrypt;
 using System;
 using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using handlelisteApp.Authorization;
 
 namespace handlelisteApp
 {
@@ -27,13 +31,42 @@ namespace handlelisteApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder => builder.SetIsOriginAllowed(_ => true)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+            });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JWTSecretKey")))
+                };
+            });
+
+
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+
+
             services.AddDbContext<ShoppingListContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
 
-            services.AddScoped<UserService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IShoppingListService, ShoppingListService>();
 
 
@@ -70,6 +103,9 @@ namespace handlelisteApp
 
             app.UseRouting();
 
+            app.UseMiddleware<JwtMiddleware>();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -86,6 +122,18 @@ namespace handlelisteApp
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            /*
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                );
+            */
+            
+            //app.UseAuthentication();
         }
     }
 }

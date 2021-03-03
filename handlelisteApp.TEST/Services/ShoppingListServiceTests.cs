@@ -20,10 +20,12 @@ namespace handlelisteApp.TEST.Data
     {
         private int userId = 1;
         private int shoppingListId = 12;
-        private Mock<IShoppingListRepository> _mockRepo;
+        private Mock<IShoppingListRepository> _mockShoppingRepo;
+        private Mock<IItemRepository> _mockItemRepo;
         private ShoppingListService _service;
         private ShoppingListCreateUpdateDTO createDTO;
         private ShoppingList savedShoppinglist;
+        private Item item;
         public ShoppingListServiceTests()
         {
             //Configure mapper
@@ -34,15 +36,21 @@ namespace handlelisteApp.TEST.Data
             });
             IMapper mapper = mappingConfig.CreateMapper();
 
+            item = new Item()
+            {
+                ItemID = 1234,
+                ItemName = "brus"
+            };
+
             //Create input
             createDTO = new ShoppingListCreateUpdateDTO()
             {
-                Items = new List<ItemOnShoppingListDTO>(){
-                    new ItemOnShoppingListDTO()
+                Items = new List<ItemOnShoppingListCreateDTO>(){
+                    new ItemOnShoppingListCreateDTO()
                     {
-                        ItemId = 123,
+                        ItemName = "brus",
                         Quantity = 2,
-                        Measurement = "pcs"
+                        Unit = "pcs"
                     }
                 }
             };
@@ -58,31 +66,43 @@ namespace handlelisteApp.TEST.Data
                     {
                         ItemId = 123,
                         Quantity = 2,
-                        Measurement = "pcs"
+                        Unit = "pcs",
+                        Item = item
                     }
                 }
             };
 
-            //mock repo
-            _mockRepo = new Mock<IShoppingListRepository>();
-            _mockRepo.Setup(r => r.FindShoppingListByUserIdAndListId(userId, shoppingListId)).Returns(savedShoppinglist);
-            _mockRepo.Setup(r => r.FindShoppingListsByUserId(userId)).Returns(new List<ShoppingList>() { savedShoppinglist });
+            //Mock repos
+            _mockShoppingRepo = new Mock<IShoppingListRepository>();
+            _mockShoppingRepo.Setup(r => r.FindShoppingListByUserIdAndListId(userId, shoppingListId)).Returns(savedShoppinglist);
+            _mockShoppingRepo.Setup(r => r.FindShoppingListsByUserId(userId)).Returns(new List<ShoppingList>() { savedShoppinglist });
 
-            _service = new ShoppingListService(_mockRepo.Object, mapper);
+            _mockItemRepo = new Mock<IItemRepository>();
+            _mockItemRepo.Setup(i => i.FindByItemName(It.IsAny<string>())).Returns(item);
+
+            //Add mock repos to Service
+            _service = new ShoppingListService(_mockShoppingRepo.Object, _mockItemRepo.Object, mapper);
         }
 
         [Fact]
         public void ShouldCallAddShoppingListOnRepoWhenUsingCreateShoppingList()
         {
             _service.CreateShoppingList(userId, createDTO);
-            _mockRepo.Verify(m => m.AddShoppingList(It.IsAny<ShoppingList>()), Times.Once());
+            _mockShoppingRepo.Verify(m => m.AddShoppingList(It.IsAny<ShoppingList>()), Times.Once());
         }
 
         [Fact]
         public void ShouldCallSaveChangesOnRepoWhenUsingCreateShoppingList()
         {
             _service.CreateShoppingList(userId, createDTO);
-            _mockRepo.Verify(m => m.SaveChanges(), Times.Once());
+            _mockShoppingRepo.Verify(m => m.SaveChanges(), Times.Once());
+        }
+
+        [Fact]
+        public void ShouldCallFindByItemNameOnItemRepoWhenUsingCreateShoppingList()
+        {
+            _service.CreateShoppingList(userId, createDTO);
+            _mockItemRepo.Verify(m => m.FindByItemName(It.IsAny<string>()), Times.Once());
         }
 
         [Fact]
@@ -90,21 +110,29 @@ namespace handlelisteApp.TEST.Data
         {
             var retValue = _service.CreateShoppingList(userId, createDTO);
             Assert.NotNull(retValue);
-            Assert.NotNull(createDTO.Items.FirstOrDefault(i => i.ItemId == retValue.Items[0].ItemId));
+            Assert.True(retValue.Items[0].ItemName == item.ItemName);
         }
 
         [Fact]
         public void ShouldCallUpdateShoppingListOnRepoWhenUsingUpdateShoppingList()
         {
             _service.UpdateShoppingList(userId, shoppingListId, createDTO);
-            _mockRepo.Verify(m => m.UpdateShoppingList(It.IsAny<ShoppingList>()), Times.Once());
+            _mockShoppingRepo.Verify(m => m.UpdateShoppingList(It.IsAny<ShoppingList>()), Times.Once());
         }
 
         [Fact]
         public void ShouldCallSaveChangesOnRepoWhenUsingUpdateShoppingList()
         {
             _service.UpdateShoppingList(userId, shoppingListId, createDTO);
-            _mockRepo.Verify(m => m.SaveChanges(), Times.Once());
+            _mockShoppingRepo.Verify(m => m.SaveChanges(), Times.Once());
+        }
+
+
+        [Fact]
+        public void ShouldCallFindByItemNameOnItemRepoWhenUsingUpdateShoppingList()
+        {
+            _service.UpdateShoppingList(userId, shoppingListId, createDTO);
+            _mockItemRepo.Verify(m => m.FindByItemName(It.IsAny<string>()), Times.Once());
         }
 
         [Fact]
@@ -112,7 +140,7 @@ namespace handlelisteApp.TEST.Data
         {
             var retValue = _service.UpdateShoppingList(userId, shoppingListId, createDTO);
             Assert.NotNull(retValue);
-            Assert.NotNull(createDTO.Items.FirstOrDefault(i => i.ItemId == retValue.Items[0].ItemId));
+            Assert.True(retValue.Items[0].ItemName == item.ItemName);
         }
 
         [Fact]
@@ -144,8 +172,8 @@ namespace handlelisteApp.TEST.Data
         public void ShouldDeleteShoppingListByUserIdAndListId()
         {
             _service.DeleteShoppingList(userId, shoppingListId);
-            _mockRepo.Verify(m => m.DeleteShoppingList(It.IsAny<ShoppingList>()), Times.Once());
-            _mockRepo.Verify(m => m.FindShoppingListByUserIdAndListId(userId, shoppingListId), Times.Once());
+            _mockShoppingRepo.Verify(m => m.DeleteShoppingList(It.IsAny<ShoppingList>()), Times.Once());
+            _mockShoppingRepo.Verify(m => m.FindShoppingListByUserIdAndListId(userId, shoppingListId), Times.Once());
         }
     }
 }

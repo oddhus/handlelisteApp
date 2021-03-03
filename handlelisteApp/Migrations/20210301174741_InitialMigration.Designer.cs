@@ -9,8 +9,8 @@ using handlelisteApp.Context;
 namespace handlelisteApp.Migrations
 {
     [DbContext(typeof(ShoppingListContext))]
-    [Migration("20210227090637_UpdatedShoppingListModelAgain")]
-    partial class UpdatedShoppingListModelAgain
+    [Migration("20210301174741_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,11 +43,11 @@ namespace handlelisteApp.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Measurement")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ShoppingListId", "ItemId");
 

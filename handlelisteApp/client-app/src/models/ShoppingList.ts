@@ -5,7 +5,7 @@ export interface IShoppingList{
 
 export interface Iitem {
         category: string,
-        item: string,
-        qunatity: number,
+        product: string,
+        quantity: number,
         unit: string
 }
