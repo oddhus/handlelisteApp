@@ -19,6 +19,11 @@ export const
     createRecipe = (): string => "Create recipe",
 
     settings = (): string => "Settings",
+    userSettings = (): string => "User settings",
+    householdSettings = (): string => "Household settings",
+    accessibilitySettings = (): string => "Accessibility settings",
+    blacklistSettings = (): string => "Blacklist settings",
+    activeLanguage = (): string => "Language",
 
     household = (): string => "Household",
     
