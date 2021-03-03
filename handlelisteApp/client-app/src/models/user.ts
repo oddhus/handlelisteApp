@@ -1,8 +1,10 @@
 import {IShoppingList} from "./ShoppingList";
 
 export interface IUser {
-    userID: string,
+    id: string,
     username: string,
+    password: string,
+    token: string,
     userAge: number,
     shoppingLists: IShoppingList []
 }

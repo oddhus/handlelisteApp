@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { NavBar } from "./components/navbar/NavBar";
 import { AppRoutes } from "./routes/AppRoutes";
+import {observer} from "mobx-react-lite";
 
 function App() {
   return (
@@ -14,5 +15,4 @@ function App() {
     </ChakraProvider>
   );
 }
-
-export default App;
+export default observer(App) ;

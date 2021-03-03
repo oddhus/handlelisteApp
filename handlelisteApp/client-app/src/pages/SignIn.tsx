@@ -13,23 +13,23 @@ import {
 
 } from '@chakra-ui/react'
 
+import {observer} from "mobx-react-lite";
+import {useStore} from "../stores/store";
+
 interface Props {}
 
-export const SignIn: React.FC<RouteComponentProps<Props>> = ({match, history}) => {
+export const SignIn: React.FC<RouteComponentProps<Props>> = observer(({match, history}) => {
+    
+    const {userStore} = useStore()
     
     const [userName, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    
-    //just for testing the loading icon
-    const [isLoading, setIsLoading] = useState(false)
-    const isLoadingFake = () =>{
-        setIsLoading(true)
-        setTimeout( () => {
-            setIsLoading(false)
-            history.push('/shopping-list')
-        },2000)
-        
-        
+   
+    const loginHandler = () =>{
+       userStore.login({
+           username: userName,
+           password: password
+       })
     }
     const onChangeUsernameHandler = (event:any) => {
         setUsername(event.target.value)
@@ -67,10 +67,11 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = ({match, history}) =
               data-testid='login-Button'
               style={{marginTop: '10px'}} 
               colorScheme="blue"
-              onClick={isLoadingFake} // testing the loading icone
-              isLoading={isLoading}>{Language.login()}</Button>
+              onClick={() => loginHandler()} // testing the loading icone
+              >{Language.login()}</Button>
       </Container>
       
       
-  )
-};
+        )
+    }
+);

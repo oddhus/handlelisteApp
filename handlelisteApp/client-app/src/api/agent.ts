@@ -13,7 +13,9 @@ const requests = {
 }
 
 const User = {
-    getUsers : (): Promise<IUser> => requests.get('user')
+    getUsers : (): Promise<IUser> => requests.get('user'),
+    signUp : (user: IUser) => requests.post('user', user),
+    login : (loginDetails:any) => requests.post('/user/login', loginDetails)
 }
 
 
