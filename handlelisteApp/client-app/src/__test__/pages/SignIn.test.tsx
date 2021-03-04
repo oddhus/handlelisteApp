@@ -1,70 +1,76 @@
 import React from "react";
-import {render, fireEvent} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect'
-import {SignIn} from "../../pages/SignIn";
+import { render, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import { SignIn } from "../../pages/SignIn";
 
 const routeComponentPropsMock = {
-    history: {} as any,
-    location: {} as any,
-    match: {} as any,
-}
+  history: {} as any,
+  location: {} as any,
+  match: {} as any,
+};
 
-const renderSignInPage = <SignIn {...routeComponentPropsMock}/>
+//Mock the store returned from the useStore hook. In this case only null is returned.
+jest.mock("../../stores/store", () => ({
+  useStore: () => ({
+    userStore: null,
+  }),
+}));
 
-describe('SignInPage', () =>{
-    describe('Layout', () =>{
+const renderSignInPage = <SignIn {...routeComponentPropsMock} />;
 
-        it('container is in the document', async () => {
-            const {getByTestId} = render(renderSignInPage)
-            expect(getByTestId('login-container')).toBeInTheDocument()
-        })
-        
-        it('has input of Email address', async () =>{
-            const {queryByPlaceholderText} = render(renderSignInPage)
-            const emailAddressInput = queryByPlaceholderText('Email address')
-            expect(emailAddressInput).toBeInTheDocument()
-        })
+describe("SignInPage", () => {
+  describe("Layout", () => {
+    it("container is in the document", async () => {
+      //useStore.mockReturnValue(dummyStores);
+      const { getByTestId } = render(renderSignInPage);
+      expect(getByTestId("login-container")).toBeInTheDocument();
+    });
 
-        it('has input of password', async () =>{
-            const {queryByPlaceholderText} = render(renderSignInPage)
-            const passwordInput = queryByPlaceholderText('Your password')
-            expect(passwordInput).toBeInTheDocument()
-        })
+    it("has input of Email address", async () => {
+      const { queryByPlaceholderText } = render(renderSignInPage);
+      const emailAddressInput = queryByPlaceholderText("Email address");
+      expect(emailAddressInput).toBeInTheDocument();
+    });
 
-        it('has input of password', async () =>{
-            const {queryByPlaceholderText} = render(renderSignInPage)
-            const passwordInput = queryByPlaceholderText('Your password')
-            expect(passwordInput!.type).toBe('password')
-        })
+    it("has label of Your Password", async () => {
+      const { queryByPlaceholderText } = render(renderSignInPage);
+      const passwordInput = queryByPlaceholderText("Your password");
+      expect(passwordInput).toBeInTheDocument();
+    });
 
-        it('has login button', async () => {
-            const {getByTestId} = render(renderSignInPage)
-            expect(getByTestId('login-Button')).toBeInTheDocument()
-        })
-    })
-    
-    describe('Interactions', () =>{
-        
-        const changeEnvent = (content:any) =>{
-            return {
-                target: {
-                    value: content
-                }
-            }
-        }
-        
-        it('sets the username value into state', () =>{
-            const {queryByPlaceholderText} = render(renderSignInPage)
-            const emailAddressInput = queryByPlaceholderText('Email address')
-            fireEvent.change(emailAddressInput!, changeEnvent('my-email-address'))
-            expect(emailAddressInput).toHaveValue('my-email-address')
-        })
+    it("has input of password", async () => {
+      const { queryByPlaceholderText } = render(renderSignInPage);
+      const passwordInput = queryByPlaceholderText("Your password");
+      expect(passwordInput!.type).toBe("password");
+    });
 
-        it('sets the password value into state', () =>{
-            const {queryByPlaceholderText} = render(renderSignInPage)
-            const passwordInput = queryByPlaceholderText('Your password')
-            fireEvent.change(passwordInput!, changeEnvent('password'))
-            expect(passwordInput).toHaveValue('password')
-        })
-    })
-})
+    it("has login button", async () => {
+      const { getByTestId } = render(renderSignInPage);
+      expect(getByTestId("login-Button")).toBeInTheDocument();
+    });
+  });
+
+  describe("Interactions", () => {
+    const changeEnvent = (content: any) => {
+      return {
+        target: {
+          value: content,
+        },
+      };
+    };
+
+    it("sets the username value into state", () => {
+      const { queryByPlaceholderText } = render(renderSignInPage);
+      const emailAddressInput = queryByPlaceholderText("Email address");
+      fireEvent.change(emailAddressInput!, changeEnvent("my-email-address"));
+      expect(emailAddressInput).toHaveValue("my-email-address");
+    });
+
+    it("sets the password value into state", () => {
+      const { queryByPlaceholderText } = render(renderSignInPage);
+      const passwordInput = queryByPlaceholderText("Your password");
+      fireEvent.change(passwordInput!, changeEnvent("password"));
+      expect(passwordInput).toHaveValue("password");
+    });
+  });
+});
