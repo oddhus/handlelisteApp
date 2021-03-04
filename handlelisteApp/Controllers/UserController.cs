@@ -12,6 +12,7 @@ using Scrypt;
 using handlelisteApp.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
 
 namespace handlelisteApp.Controllers
 {
@@ -57,6 +58,16 @@ namespace handlelisteApp.Controllers
                 return NotFound();
             }
             return result;
+        }
+
+        [Authorize]
+        [HttpGet("loggedIn")]
+        public ActionResult<UserDTO> GetLoggedInUser()
+        {
+            var claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = Int32.Parse(claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            return _userService.GetUser(userId);
         }
 
         [AllowAnonymous]

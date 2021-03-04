@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using handlelisteApp.Authorization;
+using Microsoft.OpenApi.Models;
 
 namespace handlelisteApp
 {
@@ -81,6 +82,10 @@ namespace handlelisteApp
             {
                 configuration.RootPath = "client-app/build";
             });
+
+
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,7 +108,7 @@ namespace handlelisteApp
 
             app.UseRouting();
 
-            app.UseMiddleware<JwtMiddleware>();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -123,17 +128,8 @@ namespace handlelisteApp
                 }
             });
 
-            /*
-
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-                );
-            */
             
-            //app.UseAuthentication();
+
         }
     }
 }

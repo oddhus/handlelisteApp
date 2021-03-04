@@ -94,7 +94,7 @@ namespace handlelisteApp.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, user.UserID.ToString()) }),
+                Subject = new System.Security.Claims.ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
