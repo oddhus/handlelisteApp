@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using handlelisteApp.Authorization;
-using Microsoft.OpenApi.Models;
 
 namespace handlelisteApp
 {
