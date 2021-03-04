@@ -37,7 +37,8 @@ export default class UserStore {
     
     getUser = async () =>{
         try {
-            //get User based on token
+            const user = await agent.User.currentUser()
+            runInAction(() => this.user = user);
         }catch (e){
             throw e
         }

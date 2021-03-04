@@ -38,7 +38,6 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = observer(({match, hi
     const onChangePasswordHandler = (event:ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value)
     }
-    
   return (
       <Container 
           data-testid='login-container'
