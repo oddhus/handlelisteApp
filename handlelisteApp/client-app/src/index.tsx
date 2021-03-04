@@ -4,15 +4,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {store, StoreContext} from "./stores/store";
 import {createBrowserHistory} from 'history';
+import { Router } from "react-router-dom";
 
 
 export const history = createBrowserHistory();
 
 ReactDOM.render(
     <StoreContext.Provider value={store}>
-        <React.StrictMode>
+        <Router history={history}>
             <App />
-        </React.StrictMode>
+        </Router>
     </StoreContext.Provider>
   ,
   document.getElementById("root")

@@ -4,6 +4,7 @@ import agent from "../api/agent";
 import {store} from "./store";
 import {history} from "../index";
 
+
 export default class UserStore {
     
     user: IUser | null = null;
@@ -32,7 +33,7 @@ export default class UserStore {
         store.commonStore.setToken(null)
         window.localStorage.removeItem('jwt')
         this.user = null
-        //push to homepage
+        history.push('/')
     }
     
     getUser = async () =>{
