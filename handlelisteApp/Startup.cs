@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using handlelisteApp.Authorization;
+using Microsoft.OpenApi.Models;
 
 namespace handlelisteApp
 {
@@ -83,7 +84,14 @@ namespace handlelisteApp
             });
 
 
-            
+            //Swagger
+            services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shoppinglist API", Version = "v1" });
+            });
+
 
         }
 
@@ -104,6 +112,16 @@ namespace handlelisteApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+
+            //Swagger
+            app.UseSwagger();           
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shoppinglist API V1");
+            });
+
+
 
             app.UseRouting();
 
@@ -126,6 +144,7 @@ namespace handlelisteApp
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
 
             
 
