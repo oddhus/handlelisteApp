@@ -32,15 +32,6 @@ namespace handlelisteApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder => builder.SetIsOriginAllowed(_ => true)
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
-            });
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -54,11 +45,7 @@ namespace handlelisteApp
                 };
             });
 
-
-
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
-
 
             services.AddDbContext<ShoppingListContext>();
 
@@ -66,10 +53,8 @@ namespace handlelisteApp
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
 
-
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IShoppingListService, ShoppingListService>();
-
 
             services.AddControllersWithViews();
 
@@ -91,8 +76,6 @@ namespace handlelisteApp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shoppinglist API", Version = "v1" });
             });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,16 +98,13 @@ namespace handlelisteApp
 
 
             //Swagger
-            app.UseSwagger();           
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shoppinglist API V1");
             });
 
-
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -144,10 +124,6 @@ namespace handlelisteApp
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-
-
-            
-
         }
     }
 }

@@ -13,6 +13,7 @@ using Moq;
 using Xunit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace handlelisteApp.TEST.Controllers
 {
@@ -75,8 +76,16 @@ namespace handlelisteApp.TEST.Controllers
             _mockService.Setup(s => s.GetAllUserShoppingListsByUserId(It.IsAny<int>())).Returns(new List<ShoppingListReadDTO>() { returnReadDTO });
             _mockService.Setup(s => s.GetShoppingListByUserIdAndListId(It.IsAny<int>(), It.IsAny<int>())).Returns(returnReadDTO);
 
+            //Mock context created by authorized user
+            var claimsPrincipial = new Mock<ClaimsPrincipal>();
+            claimsPrincipial.Setup(c => c.FindFirst(It.IsAny<string>())).Returns(new Claim("nameidentifier", "1"));
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(h => h.User).Returns(claimsPrincipial.Object);
+            var ctx = new ControllerContext() { HttpContext = httpContext.Object };
+
             //Inject mocked service
             _controller = new ShoppingListController(_mockService.Object);
+            _controller.ControllerContext = ctx;
         }
 
         [Fact]

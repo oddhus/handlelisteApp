@@ -20,29 +20,20 @@ namespace handlelisteApp.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        //private readonly ShoppingListContext _context;
-
         private readonly IUserService _userService;
-
-        //private ScryptEncoder _encoder;
-        //private IAuthService _authService;
-
 
         public UserController(IUserService userService)
         {
-            //_context = context;
             _userService = userService;
-            //_encoder = encoder;
-           
         }
 
 
         [HttpGet]
         public IEnumerable<UserDTO> Get()
         {
-            
+
             IEnumerable<UserDTO> result = _userService.GetAllUsers();
-            
+
             return result;
         }
 
@@ -53,7 +44,7 @@ namespace handlelisteApp.Controllers
         {
             //User result = await _context.Users.FindAsync(id);
             UserDTO result = _userService.GetUser(id);
-            if(result == null)
+            if (result == null)
             {
                 return NotFound();
             }
@@ -74,8 +65,8 @@ namespace handlelisteApp.Controllers
         [HttpPost]
         public ActionResult<UserDTO> CreateUser(User user)
         {
-            
-           
+
+
             //_context.Users.Add(user);
             //await _context.SaveChangesAsync();
 
@@ -94,12 +85,12 @@ namespace handlelisteApp.Controllers
             //User user = _context.Users.FirstOrDefault(u => u.Username == login.Username);
             var response = _userService.LoginUser(login);
 
-            if(response == null)
+            if (response == null)
             {
                 return BadRequest(new { message = "Invalid username or password" });
             }
 
-            
+
 
             return response;
 

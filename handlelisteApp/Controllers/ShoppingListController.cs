@@ -9,9 +9,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication;
 using handlelisteApp.Models.DTO;
 using handlelisteApp.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace handlelisteApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ShoppingListController : ControllerBase
@@ -66,9 +68,7 @@ namespace handlelisteApp.Controllers
 
         private int GetUserId()
         {
-            //return Int32.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            //Here we should normally get userID from context. Now returns static number
-            return 1; //GetUserId()
+            return Int32.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }
