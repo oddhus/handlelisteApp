@@ -4,7 +4,7 @@ import { Router } from "react-router-dom";
 import { store, StoreContext } from "./stores/store";
 import { createBrowserHistory } from "history";
 
-const history = createBrowserHistory();
+export const history = createBrowserHistory();
 
 export const Providers: React.FC = ({ children }) => {
   return (
