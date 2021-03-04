@@ -3,7 +3,7 @@ import {makeAutoObservable, reaction} from "mobx";
 export default class CommonStore {
     
     token: string | null = window.localStorage.getItem('jwt')
-    
+    appLoaded: boolean = false
     constructor() {
         makeAutoObservable(this)
         
@@ -21,5 +21,9 @@ export default class CommonStore {
     
     setToken = (token: string | null) =>{
         this.token = token
+    }
+    
+    setAppLoaded = () => {
+        this.appLoaded = true;
     }
 }
