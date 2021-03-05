@@ -2,7 +2,7 @@ import { IUser } from "../models/user";
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { store } from "./store";
-import { history } from "../Providers";
+import { history } from "../index";
 
 export default class UserStore {
   user: IUser | null = null;
