@@ -38,10 +38,13 @@ namespace handlelisteApp.Context
         public virtual DbSet<ItemOnShoppingList> ItemOnShoppingLists { get; set; }
         public virtual DbSet<ShoppingList> ShoppingLists { get; set; }
 
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"DataSource=handlelisteApp.db");
+            //optionsBuilder.UseSqlite(@"DataSource=handlelisteApp.db");
+            optionsBuilder.UseSqlite("name = ConnectionStrings:DefaultConnection");
         }
+        
 
     }
 }
