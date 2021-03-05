@@ -128,9 +128,9 @@ export const ShoppingList: React.FC<Props> = () => {
           onChange={(e) => {
             if(edit === true){
               setEdit(e.target.checked)
+              handleSaveList()
             }
             setEdit(e.target.checked)
-            handleSaveList()
           }}
         />
       </FormControl>
