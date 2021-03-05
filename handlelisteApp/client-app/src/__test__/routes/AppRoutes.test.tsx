@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
 import { AppRoutes } from "../../routes/AppRoutes";
 
+
 const setup = (path: string) => {
   return render(
     <MemoryRouter initialEntries={[path]}>
@@ -22,8 +23,29 @@ const routeComponentPropsMock = {
 jest.mock("../../stores/store", () => ({
   useStore: () => ({
     userStore: null,
+    shoppingListStore: {
+      getShoppinglist(id: number){
+        return (
+          [
+            {
+              shoppingListID: 1,
+              items: [
+                {
+                  category: "category",
+                  product: "product",
+                  quantity: 1,
+                  unit: "pcs"
+                }
+              ]
+            }
+          ]
+        )
+      }
+    },
   }),
 }));
+
+
 
 describe("AppRoutes", () => {
   describe("Layout", () => {

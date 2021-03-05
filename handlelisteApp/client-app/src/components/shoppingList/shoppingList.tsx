@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Language } from '../../lang/ActiveLanguage';
 import {
   Table,
@@ -12,10 +12,11 @@ import {
   Box,
 } from '@chakra-ui/react';
 import {
-  ArrowDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  DeleteIcon
+  DeleteIcon,
+  TriangleDownIcon,
+  TriangleUpIcon,
 } from '@chakra-ui/icons';
 import { Iitem } from '../../models/ShoppingList';
 
@@ -26,6 +27,7 @@ interface Props {
   onDecrement: Function,
   deleteItem: Function
 }
+
 
 const setupTableBody = (itemsList: Iitem[], edit: Boolean, onDeleteItem: Function, onIncrement: Function, onDecrement: Function) => {
   return itemsList.map((item) => (
@@ -47,7 +49,7 @@ const setupTableBody = (itemsList: Iitem[], edit: Boolean, onDeleteItem: Functio
       </Td>
       <Td>{item.product}</Td>
       {edit ? (
-        <Td>
+        <Td pl={7}>
           <IconButton
             m={1}
             colorScheme='teal'
@@ -70,7 +72,7 @@ const setupTableBody = (itemsList: Iitem[], edit: Boolean, onDeleteItem: Functio
           />
         </Td>
       ) : (
-        <Td>{item.quantity}</Td>
+        <Td pl={"50px"}>{item.quantity}</Td>
       )}
       <Td>{item.unit}</Td>
     </Tr>
@@ -88,11 +90,16 @@ const getListOfCategories = (itemsList: { category: string }[]) => {
 }
 
 export const ListComponent: React.FC<Props> = ({ items, edit, deleteItem, onIncrement, onDecrement }) => {
+  const [toShow, setToShow] = useState(new Array(getListOfCategories(items).length).fill(true))
+
   const setupTables = (itemsList: Iitem[], edit: Boolean) => {
     var categories: string[] = getListOfCategories(itemsList)
     var tables: React.ReactFragment[] = []
     var strictHeaders = Language.shoppingList()
-    categories.map((category) => {
+    let start = 0 
+
+    categories.forEach((category) => {
+      let index = start ++
       let categorizedItems: Iitem[] = []
       itemsList.map((item) => {
         if (category === item.category.toLowerCase()) {
@@ -101,23 +108,53 @@ export const ListComponent: React.FC<Props> = ({ items, edit, deleteItem, onIncr
       })
       tables.push(
         <div key={category}>
-          <Table  
-          variant='simple'>
-            <Thead bg={'#bee3f8'}>
+          <Table variant="simple">
+            <Thead bg={"#bee3f8"}>
               <Tr>
                 <Th>
-                  <ArrowDownIcon />
+                  <IconButton
+                    m={1}
+                    colorScheme="#bee3f8"
+                    aria-label="Call Segun"
+                    size="small"
+                    onClick={() => {
+                      toShow[index] = !toShow[index]
+                      setToShow([...toShow])
+                    } }
+                    icon={
+                      toShow[index] ? (
+                        <TriangleDownIcon color="black" />
+                      ) : (
+                        <TriangleUpIcon color="black" />
+                      )
+                    }
+                  />
                 </Th>
-                <Th>{category}</Th>
-                <Th>{strictHeaders[0]}</Th>
-                <Th>{strictHeaders[1]}</Th>
+                <Th 
+                w={"20%"}
+                color="black">{category}</Th>
+                <Th color="black">{strictHeaders[0]}</Th>
+                <Th color="black">{strictHeaders[1]}</Th>
               </Tr>
             </Thead>
-            <Tbody>{setupTableBody(categorizedItems, edit, deleteItem, onIncrement, onDecrement)}</Tbody>
+             {
+               toShow[index] ?               
+               <Tbody>
+               {setupTableBody(
+                 categorizedItems,
+                 edit,
+                 deleteItem,
+                 onIncrement,
+                 onDecrement
+               )}
+             </Tbody>
+             : 
+             null
+             }
           </Table>
           <br />
         </div>
-      )
+      );
     })
     return tables
   }

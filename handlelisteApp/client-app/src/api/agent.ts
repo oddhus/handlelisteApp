@@ -1,4 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
+import { request } from "node:http";
+import { IShoppingList } from "../models/ShoppingList";
 import {IUser} from "../models/user";
 import {store} from "../stores/store";
 
@@ -26,11 +28,19 @@ const requests = {
 const User = {
     getUsers: (): Promise<IUser> => requests.get('user'),
     signUp: (user: IUser) => requests.post('user', user),
-    login: (loginDetails: any) => requests.post('/user/login', loginDetails),
+    login: (loginDetails: any) => requests.post('user/login', loginDetails),
     currentUser: () => requests.get('user/loggedIn')
+}
+
+const shoppingList = {
+    postShoppingList: (shoppingList: any) => requests.post('ShoppingList', shoppingList).then(responseBody),
+    updateShoppingList: (shoppingList: any, id: number) => requests.put('ShoppingList/' + id, shoppingList).then(responseBody),
+    getShoppingList: (id: number) => requests.get('shoppinglist/' + id).then(responseBody),
+    getShoppingLists: () => requests.get('shoppinglist').then(responseBody),
 }
 
 
 export default {
-    User
+    User,
+    shoppingList
 }

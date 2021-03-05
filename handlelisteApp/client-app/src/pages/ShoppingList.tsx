@@ -1,5 +1,6 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { Language } from '../lang/ActiveLanguage';
+import { useLocation, useParams } from "react-router-dom";
 import { 
   FormControl, 
   FormLabel, 
@@ -9,8 +10,13 @@ import {
 import { ListComponent } from '../components/shoppingList/shoppingList';
 import { AddItem } from '../components/shoppingList/AddItem';
 import { Iitem } from '../models/ShoppingList';
+import { useStore } from "../stores/store";
 
 interface Props {}
+
+interface useParam {
+  listId: string | undefined
+}
 
 var item: Iitem = {
   category: 'meieri',
@@ -43,13 +49,36 @@ var item3: Iitem = {
 var dummyData: Iitem[] = [item, item1, item2, item3]
 
 export const ShoppingList: React.FC<Props> = () => {
+  let makingNewList = useLocation().pathname.includes("new-shopping-list")
+  let paramObj : useParam = useParams();
+  
+  const { shoppingListStore } = useStore()
+
+  if(paramObj.listId !== undefined){
+    shoppingListStore.getShoppinglist(parseInt(paramObj.listId))
+  }
+
   const [data, setData] = useState(dummyData)
-  const [edit, setEdit] = useState(false)
+  const [edit, setEdit] = useState(makingNewList)
+  const [isNew, setIsNew] = useState(makingNewList)
 
   const onAdd = (item: Iitem) => {
     dummyData.push(item)
     setData([...dummyData])
   }
+
+  const handleSaveList = () => {
+    if(isNew){
+      console.log("Adding new Shoppinglist")
+      // shoppingListStore.addShoppinglist(data)
+      setIsNew(false)
+    }
+    else{
+      console.log("Savining shopping list changes")
+    }
+
+  }
+
 
   const onDecrement = (item: Iitem) => {
     let newData = data
@@ -95,7 +124,14 @@ export const ShoppingList: React.FC<Props> = () => {
         <Switch
           colorScheme='teal'
           id='editList'
-          onChange={(e) => setEdit(e.target.checked)}
+          isChecked={edit}
+          onChange={(e) => {
+            if(edit === true){
+              setEdit(e.target.checked)
+            }
+            setEdit(e.target.checked)
+            handleSaveList()
+          }}
         />
       </FormControl>
       <ListComponent
