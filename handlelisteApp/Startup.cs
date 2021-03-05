@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using handlelisteApp.Authorization;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace handlelisteApp
 {
@@ -32,6 +33,10 @@ namespace handlelisteApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDbContext<ShoppingListContext>(opt =>
+                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -46,8 +51,6 @@ namespace handlelisteApp
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
-            services.AddDbContext<ShoppingListContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
