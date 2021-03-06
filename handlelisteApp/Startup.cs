@@ -33,9 +33,19 @@ namespace handlelisteApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddDbContext<ShoppingListContext>(opt =>
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            if (Configuration["Provider"] == "Sqlite")
+            {
+                services.AddDbContext<ShoppingListContext>(opt =>
+                    opt.UseSqlite(Configuration.GetConnectionString("Sqlite"),
+                        x => x.MigrationsAssembly("SqliteMigrations")
+                     ));
+            }
+            else if (Configuration["Provider"] == "SqlServer")
+            {
+                services.AddDbContext<ShoppingListContext>(opt =>
+                    opt.UseSqlServer(Configuration.GetConnectionString("SqlServer"),
+                    x => x.MigrationsAssembly("SqlServerMigrations")));
+            }
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
