@@ -86,7 +86,7 @@ export const Settings: React.FC<RouteComponentProps<Props>> = ({match, history})
                         value={value}
                     >
                         <Stack>
-                            <Radio value="en" >Engelsk</Radio>
+                            <Radio value="en" >English</Radio>
                             <Radio value="no_b">Norsk - Bokmål</Radio>
                         </Stack>
                     </RadioGroup>
