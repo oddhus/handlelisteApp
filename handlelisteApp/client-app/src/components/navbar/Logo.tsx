@@ -6,7 +6,7 @@ export const Logo = (props: any) => {
   return (
     <Box {...props}>
       <Link as={RouterLink} to="/" style={{ textDecoration: "none" }}>
-        <Text fontSize="lg" fontWeight="bold">
+        <Text fontSize="md" fontWeight="bold">
           ShoppingList
         </Text>
       </Link>

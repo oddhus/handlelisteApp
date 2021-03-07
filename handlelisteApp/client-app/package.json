@@ -35,6 +35,8 @@
     "framer-motion": "^3.7.0",
     "jest-junit": "^12.0.0",
     "jest-junit-reporter": "^1.1.0",
+    "mobx": "^6.1.8",
+    "mobx-react-lite": "^3.2.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",

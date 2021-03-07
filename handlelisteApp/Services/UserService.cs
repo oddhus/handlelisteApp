@@ -49,6 +49,10 @@ namespace handlelisteApp.Services
 
         public UserDTO CreateNewUser(User user)
         {
+            if(_userRepository.FindUserByUserName(user.Username) != null) //username already exists
+            {
+                return null;
+            }
             user.HashedPassword = _sCryptEncoder.Encode(user.HashedPassword);
             User savedUser = _userRepository.CreateNewUser(user);
             UserDTO userDTO = UserToUserDTO(savedUser);
@@ -94,7 +98,7 @@ namespace handlelisteApp.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, user.UserID.ToString()) }),
+                Subject = new System.Security.Claims.ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

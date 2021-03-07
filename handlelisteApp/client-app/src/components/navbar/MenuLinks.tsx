@@ -12,15 +12,23 @@ import { MenuItem } from "./MenuItem";
 import { useMediaQuery } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
-import { allUsers, signedIn, signedOut } from "../../routes/definedRoutes";
+import {
+  allUsers,
+  signedIn,
+  signedOut,
+  userSettings,
+} from "../../routes/definedRoutes";
+import { useStore } from "../../stores/store";
+import { observer } from "mobx-react-lite";
 
 interface Props {
   isOpen: boolean;
 }
 
-export const MenuLinks: React.FC<Props> = ({ isOpen }) => {
+const MenuLinks: React.FC<Props> = ({ isOpen }) => {
   const [isLargerThan420] = useMediaQuery("(min-width: 30em)");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const { userStore } = useStore();
 
   const buttonMenu = (
     <Menu>
@@ -30,15 +38,15 @@ export const MenuLinks: React.FC<Props> = ({ isOpen }) => {
         fontWeight="normal"
         colorScheme="teal"
       >
-        Profile
+        Account
       </MenuButton>
       <MenuList>
-        {signedIn.map((route) => (
+        {userSettings.map((route) => (
           <MenuItemChakra as={Link} to={route.path} key={route.path}>
             {route.name}
           </MenuItemChakra>
         ))}
-        <MenuItemChakra onClick={() => console.log("logout")}>
+        <MenuItemChakra onClick={() => userStore.logout()}>
           Logout
         </MenuItemChakra>
       </MenuList>
@@ -47,7 +55,7 @@ export const MenuLinks: React.FC<Props> = ({ isOpen }) => {
 
   const listMenu = (
     <React.Fragment>
-      {signedIn.map((route) => (
+      {[...userSettings].map((route) => (
         <MenuItem key={route.path} to={route.path}>
           {route.name}
         </MenuItem>
@@ -55,7 +63,7 @@ export const MenuLinks: React.FC<Props> = ({ isOpen }) => {
       <Button
         size="small"
         colorScheme="teal"
-        onClick={() => console.log("logout")}
+        onClick={() => userStore.logout()}
         fontWeight="normal"
         _hover={{ backgroundColor: "transparent", textDecoration: "underline" }}
       >
@@ -74,6 +82,8 @@ export const MenuLinks: React.FC<Props> = ({ isOpen }) => {
     </React.Fragment>
   );
 
+  const mainItems = !userStore.isLoggedIn ? allUsers : signedIn;
+
   return (
     <Box
       display={{ base: isOpen ? "block" : "none", sm: "block" }}
@@ -86,13 +96,19 @@ export const MenuLinks: React.FC<Props> = ({ isOpen }) => {
         direction={["column", "row", "row", "row"]}
         pt={[4, 0, 0, 0]}
       >
-        {allUsers.map((route) => (
+        {mainItems.map((route) => (
           <MenuItem key={route.path} to={route.path}>
             {route.name}
           </MenuItem>
         ))}
-        {!isLoggedIn ? signedOutList : isLargerThan420 ? buttonMenu : listMenu}
+        {!userStore.isLoggedIn
+          ? signedOutList
+          : isLargerThan420
+          ? buttonMenu
+          : listMenu}
       </Stack>
     </Box>
   );
 };
+
+export default observer(MenuLinks);

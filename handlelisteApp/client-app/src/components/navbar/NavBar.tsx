@@ -1,6 +1,6 @@
 import React from "react";
 import { Logo } from "./Logo";
-import { MenuLinks } from "./MenuLinks";
+import MenuLinks from "./MenuLinks";
 import { MenuToggle } from "./MenuToggle";
 import { NavBarContainer } from "./NavBarContainer";
 

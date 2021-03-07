@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using handlelisteApp.Authorization;
+using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace handlelisteApp
 {
@@ -32,13 +34,8 @@ namespace handlelisteApp
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder => builder.SetIsOriginAllowed(_ => true)
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
-            });
+            services.AddDbContext<ShoppingListContext>(opt =>
+                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -53,22 +50,14 @@ namespace handlelisteApp
                 };
             });
 
-
-
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
-
-
-            services.AddDbContext<ShoppingListContext>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
 
-
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IShoppingListService, ShoppingListService>();
-
 
             services.AddControllersWithViews();
 
@@ -80,6 +69,15 @@ namespace handlelisteApp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "client-app/build";
+            });
+
+
+            //Swagger
+            services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shoppinglist API", Version = "v1" });
             });
         }
 
@@ -101,9 +99,16 @@ namespace handlelisteApp
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseRouting();
 
-            app.UseMiddleware<JwtMiddleware>();
+            //Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shoppinglist API V1");
+            });
+
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -122,18 +127,6 @@ namespace handlelisteApp
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-
-            /*
-
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-                );
-            */
-            
-            //app.UseAuthentication();
         }
     }
 }
