@@ -17,6 +17,7 @@ export const
     category = (): string => "Kategori",
     units = (): string[] => ["KG", "L", "ML", "STK", "PK"],
     editList = (): string => "Rediger handleliste",
+    myShoppingLists = (): string => "Mine handlelister",
 
 
     recipes = (): string => "Oppskrifter",

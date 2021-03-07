@@ -1,4 +1,4 @@
-import { Iitem, IShoppingList } from "../models/ShoppingList";
+import { IShoppingList } from "../models/ShoppingList";
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
 import { store } from "./store";
@@ -13,7 +13,11 @@ export default class shoppingListStore {
 
   getShoppinglist = async (id: number) => {
     let shoppingList = this.shoppingLists.find(shoppinglist => shoppinglist.shoppingListID === id)
-    if(shoppingList === null || shoppingList === undefined){
+    if(this.shoppingList != null && id == this.shoppingList.shoppingListID){
+      console.log(this.shoppingList)
+      return this.shoppingList.items
+    }
+    else if((shoppingList === null || shoppingList === undefined)){
       try{
         const shoppingList = await agent.shoppingList.getShoppingList(id)
         console.log(shoppingList)
@@ -35,6 +39,7 @@ export default class shoppingListStore {
         throw(e)
       }
   }
+
   addShoppinglist = async (shoppingList: any) => {
     try {
         let addedList = await agent.shoppingList.postShoppingList(shoppingList)
@@ -46,4 +51,11 @@ export default class shoppingListStore {
         throw(e)
     }
   }
+  
+  setCurrentShoppingList = (shoppingList: IShoppingList) => {
+    runInAction(() => {
+      this.shoppingList = shoppingList
+  })
+  }
+
 }
