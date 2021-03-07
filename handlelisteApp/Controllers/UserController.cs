@@ -66,11 +66,10 @@ namespace handlelisteApp.Controllers
         public ActionResult<UserDTO> CreateUser(User user)
         {
 
-
-            //_context.Users.Add(user);
-            //await _context.SaveChangesAsync();
-
             UserDTO userDTO = _userService.CreateNewUser(user);
+            if(userDTO == null){
+                return BadRequest(new { message = "Invalid username or password" });
+            }
 
             return userDTO;
         }

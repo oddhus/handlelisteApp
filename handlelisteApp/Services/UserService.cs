@@ -49,6 +49,10 @@ namespace handlelisteApp.Services
 
         public UserDTO CreateNewUser(User user)
         {
+            if(_userRepository.FindUserByUserName(user.Username) != null) //username already exists
+            {
+                return null;
+            }
             user.HashedPassword = _sCryptEncoder.Encode(user.HashedPassword);
             User savedUser = _userRepository.CreateNewUser(user);
             UserDTO userDTO = UserToUserDTO(savedUser);
