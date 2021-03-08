@@ -27,6 +27,8 @@ jest.mock("../../stores/store", () => ({
       shoppingList: {
         shoppingListId: 0
       },
+      shoppingLists: [],
+      fetchShoppingLists(){},
       getShoppinglist(id: number){
         return (
           [

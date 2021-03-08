@@ -6,7 +6,6 @@ import { store } from "./store";
 export default class shoppingListStore {
   shoppingList: IShoppingList | null = null;
   shoppingLists: IShoppingList[] = [];
-
   constructor() {
     makeAutoObservable(this);
   }
@@ -24,6 +23,18 @@ export default class shoppingListStore {
       } catch(e) {
         console.log(e)
       }
+    }
+  }
+
+  fetchShoppingLists = async () => {
+    try {
+      let shoppingLists = await agent.shoppingLists.getShoppingLists()
+      if(shoppingLists == undefined) shoppingLists = []
+      runInAction(() => {
+        this.shoppingLists = shoppingLists
+      })
+    } catch (e) {
+      console.log(e)
     }
   }
 

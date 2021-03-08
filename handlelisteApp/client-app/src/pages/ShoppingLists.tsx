@@ -67,7 +67,8 @@ var dummyLists: IShoppingList[] = [list1, list2]
 export const ShoppingLists: React.FC<Props> = () => {
   const history = useHistory();
   const { shoppingListStore } = useStore();
-
+  shoppingListStore.fetchShoppingLists()
+  
   return (
     <Container maxW='container.md'>
       <Table variant="simple">
@@ -80,7 +81,7 @@ export const ShoppingLists: React.FC<Props> = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {dummyLists.map((shoppingList) => {
+          {shoppingListStore.shoppingLists.map((shoppingList) => {
             return (
               <Tr key={shoppingList.shoppingListID}>
                 <Td>

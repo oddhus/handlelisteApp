@@ -6,7 +6,10 @@ import {ShoppingLists} from "../../pages/ShoppingLists";
 
 jest.mock("../../stores/store", () => ({
     useStore: () => ({
-      shoppingListStore: null,
+      shoppingListStore: {
+        shoppingLists: [],
+        fetchShoppingLists(){},
+      },
     }),
   }));
 

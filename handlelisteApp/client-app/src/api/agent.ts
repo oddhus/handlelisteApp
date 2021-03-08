@@ -36,11 +36,15 @@ const shoppingList = {
     postShoppingList: (shoppingList: any) => requests.post('ShoppingList', shoppingList).then(responseBody),
     updateShoppingList: (shoppingList: any, id: number) => requests.put('ShoppingList/' + id, shoppingList).then(responseBody),
     getShoppingList: (id: number) => requests.get('shoppinglist/' + id).then(responseBody),
+}
+
+const shoppingLists = {
     getShoppingLists: () => requests.get('shoppinglist').then(responseBody),
 }
 
 
 export default {
     User,
-    shoppingList
+    shoppingList,
+    shoppingLists
 }
