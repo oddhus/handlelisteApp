@@ -1,6 +1,7 @@
 import React from 'react';
 import {Language} from '../lang/ActiveLanguage';
 import { useHistory } from "react-router-dom";
+import {observer} from "mobx-react-lite";
 import {useStore} from "../stores/store";
 import {
   Button,
@@ -13,6 +14,7 @@ import {
   Container,
 } from '@chakra-ui/react';
 import { Iitem, IShoppingList } from '../models/ShoppingList';
+import { variantPriorityOrder } from 'framer-motion/types/render/utils/animation-state';
 
 interface Props {}
 
@@ -63,12 +65,17 @@ var list2: IShoppingList = {
 
 var dummyLists: IShoppingList[] = [list1, list2]
 
+var fetched = false
 
-export const ShoppingLists: React.FC<Props> = () => {
+export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory();
   const { shoppingListStore } = useStore();
-  shoppingListStore.fetchShoppingLists()
-  
+  console.log(fetched)
+  if(!fetched){
+    shoppingListStore.fetchShoppingLists()
+    fetched = true
+  }
+
   return (
     <Container maxW='container.md'>
       <Table variant="simple">
@@ -111,5 +118,4 @@ export const ShoppingLists: React.FC<Props> = () => {
       </Button>
       </Container>
   );
-
-};
+})

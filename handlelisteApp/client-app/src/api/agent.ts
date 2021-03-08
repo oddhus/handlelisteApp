@@ -7,6 +7,7 @@ import {store} from "../stores/store";
 axios.defaults.baseURL = '/'
 
 const responseBody = (response: AxiosResponse) => response.data;
+const response = (response: any) => response;
 
 // @ts-ignore
 axios.interceptors.request.use((config: AxiosRequestConfig) => {
@@ -39,7 +40,7 @@ const shoppingList = {
 }
 
 const shoppingLists = {
-    getShoppingLists: () => requests.get('shoppinglist').then(responseBody),
+    getShoppingLists: () => requests.get('shoppinglist').then(response),
 }
 
 
