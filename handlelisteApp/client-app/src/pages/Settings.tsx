@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import {RouteComponentProps} from 'react-router-dom';
-import {Language} from '../lang/ActiveLanguage';
+import {activeLanguage} from '../lang/ActiveLanguage';
+import {useStore} from "../stores/store";
 
 import {
     Input,
@@ -22,7 +23,8 @@ interface Props {
 
 export const Settings: React.FC<RouteComponentProps<Props>> = ({match, history}) => {
 
-    const [value, setValue] = React.useState("en");
+    const [language, setLanguage] = React.useState('en');
+    const {userStore} = useStore()
 
     //just for testing the loading icon
     const [isLoading, setIsLoading] = useState(false)
@@ -34,70 +36,43 @@ export const Settings: React.FC<RouteComponentProps<Props>> = ({match, history})
         }, 2000)
     }
 
-
-
+    const onChangeLanguageHandler = (event: string) =>{
+        setLanguage(event)
+        userStore.setLanguage(event)
+    }
+    
     return (
         <Container
             data-testid='settings-container'
             style={{top: '50%', left: '50%'}}>
-            <Heading style={{marginTop: '10px'}}>{Language.settings()}</Heading>
-
-            <div style={{marginTop: '10px'}}> YOUR NAME</div>
-            <div style={{marginTop: '10px'}}> YOUR EMAIL ADDRESS</div>
-            <div style={{marginTop: '10px'}}> YOUR USER ID</div>
-
-            <div style={{marginTop: '10px'}}><Button
-                data-testid='user-Button'
-                colorScheme="blue"
-                onClick={isLoadingFake} // testing the loading icone
-                isLoading={isLoading}>{Language.userSettings()}
-            </Button></div>
-
-            <div style={{marginTop: '10px'}}><Button
-                data-testid='household-Button'
-                colorScheme="blue"
-                onClick={isLoadingFake} // testing the loading icone
-                isLoading={isLoading}>{Language.householdSettings()}
-            </Button></div>
-
-            <div style={{marginTop: '10px'}}><Button
-                data-testid='accessibility-Button'
-                colorScheme="blue"
-                onClick={isLoadingFake} // testing the loading icone
-                isLoading={isLoading}>{Language.accessibilitySettings()}
-            </Button></div>
-
-            <div style={{marginTop: '10px'}}><Button
-                data-testid='blacklist-Button'
-                colorScheme="blue"
-                onClick={isLoadingFake} // testing the loading icone
-                isLoading={isLoading}>
-                {Language.blacklistSettings()}
-            </Button></div>
-
+            <Heading style={{marginTop: '10px'}}>{activeLanguage.settings}</Heading>
+            
             <div style={{marginTop: '10px'}}>
-                <div style={{marginTop: '10px'}}> {Language.activeLanguage()}</div>
+                <div style={{marginTop: '10px'}}> {activeLanguage.activeLanguage}</div>
                 
                 <div style={{marginTop: '10px'}}>
                     <RadioGroup 
                         name={'language-radio'}
-                        colorScheme="blue"
-                        onChange={(event: string) => setValue(event)}
-                        value={value}
+                        colorScheme='blue'
+                        //onChange={(event: string) => setLanguage(event)}
+                        //onChange={(event:ChangeEvent<HTMLInputElement>) => onChangeLanguageHandler(event)}
+                        onChange={(event: string) => onChangeLanguageHandler(event)}
+
+                        value={language}
                     >
                         <Stack>
-                            <Radio value="en" >English</Radio>
-                            <Radio value="no_b">Norsk - Bokmål</Radio>
+                            <Radio value='en'>English</Radio>
+                            <Radio value='no_b'>Norsk - Bokmål</Radio>
                         </Stack>
                     </RadioGroup>
                 </div>
             </div>
 
             <div style={{marginTop: '10px'}}>
-                {value}
+                {language}
             </div>
         </Container>
     )
 };
 
-export const radioCheckedLanguage = (): string => 'en'
+export const radioCheckedLanguage = (): string => "test";
