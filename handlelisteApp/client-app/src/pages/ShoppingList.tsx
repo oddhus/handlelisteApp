@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Language } from '../lang/ActiveLanguage';
+import { activeLanguage } from '../lang/ActiveLanguage';
 import { useLocation, useParams } from "react-router-dom";
 import { 
   FormControl, 
@@ -119,7 +119,7 @@ export const ShoppingList: React.FC<Props> = () => {
     <Container maxW='container.xl'>
       <FormControl display='flex' alignItems='center' mb={5}>
         <FormLabel htmlFor='email-alerts' mb='0'>
-          {Language.editList()}
+          {activeLanguage.editList}
         </FormLabel>
         <Switch
           colorScheme='teal'

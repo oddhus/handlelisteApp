@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Language } from '../../lang/ActiveLanguage';
+import { activeLanguage } from '../../lang/ActiveLanguage';
 import {
   Table,
   Thead,
@@ -95,7 +95,7 @@ export const ListComponent: React.FC<Props> = ({ items, edit, deleteItem, onIncr
   const setupTables = (itemsList: Iitem[], edit: Boolean) => {
     var categories: string[] = getListOfCategories(itemsList)
     var tables: React.ReactFragment[] = []
-    var strictHeaders = Language.shoppingList()
+    var strictHeaders = activeLanguage.shoppingList
     let start = 0 
 
     categories.forEach((category) => {

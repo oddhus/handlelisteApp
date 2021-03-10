@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import {RouteComponentProps} from 'react-router-dom';
-import {Language} from '../lang/ActiveLanguage';
+import {activeLanguage} from '../lang/ActiveLanguage';
 
 import {
     Input,
@@ -42,19 +42,19 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = observer(({match, hi
       <Container 
           data-testid='login-container'
           style={{top: '50%', left: '50%'}}>
-          <Heading style={{marginTop: '10px'}}>{Language.login()}</Heading>
+          <Heading style={{marginTop: '10px'}}>{activeLanguage.login}</Heading>
           <FormControl style={{marginTop: '10px'}} id="username">
-              <FormLabel>{Language.emailAddress()}</FormLabel>
+              <FormLabel>{activeLanguage.emailAddress}</FormLabel>
               <Input 
                   type="text" 
                   onChange={(event:ChangeEvent<HTMLInputElement>) => onChangeUsernameHandler(event)}
                   placeholder='Email address'
                   value={userName}
               />
-              <FormHelperText>{Language.weNeverShareEmail()}</FormHelperText>
+              <FormHelperText>{activeLanguage.weNeverShareEmail}</FormHelperText>
           </FormControl>
           <FormControl style={{marginTop: '10px'}} id="email">
-              <FormLabel>{Language.password()}</FormLabel>
+              <FormLabel>{activeLanguage.password}</FormLabel>
               <Input
                   type='password'
                   onChange={(event:ChangeEvent<HTMLInputElement>) => onChangePasswordHandler(event)}
@@ -67,7 +67,7 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = observer(({match, hi
               style={{marginTop: '10px'}} 
               colorScheme="blue"
               onClick={() => loginHandler()} // testing the loading icone
-              >{Language.login()}</Button>
+              >{activeLanguage.login}</Button>
       </Container>
       
       

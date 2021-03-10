@@ -1,5 +1,5 @@
 import React from 'react';
-import {Language} from '../lang/ActiveLanguage';
+import {activeLanguage} from '../lang/ActiveLanguage';
 import { useHistory } from "react-router-dom";
 
 import { Button } from '@chakra-ui/react'
@@ -10,7 +10,7 @@ export const ShoppingLists: React.FC<Props> = () => {
   const history = useHistory();
 
   return <div>
-    {Language.shoppingLists()}
+    {activeLanguage.shoppingLists}
     <Button size="lg" colorScheme="blue" onClick={() => history.push("shopping-list/new-shopping-list")}>
       Button
     </Button>

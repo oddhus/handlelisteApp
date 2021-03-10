@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
-import {Language} from '../lang/ActiveLanguage';
+import {activeLanguage} from '../lang/ActiveLanguage';
 import {Button, Container, FormControl, FormHelperText, FormLabel, Heading, Input} from "@chakra-ui/react";
 import {observer} from "mobx-react-lite";
 import {store} from "../stores/store";
@@ -35,36 +35,36 @@ export const SignUp: React.FC<Props> = observer(() => {
                 style={{marginTop: '20px'}}
                 textAlign='center'
                 data-testid='signup-container'>
-                {Language.signUp()}</Heading>
+                {activeLanguage.signUp}</Heading>
             <FormControl style={{marginTop: '10px'}} id='email'>
-                <FormLabel>{Language.emailAddress()}</FormLabel>
+                <FormLabel>{activeLanguage.emailAddress}</FormLabel>
                 <Input
-                    placeholder={Language.emailAddress()}
+                    placeholder={activeLanguage.emailAddress}
                     onChange={(event:ChangeEvent<HTMLInputElement>) =>{ onchangeEmailHandler(event)}}
                 />
             </FormControl>
 
             <FormControl style={{marginTop: '10px'}} id="username">
-                <FormLabel>{Language.Username()}</FormLabel>
+                <FormLabel>{activeLanguage.Username}</FormLabel>
                 <Input
-                    placeholder={Language.Username()}
+                    placeholder={activeLanguage.Username}
                     onChange={(event:ChangeEvent<HTMLInputElement>) =>{ onchangeUsernameHandler(event)}}
                 />
             </FormControl>
 
             <FormControl style={{marginTop: '10px'}} id="password">
-                <FormLabel>{Language.password()}</FormLabel>
+                <FormLabel>{activeLanguage.password}</FormLabel>
                 <Input
-                    placeholder={Language.password()}
+                    placeholder={activeLanguage.password}
                     onChange={(event:ChangeEvent<HTMLInputElement>) =>{ onchangePasswordHandler(event)}}
                     type='password'
                 />
             </FormControl>
 
             <FormControl style={{marginTop: '10px'}} id="passwordRepeat">
-                <FormLabel>{Language.passwordRepeat()}</FormLabel>
+                <FormLabel>{activeLanguage.passwordRepeat}</FormLabel>
                 <Input
-                    placeholder={Language.passwordRepeat()}
+                    placeholder={activeLanguage.passwordRepeat}
                     onChange={(event:ChangeEvent<HTMLInputElement>) =>{ onchangeRepeatPasswordHandler(event)}}
                     type='password'
                 />
@@ -74,7 +74,7 @@ export const SignUp: React.FC<Props> = observer(() => {
                 data-testid='signup-button'
                 style={{marginTop: '10px'}}
                 colorScheme="blue"
-            >{Language.signUp()}</Button>
+            >{activeLanguage.signUp}</Button>
         </Container>
         )
     }

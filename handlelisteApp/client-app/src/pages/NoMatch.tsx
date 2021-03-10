@@ -1,8 +1,8 @@
 import React from "react";
-import {Language} from '../lang/ActiveLanguage';
+import {activeLanguage} from '../lang/ActiveLanguage';
 
 interface Props {}
 
 export const NoMatch: React.FC<Props> = () => {
-  return <div>{Language.noMatch()}</div>;
+  return <div>{activeLanguage.noMatch}</div>;
 };

@@ -1,8 +1,8 @@
 import React from "react";
-import {Language} from '../lang/ActiveLanguage';
+import {activeLanguage} from '../lang/ActiveLanguage';
 
 interface Props {}
 
 export const Recipes: React.FC<Props> = () => {
-  return <div>{Language.recipes()}</div>;
+  return <div>{activeLanguage.recipes}</div>;
 };
