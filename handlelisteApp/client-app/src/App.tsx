@@ -4,6 +4,7 @@ import { AppRoutes } from "./routes/AppRoutes";
 import { observer } from "mobx-react-lite";
 import { useStore } from "./stores/store";
 import { LoadingComponent } from "./components/shared/LoadingComponent";
+import ModalContainer from "./components/shared/ModalContainer";
 
 function App() {
   const { commonStore, userStore } = useStore();
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <Fragment>
+      <ModalContainer/>
       <NavBar />
       <AppRoutes />
     </Fragment>
