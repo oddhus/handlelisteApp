@@ -29,7 +29,7 @@ export default class Norwegian_B implements ILanguage {
     householdSettings = "Hushold innstillinger";
     accessibilitySettings = "Tilgjengelighets innstillinger";
     blacklistSettings = "Svarteliste innstillinger";
-    activeLanguage = "Language";
+    activeLanguage = "Språk";
 
     household = "Hushold";
 
