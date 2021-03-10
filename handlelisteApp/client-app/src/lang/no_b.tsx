@@ -1,39 +1,49 @@
 import React from "react";
+import {ILanguage} from "./Language";
 
-export const
-    homePage = (): string => "Hjemmeside",
+export default class Norwegian_B implements ILanguage {
+    homePage = "Hjemmeside";
 
-    signUp = (): string => "Registrer ny bruker",
+    signUp = "Registrer ny bruker";
 
-    login = (): string => "Logg inn",
-    emailAddress = (): string => "Epost addresse",
-    password = (): string => "Passord",
-    weNeverShareEmail = (): string => "Vi vil ikke dele din epost addresse med noen.",
+    login = "Logg inn";
+    emailAddress = "Epost addresse";
+    password = "Passord";
+    weNeverShareEmail = "Vi vil ikke dele din epost addresse med noen.";
 
-    shoppingList = (): string[] => ["Antall", "Enhet"],
-    shoppingLists = (): string => "Handlelister",
-    createShoppingList = (): string => "Lag ny handleliste",
-    product = (): string => "Produkt",
-    category = (): string => "Kategori",
-    units = (): string[] => ["KG", "L", "ML", "STK", "PK"],
-    editList = (): string => "Rediger handleliste",
+    shoppingList = ["Antall", "Enhet"];
+    shoppingLists = "Handlelister";
+    createShoppingList = "Lag ny handleliste";
+    product = "Produkt";
+    category = "Kategori";
+    units = ["KG", "L", "ML", "STK", "PK"];
+    editList = "Rediger handleliste";
 
 
-    recipes = (): string => "Oppskrifter",
-    recipe = (): string => "Oppskrift",
-    createRecipe = (): string => "Lag ny oppskrift",
+    recipes = "Oppskrifter";
+    recipe = "Oppskrift";
+    createRecipe = "Lag ny oppskrift";
 
-    settings = (): string => "Innstillinger",
+    settings = "Innstillinger";
+    userSettings = "Bruker innstillinger";
+    householdSettings = "Hushold innstillinger";
+    accessibilitySettings = "Tilgjengelighets innstillinger";
+    blacklistSettings = "Svarteliste innstillinger";
+    activeLanguage = "Language";
 
-    household = (): string => "Hushold",
+    household = "Hushold";
 
-    noMatch = (): string => "Ingen treff",
+    noMatch = "Ingen treff";
 
-    Username = (): string => "Brukernavn",
+    Username = "Brukernavn";
 
-    passwordRepeat = (): string => 'Gjenta passordet',
+    passwordRepeat = 'Gjenta passordet';
 
-    cancel = (): string => "Avbryt",
+    cancel = "Avbryt";
 
-    add = (): string => "Legg til"
+    add = "Legg til";
+}
+
+
+
 

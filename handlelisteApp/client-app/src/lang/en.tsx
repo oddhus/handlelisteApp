@@ -1,42 +1,45 @@
 import React from "react";
+import {ILanguage} from "./Language";
 
-export const
-    homePage = (): string => "HomePage",
 
-    signUp = (): string => "Sign up",
+export default class English implements ILanguage {
+    homePage = "HomePage";
 
-    login = (): string => "Login",
-    emailAddress = (): string => "Email address",
-    password = (): string => "Password",
-    weNeverShareEmail = (): string => "We will never share your email.",
+    signUp = "Sign up";
 
-    shoppingList = (): string[] => ["Quantity", "Unit"],
-    shoppingLists = (): string => "Shopping lists",
-    createShoppingList = (): string => "Create shopping list",
-    product = (): string => "Product",
-    category = (): string => "Category",
-    units = (): string[] => ["PCS", "KG", "L", "ML", "PCK"],
-    editList = (): string => "Edit shopping list",
+    login = "Login";
+    emailAddress = "Email address";
+    password = "Password";
+    weNeverShareEmail = "We will never share your email.";
 
-    recipes = (): string => "Recipes",
-    recipe = (): string => "Recipe",
-    createRecipe = (): string => "Create recipe",
+    shoppingList = ["Quantity", "Unit"];
+    shoppingLists = "Shopping lists";
+    createShoppingList = "Create shopping list";
+    product = "Product";
+    category = "Category";
+    units = ["PCS", "KG", "L", "ML", "PCK"];
+    editList = "Edit shopping list";
 
-    settings = (): string => "Settings",
-    userSettings = (): string => "User settings",
-    householdSettings = (): string => "Household settings",
-    accessibilitySettings = (): string => "Accessibility settings",
-    blacklistSettings = (): string => "Blacklist settings",
-    activeLanguage = (): string => "Language",
+    recipes = "Recipes";
+    recipe = "Recipe";
+    createRecipe = "Create recipe";
 
-    household = (): string => "Household",
-    
-    noMatch = (): string => "No match",
+    settings = "Settings";
+    userSettings = "User settings";
+    householdSettings = "Household settings";
+    accessibilitySettings = "Accessibility settings";
+    blacklistSettings = "Blacklist settings";
+    activeLanguage = "Language";
 
-    Username = (): string => "Your username",
-    
-    passwordRepeat = (): string => 'Repeat your password',
+    household = "Household";
 
-    cancel = (): string => "Cancel",
+    noMatch = "No match";
 
-    add = (): string => "Add"
+    Username = "Your username";
+
+    passwordRepeat = "Repeat your password";
+
+    cancel = "Cancel";
+
+    add = "Add";
+}
