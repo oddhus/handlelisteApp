@@ -21,6 +21,8 @@ interface Props {
 }
 
 
+
+
 export const Settings: React.FC<RouteComponentProps<Props>> = ({match, history}) => {
 
     const [language, setLanguage] = React.useState('en');
@@ -39,6 +41,7 @@ export const Settings: React.FC<RouteComponentProps<Props>> = ({match, history})
     const onChangeLanguageHandler = (event: string) =>{
         setLanguage(event)
         userStore.setLanguage(event)
+        setCurrentLanguage(event)
     }
     
     return (
@@ -71,8 +74,17 @@ export const Settings: React.FC<RouteComponentProps<Props>> = ({match, history})
             <div style={{marginTop: '10px'}}>
                 {language}
             </div>
+            <div style={{marginTop: '10px'}}>
+                {radioCheckedLanguage}
+            </div>
         </Container>
     )
 };
 
-export const radioCheckedLanguage = (): string => "test";
+
+
+export var radioCheckedLanguage: string = "test";
+
+function setCurrentLanguage(event: string) {
+    radioCheckedLanguage = event;
+}
