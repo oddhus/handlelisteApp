@@ -16,6 +16,17 @@ jest.mock('react-router-dom', () => ({
 jest.mock("../../stores/store", () => ({
     useStore: () => ({
       shoppingListStore: {
+        shoppingList: {
+          shoppingListId: 0,
+          items: [
+            {
+              category: 'meieri',
+              product: 'melk',
+              quantity: 3,
+              unit: 'liter',
+            }
+          ]
+        },
         getShoppinglist(id: number){
           return (
             [

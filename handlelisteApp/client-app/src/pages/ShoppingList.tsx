@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { ListComponent } from '../components/shoppingList/shoppingList';
 import { AddItem } from '../components/shoppingList/AddItem';
-import { Iitem } from '../models/ShoppingList';
+import { Iitem, IShoppingList } from '../models/ShoppingList';
 import { useStore } from "../stores/store";
 
 interface Props {}
@@ -46,7 +46,9 @@ var item3: Iitem = {
   unit: 'liter',
 }
 
-var dummyData: Iitem[] = [item, item1, item2, item3]
+var items = [item, item1, item2, item3]
+
+var shoppingList: Iitem[] = items
 
 export const ShoppingList: React.FC<Props> = () => {
   let makingNewList = useLocation().pathname.includes("new-shopping-list")
@@ -55,16 +57,25 @@ export const ShoppingList: React.FC<Props> = () => {
   const { shoppingListStore } = useStore()
 
   if(paramObj.listId !== undefined){
-    shoppingListStore.getShoppinglist(parseInt(paramObj.listId))
+    if(shoppingListStore.shoppingList !== null && shoppingListStore.shoppingList.shoppingListID == parseInt(paramObj.listId))
+      shoppingList = shoppingListStore.shoppingList.items
+    else  {
+      shoppingListStore.getShoppinglist(parseInt(paramObj.listId))
+        if(shoppingListStore.shoppingList !== null)        
+         shoppingList = shoppingListStore.shoppingList.items
+    }
   }
 
-  const [data, setData] = useState(dummyData)
+  if(shoppingList == undefined) 
+    shoppingList = items
+
+  const [data, setData] = useState(shoppingList)
   const [edit, setEdit] = useState(makingNewList)
   const [isNew, setIsNew] = useState(makingNewList)
 
   const onAdd = (item: Iitem) => {
-    dummyData.push(item)
-    setData([...dummyData])
+    data.push(item)
+    setData([...data])
   }
 
   const handleSaveList = () => {

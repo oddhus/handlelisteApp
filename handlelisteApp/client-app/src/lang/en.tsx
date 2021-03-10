@@ -11,6 +11,7 @@ export default class English implements ILanguage {
     emailAddress = "Email address";
     password = "Password";
     weNeverShareEmail = "We will never share your email.";
+    
 
     shoppingList = ["Quantity", "Unit"];
     shoppingLists = "Shopping lists";
@@ -19,6 +20,7 @@ export default class English implements ILanguage {
     category = "Category";
     units = ["PCS", "KG", "L", "ML", "PCK"];
     editList = "Edit shopping list";
+    myShoppingLists = "My shopping lists";
 
     recipes = "Recipes";
     recipe = "Recipe";

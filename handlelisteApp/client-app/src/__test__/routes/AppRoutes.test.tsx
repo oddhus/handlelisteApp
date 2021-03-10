@@ -24,6 +24,11 @@ jest.mock("../../stores/store", () => ({
   useStore: () => ({
     userStore: null,
     shoppingListStore: {
+      shoppingList: {
+        shoppingListId: 0
+      },
+      shoppingLists: [],
+      fetchShoppingLists(){},
       getShoppinglist(id: number){
         return (
           [
@@ -82,10 +87,10 @@ describe("AppRoutes", () => {
       expect(header).toHaveTextContent("Recipe");
     });
 
-    it("displays Shopping lists when url is shopping-list", () => {
+    it("displays a table when url is shopping-list", () => {
       const { container } = setup("/shopping-list");
-      const header = container.querySelector("div");
-      expect(header).toHaveTextContent("Shopping lists");
+      const div = container.querySelector('table')
+      expect(div).toBeVisible
     });
 
     it("displays ShoppingList when url is /shopping-list/:listId", () => {

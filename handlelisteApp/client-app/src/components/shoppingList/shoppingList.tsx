@@ -38,6 +38,7 @@ const setupTableBody = (itemsList: Iitem[], edit: Boolean, onDeleteItem: Functio
                     colorScheme='red'
                     aria-label='Call Segun'
                     size='md'
+                    className='edit'
                     onClick={() => onDeleteItem(item)}
                     icon={<DeleteIcon />}
                   />
@@ -56,6 +57,7 @@ const setupTableBody = (itemsList: Iitem[], edit: Boolean, onDeleteItem: Functio
             aria-label='Call Segun'
             size='small'
             isRound
+            className='edit'
             isDisabled={item.quantity <= 1}
             onClick={() => onDecrement(item)}
             icon={<ChevronLeftIcon />}
@@ -67,6 +69,7 @@ const setupTableBody = (itemsList: Iitem[], edit: Boolean, onDeleteItem: Functio
             aria-label='Call Segun'
             size='small'
             isRound
+            className='edit'
             onClick={() => onIncrement(item)}
             icon={<ChevronRightIcon />}
           />
@@ -114,9 +117,11 @@ export const ListComponent: React.FC<Props> = ({ items, edit, deleteItem, onIncr
                 <Th>
                   <IconButton
                     m={1}
+                    className={'displayTableBtn'}
                     colorScheme="#bee3f8"
                     aria-label="Call Segun"
                     size="small"
+                    data-testid={'hide/show ' + category}
                     onClick={() => {
                       toShow[index] = !toShow[index]
                       setToShow([...toShow])
@@ -130,7 +135,8 @@ export const ListComponent: React.FC<Props> = ({ items, edit, deleteItem, onIncr
                     }
                   />
                 </Th>
-                <Th 
+                <Th
+                className={category}
                 w={"20%"}
                 color="black">{category}</Th>
                 <Th color="black">{strictHeaders[0]}</Th>

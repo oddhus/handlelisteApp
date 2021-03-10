@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+    <PropertyGroup>
+    <BaseOutputPath>..\handlelisteApp\bin\</BaseOutputPath>
+  </PropertyGroup>
+
+    <ItemGroup>
+    <ProjectReference Include="..\handlelisteApp\handlelisteApp.csproj" />
+  </ItemGroup>
+
+</Project>

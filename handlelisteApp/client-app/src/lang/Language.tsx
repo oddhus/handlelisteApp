@@ -15,6 +15,7 @@ export interface ILanguage {
     category: string;
     units: string[];
     editList: string;
+    myShoppingLists: string;
 
     recipes: string;
     recipe: string;

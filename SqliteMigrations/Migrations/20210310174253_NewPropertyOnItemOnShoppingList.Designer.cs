@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using handlelisteApp.Context;
 
-namespace handlelisteApp.Migrations
+namespace SqliteMigrations.Migrations
 {
     [DbContext(typeof(ShoppingListContext))]
-    partial class ShoppingListContextModelSnapshot : ModelSnapshot
+    [Migration("20210310174253_NewPropertyOnItemOnShoppingList")]
+    partial class NewPropertyOnItemOnShoppingList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +41,9 @@ namespace handlelisteApp.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("HasBeenBought")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
