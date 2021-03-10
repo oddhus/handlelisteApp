@@ -10,5 +10,7 @@ namespace handlelisteApp.Models.DTO
         public string ItemName { get; set; }
         public int Quantity { get; set; }
         public string Unit { get; set; }
+        public bool HasBeenBought { get; set; }
+
     }
 }

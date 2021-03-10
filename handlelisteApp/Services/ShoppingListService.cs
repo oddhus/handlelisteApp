@@ -47,7 +47,8 @@ namespace handlelisteApp.Services
                     Item = foundItem,
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = item.Quantity,
-                    Unit = item.Unit
+                    Unit = item.Unit,
+                    HasBeenBought = item.HasBeenBought
                 });
             }
 
@@ -85,7 +86,8 @@ namespace handlelisteApp.Services
                     Item = foundItem,
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = item.Quantity,
-                    Unit = item.Unit
+                    Unit = item.Unit,
+                    HasBeenBought = item.HasBeenBought
                 });
             }
 
