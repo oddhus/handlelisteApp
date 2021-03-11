@@ -39,4 +39,10 @@ export interface ILanguage {
     cancel: string;
 
     add: string;
+    
+    age: string;
+    
+    welcomeToTheShoppingList: string;
+    
+    myShoppingList : string;
 }

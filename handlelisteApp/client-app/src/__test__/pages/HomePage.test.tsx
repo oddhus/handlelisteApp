@@ -1,16 +1,44 @@
 import React from "react";
-import {render} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect'
-import {HomePage} from "../../pages/HomePage";
+import { render } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import { HomePage } from "../../pages/HomePage";
 
-describe('HomePage', () =>{
-    describe('Layout', () =>{
+jest.mock("../../lang/ActiveLanguage", () => ({
+  activeLanguage: {
+    homePage: "HomePage",
+    ShoppingList: "ShoppingLists",
+    login: "Login",
+    Signup: "Sign up",
+    welcomeToTheShoppingList: "Welcome to the shopping list"
+  },
+}));
 
-        it('has header of HomePage', () => {
-            const {container} = render(<HomePage/>)
-            const div = container.querySelector('div')
-            expect(div).toHaveTextContent('HomePage')
-        })
+jest.mock("../../stores/store", () => ({
+  useStore: () => ({
+    userStore: {
+      user: {
+        id: 1,
+        username: "bob",
+        age: "12"
+      },
+      isLoggedIn () {
+        return !! this.user
+      }
+    },
+    modalStore: {
+      openModal() {
+      }
+    }
+  }),
+}));
 
-    })
-})
+
+
+describe("HomePage", () => {
+  describe("Layout", () => {
+    it("has a header", () => {
+      const { getByTestId } = render(<HomePage/>);
+      expect(getByTestId('homepage')).toBeInTheDocument()
+    });
+  });
+});

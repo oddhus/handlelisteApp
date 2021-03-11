@@ -19,7 +19,6 @@ import {
 } from '@chakra-ui/icons';
 import { Iitem } from '../../models/ShoppingList';
 import {useStore} from "../../stores/store";
-import SettingStore from "../../stores/settingStore";
 
 interface Props {
   items: Iitem[],

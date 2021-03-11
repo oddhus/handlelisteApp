@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
 import { AppRoutes } from "../../routes/AppRoutes";
+import {Heading} from "@chakra-ui/react";
 
 
 const setup = (path: string) => {
@@ -63,11 +64,10 @@ describe("AppRoutes", () => {
       const { getByTestId } = setup("/signin");
       expect(getByTestId("login-container")).toBeInTheDocument();
     });
-
+    
     it("displays Sign up when url is /signup", () => {
-      const { container } = setup("/signup");
-      const header = container.querySelector("div");
-      expect(header).toHaveTextContent("Sign up");
+      const { getByTestId } = setup("/signup");
+      expect(getByTestId('signup-container')).toHaveTextContent("Sign up");
     });
     it("displays Create recipe when url is /create-recipe", () => {
       const { container } = setup("/create-recipe");

@@ -6,6 +6,7 @@ import { history } from "../index";
 
 export default class UserStore {
   user: IUser | null = null;
+  loading : boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -21,10 +22,28 @@ export default class UserStore {
       store.commonStore.setToken(user.token);
       runInAction(() => (this.user = user));
       history.push(`/shopping-list/${user.id}`);
+      store.modalStore.closeModal()
     } catch (e) {
       throw e;
     }
   };
+
+  registerNewUser = async (user:any) =>{
+    this.loading = true
+    try{
+      await agent.User.signUp(user)
+      runInAction(() => {
+        this.loading = false
+      })
+      store.modalStore.closeModal()
+      history.push(`/`);
+    } catch (e) {
+      runInAction(() => {
+        this.loading = false
+      })
+      throw e
+    }
+  }
 
   logout = () => {
     store.commonStore.setToken(null);
