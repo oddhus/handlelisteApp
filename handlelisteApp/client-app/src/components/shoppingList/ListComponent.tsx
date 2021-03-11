@@ -105,7 +105,7 @@ export const ListComponent: React.FC<Props> = ({
   const [toShow, setToShow] = useState(
     new Array(getListOfCategories(items).length).fill(true)
   );
-  //const {} = useStore();
+  //const { settingStore } = useStore();
 
   const setupTables = (itemsList: Iitem[], edit: Boolean) => {
     var categories: string[] = getListOfCategories(itemsList);
