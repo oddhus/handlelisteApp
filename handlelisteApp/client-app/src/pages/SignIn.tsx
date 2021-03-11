@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useState} from "react";
-import {RouteComponentProps} from 'react-router-dom';
 import {activeLanguage} from '../lang/ActiveLanguage';
 
 import {
@@ -18,7 +17,7 @@ import {useStore} from "../stores/store";
 
 interface Props {}
 
-export const SignIn: React.FC<RouteComponentProps<Props>> = observer(({match, history}) => {
+export const SignIn: React.FC<Props> = observer(() => {
     
     const {userStore} = useStore()
     

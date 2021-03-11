@@ -1,8 +1,43 @@
 import React from "react";
-import {activeLanguage} from '../lang/ActiveLanguage';
+import {Center, Text, Heading, Button, Box, ButtonGroup} from "@chakra-ui/react"
+import {useStore} from "../stores/store";
+import {SignIn} from "./SignIn";
+import {SignUp} from "./SignUp";
+import {activeLanguage} from "../lang/ActiveLanguage";
+import {observer} from "mobx-react-lite";
 
-interface Props {}
+interface Props {
+}
 
-export const HomePage: React.FC<Props> = () => {
-    return <div data-testid="homepage">{activeLanguage.homePage}</div>;
-};
+export const HomePage: React.FC<Props> = observer(() => {
+    const {modalStore} = useStore()
+    
+    return (
+            <Center h="600px" data-testid='homepage'>
+                <Box maxW="32rem">
+                    <Heading data-testid='Heading' mb={4}>{activeLanguage.shoppingLists}</Heading>
+                    <Text fontSize="xl">
+                        {activeLanguage.welcomeToTheShoppingList}
+                    </Text>
+                        <ButtonGroup>
+                            <Button
+                                size="lg"
+                                colorScheme="green"
+                                mt="24px"
+                                onClick={() => modalStore.openModal(<SignIn/>)}
+                            >
+                                {activeLanguage.login}
+                            </Button>
+                            <Button
+                                size="lg"
+                                colorScheme="blue"
+                                mt="24px"
+                                onClick={() => modalStore.openModal(<SignUp/>)}
+                            >
+                                {activeLanguage.signUp}
+                            </Button>
+                        </ButtonGroup>
+                </Box>
+            </Center>
+    )
+});

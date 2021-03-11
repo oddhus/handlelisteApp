@@ -41,4 +41,8 @@ export interface ILanguage {
     add: string;
     
     age: string;
+    
+    welcomeToTheShoppingList: string;
+    
+    myShoppingList : string;
 }

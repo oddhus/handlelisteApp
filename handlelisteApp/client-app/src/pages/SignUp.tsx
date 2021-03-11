@@ -50,11 +50,10 @@ export const SignUp: React.FC<Props> = observer(() => {
     }
     
     return (
-        <Container>
+        <Container data-testid='signup-container'>
             <Heading
                 style={{marginTop: '20px'}}
-                textAlign='center'
-                data-testid='signup-container'>
+                textAlign='center'>
                 {activeLanguage.signUp}</Heading>
             <FormControl style={{marginTop: '10px'}} id='email' isRequired>
                 <FormLabel>{activeLanguage.emailAddress}</FormLabel>

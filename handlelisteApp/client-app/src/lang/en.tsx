@@ -46,4 +46,7 @@ export default class English implements ILanguage {
     add = "Add";
     
     age = "Age"
+
+    welcomeToTheShoppingList = " Welcome to the shopping list"
+    myShoppingList = "My shopping list"
 }

@@ -45,6 +45,9 @@ export default class Norwegian_B implements ILanguage {
     add = "Legg til";
     
     age = "Alder"
+
+    welcomeToTheShoppingList= "Velkommen til handlelisten"
+    myShoppingList = "Min handleliste"
 }
 
 

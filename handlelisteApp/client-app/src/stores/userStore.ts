@@ -23,6 +23,7 @@ export default class UserStore {
       store.commonStore.setToken(user.token);
       runInAction(() => (this.user = user));
       history.push(`/shopping-list/${user.id}`);
+      store.modalStore.closeModal()
     } catch (e) {
       throw e;
     }
@@ -35,6 +36,7 @@ export default class UserStore {
       runInAction(() => {
         this.loading = false
       })
+      store.modalStore.closeModal()
       history.push(`/`);
     } catch (e) {
       runInAction(() => {
