@@ -2,11 +2,16 @@ import React from "react";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { Recipes } from "../../pages/Recipes";
+import English from "../../lang/en";
+import {MockLanguage} from "../MockLanguage";
 
-jest.mock("../../lang/ActiveLanguage", () => ({
-  activeLanguage: {
-    recipes: "Recipes",
-  },
+//Mock the store returned from the useStore hook. In this case only null is returned.
+jest.mock("../../stores/store", () => ({
+  useStore: () => ({
+    settingStore: {
+      language: {...MockLanguage}
+    }
+  }),
 }));
 
 describe("RecipesPage", () => {

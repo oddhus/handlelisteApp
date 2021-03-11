@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import "@testing-library/jest-dom/extend-expect";
 import { AppRoutes } from "../../routes/AppRoutes";
 import {Heading} from "@chakra-ui/react";
+import {MockLanguage} from "../MockLanguage";
 
 
 const setup = (path: string) => {
@@ -47,6 +48,9 @@ jest.mock("../../stores/store", () => ({
           ]
         )
       }
+    },
+    settingStore: {
+      language: {...MockLanguage}
     },
   }),
 }));

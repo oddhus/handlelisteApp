@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { ShoppingList } from "../../pages/ShoppingList";
+import {MockLanguage} from "../MockLanguage";
 
 jest.mock("react-router-dom", () => ({
   useLocation: () => ({
@@ -41,15 +42,14 @@ jest.mock("../../stores/store", () => ({
           },
         ];
       },
+      settingStore: {
+        language: {...MockLanguage}
+      }
     },
   }),
 }));
 
-jest.mock("../../lang/ActiveLanguage", () => ({
-  activeLanguage: {
-    editList: "Edit list",
-  },
-}));
+
 
 describe("ShoppingList", () => {
   describe("Layout", () => {

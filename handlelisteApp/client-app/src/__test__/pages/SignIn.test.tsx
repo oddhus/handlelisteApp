@@ -2,6 +2,8 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { SignIn } from "../../pages/SignIn";
+import English from "../../lang/en";
+import {MockLanguage} from "../MockLanguage";
 
 const routeComponentPropsMock = {
   history: {} as any,
@@ -13,15 +15,10 @@ const routeComponentPropsMock = {
 jest.mock("../../stores/store", () => ({
   useStore: () => ({
     userStore: null,
+    settingStore: {
+      language: {...MockLanguage}
+    }
   }),
-}));
-
-jest.mock("../../lang/ActiveLanguage", () => ({
-  activeLanguage: {
-    login: "Login",
-    emailAddress: "Email Address",
-    password: "Password",
-  },
 }));
 
 const renderSignInPage = <SignIn {...routeComponentPropsMock} />;

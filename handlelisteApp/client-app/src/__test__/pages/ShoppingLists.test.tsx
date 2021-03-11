@@ -2,6 +2,8 @@ import React from "react";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { ShoppingLists } from "../../pages/ShoppingLists";
+import English from "../../lang/en";
+import {MockLanguage} from "../MockLanguage";
 
 jest.mock("../../stores/store", () => ({
   useStore: () => ({
@@ -9,14 +11,13 @@ jest.mock("../../stores/store", () => ({
       shoppingLists: [],
       fetchShoppingLists() {},
     },
+    settingStore: {
+      language: {...MockLanguage}
+    }
   }),
 }));
 
-jest.mock("../../lang/ActiveLanguage", () => ({
-  activeLanguage: {
-    shoppingLists: "Shopping Lists",
-  },
-}));
+
 
 jest.mock("react-router-dom", () => ({
   useHistory: () => ({

@@ -2,19 +2,17 @@ import React from "react";
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { Settings } from "../../pages/Settings";
+import English from "../../lang/en";
+import {MockLanguage} from "../MockLanguage";
 
-jest.mock("../../lang/ActiveLanguage", () => ({
-  activeLanguage: {
-    settings: "Settings",
-    activeLanguage: "Active Language",
-  },
-}));
+
 
 jest.mock("../../stores/store", () => ({
   useStore: () => ({
-    userStore: {
+    settingStore: {
       setLanguage: () => null,
-    },
+      language: {...MockLanguage}
+    }
   }),
 }));
 
