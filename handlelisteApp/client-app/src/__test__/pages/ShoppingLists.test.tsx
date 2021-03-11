@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { ShoppingLists } from "../../pages/ShoppingLists";
 import English from "../../lang/en";
-import {MockLanguage} from "../MockLanguage";
+import { MockLanguage } from "../MockLanguage";
 
 jest.mock("../../stores/store", () => ({
   useStore: () => ({
@@ -12,12 +12,10 @@ jest.mock("../../stores/store", () => ({
       fetchShoppingLists() {},
     },
     settingStore: {
-      language: {...MockLanguage}
-    }
+      language: { ...MockLanguage },
+    },
   }),
 }));
-
-
 
 jest.mock("react-router-dom", () => ({
   useHistory: () => ({
@@ -30,7 +28,7 @@ describe("ShoppingListsPage", () => {
     it("contains a table", () => {
       const { container } = render(<ShoppingLists />);
       const div = container.querySelector("table");
-      expect(div).toBeVisible;
+      expect(div).toBeVisible();
     });
   });
 });

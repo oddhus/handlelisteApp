@@ -6,7 +6,7 @@ import {
   Switch, 
   Container 
 } from '@chakra-ui/react';
-import { ListComponent } from '../components/shoppingList/shoppingList';
+import { ListComponent } from '../components/shoppingList/ListComponent';
 import { AddItem } from '../components/shoppingList/AddItem';
 import { Iitem, IShoppingList } from '../models/ShoppingList';
 import { useStore } from "../stores/store";

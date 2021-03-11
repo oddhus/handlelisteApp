@@ -1,7 +1,7 @@
 import React from "react";
 import {render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect'
-import { ListComponent } from "../../components/shoppingList/shoppingList";
+import { ListComponent } from "../../components/shoppingList/ListComponent";
 import { Iitem } from "../../models/ShoppingList";
 import userEvent from '@testing-library/user-event'
 
