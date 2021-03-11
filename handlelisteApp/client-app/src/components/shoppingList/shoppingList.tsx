@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { activeLanguage } from '../../lang/ActiveLanguage';
 import {
   Table,
   Thead,
@@ -19,6 +18,8 @@ import {
   TriangleUpIcon,
 } from '@chakra-ui/icons';
 import { Iitem } from '../../models/ShoppingList';
+import {useStore} from "../../stores/store";
+import SettingStore from "../../stores/settingStore";
 
 interface Props {
   items: Iitem[],
@@ -30,6 +31,8 @@ interface Props {
 
 
 const setupTableBody = (itemsList: Iitem[], edit: Boolean, onDeleteItem: Function, onIncrement: Function, onDecrement: Function) => {
+
+
   return itemsList.map((item) => (
     <Tr key={item.product}>
       <Td>
@@ -94,11 +97,12 @@ const getListOfCategories = (itemsList: { category: string }[]) => {
 
 export const ListComponent: React.FC<Props> = ({ items, edit, deleteItem, onIncrement, onDecrement }) => {
   const [toShow, setToShow] = useState(new Array(getListOfCategories(items).length).fill(true))
+  const {settingStore} = useStore()
 
   const setupTables = (itemsList: Iitem[], edit: Boolean) => {
     var categories: string[] = getListOfCategories(itemsList)
     var tables: React.ReactFragment[] = []
-    var strictHeaders = activeLanguage.shoppingList
+    var strictHeaders = settingStore.language.shoppingList
     let start = 0 
 
     categories.forEach((category) => {

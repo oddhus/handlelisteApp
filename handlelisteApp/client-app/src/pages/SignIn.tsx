@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
 import {RouteComponentProps} from 'react-router-dom';
-import {activeLanguage} from '../lang/ActiveLanguage';
 
 import {
     Input,
@@ -20,7 +19,7 @@ interface Props {}
 
 export const SignIn: React.FC<RouteComponentProps<Props>> = observer(({match, history}) => {
     
-    const {userStore} = useStore()
+    const {userStore, settingStore} = useStore()
     
     const [userName, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -42,19 +41,19 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = observer(({match, hi
       <Container 
           data-testid='login-container'
           style={{top: '50%', left: '50%'}}>
-          <Heading style={{marginTop: '10px'}}>{activeLanguage.login}</Heading>
+          <Heading style={{marginTop: '10px'}}>{settingStore.language.login}</Heading>
           <FormControl style={{marginTop: '10px'}} id="username">
-              <FormLabel>{activeLanguage.emailAddress}</FormLabel>
+              <FormLabel>{settingStore.language.emailAddress}</FormLabel>
               <Input 
                   type="text" 
                   onChange={(event:ChangeEvent<HTMLInputElement>) => onChangeUsernameHandler(event)}
                   placeholder='Email address'
                   value={userName}
               />
-              <FormHelperText>{activeLanguage.weNeverShareEmail}</FormHelperText>
+              <FormHelperText>{settingStore.language.weNeverShareEmail}</FormHelperText>
           </FormControl>
           <FormControl style={{marginTop: '10px'}} id="email">
-              <FormLabel>{activeLanguage.password}</FormLabel>
+              <FormLabel>{settingStore.language.password}</FormLabel>
               <Input
                   type='password'
                   onChange={(event:ChangeEvent<HTMLInputElement>) => onChangePasswordHandler(event)}
@@ -67,7 +66,7 @@ export const SignIn: React.FC<RouteComponentProps<Props>> = observer(({match, hi
               style={{marginTop: '10px'}} 
               colorScheme="blue"
               onClick={() => loginHandler()} // testing the loading icone
-              >{activeLanguage.login}</Button>
+              >{settingStore.language.login}</Button>
       </Container>
       
       

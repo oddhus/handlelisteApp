@@ -1,5 +1,4 @@
 import React from 'react';
-import {activeLanguage} from '../lang/ActiveLanguage';
 import { useHistory } from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {useStore} from "../stores/store";
@@ -70,7 +69,7 @@ var fetched = false
 
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory();
-  const { shoppingListStore } = useStore();
+  const { shoppingListStore, settingStore } = useStore();
   console.log(fetched)
   if(!fetched){
     shoppingListStore.fetchShoppingLists()
@@ -85,7 +84,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
             <Th
             fontSize={'xl'}
             textAlign={[ 'center' ]}
-            >{activeLanguage.myShoppingLists}</Th>
+            >{settingStore.language.myShoppingLists}</Th>
           </Tr>
         </Thead>
         <Tbody>

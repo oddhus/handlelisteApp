@@ -6,7 +6,6 @@ import { history } from "../index";
 
 export default class UserStore {
   user: IUser | null = null;
-  language: string = 'en';
 
   constructor() {
     makeAutoObservable(this);
@@ -38,14 +37,6 @@ export default class UserStore {
     try {
       const user = await agent.User.currentUser();
       runInAction(() => (this.user = user));
-    } catch (e) {
-      throw e;
-    }
-  };
-
-  setLanguage = async (language: string) => {
-    try {
-      this.language = language;
     } catch (e) {
       throw e;
     }

@@ -1,8 +1,12 @@
 import React from "react";
-import {activeLanguage} from '../lang/ActiveLanguage';
+import {useStore} from "../stores/store";
 
 interface Props {}
 
 export const HomePage: React.FC<Props> = () => {
-    return <div data-testid="homepage">{activeLanguage.homePage}</div>;
+
+    const {settingStore} = useStore()
+    
+    
+    return <div data-testid="homepage">{settingStore.language.homePage}</div>;
 };

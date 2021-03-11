@@ -1,8 +1,10 @@
 import React from "react";
-import {activeLanguage} from '../lang/ActiveLanguage';
+import {useStore} from "../stores/store";
 
 interface Props {}
 
 export const Household: React.FC<Props> = () => {
-  return <div>{activeLanguage.household}</div>;
+  const {settingStore} = useStore()
+
+  return <div>{settingStore.language.household}</div>;
 };

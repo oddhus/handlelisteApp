@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { activeLanguage } from '../lang/ActiveLanguage';
 import { useLocation, useParams } from "react-router-dom";
 import { 
   FormControl, 
@@ -54,7 +53,7 @@ export const ShoppingList: React.FC<Props> = () => {
   let makingNewList = useLocation().pathname.includes("new-shopping-list")
   let paramObj : useParam = useParams();
   
-  const { shoppingListStore } = useStore()
+  const { shoppingListStore, settingStore } = useStore()
 
   if(paramObj.listId !== undefined){
     if(shoppingListStore.shoppingList !== null && shoppingListStore.shoppingList.shoppingListID == parseInt(paramObj.listId))
@@ -130,7 +129,7 @@ export const ShoppingList: React.FC<Props> = () => {
     <Container maxW='container.xl'>
       <FormControl display='flex' alignItems='center' mb={5}>
         <FormLabel htmlFor='email-alerts' mb='0'>
-          {activeLanguage.editList}
+          {settingStore.language.editList}
         </FormLabel>
         <Switch
           colorScheme='teal'

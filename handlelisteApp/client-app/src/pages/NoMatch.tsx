@@ -1,8 +1,10 @@
 import React from "react";
-import {activeLanguage} from '../lang/ActiveLanguage';
+import {useStore} from "../stores/store";
 
 interface Props {}
 
 export const NoMatch: React.FC<Props> = () => {
-  return <div>{activeLanguage.noMatch}</div>;
+  const {settingStore} = useStore()
+
+  return <div>{settingStore.language.noMatch}</div>;
 };
