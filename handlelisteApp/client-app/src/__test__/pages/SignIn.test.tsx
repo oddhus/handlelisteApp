@@ -16,6 +16,14 @@ jest.mock("../../stores/store", () => ({
   }),
 }));
 
+jest.mock("../../lang/ActiveLanguage", () => ({
+  activeLanguage: {
+    login: "Login",
+    emailAddress: "Email Address",
+    password: "Password",
+  },
+}));
+
 const renderSignInPage = <SignIn {...routeComponentPropsMock} />;
 
 describe("SignInPage", () => {

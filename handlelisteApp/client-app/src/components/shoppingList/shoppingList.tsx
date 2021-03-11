@@ -98,7 +98,7 @@ export const ListComponent: React.FC<Props> = ({ items, edit, deleteItem, onIncr
   const setupTables = (itemsList: Iitem[], edit: Boolean) => {
     var categories: string[] = getListOfCategories(itemsList)
     var tables: React.ReactFragment[] = []
-    var strictHeaders = activeLanguage.shoppingList
+    var strictHeaders = "Fungerer ikke i mocken"//activeLanguage.shoppingList
     let start = 0 
 
     categories.forEach((category) => {
