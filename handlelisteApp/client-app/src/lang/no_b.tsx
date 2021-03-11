@@ -43,6 +43,8 @@ export default class Norwegian_B implements ILanguage {
     cancel = "Avbryt";
 
     add = "Legg til";
+    
+    age = "Alder"
 }
 
 

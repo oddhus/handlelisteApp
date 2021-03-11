@@ -44,4 +44,6 @@ export default class English implements ILanguage {
     cancel = "Cancel";
 
     add = "Add";
+    
+    age = "Age"
 }

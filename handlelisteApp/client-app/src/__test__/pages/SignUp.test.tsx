@@ -18,7 +18,14 @@ jest.mock("../../lang/ActiveLanguage", () => ({
     passwordRepeat: "Repeat your password",
     signUp: "Sign up",
     Username: "Your username",
+    age: "Age"
   },
+}));
+
+jest.mock("../../stores/store", () => ({
+  useStore: () => ({
+    userStore: null,
+  }),
 }));
 
 describe("SignUpPage", () => {
@@ -36,6 +43,11 @@ describe("SignUpPage", () => {
     it("has input display username", () => {
       const { queryByPlaceholderText } = render(renderSignUpPage);
       const displayUsernameInput = queryByPlaceholderText("Your username");
+      expect(displayUsernameInput).toBeInTheDocument();
+    });
+    it("has input display Age", () => {
+      const { queryByPlaceholderText } = render(renderSignUpPage);
+      const displayUsernameInput = queryByPlaceholderText("Age");
       expect(displayUsernameInput).toBeInTheDocument();
     });
     it("has input display password", () => {

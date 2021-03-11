@@ -7,6 +7,7 @@ import { history } from "../index";
 export default class UserStore {
   user: IUser | null = null;
   language: string = 'en';
+  loading : boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -26,6 +27,22 @@ export default class UserStore {
       throw e;
     }
   };
+
+  registerNewUser = async (user:any) =>{
+    this.loading = true
+    try{
+      await agent.User.signUp(user)
+      runInAction(() => {
+        this.loading = false
+      })
+      history.push(`/`);
+    } catch (e) {
+      runInAction(() => {
+        this.loading = false
+      })
+      throw e
+    }
+  }
 
   logout = () => {
     store.commonStore.setToken(null);
