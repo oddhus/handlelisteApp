@@ -5,7 +5,7 @@ import Norwegian_B from "../lang/no_b";
 
 export default class SettingStore {
     norwegian_b: ILanguage = new Norwegian_B();
-    english: ILanguage = new English()
+    english: ILanguage = new English();
     language: ILanguage = this.english;
     languageString: string = 'en';
 
@@ -17,16 +17,16 @@ export default class SettingStore {
     setLanguage = (language: string) => {
         switch(language) {
             case 'en':
-                runInAction(() => (this.language = this.english));
-                runInAction(() => (this.languageString = 'en'));
+                this.language = this.english;
+                this.languageString = 'en';
                 break;
             case 'no_b':
-                runInAction(() => (this.language = this.norwegian_b));
-                runInAction(() => (this.languageString = 'no_b'));
+                this.language = this.norwegian_b;
+                this.languageString = 'no_b';
                 break;
             default:
-                runInAction(() => (this.language = this.english));
-                runInAction(() => (this.languageString = 'en'));
+                this.language = this.english;
+                this.languageString = 'en';
                 break;
         }
     };
