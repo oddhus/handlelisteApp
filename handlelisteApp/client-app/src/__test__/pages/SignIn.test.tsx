@@ -14,7 +14,9 @@ const routeComponentPropsMock = {
 //Mock the store returned from the useStore hook. In this case only null is returned.
 jest.mock("../../stores/store", () => ({
   useStore: () => ({
-    userStore: null,
+    userStore: {
+      loading: true
+    },
     settingStore: {
       language: {...MockLanguage}
     }

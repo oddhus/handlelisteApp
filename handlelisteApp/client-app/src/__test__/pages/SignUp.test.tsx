@@ -18,7 +18,9 @@ const english: ILanguage = new English();
 jest.mock("../../stores/store", () => ({
   
   useStore: () => ({
-    userStore: null,
+    userStore: {
+      loading: true
+    },
     settingStore: {
       language: {...MockLanguage}
     }

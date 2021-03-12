@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from "react";
-
+import {observer} from "mobx-react-lite";
 import {
     Input,
     Container,
@@ -10,9 +10,9 @@ import {
     FormHelperText
 
 } from '@chakra-ui/react'
-
-import {observer} from "mobx-react-lite";
 import {useStore} from "../stores/store";
+
+
 
 interface Props {}
 
@@ -43,7 +43,7 @@ export const SignIn: React.FC<Props> = observer(() => {
           <Heading style={{marginTop: '10px'}}>{settingStore.language.login}</Heading>
           <FormControl style={{marginTop: '10px'}} id="username">
               <FormLabel>{settingStore.language.emailAddress}</FormLabel>
-              <Input 
+              <Input    
                   type="text" 
                   onChange={(event:ChangeEvent<HTMLInputElement>) => onChangeUsernameHandler(event)}
                   placeholder='Email address'
@@ -61,6 +61,7 @@ export const SignIn: React.FC<Props> = observer(() => {
               />
           </FormControl>
           <Button
+              isLoading={userStore.loading}
               data-testid='login-Button'
               style={{marginTop: '10px'}} 
               colorScheme="blue"

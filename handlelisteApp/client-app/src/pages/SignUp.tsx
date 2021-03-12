@@ -102,7 +102,7 @@ export const SignUp: React.FC<Props> = observer(() => {
                 style={{marginTop: '10px'}}
                 colorScheme="blue"
                 onClick={() => registerNewUser()}
-                //isLoading={userStore.loading}
+                isLoading={userStore.loading}
             >{settingStore.language.signUp}</Button>
         </Container>
         )

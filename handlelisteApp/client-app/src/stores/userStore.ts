@@ -17,13 +17,18 @@ export default class UserStore {
   }
 
   login = async (creds: any) => {
+    this.loading = true;
     try {
       const user = await agent.User.login(creds);
       store.commonStore.setToken(user.token);
-      runInAction(() => (this.user = user));
+      runInAction(() =>{
+        this.user = user;
+        this.loading = false;
+      })
       history.push(`/shopping-list/${user.id}`);
       store.modalStore.closeModal()
     } catch (e) {
+      runInAction(() => {this.loading = false;})
       throw e;
     }
   };
