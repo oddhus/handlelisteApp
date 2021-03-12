@@ -19,8 +19,8 @@ interface Props {
 
 export const Settings: React.FC<RouteComponentProps<Props>> = () => {
 
-    const [language, setLanguage] = useState('en');
     const {settingStore} = useStore()
+    const [language, setLanguage] = useState(settingStore.languageString);
 
     const onChangeLanguageHandler = (event: string) =>{
         setLanguage(event)
