@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useState } from "react";
-import { Iitem } from "../../models/ShoppingList";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import React, { ChangeEvent, useState } from 'react'
+import { Iitem } from '../../models/ShoppingList'
+import { Button, ButtonGroup } from '@chakra-ui/react'
 import {
   FormControl,
   FormLabel,
@@ -12,19 +12,19 @@ import {
   NumberDecrementStepper,
   Select,
   Container,
-} from "@chakra-ui/react";
-import { useStore } from "../../stores/store";
+} from '@chakra-ui/react'
+import { useStore } from '../../stores/store'
 
 interface Props {
-  onAdd(arg: Iitem): void;
+  onAdd(arg: Iitem): void
 }
 
 export const AddItem: React.FC<Props> = ({ onAdd }) => {
-  const { settingStore } = useStore();
-  const [category, setCategory] = useState("");
-  const [product, setProduct] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [unit, setUnit] = useState(settingStore.language.units[0]);
+  const { settingStore } = useStore()
+  const [category, setCategory] = useState('')
+  const [product, setProduct] = useState('')
+  const [quantity, setQuantity] = useState(0)
+  const [unit, setUnit] = useState(settingStore.language.units[0])
 
   const onAddClicked = () => {
     const item: Iitem = {
@@ -32,9 +32,9 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       product: product.toLowerCase(),
       quantity: quantity,
       unit: unit,
-    };
-    onAdd(item);
-  };
+    }
+    onAdd(item)
+  }
 
   return (
     <Container
@@ -87,13 +87,13 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       </Select>
       <br />
       <ButtonGroup>
-        <Button onClick={() => console.log("Cancel")} colorScheme={"red"}>
+        <Button onClick={() => console.log('Cancel')} colorScheme={'red'}>
           {settingStore.language.cancel}
         </Button>
-        <Button onClick={() => onAddClicked()} colorScheme={"teal"}>
+        <Button onClick={() => onAddClicked()} colorScheme={'teal'}>
           {settingStore.language.add}
         </Button>
       </ButtonGroup>
     </Container>
-  );
-};
+  )
+}

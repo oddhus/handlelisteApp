@@ -1,47 +1,49 @@
-import { IUser } from "../models/user";
-import { makeAutoObservable, runInAction } from "mobx";
-import agent from "../api/agent";
-import { store } from "./store";
-import { history } from "../index";
+import { IUser } from '../models/user'
+import { makeAutoObservable, runInAction } from 'mobx'
+import agent from '../api/agent'
+import { store } from './store'
+import { history } from '../index'
 
 export default class UserStore {
-  user: IUser | null = null;
-  loading : boolean = false;
+  user: IUser | null = null
+  loading: boolean = false
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
   get isLoggedIn() {
-    return !!this.user;
+    return !!this.user
   }
 
   login = async (creds: any) => {
-    this.loading = true;
+    this.loading = true
     try {
-      const user = await agent.User.login(creds);
-      store.commonStore.setToken(user.token);
-      runInAction(() =>{
-        this.user = user;
-        this.loading = false;
+      const user = await agent.User.login(creds)
+      store.commonStore.setToken(user.token)
+      runInAction(() => {
+        this.user = user
+        this.loading = false
       })
-      history.push(`/shopping-list/${user.id}`);
+      history.push(`/shopping-list/${user.id}`)
       store.modalStore.closeModal()
     } catch (e) {
-      runInAction(() => {this.loading = false;})
-      throw e;
+      runInAction(() => {
+        this.loading = false
+      })
+      throw e
     }
-  };
+  }
 
-  registerNewUser = async (user:any) =>{
+  registerNewUser = async (user: any) => {
     this.loading = true
-    try{
+    try {
       await agent.User.signUp(user)
       runInAction(() => {
         this.loading = false
       })
       store.modalStore.closeModal()
-      history.push(`/`);
+      history.push(`/`)
     } catch (e) {
       runInAction(() => {
         this.loading = false
@@ -51,18 +53,18 @@ export default class UserStore {
   }
 
   logout = () => {
-    store.commonStore.setToken(null);
-    window.localStorage.removeItem("jwt");
-    this.user = null;
-    history.push("/");
-  };
+    store.commonStore.setToken(null)
+    window.localStorage.removeItem('jwt')
+    this.user = null
+    history.push('/')
+  }
 
   getUser = async () => {
     try {
-      const user = await agent.User.currentUser();
-      runInAction(() => (this.user = user));
+      const user = await agent.User.currentUser()
+      runInAction(() => (this.user = user))
     } catch (e) {
-      throw e;
+      throw e
     }
-  };
+  }
 }

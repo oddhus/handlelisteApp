@@ -6,29 +6,29 @@ import {
   Stack,
   MenuItem as MenuItemChakra,
   Button,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { MenuItem } from "./MenuItem";
-import { useMediaQuery } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+} from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { MenuItem } from './MenuItem'
+import { useMediaQuery } from '@chakra-ui/react'
+import { ChevronDownIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom'
 import {
   allUsers,
   signedIn,
   signedOut,
   userSettings,
-} from "../../routes/definedRoutes";
-import { useStore } from "../../stores/store";
-import { observer } from "mobx-react-lite";
+} from '../../routes/definedRoutes'
+import { useStore } from '../../stores/store'
+import { observer } from 'mobx-react-lite'
 
 interface Props {
-  isOpen: boolean;
+  isOpen: boolean
 }
 
 const MenuLinks: React.FC<Props> = ({ isOpen }) => {
-  const [isLargerThan420] = useMediaQuery("(min-width: 30em)");
+  const [isLargerThan420] = useMediaQuery('(min-width: 30em)')
 
-  const { userStore } = useStore();
+  const { userStore } = useStore()
 
   const buttonMenu = (
     <Menu>
@@ -51,7 +51,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
         </MenuItemChakra>
       </MenuList>
     </Menu>
-  );
+  )
 
   const listMenu = (
     <React.Fragment>
@@ -65,12 +65,15 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
         colorScheme="teal"
         onClick={() => userStore.logout()}
         fontWeight="normal"
-        _hover={{ backgroundColor: "transparent", textDecoration: "underline" }}
+        _hover={{
+          backgroundColor: 'transparent',
+          textDecoration: 'underline',
+        }}
       >
         Logout
       </Button>
     </React.Fragment>
-  );
+  )
 
   const signedOutList = (
     <React.Fragment>
@@ -80,20 +83,20 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
         </MenuItem>
       ))}
     </React.Fragment>
-  );
+  )
 
-  const mainItems = !userStore.isLoggedIn ? allUsers : signedIn;
+  const mainItems = !userStore.isLoggedIn ? allUsers : signedIn
 
   return (
     <Box
-      display={{ base: isOpen ? "block" : "none", sm: "block" }}
-      flexBasis={{ base: "100%", sm: "auto" }}
+      display={{ base: isOpen ? 'block' : 'none', sm: 'block' }}
+      flexBasis={{ base: '100%', sm: 'auto' }}
     >
       <Stack
         spacing={8}
         align="center"
-        justify={["center", "flex-end", "flex-end", "flex-end"]}
-        direction={["column", "row", "row", "row"]}
+        justify={['center', 'flex-end', 'flex-end', 'flex-end']}
+        direction={['column', 'row', 'row', 'row']}
         pt={[4, 0, 0, 0]}
       >
         {mainItems.map((route) => (
@@ -108,7 +111,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
           : listMenu}
       </Stack>
     </Box>
-  );
-};
+  )
+}
 
-export default observer(MenuLinks);
+export default observer(MenuLinks)

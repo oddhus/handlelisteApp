@@ -1,26 +1,27 @@
-import { IShoppingList } from "../models/ShoppingList";
-import { makeAutoObservable, runInAction } from "mobx";
-import agent from "../api/agent";
-import { store } from "./store";
+import { IShoppingList } from '../models/ShoppingList'
+import { makeAutoObservable, runInAction } from 'mobx'
+import agent from '../api/agent'
+import { store } from './store'
 
 export default class shoppingListStore {
-  shoppingList: IShoppingList | null = null;
-  shoppingLists: IShoppingList[] = [];
+  shoppingList: IShoppingList | null = null
+  shoppingLists: IShoppingList[] = []
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this)
   }
 
   getShoppinglist = async (id: number) => {
-    let shoppingList = this.shoppingLists.find(shoppinglist => shoppinglist.shoppingListID === id)
-    if(this.shoppingList != null && id == this.shoppingList.shoppingListID){
+    let shoppingList = this.shoppingLists.find(
+      (shoppinglist) => shoppinglist.shoppingListID === id
+    )
+    if (this.shoppingList != null && id == this.shoppingList.shoppingListID) {
       console.log(this.shoppingList)
       return this.shoppingList.items
-    }
-    else if((shoppingList === null || shoppingList === undefined)){
-      try{
+    } else if (shoppingList === null || shoppingList === undefined) {
+      try {
         const shoppingList = await agent.shoppingList.getShoppingList(id)
         console.log(shoppingList)
-      } catch(e) {
+      } catch (e) {
         console.log(e)
       }
     }
@@ -29,7 +30,7 @@ export default class shoppingListStore {
   fetchShoppingLists = async () => {
     try {
       let shoppingLists = await agent.shoppingLists.getShoppingLists()
-      if(shoppingLists == undefined) shoppingLists = []
+      if (shoppingLists == undefined) shoppingLists = []
       runInAction(() => {
         this.shoppingLists = shoppingLists
       })
@@ -39,45 +40,53 @@ export default class shoppingListStore {
   }
 
   saveShoppinglist = async (shoppingList: any, id: number) => {
-      try{
-        let newList = await agent.shoppingList.updateShoppingList(shoppingList, id)
-        let index = newList.indexOf(this.shoppingLists.find((list) => list.shoppingListID === newList.shoppingListID))
-        runInAction(() => {
-            this.shoppingLists[index] = newList
-            this.shoppingList = newList
-        })
-      } catch(e) {
-        throw(e)
-      }
+    try {
+      let newList = await agent.shoppingList.updateShoppingList(
+        shoppingList,
+        id
+      )
+      let index = newList.indexOf(
+        this.shoppingLists.find(
+          (list) => list.shoppingListID === newList.shoppingListID
+        )
+      )
+      runInAction(() => {
+        this.shoppingLists[index] = newList
+        this.shoppingList = newList
+      })
+    } catch (e) {
+      throw e
+    }
   }
 
   addShoppinglist = async (shoppingList: any) => {
     try {
-        let addedList = await agent.shoppingList.postShoppingList(shoppingList)
-        runInAction(() => {
-            this.shoppingLists.push(addedList)
-            this.shoppingList = addedList
-        })
-    } catch(e){
-        throw(e)
+      let addedList = await agent.shoppingList.postShoppingList(shoppingList)
+      runInAction(() => {
+        this.shoppingLists.push(addedList)
+        this.shoppingList = addedList
+      })
+    } catch (e) {
+      throw e
     }
   }
-  
+
   setCurrentShoppingList = (shoppingList: IShoppingList) => {
     runInAction(() => {
       this.shoppingList = shoppingList
-  })
+    })
   }
 
   deleteShoppingList = (listToDelete: IShoppingList) => {
     try {
-      let newListOfShopLists = this.shoppingLists.filter(shoppingList => shoppingList !== listToDelete)
+      let newListOfShopLists = this.shoppingLists.filter(
+        (shoppingList) => shoppingList !== listToDelete
+      )
       runInAction(() => {
         this.shoppingLists = newListOfShopLists
       })
     } catch (e) {
-      throw (e)
+      throw e
     }
-
   }
 }

@@ -1,16 +1,16 @@
-import React from "react";
-import { Text, Link } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
+import React from 'react'
+import { Text, Link } from '@chakra-ui/react'
+import { Link as RouterLink } from 'react-router-dom'
 
 interface Props {
-  isLast?: boolean;
-  to: string;
+  isLast?: boolean
+  to: string
 }
 
 export const MenuItem: React.FC<Props> = ({
   children,
   isLast,
-  to = "/",
+  to = '/',
   ...rest
 }) => {
   return (
@@ -19,5 +19,5 @@ export const MenuItem: React.FC<Props> = ({
         {children}
       </Text>
     </Link>
-  );
-};
+  )
+}

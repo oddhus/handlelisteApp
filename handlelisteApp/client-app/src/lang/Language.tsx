@@ -1,49 +1,48 @@
-
 export interface ILanguage {
-    homePage: string;
-    signUp: string;
+  homePage: string
+  signUp: string
 
-    login: string;
-    emailAddress: string;
-    password: string;
-    weNeverShareEmail: string;
+  login: string
+  emailAddress: string
+  password: string
+  weNeverShareEmail: string
 
-    shoppingList: string[];
-    shoppingLists: string;
-    createShoppingList: string;
-    product: string;
-    category: string;
-    units: string[];
-    editList: string;
-    myShoppingLists: string;
-    saveList: string;
+  shoppingList: string[]
+  shoppingLists: string
+  createShoppingList: string
+  product: string
+  category: string
+  units: string[]
+  editList: string
+  myShoppingLists: string
+  saveList: string
 
-    recipes: string;
-    recipe: string;
-    createRecipe: string;
+  recipes: string
+  recipe: string
+  createRecipe: string
 
-    settings: string;
-    userSettings: string;
-    householdSettings: string;
-    accessibilitySettings: string;
-    blacklistSettings: string;
-    activeLanguage: string;
+  settings: string
+  userSettings: string
+  householdSettings: string
+  accessibilitySettings: string
+  blacklistSettings: string
+  activeLanguage: string
 
-    household: string;
+  household: string
 
-    noMatch: string;
+  noMatch: string
 
-    Username: string;
+  Username: string
 
-    passwordRepeat: string;
+  passwordRepeat: string
 
-    cancel: string;
+  cancel: string
 
-    add: string;
-    
-    age: string;
-    
-    welcomeToTheShoppingList: string;
-    
-    myShoppingList : string;
+  add: string
+
+  age: string
+
+  welcomeToTheShoppingList: string
+
+  myShoppingList: string
 }

@@ -1,53 +1,51 @@
-import React from "react";
-import {ILanguage} from "./Language";
+import React from 'react'
+import { ILanguage } from './Language'
 
 export default class English implements ILanguage {
-    homePage = "HomePage";
+  homePage = 'HomePage'
 
-    signUp = "Sign up";
+  signUp = 'Sign up'
 
-    login = "Login";
-    emailAddress = "Email address";
-    password = "Password";
-    weNeverShareEmail = "We will never share your email.";
-    
+  login = 'Login'
+  emailAddress = 'Email address'
+  password = 'Password'
+  weNeverShareEmail = 'We will never share your email.'
 
-    shoppingList = ["Quantity", "Unit"];
-    shoppingLists = "Shopping lists";
-    createShoppingList = "Create shopping list";
-    product = "Product";
-    category = "Category";
-    units = ["PCS", "KG", "L", "ML", "PCK"];
-    editList = "Edit shopping list";
-    myShoppingLists = "My shopping lists";
-    saveList = "Save shopping list";
+  shoppingList = ['Quantity', 'Unit']
+  shoppingLists = 'Shopping lists'
+  createShoppingList = 'Create shopping list'
+  product = 'Product'
+  category = 'Category'
+  units = ['PCS', 'KG', 'L', 'ML', 'PCK']
+  editList = 'Edit shopping list'
+  myShoppingLists = 'My shopping lists'
+  saveList = 'Save shopping list'
 
+  recipes = 'Recipes'
+  recipe = 'Recipe'
+  createRecipe = 'Create recipe'
 
-    recipes = "Recipes";
-    recipe = "Recipe";
-    createRecipe = "Create recipe";
+  settings = 'Settings'
+  userSettings = 'User settings'
+  householdSettings = 'Household settings'
+  accessibilitySettings = 'Accessibility settings'
+  blacklistSettings = 'Blacklist settings'
+  activeLanguage = 'Language'
 
-    settings = "Settings";
-    userSettings = "User settings";
-    householdSettings = "Household settings";
-    accessibilitySettings = "Accessibility settings";
-    blacklistSettings = "Blacklist settings";
-    activeLanguage = "Language";
+  household = 'Household'
 
-    household = "Household";
+  noMatch = 'No match'
 
-    noMatch = "No match";
+  Username = 'Your username'
 
-    Username = "Your username";
+  passwordRepeat = 'Repeat your password'
 
-    passwordRepeat = "Repeat your password";
+  cancel = 'Cancel'
 
-    cancel = "Cancel";
+  add = 'Add'
 
-    add = "Add";
-    
-    age = "Age"
+  age = 'Age'
 
-    welcomeToTheShoppingList = " Welcome to the shopping list"
-    myShoppingList = "My shopping list"
+  welcomeToTheShoppingList = ' Welcome to the shopping list'
+  myShoppingList = 'My shopping list'
 }

@@ -1,57 +1,51 @@
-import React from "react";
-import {ILanguage} from "./Language";
+import React from 'react'
+import { ILanguage } from './Language'
 
 export default class Norwegian_B implements ILanguage {
-    homePage = "Hjemmeside";
+  homePage = 'Hjemmeside'
 
-    signUp = "Registrer ny bruker";
+  signUp = 'Registrer ny bruker'
 
-    login = "Logg inn";
-    emailAddress = "Epost addresse";
-    password = "Passord";
-    weNeverShareEmail = "Vi vil ikke dele din epost addresse med noen.";
+  login = 'Logg inn'
+  emailAddress = 'Epost addresse'
+  password = 'Passord'
+  weNeverShareEmail = 'Vi vil ikke dele din epost addresse med noen.'
 
-    shoppingList = ["Antall", "Enhet"];
-    shoppingLists = "Handlelister";
-    createShoppingList = "Lag ny handleliste";
-    product = "Produkt";
-    category = "Kategori";
-    units = ["KG", "L", "ML", "STK", "PK"];
-    editList = "Rediger handleliste";
-    myShoppingLists = "Mine handlelister";
-    saveList = "Save shopping list";
+  shoppingList = ['Antall', 'Enhet']
+  shoppingLists = 'Handlelister'
+  createShoppingList = 'Lag ny handleliste'
+  product = 'Produkt'
+  category = 'Kategori'
+  units = ['KG', 'L', 'ML', 'STK', 'PK']
+  editList = 'Rediger handleliste'
+  myShoppingLists = 'Mine handlelister'
+  saveList = 'Save shopping list'
 
+  recipes = 'Oppskrifter'
+  recipe = 'Oppskrift'
+  createRecipe = 'Lag ny oppskrift'
 
+  settings = 'Innstillinger'
+  userSettings = 'Bruker innstillinger'
+  householdSettings = 'Hushold innstillinger'
+  accessibilitySettings = 'Tilgjengelighets innstillinger'
+  blacklistSettings = 'Svarteliste innstillinger'
+  activeLanguage = 'Språk'
 
-    recipes = "Oppskrifter";
-    recipe = "Oppskrift";
-    createRecipe = "Lag ny oppskrift";
+  household = 'Hushold'
 
-    settings = "Innstillinger";
-    userSettings = "Bruker innstillinger";
-    householdSettings = "Hushold innstillinger";
-    accessibilitySettings = "Tilgjengelighets innstillinger";
-    blacklistSettings = "Svarteliste innstillinger";
-    activeLanguage = "Språk";
+  noMatch = 'Ingen treff'
 
-    household = "Hushold";
+  Username = 'Brukernavn'
 
-    noMatch = "Ingen treff";
+  passwordRepeat = 'Gjenta passordet'
 
-    Username = "Brukernavn";
+  cancel = 'Avbryt'
 
-    passwordRepeat = 'Gjenta passordet';
+  add = 'Legg til'
 
-    cancel = "Avbryt";
+  age = 'Alder'
 
-    add = "Legg til";
-    
-    age = "Alder"
-
-    welcomeToTheShoppingList= "Velkommen til handlelisten"
-    myShoppingList = "Min handleliste"
+  welcomeToTheShoppingList = 'Velkommen til handlelisten'
+  myShoppingList = 'Min handleliste'
 }
-
-
-
-

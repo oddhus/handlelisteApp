@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
-import { useLocation, useParams } from "react-router-dom";
-import { 
-  FormControl, 
-  FormLabel, 
-  Switch, 
-  Container 
-} from '@chakra-ui/react';
-import { ListComponent } from '../components/shoppingList/ListComponent';
-import { AddItem } from '../components/shoppingList/AddItem';
-import { Iitem } from '../models/ShoppingList';
-import { useStore } from "../stores/store";
+import React, { useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
+import { FormControl, FormLabel, Switch, Container } from '@chakra-ui/react'
+import { ListComponent } from '../components/shoppingList/ListComponent'
+import { AddItem } from '../components/shoppingList/AddItem'
+import { Iitem } from '../models/ShoppingList'
+import { useStore } from '../stores/store'
 
 interface Props {}
 
@@ -50,22 +45,25 @@ var items = [item, item1, item2, item3]
 var shoppingList: Iitem[] = items
 
 export const ShoppingList: React.FC<Props> = () => {
-  let makingNewList = useLocation().pathname.includes("new-shopping-list")
-  let paramObj : useParam = useParams();
-  
+  let makingNewList = useLocation().pathname.includes('new-shopping-list')
+  let paramObj: useParam = useParams()
+
   const { shoppingListStore, settingStore } = useStore()
 
-  if(paramObj.listId !== undefined){
-    if(shoppingListStore.shoppingList !== null && shoppingListStore.shoppingList.shoppingListID == parseInt(paramObj.listId))
+  if (paramObj.listId !== undefined) {
+    if (
+      shoppingListStore.shoppingList !== null &&
+      shoppingListStore.shoppingList.shoppingListID == parseInt(paramObj.listId)
+    )
       shoppingList = shoppingListStore.shoppingList.items
-    else  {
+    else {
       shoppingListStore.getShoppinglist(parseInt(paramObj.listId))
-        if(shoppingListStore.shoppingList !== null)        
-         shoppingList = shoppingListStore.shoppingList.items
+      if (shoppingListStore.shoppingList !== null)
+        shoppingList = shoppingListStore.shoppingList.items
     }
   }
 
-  if(!shoppingList){
+  if (!shoppingList) {
     shoppingList = items
   }
 
@@ -78,17 +76,14 @@ export const ShoppingList: React.FC<Props> = () => {
   }
 
   const handleSaveList = () => {
-    if(isNew){
-      console.log("Adding new Shoppinglist")
+    if (isNew) {
+      console.log('Adding new Shoppinglist')
       shoppingListStore.addShoppinglist(data)
       setIsNew(false)
+    } else {
+      console.log('Savining shopping list changes')
     }
-    else{
-      console.log("Savining shopping list changes")
-    }
-
   }
-
 
   const onDecrement = (item: Iitem) => {
     let newData = data
@@ -126,19 +121,19 @@ export const ShoppingList: React.FC<Props> = () => {
   }
 
   return (
-    <Container maxW='container.xl'>
-      <FormControl display='flex' alignItems='center' mb={5}>
-        <FormLabel htmlFor='email-alerts' mb='0'>
-          {
-          edit ? settingStore.language.saveList : settingStore.language.editList
-          }
+    <Container maxW="container.xl">
+      <FormControl display="flex" alignItems="center" mb={5}>
+        <FormLabel htmlFor="email-alerts" mb="0">
+          {edit
+            ? settingStore.language.saveList
+            : settingStore.language.editList}
         </FormLabel>
         <Switch
-          colorScheme='teal'
-          id='editList'
+          colorScheme="teal"
+          id="editList"
           isChecked={edit}
           onChange={(e) => {
-            if(edit === true){
+            if (edit === true) {
               setEdit(e.target.checked)
               handleSaveList()
             }
