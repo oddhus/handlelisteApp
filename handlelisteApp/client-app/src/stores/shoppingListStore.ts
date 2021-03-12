@@ -69,4 +69,15 @@ export default class shoppingListStore {
   })
   }
 
+  deleteShoppingList = (listToDelete: IShoppingList) => {
+    try {
+      let newListOfShopLists = this.shoppingLists.filter(shoppingList => shoppingList !== listToDelete)
+      runInAction(() => {
+        this.shoppingLists = newListOfShopLists
+      })
+    } catch (e) {
+      throw (e)
+    }
+
+  }
 }

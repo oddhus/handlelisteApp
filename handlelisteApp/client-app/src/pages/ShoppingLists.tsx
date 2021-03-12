@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {useStore} from "../stores/store";
@@ -11,9 +11,10 @@ import {
   Thead,
   Th,
   Container,
+  IconButton,
 } from '@chakra-ui/react';
 import { Iitem, IShoppingList } from '../models/ShoppingList';
-import { variantPriorityOrder } from 'framer-motion/types/render/utils/animation-state';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 interface Props {}
 
@@ -65,25 +66,30 @@ var list2: IShoppingList = {
 
 var dummyLists: IShoppingList[] = [list1, list2]
 
-var fetched = false
 
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory();
   const { shoppingListStore, settingStore } = useStore();
-  console.log(fetched)
-  if(!fetched){
+  
+   useEffect(() => {
     shoppingListStore.fetchShoppingLists()
-    fetched = true
-  }
+   }, [])
+
+   const onDeleteShoppingList = (shoppingList: IShoppingList) => {
+    shoppingListStore.deleteShoppingList(shoppingList)
+   }
+
 
   return (
     <Container maxW='container.md'>
       <Table variant="simple">
         <Thead>
           <Tr>
+          <Th></Th>
             <Th
             fontSize={'xl'}
-            textAlign={[ 'center' ]}
+            paddingLeft={'2.5rem'}
+            textAlign={[ 'left' ]}
             >{settingStore.language.myShoppingLists}</Th>
           </Tr>
         </Thead>
@@ -91,6 +97,16 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
           {shoppingListStore.shoppingLists.map((shoppingList) => {
             return (
               <Tr key={shoppingList.shoppingListID}>
+                <Td>
+                <IconButton
+                    colorScheme='red'
+                    aria-label='Call Segun'
+                    size='md'
+                    className='edit'
+                    onClick={() => onDeleteShoppingList(shoppingList)}
+                    icon={<DeleteIcon />}
+                    />
+                </Td>
                 <Td>
                   <Button 
                   fontSize={'lg'} 

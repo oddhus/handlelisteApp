@@ -74,14 +74,13 @@ export const ShoppingList: React.FC<Props> = () => {
   const [isNew, setIsNew] = useState(makingNewList)
 
   const onAdd = (item: Iitem) => {
-    //data.push(item)
     setData([...data, item])
   }
 
   const handleSaveList = () => {
     if(isNew){
       console.log("Adding new Shoppinglist")
-      // shoppingListStore.addShoppinglist(data)
+      shoppingListStore.addShoppinglist(data)
       setIsNew(false)
     }
     else{
@@ -130,7 +129,9 @@ export const ShoppingList: React.FC<Props> = () => {
     <Container maxW='container.xl'>
       <FormControl display='flex' alignItems='center' mb={5}>
         <FormLabel htmlFor='email-alerts' mb='0'>
-          {settingStore.language.editList}
+          {
+          edit ? settingStore.language.saveList : settingStore.language.editList
+          }
         </FormLabel>
         <Switch
           colorScheme='teal'

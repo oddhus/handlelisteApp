@@ -19,6 +19,8 @@ export default class Norwegian_B implements ILanguage {
     units = ["KG", "L", "ML", "STK", "PK"];
     editList = "Rediger handleliste";
     myShoppingLists = "Mine handlelister";
+    saveList = "Save shopping list";
+
 
 
     recipes = "Oppskrifter";

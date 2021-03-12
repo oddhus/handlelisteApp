@@ -1,7 +1,6 @@
 import React from "react";
 import {ILanguage} from "./Language";
 
-
 export default class English implements ILanguage {
     homePage = "HomePage";
 
@@ -21,6 +20,8 @@ export default class English implements ILanguage {
     units = ["PCS", "KG", "L", "ML", "PCK"];
     editList = "Edit shopping list";
     myShoppingLists = "My shopping lists";
+    saveList = "Save shopping list";
+
 
     recipes = "Recipes";
     recipe = "Recipe";
