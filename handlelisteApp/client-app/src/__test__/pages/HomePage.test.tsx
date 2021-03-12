@@ -25,8 +25,11 @@ jest.mock("../../stores/store", () => ({
     },
     settingStore: {
       language: {...MockLanguage}
-    }
+    },
   }),
+}));
+
+jest.mock("../../index.tsx", () => ({
 }));
 
 
