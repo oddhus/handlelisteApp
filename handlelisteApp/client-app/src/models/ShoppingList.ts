@@ -10,5 +10,5 @@ export interface Iitem {
   product: string
   quantity: number
   unit: string
-  hasBeenBought: bool
+  hasBeenBought: boolean
 }
