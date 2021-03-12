@@ -8,6 +8,7 @@ export default class SettingStore {
   english: ILanguage = new English()
   language: ILanguage = this.english
   languageString: string = 'en'
+  isEnglish: boolean = true
 
   constructor() {
     makeAutoObservable(this)
@@ -28,5 +29,6 @@ export default class SettingStore {
         this.languageString = 'en'
         break
     }
+    runInAction(() => (this.isEnglish = this.languageString === 'en'))
   }
 }

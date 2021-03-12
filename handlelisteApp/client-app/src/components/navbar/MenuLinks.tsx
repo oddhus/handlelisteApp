@@ -28,7 +28,7 @@ interface Props {
 const MenuLinks: React.FC<Props> = ({ isOpen }) => {
   const [isLargerThan420] = useMediaQuery('(min-width: 30em)')
 
-  const { userStore } = useStore()
+  const { userStore, settingStore } = useStore()
 
   const buttonMenu = (
     <Menu>
@@ -38,16 +38,16 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
         fontWeight="normal"
         colorScheme="teal"
       >
-        Account
+        {settingStore.isEnglish ? 'Account' : 'Konto'}
       </MenuButton>
       <MenuList>
         {userSettings.map((route) => (
           <MenuItemChakra as={Link} to={route.path} key={route.path}>
-            {route.name}
+            {settingStore.isEnglish ? route.nameEn : route.nameNo}
           </MenuItemChakra>
         ))}
         <MenuItemChakra onClick={() => userStore.logout()}>
-          Logout
+          {settingStore.isEnglish ? 'Logout' : 'Logg ut'}
         </MenuItemChakra>
       </MenuList>
     </Menu>
@@ -57,7 +57,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
     <React.Fragment>
       {[...userSettings].map((route) => (
         <MenuItem key={route.path} to={route.path}>
-          {route.name}
+          {settingStore.isEnglish ? route.nameEn : route.nameNo}
         </MenuItem>
       ))}
       <Button
@@ -70,7 +70,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
           textDecoration: 'underline',
         }}
       >
-        Logout
+        {settingStore.isEnglish ? 'Logout' : 'Logg ut'}
       </Button>
     </React.Fragment>
   )
@@ -79,7 +79,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
     <React.Fragment>
       {signedOut.map((route) => (
         <MenuItem key={route.path} to={route.path} isLast={route.isLast}>
-          {route.name}
+          {settingStore.isEnglish ? route.nameEn : route.nameNo}
         </MenuItem>
       ))}
     </React.Fragment>
@@ -101,7 +101,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
       >
         {mainItems.map((route) => (
           <MenuItem key={route.path} to={route.path}>
-            {route.name}
+            {settingStore.isEnglish ? route.nameEn : route.nameNo}
           </MenuItem>
         ))}
         {!userStore.isLoggedIn

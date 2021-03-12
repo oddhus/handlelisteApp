@@ -1,17 +1,19 @@
-export const allUsers = [{ path: '/recipes', name: 'Recipes' }]
+export const allUsers = [
+  { path: '/recipes', nameEn: 'Recipes', nameNo: 'Oppskrifter' },
+]
 
 export const signedIn = [
-  { path: '/shopping-list', name: 'Shopping List' },
-  { path: '/recipes', name: 'Recipes' },
-  { path: '/create-recipe', name: 'Create Recipes' },
+  { path: '/shopping-list', nameEn: 'Shopping List', nameNo: 'Handleliste' },
+  { path: '/recipes', nameEn: 'Recipes', nameNo: 'Oppskrifter' },
+  { path: '/create-recipe', nameEn: 'Create Recipes', nameNo: 'Lag oppskrift' },
 ]
 
 export const userSettings = [
-  { path: '/household', name: 'Household' },
-  { path: '/settings', name: 'Settings' },
+  { path: '/household', nameEn: 'Household', nameNo: 'Husstand' },
+  { path: '/settings', nameEn: 'Settings', nameNo: 'Innstillinger' },
 ]
 
 export const signedOut = [
-  { path: '/signup', name: 'Register' },
-  { path: '/signin', name: 'Login', isLast: true },
+  { path: '/signup', nameEn: 'Register', nameNo: 'Registrer' },
+  { path: '/signin', nameEn: 'Login', nameNo: 'Logg inn', isLast: true },
 ]
