@@ -62,7 +62,7 @@ export default class shoppingListStore {
   addShoppinglist = async (shoppingList: any) => {
     try {
       let data = {
-        items: shoppingList
+        items: shoppingList,
       }
       let addedList = await agent.shoppingList.postShoppingList(data)
       runInAction(() => {

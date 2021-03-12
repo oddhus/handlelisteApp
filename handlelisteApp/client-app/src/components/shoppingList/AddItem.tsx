@@ -32,7 +32,7 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       product: product.toLowerCase(),
       quantity: quantity,
       unit: unit,
-      hasBeenBought: false
+      hasBeenBought: false,
     }
     onAdd(item)
   }

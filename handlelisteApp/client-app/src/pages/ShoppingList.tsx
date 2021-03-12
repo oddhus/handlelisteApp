@@ -17,7 +17,7 @@ var item: Iitem = {
   product: 'egg',
   quantity: 1,
   unit: 'stk',
-  hasBeenBought: false
+  hasBeenBought: false,
 }
 
 var item1: Iitem = {
@@ -25,7 +25,7 @@ var item1: Iitem = {
   product: 'laks',
   quantity: 3,
   unit: 'stk',
-  hasBeenBought: false
+  hasBeenBought: false,
 }
 
 var item2: Iitem = {
@@ -33,7 +33,7 @@ var item2: Iitem = {
   product: 'mjøl',
   quantity: 2,
   unit: 'kg',
-  hasBeenBought: false
+  hasBeenBought: false,
 }
 
 var item3: Iitem = {
@@ -41,7 +41,7 @@ var item3: Iitem = {
   product: 'melk',
   quantity: 3,
   unit: 'liter',
-  hasBeenBought: false
+  hasBeenBought: false,
 }
 
 var items = [item, item1, item2, item3]
