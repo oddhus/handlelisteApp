@@ -33,6 +33,45 @@ namespace SqliteMigrations.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("handlelisteApp.Models.ItemInMyKitchen", b =>
+                {
+                    b.Property<int>("MyKitchenID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ItemID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MyKitchenID", "ItemID");
+
+                    b.HasIndex("ItemID");
+
+                    b.ToTable("ItemsInKitchens");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.ItemInRecipe", b =>
+                {
+                    b.Property<int>("RecipeID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ItemID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantiy")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("RecipeID", "ItemID");
+
+                    b.HasIndex("ItemID");
+
+                    b.ToTable("ItemsInRecipes");
+                });
+
             modelBuilder.Entity("handlelisteApp.Models.ItemOnShoppingList", b =>
                 {
                     b.Property<int>("ShoppingListId")
@@ -55,6 +94,63 @@ namespace SqliteMigrations.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("ItemOnShoppingLists");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
+                {
+                    b.Property<int>("MyKitchenID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MyKitchenID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
+
+                    b.ToTable("Kitchens");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.Preferences", b =>
+                {
+                    b.Property<int>("PreferencesID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Darkmode")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Fontsize")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PreferencesID");
+
+                    b.ToTable("Preferences");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.Recipe", b =>
+                {
+                    b.Property<int>("RecipeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Approach")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecipeName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("RecipeID");
+
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
@@ -85,8 +181,14 @@ namespace SqliteMigrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("EmailAdress")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("HashedPassword")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("PreferencesID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserAge")
                         .HasColumnType("INTEGER");
@@ -96,7 +198,47 @@ namespace SqliteMigrations.Migrations
 
                     b.HasKey("UserID");
 
+                    b.HasIndex("PreferencesID");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.ItemInMyKitchen", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("handlelisteApp.Models.MyKitchen", "MyKitchen")
+                        .WithMany("ItemsInMyKitchen")
+                        .HasForeignKey("MyKitchenID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("MyKitchen");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.ItemInRecipe", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("handlelisteApp.Models.Recipe", "Recipe")
+                        .WithMany("Items")
+                        .HasForeignKey("RecipeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ItemOnShoppingList", b =>
@@ -118,6 +260,17 @@ namespace SqliteMigrations.Migrations
                     b.Navigation("ShoppingList");
                 });
 
+            modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.User", "User")
+                        .WithOne("MyKitchen")
+                        .HasForeignKey("handlelisteApp.Models.MyKitchen", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
                 {
                     b.HasOne("handlelisteApp.Models.User", "user")
@@ -129,6 +282,25 @@ namespace SqliteMigrations.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("handlelisteApp.Models.User", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.Preferences", "Preferences")
+                        .WithMany()
+                        .HasForeignKey("PreferencesID");
+
+                    b.Navigation("Preferences");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
+                {
+                    b.Navigation("ItemsInMyKitchen");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.Recipe", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
                 {
                     b.Navigation("Items");
@@ -136,6 +308,8 @@ namespace SqliteMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.User", b =>
                 {
+                    b.Navigation("MyKitchen");
+
                     b.Navigation("ShoppingLists");
                 });
 #pragma warning restore 612, 618

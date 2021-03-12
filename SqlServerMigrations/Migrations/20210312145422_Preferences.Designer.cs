@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using handlelisteApp.Context;
 
 namespace SqlServerMigrations.Migrations
 {
     [DbContext(typeof(ShoppingListContext))]
-    partial class ShoppingListContextModelSnapshot : ModelSnapshot
+    [Migration("20210312145422_Preferences")]
+    partial class Preferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,24 +37,6 @@ namespace SqlServerMigrations.Migrations
                     b.HasKey("ItemID");
 
                     b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("handlelisteApp.Models.ItemInMyKitchen", b =>
-                {
-                    b.Property<int>("MyKitchenID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("MyKitchenID", "ItemID");
-
-                    b.HasIndex("ItemID");
-
-                    b.ToTable("ItemsInKitchens");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ItemInRecipe", b =>
@@ -98,24 +82,6 @@ namespace SqlServerMigrations.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("ItemOnShoppingLists");
-                });
-
-            modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
-                {
-                    b.Property<int>("MyKitchenID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("MyKitchenID");
-
-                    b.HasIndex("UserID")
-                        .IsUnique();
-
-                    b.ToTable("Kitchens");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.Preferences", b =>
@@ -212,25 +178,6 @@ namespace SqlServerMigrations.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("handlelisteApp.Models.ItemInMyKitchen", b =>
-                {
-                    b.HasOne("handlelisteApp.Models.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("handlelisteApp.Models.MyKitchen", "MyKitchen")
-                        .WithMany("ItemsInMyKitchen")
-                        .HasForeignKey("MyKitchenID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("MyKitchen");
-                });
-
             modelBuilder.Entity("handlelisteApp.Models.ItemInRecipe", b =>
                 {
                     b.HasOne("handlelisteApp.Models.Item", "Item")
@@ -269,17 +216,6 @@ namespace SqlServerMigrations.Migrations
                     b.Navigation("ShoppingList");
                 });
 
-            modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
-                {
-                    b.HasOne("handlelisteApp.Models.User", "User")
-                        .WithOne("MyKitchen")
-                        .HasForeignKey("handlelisteApp.Models.MyKitchen", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
                 {
                     b.HasOne("handlelisteApp.Models.User", "user")
@@ -300,11 +236,6 @@ namespace SqlServerMigrations.Migrations
                     b.Navigation("Preferences");
                 });
 
-            modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
-                {
-                    b.Navigation("ItemsInMyKitchen");
-                });
-
             modelBuilder.Entity("handlelisteApp.Models.Recipe", b =>
                 {
                     b.Navigation("Items");
@@ -317,8 +248,6 @@ namespace SqlServerMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.User", b =>
                 {
-                    b.Navigation("MyKitchen");
-
                     b.Navigation("ShoppingLists");
                 });
 #pragma warning restore 612, 618

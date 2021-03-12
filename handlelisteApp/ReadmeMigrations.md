@@ -21,3 +21,15 @@ For å slette en migrasjon
 eller
  - dotnet ef migrations remove --project ../SqlServerigrations -- --provider SqlServer
 
+
+
+
+ Visual Studio:
+ Åpne kommandolinje, naviger til SqlServerMigrations
+ Add migration: dotnet ef migrations add NavnetPaMigrasjonen --startup-project ../handlelisteApp  -- --provider SqlServer
+ Oppdatere: dotnet ef database update --startup-project ../handlelisteApp
+
+
+ Tilsvarende SQlite:
+ Add migration: dotnet ef migrations add NavnetPaMigrasjonen --startup-project ../handlelisteApp  -- --provider Sqlite
+ Oppdatere: dotnet ef database update --startup-project ../handlelisteApp
