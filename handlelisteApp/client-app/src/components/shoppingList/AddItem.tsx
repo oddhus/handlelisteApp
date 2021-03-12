@@ -32,6 +32,7 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       product: product.toLowerCase(),
       quantity: quantity,
       unit: unit,
+      hasBeenBought: false
     }
     onAdd(item)
   }
