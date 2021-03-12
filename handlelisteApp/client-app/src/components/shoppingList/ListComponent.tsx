@@ -87,7 +87,7 @@ const setupTableBody = (
 
 const getListOfCategories = (itemsList: { category: string }[]) => {
   let categoryList: string[] = [];
-  itemsList.map((items) => {
+  itemsList.forEach((items) => {
     if (!categoryList.includes(items.category.toLowerCase())) {
       categoryList.push(items.category.toLowerCase());
     }
@@ -105,18 +105,16 @@ export const ListComponent: React.FC<Props> = ({
   const [toShow, setToShow] = useState(
     new Array(getListOfCategories(items).length).fill(true)
   );
-  //const { settingStore } = useStore();
+  const { settingStore } = useStore();
 
   const setupTables = (itemsList: Iitem[], edit: Boolean) => {
     var categories: string[] = getListOfCategories(itemsList);
     var tables: React.ReactFragment[] = [];
-    var strictHeaders = "test"; //settingStore.language.shoppingList
-    let start = 0;
+    var strictHeaders = settingStore.language.shoppingList;
 
-    categories.forEach((category) => {
-      let index = start++;
+    categories.forEach((category, index) => {
       let categorizedItems: Iitem[] = [];
-      itemsList.map((item) => {
+      itemsList.forEach((item) => {
         if (category === item.category.toLowerCase()) {
           categorizedItems.push(item);
         }

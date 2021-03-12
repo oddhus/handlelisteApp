@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { ListComponent } from '../components/shoppingList/ListComponent';
 import { AddItem } from '../components/shoppingList/AddItem';
-import { Iitem, IShoppingList } from '../models/ShoppingList';
+import { Iitem } from '../models/ShoppingList';
 import { useStore } from "../stores/store";
 
 interface Props {}
@@ -65,16 +65,17 @@ export const ShoppingList: React.FC<Props> = () => {
     }
   }
 
-  if(shoppingList == undefined) 
+  if(!shoppingList){
     shoppingList = items
+  }
 
   const [data, setData] = useState(shoppingList)
   const [edit, setEdit] = useState(makingNewList)
   const [isNew, setIsNew] = useState(makingNewList)
 
   const onAdd = (item: Iitem) => {
-    data.push(item)
-    setData([...data])
+    //data.push(item)
+    setData([...data, item])
   }
 
   const handleSaveList = () => {
@@ -95,8 +96,8 @@ export const ShoppingList: React.FC<Props> = () => {
     let itemToChange = item
     if (item.quantity > 1) {
       let index = newData.indexOf(item)
-      newData.find((foundItem) => {
-        if (foundItem == item) {
+      newData.forEach((foundItem) => {
+        if (foundItem === item) {
           itemToChange.quantity = foundItem.quantity - 1
         }
       })
@@ -109,8 +110,8 @@ export const ShoppingList: React.FC<Props> = () => {
     let newData = data
     let itemToChange = item
     let index = data.indexOf(item)
-    data.find((foundItem) => {
-      if (foundItem == item) {
+    data.forEach((foundItem) => {
+      if (foundItem === item) {
         itemToChange.quantity = foundItem.quantity + 1
       }
     })
@@ -119,7 +120,7 @@ export const ShoppingList: React.FC<Props> = () => {
   }
 
   const onDeleteItem = (item: Iitem) => {
-    let newData = data.filter((foundItem) => foundItem != item)
+    let newData = data.filter((foundItem) => foundItem !== item)
     console.log(newData)
     setData([...newData])
     console.log(data)
