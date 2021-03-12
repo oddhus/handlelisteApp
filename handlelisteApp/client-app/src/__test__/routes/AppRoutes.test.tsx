@@ -57,7 +57,8 @@ jest.mock("../../stores/store", () => ({
   }),
 }));
 
-
+jest.mock("../../index.tsx", () => ({
+}));
 
 describe("AppRoutes", () => {
   describe("Layout", () => {
