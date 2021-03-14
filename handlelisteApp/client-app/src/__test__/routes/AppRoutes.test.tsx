@@ -71,6 +71,7 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useParams: () => ({
     recipeId: '1',
+    listId: '1',
   }),
   useHistory: () => ({
     history: {
