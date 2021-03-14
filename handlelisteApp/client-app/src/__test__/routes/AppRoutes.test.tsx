@@ -29,6 +29,14 @@ jest.mock('../../stores/store', () => ({
     shoppingListStore: {
       shoppingList: {
         shoppingListId: 0,
+        items: [
+          {
+            itemName: 'fisk',
+            category: 'mat',
+            quantity: 1,
+            unit: 'pk',
+          },
+        ],
       },
       shoppingLists: [],
       fetchShoppingLists() {},
@@ -39,9 +47,10 @@ jest.mock('../../stores/store', () => ({
             items: [
               {
                 category: 'category',
-                product: 'product',
+                itemName: 'product',
                 quantity: 1,
                 unit: 'pcs',
+                hasBeenBought: false,
               },
             ],
           },

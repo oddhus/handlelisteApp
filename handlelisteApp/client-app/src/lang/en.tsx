@@ -20,6 +20,9 @@ export default class English implements ILanguage {
   editList = 'Edit shopping list'
   myShoppingLists = 'My shopping lists'
   saveList = 'Save shopping list'
+  newShoppingList = 'New Shopping list'
+  categoryError = 'Category is required'
+  itemNameError = 'Item name is required'
 
   recipes = 'Recipes'
   recipe = 'Recipe'
