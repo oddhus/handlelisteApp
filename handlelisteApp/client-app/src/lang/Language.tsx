@@ -20,6 +20,11 @@ export interface ILanguage {
   recipes: string
   recipe: string
   createRecipe: string
+  ingredient: string
+  ingredients: string
+  shortDescription: string
+  approach: string
+  recipeName: string
 
   settings: string
   userSettings: string
@@ -45,4 +50,8 @@ export interface ILanguage {
   welcomeToTheShoppingList: string
 
   myShoppingList: string
+
+  remove: string
+  update: string
+  createNew: string
 }

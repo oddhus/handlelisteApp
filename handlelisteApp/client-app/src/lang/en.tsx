@@ -24,6 +24,11 @@ export default class English implements ILanguage {
   recipes = 'Recipes'
   recipe = 'Recipe'
   createRecipe = 'Create recipe'
+  ingredient = 'Ingredient'
+  ingredients = 'Ingredients'
+  shortDescription = 'Short description'
+  approach = 'Approach'
+  recipeName = 'Recipe name'
 
   settings = 'Settings'
   userSettings = 'User settings'
@@ -48,4 +53,7 @@ export default class English implements ILanguage {
 
   welcomeToTheShoppingList = ' Welcome to the shopping list'
   myShoppingList = 'My shopping list'
+  remove = 'Remove'
+  update = 'Update'
+  createNew = 'Create'
 }

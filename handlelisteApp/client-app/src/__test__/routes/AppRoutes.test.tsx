@@ -51,6 +51,22 @@ jest.mock('../../stores/store', () => ({
     settingStore: {
       language: { ...MockLanguage },
     },
+    recipeStore: {
+      currentRecipe: null,
+      getRecipe: () => null,
+    },
+  }),
+}))
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({
+    recipeId: '1',
+  }),
+  useHistory: () => ({
+    history: {
+      push: jest.fn(),
+    },
   }),
 }))
 

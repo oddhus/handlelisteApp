@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { request } from 'node:http'
+import { IRecipe } from '../models/recipe'
 import { IShoppingList } from '../models/ShoppingList'
 import { IUser } from '../models/user'
 import { store } from '../stores/store'
@@ -45,8 +46,25 @@ const shoppingLists = {
   getShoppingLists: () => requests.get('shoppinglist').then(response),
 }
 
+const recipe = {
+  postRecipe: (recipe: IRecipe) =>
+    requests.post('recipe', recipe).then(responseBody),
+  updateRecipe: (recipe: IRecipe, id: number) =>
+    requests.put('recipe/' + id, shoppingList).then(responseBody),
+  getRecipe: (id: number) => requests.get('recipe/' + id).then(responseBody),
+  deleteRecipe: (id: number) => requests.del('recipe/' + id).then(responseBody),
+}
+
+const recipes = {
+  getAllUserRecipes: (id: number) =>
+    requests.get('recipes/' + id).then(responseBody),
+  getAllRecipes: () => requests.get('recipes/all'),
+}
+
 export default {
   User,
   shoppingList,
   shoppingLists,
+  recipe,
+  recipes,
 }

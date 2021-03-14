@@ -1,15 +1,33 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { CreateRecipe } from '../../pages/CreateRecipe'
-import English from '../../lang/en'
 import { MockLanguage } from '../MockLanguage'
+import userEvent from '@testing-library/user-event'
 
 //Mock the store returned from the useStore hook. In this case only null is returned.
 jest.mock('../../stores/store', () => ({
   useStore: () => ({
     settingStore: {
       language: { ...MockLanguage },
+    },
+    recipeStore: {
+      currentRecipe: null,
+      getRecipe: () => null,
+      updateRecipe: jest.fn(),
+      saveRecipe: jest.fn(),
+    },
+  }),
+}))
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({
+    recipeId: '1',
+  }),
+  useHistory: () => ({
+    history: {
+      push: jest.fn(),
     },
   }),
 }))

@@ -1,4 +1,3 @@
-import React from 'react'
 import { ILanguage } from './Language'
 
 export default class Norwegian_B implements ILanguage {
@@ -24,6 +23,11 @@ export default class Norwegian_B implements ILanguage {
   recipes = 'Oppskrifter'
   recipe = 'Oppskrift'
   createRecipe = 'Lag ny oppskrift'
+  ingredient = 'Ingrediens'
+  ingredients = 'Ingredienser'
+  shortDescription = 'Kort beskrivelse'
+  approach = 'Fremgangsmåte'
+  recipeName = 'Navn på oppskrift'
 
   settings = 'Innstillinger'
   userSettings = 'Bruker innstillinger'
@@ -48,4 +52,7 @@ export default class Norwegian_B implements ILanguage {
 
   welcomeToTheShoppingList = 'Velkommen til handlelisten'
   myShoppingList = 'Min handleliste'
+  remove = 'Fjern'
+  update = 'Oppdater'
+  createNew = 'Lag ny'
 }

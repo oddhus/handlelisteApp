@@ -5,6 +5,7 @@ import CommonStore from './CommonStore'
 import ShoppingListStore from './shoppingListStore'
 import ModalStore from './modalStore'
 import SettingStore from './settingStore'
+import RecipeStore from './recipeStore'
 
 export interface Store {
   userStore: UserStore
@@ -12,6 +13,7 @@ export interface Store {
   shoppingListStore: ShoppingListStore
   modalStore: ModalStore
   settingStore: SettingStore
+  recipeStore: RecipeStore
 }
 
 // add new instances of objects to make them available in the react context
@@ -21,6 +23,7 @@ export const store: Store = {
   shoppingListStore: new ShoppingListStore(),
   modalStore: new ModalStore(),
   settingStore: new SettingStore(),
+  recipeStore: new RecipeStore(),
 }
 
 export const StoreContext = createContext(store)
