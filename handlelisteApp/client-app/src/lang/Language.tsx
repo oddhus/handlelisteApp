@@ -16,6 +16,9 @@ export interface ILanguage {
   editList: string
   myShoppingLists: string
   saveList: string
+  newShoppingList: string
+  categoryError: string
+  itemNameError: string
 
   recipes: string
   recipe: string

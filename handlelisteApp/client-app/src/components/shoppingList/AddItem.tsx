@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 import { Iitem } from '../../models/ShoppingList'
-import { Button, ButtonGroup } from '@chakra-ui/react'
+import { Button, ButtonGroup, FormErrorMessage } from '@chakra-ui/react'
 import {
   FormControl,
   FormLabel,
@@ -22,19 +22,40 @@ interface Props {
 export const AddItem: React.FC<Props> = ({ onAdd }) => {
   const { settingStore } = useStore()
   const [category, setCategory] = useState('')
-  const [product, setProduct] = useState('')
-  const [quantity, setQuantity] = useState(0)
+  const [categoryError, setCategoryError] = useState(false)
+  const [itemName, setItemName] = useState('')
+  const [itemNameError, setItemNameError] = useState(false)
+  const [quantity, setQuantity] = useState(1)
   const [unit, setUnit] = useState(settingStore.language.units[0])
 
   const onAddClicked = () => {
-    const item: Iitem = {
-      category: category.toLowerCase(),
-      product: product.toLowerCase(),
-      quantity: quantity,
-      unit: unit,
-      hasBeenBought: false,
+    let error
+    if (category.length < 1) {
+      setCategoryError(true)
+      error = true
     }
-    onAdd(item)
+    if (itemName.length < 1) {
+      setItemNameError(true)
+      error = true
+    }
+
+    if (!error) {
+      const item: Iitem = {
+        category: category.toLowerCase(),
+        itemName: itemName.toLowerCase(),
+        quantity: quantity,
+        unit: unit,
+        hasBeenBought: false,
+      }
+      onAdd(item)
+    }
+  }
+
+  const onCancel = () => {
+    setCategory('')
+    setItemName('')
+    setQuantity(1)
+    setUnit(settingStore.language.units[0])
   }
 
   return (
@@ -45,17 +66,36 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       p={4}
       borderColor="#A0AEC0"
     >
-      <FormControl id="category">
+      <FormControl id="category" isRequired isInvalid={categoryError}>
         <FormLabel>{settingStore.language.category}</FormLabel>
-        <Input onChange={(e) => setCategory(e.target.value)} />
+        <Input
+          value={category}
+          onChange={(e) => {
+            setCategoryError(false)
+            setCategory(e.target.value)
+          }}
+        />
+        <FormErrorMessage>
+          {settingStore.language.categoryError}
+        </FormErrorMessage>
       </FormControl>
-      <FormControl id="product">
+      <FormControl id="itemName" isRequired isInvalid={itemNameError}>
         <FormLabel>{settingStore.language.product}</FormLabel>
-        <Input onChange={(e) => setProduct(e.target.value)} />
+        <Input
+          value={itemName}
+          onChange={(e) => {
+            setItemNameError(false)
+            setItemName(e.target.value)
+          }}
+        />
+        <FormErrorMessage>
+          {settingStore.language.itemNameError}
+        </FormErrorMessage>
       </FormControl>
-      <FormControl id="amount">
+      <FormControl id="amount" isRequired>
         <FormLabel>{settingStore.language.shoppingList[1]}</FormLabel>
         <NumberInput
+          value={quantity}
           onChange={(valueString) => setQuantity(parseInt(valueString))}
           max={100}
           min={1}
@@ -69,7 +109,7 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       </FormControl>
       <br />
       <FormLabel>{settingStore.language.shoppingList[1]}</FormLabel>
-      <Select onChange={(e) => setUnit(e.target.value)}>
+      <Select value={unit} onChange={(e) => setUnit(e.target.value)}>
         <option value={settingStore.language.units[0]}>
           {settingStore.language.units[0]}
         </option>
@@ -88,7 +128,7 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       </Select>
       <br />
       <ButtonGroup>
-        <Button onClick={() => console.log('Cancel')} colorScheme={'red'}>
+        <Button onClick={() => onCancel()} colorScheme={'red'}>
           {settingStore.language.cancel}
         </Button>
         <Button onClick={() => onAddClicked()} colorScheme={'teal'}>

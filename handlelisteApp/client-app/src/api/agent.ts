@@ -23,7 +23,7 @@ const requests = {
   get: (url: string) => axios.get(url).then(responseBody),
   post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
   put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
-  del: (url: string) => axios.delete(url).then(responseBody),
+  del: (url: string) => axios.delete(url).then(responseBody)
 }
 
 const User = {
@@ -35,11 +35,13 @@ const User = {
 
 const shoppingList = {
   postShoppingList: (shoppingList: any) =>
-    requests.post('ShoppingList', shoppingList).then(responseBody),
+    requests.post('ShoppingList', shoppingList).then(response),
   updateShoppingList: (shoppingList: any, id: number) =>
-    requests.put('ShoppingList/' + id, shoppingList).then(responseBody),
+    requests.put('ShoppingList/' + id, shoppingList).then(response),
   getShoppingList: (id: number) =>
-    requests.get('shoppinglist/' + id).then(responseBody),
+    requests.get('shoppinglist/' + id).then(response),
+  deleteShoppingList: (id: number) =>
+    requests.del('shoppinglist/' + id)
 }
 
 const shoppingLists = {

@@ -19,6 +19,9 @@ export default class Norwegian_B implements ILanguage {
   editList = 'Rediger handleliste'
   myShoppingLists = 'Mine handlelister'
   saveList = 'Save shopping list'
+  newShoppingList = 'Ny handleliste'
+  categoryError = 'Krever kategori'
+  itemNameError = 'Navn er påkrevd'
 
   recipes = 'Oppskrifter'
   recipe = 'Oppskrift'

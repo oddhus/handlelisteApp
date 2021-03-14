@@ -21,9 +21,10 @@ jest.mock('../../stores/store', () => ({
         items: [
           {
             category: 'meieri',
-            product: 'melk',
+            itemName: 'melk',
             quantity: 3,
             unit: 'liter',
+            hasBeenBought: false
           },
         ],
       },
@@ -34,9 +35,10 @@ jest.mock('../../stores/store', () => ({
             items: [
               {
                 category: 'category',
-                product: 'product',
+                itemName: 'product',
                 quantity: 1,
                 unit: 'pcs',
+                hasBeenBought: false
               },
             ],
           },

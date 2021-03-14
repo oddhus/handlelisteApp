@@ -26,6 +26,7 @@ interface Props {
   onIncrement: Function
   onDecrement: Function
   deleteItem: Function
+  onChecked: Function
 }
 
 const setupTableBody = (
@@ -33,10 +34,11 @@ const setupTableBody = (
   edit: Boolean,
   onDeleteItem: Function,
   onIncrement: Function,
-  onDecrement: Function
+  onDecrement: Function,
+  onChecked: Function
 ) => {
   return itemsList.map((item) => (
-    <Tr key={item.product}>
+    <Tr key={item.itemName}>
       <Td>
         {edit ? (
           <IconButton
@@ -48,10 +50,10 @@ const setupTableBody = (
             icon={<DeleteIcon />}
           />
         ) : (
-          <Checkbox colorScheme="green" />
+          <Checkbox onChange={(e) => onChecked(item)} colorScheme="green" />
         )}
       </Td>
-      <Td>{item.product}</Td>
+      <Td>{item.itemName}</Td>
       {edit ? (
         <Td pl={7}>
           <IconButton
@@ -101,6 +103,7 @@ export const ListComponent: React.FC<Props> = ({
   deleteItem,
   onIncrement,
   onDecrement,
+  onChecked,
 }) => {
   const [toShow, setToShow] = useState(
     new Array(getListOfCategories(items).length).fill(true)
@@ -111,6 +114,9 @@ export const ListComponent: React.FC<Props> = ({
     var categories: string[] = getListOfCategories(itemsList)
     var tables: React.ReactFragment[] = []
     var strictHeaders = settingStore.language.shoppingList
+
+    if (categories.length > toShow.length)
+      setToShow(new Array(getListOfCategories(items).length).fill(true))
 
     categories.forEach((category, index) => {
       let categorizedItems: Iitem[] = []
@@ -159,7 +165,8 @@ export const ListComponent: React.FC<Props> = ({
                   edit,
                   deleteItem,
                   onIncrement,
-                  onDecrement
+                  onDecrement,
+                  onChecked
                 )}
               </Tbody>
             ) : null}

@@ -1,7 +1,6 @@
 import { IShoppingList } from '../models/ShoppingList'
 import { makeAutoObservable, runInAction } from 'mobx'
 import agent from '../api/agent'
-import { store } from './store'
 
 export default class shoppingListStore {
   shoppingList: IShoppingList | null = null
@@ -15,12 +14,13 @@ export default class shoppingListStore {
       (shoppinglist) => shoppinglist.shoppingListID === id
     )
     if (this.shoppingList != null && id == this.shoppingList.shoppingListID) {
-      console.log(this.shoppingList)
       return this.shoppingList.items
     } else if (shoppingList === null || shoppingList === undefined) {
       try {
         const shoppingList = await agent.shoppingList.getShoppingList(id)
-        console.log(shoppingList)
+        runInAction(() => {
+          this.shoppingList = shoppingList
+        })
       } catch (e) {
         console.log(e)
       }
@@ -80,8 +80,9 @@ export default class shoppingListStore {
     })
   }
 
-  deleteShoppingList = (listToDelete: IShoppingList) => {
+  deleteShoppingList = async (listToDelete: IShoppingList) => {
     try {
+      await agent.shoppingList.deleteShoppingList(listToDelete.shoppingListID)
       let newListOfShopLists = this.shoppingLists.filter(
         (shoppingList) => shoppingList !== listToDelete
       )

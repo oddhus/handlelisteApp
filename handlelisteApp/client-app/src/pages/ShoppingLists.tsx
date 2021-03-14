@@ -13,60 +13,10 @@ import {
   Container,
   IconButton,
 } from '@chakra-ui/react'
-import { Iitem, IShoppingList } from '../models/ShoppingList'
+import { IShoppingList } from '../models/ShoppingList'
 import { DeleteIcon } from '@chakra-ui/icons'
 
 interface Props {}
-
-var item: Iitem = {
-  category: 'meieri',
-  product: 'egg',
-  quantity: 1,
-  unit: 'stk',
-  hasBeenBought: false,
-}
-
-var item1: Iitem = {
-  category: 'Fryse',
-  product: 'laks',
-  quantity: 3,
-  unit: 'stk',
-  hasBeenBought: false,
-}
-
-var item2: Iitem = {
-  category: 'Baking',
-  product: 'mjøl',
-  quantity: 2,
-  unit: 'kg',
-  hasBeenBought: false,
-}
-
-var item3: Iitem = {
-  category: 'meieri',
-  product: 'melk',
-  quantity: 3,
-  unit: 'liter',
-  hasBeenBought: false,
-}
-
-var dummyData: Iitem[] = [item, item1, item2, item3]
-
-var list1: IShoppingList = {
-  shoppingListID: 1,
-  items: dummyData,
-  createdOn: '2021-01-07T18:26:46.297Z',
-  updatedOn: '2021-03-10T00:30:46.297Z',
-}
-
-var list2: IShoppingList = {
-  shoppingListID: 2,
-  items: dummyData,
-  createdOn: '2021-06-07T18:26:46.297Z',
-  updatedOn: '2021-20-10T00:30:46.297Z',
-}
-
-var dummyLists: IShoppingList[] = [list1, list2]
 
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory()
@@ -78,6 +28,10 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
 
   const onDeleteShoppingList = (shoppingList: IShoppingList) => {
     shoppingListStore.deleteShoppingList(shoppingList)
+  }
+
+  if (shoppingListStore.shoppingLists == undefined) {
+    shoppingListStore.shoppingLists = []
   }
 
   return (
@@ -127,10 +81,12 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
       </Table>
       <Button
         size="lg"
-        colorScheme="blue"
+        colorScheme="teal"
+        ml={'11vw'}
+        mt={'5vh'}
         onClick={() => history.push('shopping-list/new-shopping-list')}
       >
-        Button
+        {settingStore.language.newShoppingList}
       </Button>
     </Container>
   )

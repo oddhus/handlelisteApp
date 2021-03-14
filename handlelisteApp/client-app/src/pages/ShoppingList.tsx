@@ -12,63 +12,27 @@ interface useParam {
   listId: string | undefined
 }
 
-var item: Iitem = {
-  category: 'meieri',
-  product: 'egg',
-  quantity: 1,
-  unit: 'stk',
-  hasBeenBought: false,
-}
-
-var item1: Iitem = {
-  category: 'Fryse',
-  product: 'laks',
-  quantity: 3,
-  unit: 'stk',
-  hasBeenBought: false,
-}
-
-var item2: Iitem = {
-  category: 'Baking',
-  product: 'mjøl',
-  quantity: 2,
-  unit: 'kg',
-  hasBeenBought: false,
-}
-
-var item3: Iitem = {
-  category: 'meieri',
-  product: 'melk',
-  quantity: 3,
-  unit: 'liter',
-  hasBeenBought: false,
-}
-
-var items = [item, item1, item2, item3]
-
-var shoppingList: Iitem[] = items
+var shoppingList: Iitem[] = []
 
 export const ShoppingList: React.FC<Props> = () => {
   let makingNewList = useLocation().pathname.includes('new-shopping-list')
   let paramObj: useParam = useParams()
+  let listId = 0
 
   const { shoppingListStore, settingStore } = useStore()
 
   if (paramObj.listId !== undefined) {
+    listId = parseInt(paramObj.listId)
     if (
       shoppingListStore.shoppingList !== null &&
-      shoppingListStore.shoppingList.shoppingListID == parseInt(paramObj.listId)
+      shoppingListStore.shoppingList.shoppingListID == listId
     )
-      shoppingList = shoppingListStore.shoppingList.items
+      shoppingList = shoppingListStore.shoppingList?.items
     else {
-      shoppingListStore.getShoppinglist(parseInt(paramObj.listId))
+      shoppingListStore.getShoppinglist(listId)
       if (shoppingListStore.shoppingList !== null)
-        shoppingList = shoppingListStore.shoppingList.items
+        shoppingList = shoppingListStore.shoppingList?.items
     }
-  }
-
-  if (!shoppingList) {
-    shoppingList = items
   }
 
   const [data, setData] = useState(shoppingList)
@@ -81,11 +45,10 @@ export const ShoppingList: React.FC<Props> = () => {
 
   const handleSaveList = () => {
     if (isNew) {
-      console.log('Adding new Shoppinglist')
       shoppingListStore.addShoppinglist(data)
       setIsNew(false)
     } else {
-      console.log('Savining shopping list changes')
+      shoppingListStore.saveShoppinglist(data, listId)
     }
   }
 
@@ -119,8 +82,14 @@ export const ShoppingList: React.FC<Props> = () => {
 
   const onDeleteItem = (item: Iitem) => {
     let newData = data.filter((foundItem) => foundItem !== item)
-    console.log(newData)
     setData([...newData])
+  }
+
+  const onChecked = (item: Iitem) => {
+    let index = data.findIndex((items) => items == item)
+    item.hasBeenBought = !item.hasBeenBought
+    data[index] = item
+    setData([...data])
     console.log(data)
   }
 
@@ -151,6 +120,7 @@ export const ShoppingList: React.FC<Props> = () => {
         onIncrement={onIncrement}
         onDecrement={onDecrement}
         deleteItem={onDeleteItem}
+        onChecked={onChecked}
       />
       {edit ? <AddItem onAdd={onAdd} /> : null}
     </Container>

@@ -8,30 +8,34 @@ import { MockLanguage } from '../MockLanguage'
 
 var item: Iitem = {
   category: 'meieri',
-  product: 'egg',
+  itemName: 'egg',
   quantity: 1,
   unit: 'stk',
+  hasBeenBought: false
 }
 
 var item1: Iitem = {
   category: 'Fryse',
-  product: 'laks',
+  itemName: 'laks',
   quantity: 3,
   unit: 'stk',
+  hasBeenBought: false
 }
 
 var item2: Iitem = {
   category: 'Baking',
-  product: 'mjøl',
+  itemName: 'mjøl',
   quantity: 2,
   unit: 'kg',
+  hasBeenBought: false
 }
 
 var item3: Iitem = {
   category: 'meieri',
-  product: 'melk',
+  itemName: 'melk',
   quantity: 3,
   unit: 'liter',
+  hasBeenBought: false
 }
 
 var dummyData: Iitem[] = [item, item1, item2, item3]

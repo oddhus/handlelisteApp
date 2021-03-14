@@ -7,7 +7,7 @@ export interface IShoppingList {
 
 export interface Iitem {
   category: string
-  product: string
+  itemName: string
   quantity: number
   unit: string
   hasBeenBought: boolean
