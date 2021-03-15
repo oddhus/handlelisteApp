@@ -50,6 +50,8 @@ export default class English implements ILanguage {
 
   cancel = 'Cancel'
 
+  clear = 'Clear'
+
   add = 'Add'
 
   age = 'Age'

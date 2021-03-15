@@ -46,6 +46,8 @@ export interface ILanguage {
 
   cancel: string
 
+  clear: string
+
   add: string
 
   age: string
