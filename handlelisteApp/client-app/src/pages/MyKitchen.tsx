@@ -55,21 +55,13 @@ export const MyKitchen: React.FC<Props> = observer(() => {
         myKitchenStore.addItemInMyKitchen(item)
     })    
     
-    const onDecrement = (item: Iitem) => {
-        
-    }
 
-    const onIncrement = (item: Iitem) => {
-        item.quantity += 1
-        myKitchenStore.updateItemInMyKitchen(item)
-    }
     
     return (
         <MyKitchenItems 
             items={myKitchenStore.itemsInMyKitchenToArray} 
             edit={true} 
-            onIncrement={onIncrement} 
-            onDecrement={() =>{}} 
+            onChangeQuantity={myKitchenStore.onChangeQuantity} 
             deleteItem={() =>{}} 
             onChecked={() =>{}}/>
     )

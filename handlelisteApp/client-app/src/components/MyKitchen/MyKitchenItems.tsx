@@ -10,8 +10,7 @@ import {AddItem} from "../shoppingList/AddItem";
 interface Props {
     items: Iitem[]
     edit: Boolean
-    onIncrement: Function
-    onDecrement: Function
+    onChangeQuantity: Function
     deleteItem: Function
     onChecked: Function
 }
@@ -21,8 +20,7 @@ export const MyKitchenItems: React.FC<Props> = observer((
         items,
         edit,
         deleteItem,
-        onIncrement,
-        onDecrement,
+        onChangeQuantity,
         onChecked
     }
 ) => {
@@ -40,8 +38,7 @@ export const MyKitchenItems: React.FC<Props> = observer((
             <ListComponent
                 onChecked={onChecked}
                 deleteItem={deleteItem}
-                onIncrement={onIncrement}
-                onDecrement={onDecrement}
+                onChangeQuantity={onChangeQuantity}
                 edit={edit}
                 items={items}/>
                 <Center>

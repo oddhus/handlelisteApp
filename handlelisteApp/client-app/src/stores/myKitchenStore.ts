@@ -48,7 +48,11 @@ export default class MyKitchenStore {
             throw e
         } 
     }
-    
+
+    onChangeQuantity = (item: Iitem, add: boolean) => {
+        add ? item.quantity += 1 : item.quantity -= 1
+        this.updateItemInMyKitchen(item)
+    }
 
     addItemInMyKitchen = async (item: Iitem) =>{
         this.loading = true
