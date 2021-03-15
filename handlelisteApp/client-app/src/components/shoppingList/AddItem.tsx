@@ -129,7 +129,7 @@ export const AddItem: React.FC<Props> = ({ onAdd }) => {
       <br />
       <ButtonGroup>
         <Button onClick={() => onCancel()} colorScheme={'red'}>
-          {settingStore.language.cancel}
+          {settingStore.language.clear}
         </Button>
         <Button onClick={() => onAddClicked()} colorScheme={'teal'}>
           {settingStore.language.add}

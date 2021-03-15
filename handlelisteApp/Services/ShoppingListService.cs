@@ -111,6 +111,7 @@ namespace handlelisteApp.Services
             if (list != null)
             {
                 _shoppingListRepo.DeleteShoppingList(list);
+                _shoppingListRepo.SaveChanges();
             }
         }
     }
