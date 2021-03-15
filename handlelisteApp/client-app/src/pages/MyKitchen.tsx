@@ -3,6 +3,7 @@ import {observer} from "mobx-react-lite";
 
 import {MyKitchenItems} from "../components/MyKitchen/MyKitchenItems";
 import {Iitem} from "../models/ShoppingList";
+import {useStore} from "../stores/store";
 
 interface Props {
  
@@ -43,22 +44,31 @@ export const MyKitchen: React.FC<Props> = observer(() => {
     }
 
     const items = [item, item1, item2, item3]
+    
 
+    
     const [data, setData] = useState()
     
+    const {myKitchenStore} = useStore()
+    
+    items.forEach(item => {
+        myKitchenStore.addItemInMyKitchen(item)
+    })    
     
     const onDecrement = (item: Iitem) => {
         
     }
 
     const onIncrement = (item: Iitem) => {
+        item.quantity += 1
+        myKitchenStore.updateItemInMyKitchen(item)
     }
     
     return (
         <MyKitchenItems 
-            items={items} 
+            items={myKitchenStore.itemsInMyKitchenToArray} 
             edit={true} 
-            onIncrement={() =>{}} 
+            onIncrement={onIncrement} 
             onDecrement={() =>{}} 
             deleteItem={() =>{}} 
             onChecked={() =>{}}/>

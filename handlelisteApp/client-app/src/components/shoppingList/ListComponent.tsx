@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/icons'
 import { Iitem } from '../../models/ShoppingList'
 import { useStore } from '../../stores/store'
+import {observer} from "mobx-react-lite";
 
 interface Props {
   items: Iitem[]
@@ -97,7 +98,8 @@ const getListOfCategories = (itemsList: { category: string }[]) => {
   return categoryList
 }
 
-export const ListComponent: React.FC<Props> = ({
+//observer(<komonenten)
+export const ListComponent: React.FC<Props> = observer(({
   items,
   edit,
   deleteItem,
@@ -178,4 +180,4 @@ export const ListComponent: React.FC<Props> = ({
     return tables
   }
   return <Box>{setupTables(items, edit)}</Box>
-}
+})

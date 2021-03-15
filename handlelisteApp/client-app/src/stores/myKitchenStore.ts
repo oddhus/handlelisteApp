@@ -4,7 +4,7 @@ import {IMyKitchenList} from "../models/myKitchenList";
 import agent from "../api/agent";
 import {Iitem} from "../models/ShoppingList";
 
-export default class mykitchenStore {
+export default class MyKitchenStore {
     myKitchenList: IMyKitchenList | null = null
     itemsInMyKitchen = new Map();
     loading: boolean = false
@@ -48,11 +48,12 @@ export default class mykitchenStore {
             throw e
         } 
     }
+    
 
     addItemInMyKitchen = async (item: Iitem) =>{
         this.loading = true
         try {
-            const newItem = await agent.myKitchen.addItemToMyKitchen(item)
+            //const newItem = await agent.myKitchen.addItemToMyKitchen(item)
             runInAction(() => {
                 this.itemsInMyKitchen.set(item.itemName, item)
                 this.loading = false
