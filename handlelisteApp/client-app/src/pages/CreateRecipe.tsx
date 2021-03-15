@@ -25,11 +25,12 @@ import {
   FormikProps,
 } from 'formik'
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { IitemInRecipe } from '../models/recipe'
 import { useStore } from '../stores/store'
 import * as Yup from 'yup'
 import { AddIcon, CloseIcon } from '@chakra-ui/icons'
+import { observer } from 'mobx-react-lite'
 
 interface Props {}
 
@@ -40,7 +41,7 @@ interface FormValues {
   items: IitemInRecipe[]
 }
 
-export const CreateRecipe: React.FC<Props> = () => {
+export const CreateRecipe: React.FC<Props> = observer(() => {
   const [initialValues, setInitialValues] = useState<FormValues>({
     recipeName: '',
     shortDescription: '',
@@ -51,7 +52,6 @@ export const CreateRecipe: React.FC<Props> = () => {
 
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
   const { recipeStore, settingStore } = useStore()
-  const history = useHistory()
   const toast = useToast()
 
   useEffect(() => {
@@ -74,6 +74,30 @@ export const CreateRecipe: React.FC<Props> = () => {
       })
     }
   }, [recipeId, recipeStore])
+
+  useEffect(() => {
+    if (recipeStore.successToastMessage) {
+      toast({
+        title: recipeId ? 'Recipe updated.' : 'Recipe created',
+        description: recipeStore.successToastMessage,
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      })
+    }
+  }, [recipeStore.successToastMessage, recipeId, toast])
+
+  useEffect(() => {
+    if (recipeStore.errorToastMessage) {
+      toast({
+        title: 'Error',
+        description: recipeStore.errorToastMessage,
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
+    }
+  }, [recipeStore.errorToastMessage, toast])
 
   const SignupSchema = Yup.object().shape({
     recipeName: Yup.string()
@@ -99,39 +123,10 @@ export const CreateRecipe: React.FC<Props> = () => {
         enableReinitialize
         initialValues={initialValues}
         onSubmit={async (values, actions) => {
-          console.log(values)
-
-          let response
           if (recipeId) {
             recipeStore.updateRecipe(values, parseInt(recipeId))
           } else {
-            recipeStore.saveRecipe(values)
-          }
-
-          console.log(response)
-
-          if (response) {
-            toast({
-              title: recipeId ? 'Recipe updated.' : 'Recipe created',
-              description: recipeId
-                ? 'Your recipe was successfully updated'
-                : 'Your recipe was successfully created',
-              status: 'success',
-              duration: 4000,
-              isClosable: true,
-            })
-
-            history.push('/recipes')
-          } else {
-            toast({
-              title: 'Error',
-              description: recipeId
-                ? 'Your recipe was not updated'
-                : 'Your recipe was not created',
-              status: 'error',
-              duration: 4000,
-              isClosable: true,
-            })
+            recipeStore.createRecipe(values)
           }
         }}
         validationSchema={SignupSchema}
@@ -324,7 +319,7 @@ export const CreateRecipe: React.FC<Props> = () => {
               <Button
                 mt={4}
                 colorScheme="teal"
-                isLoading={isSubmitting}
+                isLoading={recipeStore.loading}
                 type="submit"
               >
                 {recipeId
@@ -337,4 +332,4 @@ export const CreateRecipe: React.FC<Props> = () => {
       </Formik>
     </Container>
   )
-}
+})

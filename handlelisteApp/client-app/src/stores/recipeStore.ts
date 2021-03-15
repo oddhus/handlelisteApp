@@ -2,20 +2,23 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import agent from '../api/agent'
 import { store } from './store'
 import { IRecipe } from '../models/recipe'
+import { history } from '../index'
 
 export default class RecipeStore {
-  currentRecipe: IRecipe | null = null
+  currentRecipe: IRecipe | undefined = undefined
   currentRecipeList: IRecipe[] = []
   userRecipeList: Map<number, IRecipe[]> = new Map()
-  loadingFetch: boolean = false
-  requestFailed: boolean = false
-  errorMessage: string = ''
+  loading: boolean = false
+  successToastMessage: string = ''
+  errorToastMessage: string = ''
 
   constructor() {
     makeAutoObservable(this)
   }
 
   getRecipe = async (id: number) => {
+    this.resetAndStartLoading()
+
     if (this.currentRecipe?.recipeID === id) {
       return
     }
@@ -29,54 +32,73 @@ export default class RecipeStore {
     try {
       recipe = await agent.recipe.getRecipe(id)
       if (recipe) {
-        runInAction(() => this.currentRecipeList.push(recipe!))
+        runInAction(() => {
+          this.currentRecipe = recipe
+          this.currentRecipeList.push(recipe!)
+          this.loading = false
+        })
       } else {
-        runInAction(() => (this.requestFailed = true))
+        this.error('retrive recipe.')
       }
     } catch (e) {
-      runInAction(() => {
-        this.requestFailed = true
-      })
+      this.error('retrive recipe.')
     }
   }
 
   getUserRecipes = async (id: number) => {
+    this.resetAndStartLoading()
+
     let userRecipes = this.userRecipeList.get(id)
     if (userRecipes) {
+      runInAction(() => (this.loading = false))
       return
     }
 
     try {
       userRecipes = await agent.recipes.getAllUserRecipes(id)
-      runInAction(() => this.userRecipeList.set(id, userRecipes || []))
+      runInAction(() => {
+        this.userRecipeList.set(id, userRecipes || [])
+        this.loading = false
+      })
     } catch (e) {
-      console.log(e)
+      this.error('retrive recipes.')
     }
   }
 
-  saveRecipe = async (recipe: IRecipe) => {
+  createRecipe = async (recipe: IRecipe) => {
+    this.resetAndStartLoading()
+
     try {
-      const newRecipe = await agent.recipe.postRecipe(recipe)
+      const newRecipe = (await agent.recipe.postRecipe(recipe)) as IRecipe
 
       if (!newRecipe) {
-        runInAction(() => (this.requestFailed = true))
+        this.error('create recipe.')
       }
 
-      if (store.userStore.user?.id) {
-        const userId = parseInt(store.userStore.user?.id)
+      if (store.userStore.user) {
+        const userId = parseInt(store.userStore.user.id)
         const oldList = this.userRecipeList.get(userId) || []
         runInAction(() => {
           this.currentRecipe = newRecipe
           this.userRecipeList.set(userId, [...oldList, newRecipe])
+          this.successToastMessage = 'Recipe created successfully'
+          runInAction(() => (this.loading = false))
+          history.push(`recipe/${newRecipe.recipeID}`)
         })
       }
     } catch (e) {
-      console.log(e)
+      this.error(
+        'create recipe.' +
+          (e.response ? ` With status code: ${e.response.status}` : '')
+      )
     }
   }
 
   updateRecipe = async (recipe: IRecipe, id: number) => {
+    this.resetAndStartLoading()
+
     if (!store.userStore.user) {
+      this.error('update recipe')
       return
     }
 
@@ -101,9 +123,10 @@ export default class RecipeStore {
         this.currentRecipe = updatedRecipe
         this.currentRecipeList = oldList
         this.userRecipeList.set(userId, oldList)
+        runInAction(() => (this.loading = false))
       })
     } catch (e) {
-      throw e
+      this.error('update recipe')
     }
   }
 
@@ -114,12 +137,13 @@ export default class RecipeStore {
   }
 
   deleteRecipe = async (id: number) => {
+    this.resetAndStartLoading()
     try {
       await agent.recipe.deleteRecipe(id)
 
       runInAction(() => {
         if (this.currentRecipe?.recipeID === id) {
-          this.currentRecipe = null
+          this.currentRecipe = undefined
         }
 
         this.currentRecipeList = this.currentRecipeList.filter(
@@ -127,7 +151,22 @@ export default class RecipeStore {
         )
       })
     } catch (e) {
-      throw e
+      this.error('delete recipe')
     }
+  }
+
+  private resetAndStartLoading() {
+    runInAction(() => {
+      this.loading = true
+      this.successToastMessage = ''
+      this.errorToastMessage = ''
+    })
+  }
+
+  private error(message: string) {
+    runInAction(() => {
+      this.errorToastMessage = `Failed to ${message}`
+      this.loading = false
+    })
   }
 }
