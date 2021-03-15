@@ -19,12 +19,12 @@ import {
 } from '@chakra-ui/icons'
 import { Iitem } from '../../models/ShoppingList'
 import { useStore } from '../../stores/store'
+import { observer } from 'mobx-react-lite'
 
 interface Props {
   items: Iitem[]
   edit: Boolean
-  onIncrement: Function
-  onDecrement: Function
+  onChangeQuantity: Function
   deleteItem: Function
   onChecked: Function
 }
@@ -33,8 +33,7 @@ const setupTableBody = (
   itemsList: Iitem[],
   edit: Boolean,
   onDeleteItem: Function,
-  onIncrement: Function,
-  onDecrement: Function,
+  onChangeQuantity: Function,
   onChecked: Function
 ) => {
   return itemsList.map((item) => (
@@ -64,7 +63,7 @@ const setupTableBody = (
             isRound
             className="edit"
             isDisabled={item.quantity <= 1}
-            onClick={() => onDecrement(item)}
+            onClick={() => onChangeQuantity(item, false)}
             icon={<ChevronLeftIcon />}
           />
           {item.quantity}
@@ -75,7 +74,7 @@ const setupTableBody = (
             size="small"
             isRound
             className="edit"
-            onClick={() => onIncrement(item)}
+            onClick={() => onChangeQuantity(item, true)}
             icon={<ChevronRightIcon />}
           />
         </Td>
@@ -88,94 +87,95 @@ const setupTableBody = (
 }
 
 const getListOfCategories = (itemsList: { category: string }[]) => {
+  if (itemsList.length === 0) {
+    return []
+  }
   let categoryList: string[] = []
   itemsList.forEach((items) => {
-    if (!categoryList.includes(items.category.toLowerCase())) {
+    if (
+      items.category &&
+      !categoryList.includes(items.category.toLowerCase())
+    ) {
       categoryList.push(items.category.toLowerCase())
     }
   })
   return categoryList
 }
 
-export const ListComponent: React.FC<Props> = ({
-  items,
-  edit,
-  deleteItem,
-  onIncrement,
-  onDecrement,
-  onChecked,
-}) => {
-  const [toShow, setToShow] = useState(
-    new Array(getListOfCategories(items).length).fill(true)
-  )
-  const { settingStore } = useStore()
+export const ListComponent: React.FC<Props> = observer(
+  ({ items, edit, deleteItem, onChangeQuantity, onChecked }) => {
+    const categories = getListOfCategories(items)
 
-  const setupTables = (itemsList: Iitem[], edit: Boolean) => {
-    var categories: string[] = getListOfCategories(itemsList)
-    var tables: React.ReactFragment[] = []
-    var strictHeaders = settingStore.language.shoppingList
+    const [toShow, setToShow] = useState(
+      new Array(categories.length).fill(true)
+    )
+    const { settingStore } = useStore()
 
-    if (categories.length > toShow.length)
-      setToShow(new Array(getListOfCategories(items).length).fill(true))
+    const setupTables = (itemsList: Iitem[], edit: Boolean) => {
+      var tables: React.ReactFragment[] = []
+      var strictHeaders = settingStore.language.shoppingList
 
-    categories.forEach((category, index) => {
-      let categorizedItems: Iitem[] = []
-      itemsList.forEach((item) => {
-        if (category === item.category.toLowerCase()) {
-          categorizedItems.push(item)
-        }
+      if (categories.length > toShow.length)
+        setToShow(new Array(categories.length).fill(true))
+
+      categories.forEach((category, index) => {
+        let categorizedItems: Iitem[] = []
+        itemsList.forEach((item) => {
+          if (item.category && category === item?.category.toLowerCase()) {
+            categorizedItems.push(item)
+          }
+        })
+        tables.push(
+          <div key={category}>
+            <Table variant="simple">
+              <Thead bg={'#bee3f8'}>
+                <Tr>
+                  <Th>
+                    <IconButton
+                      m={1}
+                      className={'displayTableBtn'}
+                      colorScheme="#bee3f8"
+                      aria-label="Call Segun"
+                      size="small"
+                      data-testid={'hide/show ' + category}
+                      onClick={() => {
+                        toShow[index] = !toShow[index]
+                        setToShow([...toShow])
+                      }}
+                      icon={
+                        toShow[index] ? (
+                          <TriangleDownIcon color="black" />
+                        ) : (
+                          <TriangleUpIcon color="black" />
+                        )
+                      }
+                    />
+                  </Th>
+                  <Th className={category} w={'20%'} color="black">
+                    {category}
+                  </Th>
+                  <Th color="black">{strictHeaders[0]}</Th>
+                  <Th color="black">{strictHeaders[1]}</Th>
+                </Tr>
+              </Thead>
+              {toShow[index] ? (
+                <Tbody>
+                  {setupTableBody(
+                    categorizedItems,
+                    edit,
+                    deleteItem,
+                    onChangeQuantity,
+                    onChecked
+                  )}
+                </Tbody>
+              ) : null}
+            </Table>
+            <br />
+          </div>
+        )
       })
-      tables.push(
-        <div key={category}>
-          <Table variant="simple">
-            <Thead bg={'#bee3f8'}>
-              <Tr>
-                <Th>
-                  <IconButton
-                    m={1}
-                    className={'displayTableBtn'}
-                    colorScheme="#bee3f8"
-                    aria-label="Call Segun"
-                    size="small"
-                    data-testid={'hide/show ' + category}
-                    onClick={() => {
-                      toShow[index] = !toShow[index]
-                      setToShow([...toShow])
-                    }}
-                    icon={
-                      toShow[index] ? (
-                        <TriangleDownIcon color="black" />
-                      ) : (
-                        <TriangleUpIcon color="black" />
-                      )
-                    }
-                  />
-                </Th>
-                <Th className={category} w={'20%'} color="black">
-                  {category}
-                </Th>
-                <Th color="black">{strictHeaders[0]}</Th>
-                <Th color="black">{strictHeaders[1]}</Th>
-              </Tr>
-            </Thead>
-            {toShow[index] ? (
-              <Tbody>
-                {setupTableBody(
-                  categorizedItems,
-                  edit,
-                  deleteItem,
-                  onIncrement,
-                  onDecrement,
-                  onChecked
-                )}
-              </Tbody>
-            ) : null}
-          </Table>
-          <br />
-        </div>
-      )
-    })
-    return tables
+      return tables
+    }
+    return <Box>{setupTables(items, edit)}</Box>
   }
-  return <Box>{setupTables(items, edit)}</Box>
-}
+)
