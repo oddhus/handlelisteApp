@@ -73,7 +73,7 @@ export default class MyKitchenStore {
     deleateItemInMyKitchen = async (item: Iitem) =>{
         this.loading = true
         try {
-            const newItem = await agent.myKitchen.addItemToMyKitchen(item)
+            //const newItem = await agent.myKitchen.addItemToMyKitchen(item)
             runInAction(() => {
                 this.itemsInMyKitchen.delete(item.itemName)
                 this.loading = false
