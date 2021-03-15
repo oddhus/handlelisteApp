@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {observer} from "mobx-react-lite";
 import {ListComponent} from "../shoppingList/ListComponent";
 import {Heading, Center, Button} from "@chakra-ui/react";
@@ -24,35 +24,38 @@ export const MyKitchenItems: React.FC<Props> = observer((
         onChecked
     }
 ) => {
-    
-    const {modalStore} = useStore()
-    
+
+    const {modalStore, myKitchenStore} = useStore()
+
     return (
         <Fragment>
             <Center>
-                <Heading style={{ marginBottom: '10px' }}>
+                <Heading style={{marginBottom: '10px'}}>
                     My kitchen
                 </Heading>
             </Center>
-          
+
             <ListComponent
                 onChecked={onChecked}
                 deleteItem={deleteItem}
                 onChangeQuantity={onChangeQuantity}
                 edit={edit}
                 items={items}/>
-                <Center>
-                    <Button 
-                        size='lg' 
-                        colorScheme="green"
-                        onClick={() =>{modalStore.openModal(<AddItem onAdd={() =>{}}/>)}}
-                    >
-                        
-                        Add item
-                    </Button>
-                </Center>
-            
+            <Center>
+                <Button
+                    size='lg'
+                    colorScheme="green"
+                    onClick={() => {
+                        modalStore.openModal(
+                            <AddItem onAdd={myKitchenStore.addItemInMyKitchen}/>)
+                    }}
+                >
+
+                    Add item
+                </Button>
+            </Center>
+
         </Fragment>
-      
+
     )
 })

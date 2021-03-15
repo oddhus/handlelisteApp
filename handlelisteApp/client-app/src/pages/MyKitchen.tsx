@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {observer} from "mobx-react-lite";
 
 import {MyKitchenItems} from "../components/MyKitchen/MyKitchenItems";
@@ -6,11 +6,17 @@ import {Iitem} from "../models/ShoppingList";
 import {useStore} from "../stores/store";
 
 interface Props {
- 
+
 }
 
 export const MyKitchen: React.FC<Props> = observer(() => {
 
+    const [data, setData] = useState()
+
+    const {myKitchenStore} = useStore()
+
+
+    // FOR TESTING:
     const item: Iitem = {
         category: 'meieri',
         itemName: "melk",
@@ -44,25 +50,22 @@ export const MyKitchen: React.FC<Props> = observer(() => {
     }
 
     const items = [item, item1, item2, item3]
-    
 
-    
-    const [data, setData] = useState()
-    
-    const {myKitchenStore} = useStore()
-    
-    items.forEach(item => {
-        myKitchenStore.addItemInMyKitchen(item)
-    })    
-    
+    useEffect(() => {
+        items.forEach(item => {
+            myKitchenStore.addItemInMyKitchen(item)
+        })
+    }, [])
+// TEST-BLOCK COMPLETE
 
-    
+
     return (
-        <MyKitchenItems 
-            items={myKitchenStore.itemsInMyKitchenToArray} 
-            edit={true} 
-            onChangeQuantity={myKitchenStore.onChangeQuantity} 
-            deleteItem={() =>{}} 
-            onChecked={() =>{}}/>
+        <MyKitchenItems
+            items={myKitchenStore.itemsInMyKitchenToArray}
+            edit={true}
+            onChangeQuantity={myKitchenStore.onChangeQuantity}
+            deleteItem={myKitchenStore.deleateItemInMyKitchen}
+            onChecked={() => {
+            }}/>
     )
 })
