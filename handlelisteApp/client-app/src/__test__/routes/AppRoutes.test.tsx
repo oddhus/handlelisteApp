@@ -63,6 +63,7 @@ jest.mock('../../stores/store', () => ({
     recipeStore: {
       currentRecipe: null,
       getRecipe: () => null,
+      reset: () => null,
     },
   }),
 }))

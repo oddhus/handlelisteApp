@@ -16,6 +16,7 @@ jest.mock('../../stores/store', () => ({
       getRecipe: () => null,
       updateRecipe: jest.fn(),
       createRecipe: jest.fn(),
+      reset: () => null,
     },
   }),
 }))
