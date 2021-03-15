@@ -40,7 +40,7 @@ namespace handlelisteApp.Controllers
 
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        public ActionResult<UserDTO> GetUser(int id)
         {
             //User result = await _context.Users.FindAsync(id);
             UserDTO result = _userService.GetUser(id);
