@@ -23,18 +23,17 @@ namespace handlelisteApp.Specs.Steps
 
 
         private Mock<IUserService> _mockUserService;
-        private UserController _controller;
+        
         private UserDTO newUserDTO;
         private User user;
-        ActionResult<UserDTO> ReturnedActionResult;
 
         UserController _userController;
 
-        private readonly ScenarioContext scenarioContext;
+       
 
         public UserControllerStepDefinitions(ScenarioContext scenarioContext)
         {
-            this.scenarioContext = scenarioContext;
+            _scenarioContext = scenarioContext;
         }
 
 
@@ -56,7 +55,7 @@ namespace handlelisteApp.Specs.Steps
             _userController = new UserController(_mockUserService.Object);
 
             var result = _userController.CreateUser(user);
-            scenarioContext.Add("createResult", result.Value);
+            _scenarioContext.Add("createResult", result.Value);
 
         }
 
@@ -64,16 +63,17 @@ namespace handlelisteApp.Specs.Steps
         public void WhenIGETTheUser()
         {
             var getResult = _userController.GetUser(1);
-            scenarioContext.Add("getResult", getResult.Value);
+            _scenarioContext.Add("getResult", getResult.Value);
         }
 
 
         [Then(@"the result should be the user")]
         public void ThenTheResultShouldBeTheUser()
         {
-            var actual = scenarioContext.Get<UserDTO>("getResult");
-            var postResult = scenarioContext.Get<UserDTO>("createResult");
+            var actual = _scenarioContext.Get<UserDTO>("getResult");
+            var postResult = _scenarioContext.Get<UserDTO>("createResult");
             actual.Username.Should().BeSameAs(postResult.Username);
+
         }
 
 
