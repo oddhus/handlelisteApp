@@ -55,6 +55,10 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
   const toast = useToast()
 
   useEffect(() => {
+    recipeStore.reset()
+  }, [])
+
+  useEffect(() => {
     if (recipeId) {
       recipeStore.getRecipe(parseInt(recipeId))
     }

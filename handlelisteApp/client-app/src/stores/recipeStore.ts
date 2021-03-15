@@ -155,6 +155,14 @@ export default class RecipeStore {
     }
   }
 
+  reset() {
+    runInAction(() => {
+      this.loading = true
+      this.successToastMessage = ''
+      this.errorToastMessage = ''
+    })
+  }
+
   private resetAndStartLoading() {
     runInAction(() => {
       this.loading = true
