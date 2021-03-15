@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { request } from 'node:http'
 import { IRecipe } from '../models/recipe'
-import { IShoppingList } from '../models/ShoppingList'
+import {Iitem, IShoppingList} from '../models/ShoppingList'
 import { IUser } from '../models/user'
 import { store } from '../stores/store'
 
@@ -63,10 +63,26 @@ const recipes = {
   getAllRecipes: () => requests.get('recipes/all'),
 }
 
+const myKitchen = {
+  addItemToMyKitchen: (item: Iitem) =>
+      requests.post('mykitchen', item).then(response),
+  
+  updateItemInMyKitchen: (id: number) =>
+      requests.put('mykitchen/' + id, {}).then(response),
+  
+  getMyKitchen: () =>
+      requests.get('mykitchen/').then(response),
+  
+  deleteItemInMyKitchen: (id: number) =>
+      requests.del('mykitchen/' + id)
+  
+}
+
 export default {
   User,
   shoppingList,
   shoppingLists,
   recipe,
   recipes,
+  myKitchen
 }
