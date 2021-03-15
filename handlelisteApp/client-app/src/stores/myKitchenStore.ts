@@ -3,6 +3,7 @@ import {makeAutoObservable, runInAction} from 'mobx'
 import {IMyKitchenList} from "../models/myKitchenList";
 import agent from "../api/agent";
 import {Iitem} from "../models/ShoppingList";
+import {store} from "./store";
 
 export default class MyKitchenStore {
     myKitchenList: IMyKitchenList | null = null
@@ -62,6 +63,7 @@ export default class MyKitchenStore {
                 this.itemsInMyKitchen.set(item.itemName, item)
                 this.loading = false
             })
+            store.modalStore.closeModal()
         }catch(e){
             runInAction(() => {
                 this.loading = false
