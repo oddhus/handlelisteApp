@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { request } from 'node:http'
 import { IRecipe } from '../models/recipe'
-import {Iitem, IShoppingList} from '../models/ShoppingList'
+import { Iitem, IShoppingList } from '../models/ShoppingList'
 import { IUser } from '../models/user'
 import { store } from '../stores/store'
 
@@ -23,7 +23,7 @@ const requests = {
   get: (url: string) => axios.get(url).then(responseBody),
   post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
   put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
-  del: (url: string) => axios.delete(url).then(responseBody)
+  del: (url: string) => axios.delete(url).then(responseBody),
 }
 
 const User = {
@@ -40,8 +40,7 @@ const shoppingList = {
     requests.put('ShoppingList/' + id, shoppingList).then(response),
   getShoppingList: (id: number) =>
     requests.get('shoppinglist/' + id).then(response),
-  deleteShoppingList: (id: number) =>
-    requests.del('shoppinglist/' + id)
+  deleteShoppingList: (id: number) => requests.del('shoppinglist/' + id),
 }
 
 const shoppingLists = {
@@ -60,22 +59,19 @@ const recipe = {
 const recipes = {
   getAllUserRecipes: (id: number) =>
     requests.get('recipes/' + id).then(responseBody),
-  getAllRecipes: () => requests.get('recipes/all'),
+  getAllRecipes: () => requests.get('recipes/all').then(responseBody),
 }
 
 const myKitchen = {
   addItemToMyKitchen: (item: Iitem) =>
-      requests.post('mykitchen', item).then(response),
-  
+    requests.post('mykitchen', item).then(response),
+
   updateItemInMyKitchen: (id: number) =>
-      requests.put('mykitchen/' + id, {}).then(response),
-  
-  getMyKitchen: () =>
-      requests.get('mykitchen/').then(response),
-  
-  deleteItemInMyKitchen: (id: number) =>
-      requests.del('mykitchen/' + id)
-  
+    requests.put('mykitchen/' + id, {}).then(response),
+
+  getMyKitchen: () => requests.get('mykitchen/').then(response),
+
+  deleteItemInMyKitchen: (id: number) => requests.del('mykitchen/' + id),
 }
 
 export default {
@@ -84,5 +80,5 @@ export default {
   shoppingLists,
   recipe,
   recipes,
-  myKitchen
+  myKitchen,
 }
