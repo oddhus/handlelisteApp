@@ -1,11 +1,12 @@
 import { Center, Spinner, Text } from '@chakra-ui/react'
+import { observer } from 'mobx-react-lite'
 import React, { Fragment, useEffect } from 'react'
 import { useStore } from '../../stores/store'
 import { RecipeList } from './RecipeList'
 
 interface Props {}
 
-export const AllRecipes: React.FC<Props> = () => {
+export const AllRecipes: React.FC<Props> = observer(() => {
   const { recipeStore } = useStore()
 
   useEffect(() => {
@@ -31,4 +32,4 @@ export const AllRecipes: React.FC<Props> = () => {
       )}
     </Fragment>
   )
-}
+})

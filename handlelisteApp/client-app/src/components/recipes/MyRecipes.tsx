@@ -1,4 +1,5 @@
 import { Button, Center, Spinner, VStack, Text } from '@chakra-ui/react'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { useStore } from '../../stores/store'
@@ -6,7 +7,7 @@ import { RecipeList } from './RecipeList'
 
 interface Props {}
 
-export const MyRecipes: React.FC<Props> = () => {
+export const MyRecipes: React.FC<Props> = observer(() => {
   const { recipeStore, userStore } = useStore()
   const history = useHistory()
 
@@ -41,4 +42,4 @@ export const MyRecipes: React.FC<Props> = () => {
       )}
     </VStack>
   )
-}
+})
