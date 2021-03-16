@@ -10,8 +10,6 @@ import {
   Thead,
   Th,
   IconButton,
-  Center,
-  Text,
   HStack,
 } from '@chakra-ui/react'
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'

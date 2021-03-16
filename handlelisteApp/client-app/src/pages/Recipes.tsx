@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../stores/store'
 import {
@@ -11,11 +11,38 @@ import {
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
+import { IRecipe } from '../models/recipe'
 
 interface Props {}
 
+const DUMMY_DATA = [
+  {
+    recipeID: 1,
+    recipeName: 'Hamburger',
+    shortDescription: 'Smaker godt',
+    approach: 'Stek den på grillen',
+  },
+  {
+    recipeID: 2,
+    recipeName: 'Ostesmørbrød',
+    shortDescription: 'Smaker godt',
+    approach: 'Stek det på grillen',
+  },
+  {
+    recipeID: 3,
+    recipeName: 'Pølse i brød',
+    shortDescription: 'Smaker godt',
+    approach: 'Stek pølsen på grillen',
+  },
+] as IRecipe[]
+
 export const Recipes: React.FC<Props> = observer(() => {
-  const { settingStore } = useStore()
+  const { settingStore, recipeStore } = useStore()
+
+  useEffect(() => {
+    recipeStore.allRecipes = DUMMY_DATA
+    recipeStore.currentRecipeList = DUMMY_DATA
+  }, [])
 
   return (
     <Container maxW="container.md">

@@ -4,32 +4,11 @@ import { store } from './store'
 import { IRecipe } from '../models/recipe'
 import { history } from '../index'
 
-const DUMMY_DATA = [
-  {
-    recipeID: 1,
-    recipeName: 'Hamburger',
-    shortDescription: 'Smaker godt',
-    approach: 'Stek den på grillen',
-  },
-  {
-    recipeID: 2,
-    recipeName: 'Ostesmørbrød',
-    shortDescription: 'Smaker godt',
-    approach: 'Stek det på grillen',
-  },
-  {
-    recipeID: 3,
-    recipeName: 'Pølse i brød',
-    shortDescription: 'Smaker godt',
-    approach: 'Stek pølsen på grillen',
-  },
-] as IRecipe[]
-
 export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
-  currentRecipeList: IRecipe[] = DUMMY_DATA
+  currentRecipeList: IRecipe[] = []
   usersRecipeList: Map<number, IRecipe[]> = new Map()
-  allRecipes: IRecipe[] = DUMMY_DATA
+  allRecipes: IRecipe[] = []
   loading: boolean = false
   successToastMessage: string = ''
   errorToastMessage: string = ''
