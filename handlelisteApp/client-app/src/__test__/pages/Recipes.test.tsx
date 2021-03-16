@@ -12,6 +12,7 @@ jest.mock('../../stores/store', () => ({
       language: { ...MockLanguage },
     },
     recipeStore: {
+      allRecipes: [],
       currentRecipeList: [],
       loading: false,
       getUserRecipes: () => undefined,
