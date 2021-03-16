@@ -7,7 +7,7 @@ import { history } from '../index'
 export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
   currentRecipeList: IRecipe[] = []
-  userRecipeList: Map<number, IRecipe[]> = new Map()
+  usersRecipeList: Map<number, IRecipe[]> = new Map()
   loading: boolean = false
   successToastMessage: string = ''
   errorToastMessage: string = ''
@@ -48,7 +48,7 @@ export default class RecipeStore {
   getUserRecipes = async (id: number) => {
     this.resetAndStartLoading()
 
-    let userRecipes = this.userRecipeList.get(id)
+    let userRecipes = this.usersRecipeList.get(id)
     if (userRecipes) {
       runInAction(() => (this.loading = false))
       return
@@ -57,7 +57,7 @@ export default class RecipeStore {
     try {
       userRecipes = await agent.recipes.getAllUserRecipes(id)
       runInAction(() => {
-        this.userRecipeList.set(id, userRecipes || [])
+        this.usersRecipeList.set(id, userRecipes || [])
         this.loading = false
       })
     } catch (e) {
@@ -77,10 +77,10 @@ export default class RecipeStore {
 
       if (store.userStore.user) {
         const userId = parseInt(store.userStore.user.id)
-        const oldList = this.userRecipeList.get(userId) || []
+        const oldList = this.usersRecipeList.get(userId) || []
         runInAction(() => {
           this.currentRecipe = newRecipe
-          this.userRecipeList.set(userId, [...oldList, newRecipe])
+          this.usersRecipeList.set(userId, [...oldList, newRecipe])
           this.successToastMessage = 'Recipe created successfully'
           runInAction(() => (this.loading = false))
           history.push(`recipe/${newRecipe.recipeID}`)
@@ -110,7 +110,7 @@ export default class RecipeStore {
         id
       )) as IRecipe
 
-      const oldList = this.userRecipeList.get(userId) || []
+      const oldList = this.usersRecipeList.get(userId) || []
       const index = oldList.findIndex(
         (recipe) => recipe.recipeID === updatedRecipe.recipeID
       )
@@ -122,7 +122,7 @@ export default class RecipeStore {
       runInAction(() => {
         this.currentRecipe = updatedRecipe
         this.currentRecipeList = oldList
-        this.userRecipeList.set(userId, oldList)
+        this.usersRecipeList.set(userId, oldList)
         runInAction(() => (this.loading = false))
       })
     } catch (e) {
@@ -157,7 +157,7 @@ export default class RecipeStore {
 
   reset() {
     runInAction(() => {
-      this.loading = true
+      this.loading = false
       this.successToastMessage = ''
       this.errorToastMessage = ''
     })
