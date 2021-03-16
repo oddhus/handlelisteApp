@@ -1,5 +1,6 @@
 ﻿using handlelisteApp.Context;
 using handlelisteApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,16 +27,22 @@ namespace handlelisteApp.Data
             return newRecipe;
         }
 
+        public void DeleteRecipe(Recipe recipe)
+        {      
+            _context.Recipes.Remove(recipe);
+            _context.SaveChanges();
+        }
+
         public IEnumerable<Recipe> GetAllRecipes()
         {
-            return _context.Recipes.ToList();
+            return _context.Recipes.Include(r => r.Items).ThenInclude(iir => iir.Item).ToList();
         }
 
         public IEnumerable<Recipe> GetAllRecipesUsingItem(Item item)
         {
             List<Recipe> itemsInRecipes = _context.Recipes.
 
-                Where(r => r.Items.Any(i => i.Item.ItemID == item.ItemID)).
+                Where(r => r.Items.Any(i => i.Item.ItemID == item.ItemID)).Include(r => r.Items).
                 ToList();
 
 
@@ -51,11 +58,31 @@ namespace handlelisteApp.Data
 //            return _context.Recipes.Select(r => r.Items).Where(iimk => iimk.It)
         }
 
+        public IEnumerable<Recipe> GetAllRecipesUsingSeveralItems(List<Item> items)
+        {
 
+
+      
+            List<Recipe> recipesWithItems = _context.Recipes.Where(r => r.Items.Any(iir => items.Contains(iir.Item))).Include(r => r.Items).ToList();
+            return recipesWithItems;
+
+        }
 
         public Recipe GetRecipeById(int id)
         {
-            return _context.Recipes.Find(id);
+            return _context.Recipes.Include(r => r.Items).ThenInclude(r => r.Item).Where(r => r.RecipeID == id).FirstOrDefault();
+        }
+
+        public Recipe UpdateRecipe(int id, Recipe recipe)
+        {
+            if(recipe == null)
+            {
+                throw new ArgumentNullException(nameof(recipe));
+            }
+
+            _context.Recipes.Update(recipe);
+            _context.SaveChanges();
+            return recipe;
         }
     }
 }

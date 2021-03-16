@@ -1,5 +1,5 @@
-﻿Feature: SpecFlowFeature1
-	Simple calculator for adding two numbers
+﻿Feature: User Repository
+	Repository for getting users from database
 
 @mytag
 Scenario: Create new User

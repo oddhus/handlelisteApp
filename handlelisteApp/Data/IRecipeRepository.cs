@@ -10,7 +10,11 @@ namespace handlelisteApp.Data
     {
         Recipe GetRecipeById(int id);
         Recipe AddRecipe(Recipe newRecipe);
-        public IEnumerable<Recipe> GetAllRecipes();
-        public IEnumerable<Recipe> GetAllRecipesUsingItem(Item item);
+        IEnumerable<Recipe> GetAllRecipes();
+        IEnumerable<Recipe> GetAllRecipesUsingItem(Item item);
+        IEnumerable<Recipe> GetAllRecipesUsingSeveralItems(List<Item> items);
+        void DeleteRecipe(Recipe recipe);
+        Recipe UpdateRecipe(int id, Recipe recipe);
+
     }
 }

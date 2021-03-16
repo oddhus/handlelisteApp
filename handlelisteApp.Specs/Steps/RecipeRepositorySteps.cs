@@ -27,11 +27,16 @@ namespace handlelisteApp.Specs.Features
 
         Item Eggs;
         Item Milk;
+        Item Cheese;
 
         Recipe EggRecipe;
         Recipe EggRecipe2;
         Recipe MilkRecipe;
         Recipe MilkRecipe2;
+        Recipe CheeseRecipe;
+        Recipe MilkAndEggsRecipe;
+
+        MyKitchen kitchen;
 
         public RecipeRepositorySteps(ScenarioContext scenarioContext)
         {
@@ -40,6 +45,7 @@ namespace handlelisteApp.Specs.Features
 
             Eggs = new Item { ItemName = "Eggs", ItemID = 1 };
             Milk = new Item { ItemName = "Milk", ItemID = 2 };
+            Cheese = new Item { ItemID = 3, ItemName = "Cheese" };
 
             EggRecipe = new Recipe
             {
@@ -58,7 +64,7 @@ namespace handlelisteApp.Specs.Features
             {
                 RecipeID = 2,
                 RecipeName = "MilkRecipe2",
-                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantiy = 2 } }
+                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantiy = 1 } }
             };
             MilkRecipe2 = new Recipe
             {
@@ -66,12 +72,29 @@ namespace handlelisteApp.Specs.Features
                 RecipeName = "MilkRecipe2",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantiy = 2 } }
             };
+            CheeseRecipe = new Recipe
+            {
+                RecipeID = 4,
+                RecipeName = "CheeseRecipe",
+                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Cheese, Quantiy = 2 } }
+            };
+            MilkAndEggsRecipe = new Recipe
+            {
+                RecipeID = 4, 
+                RecipeName = "MilkAndEggsRecipe", 
+                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs }, new ItemInRecipe { Item = Milk } } 
+            };
 
+            kitchen = new MyKitchen { 
+                ItemsInMyKitchen = new List<ItemInMyKitchen>() { new ItemInMyKitchen { Item = Eggs }, new ItemInMyKitchen { Item = Milk } }
+            };
 
             var data = new List<Recipe>
             {
-               EggRecipe, EggRecipe2, MilkRecipe, MilkRecipe2
+               EggRecipe, EggRecipe2, MilkRecipe, MilkRecipe2, CheeseRecipe
             };//.AsQueryable();
+
+            
 
             _mockSet = new Mock<DbSet<Recipe>>();
             _mockSet.As<IQueryable<Recipe>>().Setup(m => m.Provider).Returns(data.AsQueryable().Provider);
@@ -116,7 +139,8 @@ namespace handlelisteApp.Specs.Features
             var result = _scenarioContext.Get<IEnumerable<Recipe>>("SearchForRecipesByItemResult");
             result.Should().Contain(EggRecipe);
             result.Should().Contain(EggRecipe2);
-            
+           
+
         }
 
         [Then(@"the result should not contain recipes not using that item")]
@@ -125,6 +149,8 @@ namespace handlelisteApp.Specs.Features
             var result = _scenarioContext.Get<IEnumerable<Recipe>>("SearchForRecipesByItemResult");
             result.Should().NotContain(MilkRecipe);
             result.Should().NotContain(MilkRecipe2);
+           
+
         }
 
 
@@ -132,7 +158,7 @@ namespace handlelisteApp.Specs.Features
         [Given(@"I provide a recipe id to the RecipeRepository")]
         public void GivenIProvideARecipeIdToTheRecipeRepository()
         {
-            Recipe newRecipe = new Recipe { RecipeID = 4, RecipeName = "MilkAndEggsRecipe", Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs }, new ItemInRecipe { Item = Milk } } };
+            Recipe newRecipe = new Recipe { RecipeName = "MilkAndEggsRecipe2", Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs }, new ItemInRecipe { Item = Milk } } };
             _repository.AddRecipe(newRecipe);
             
         }
@@ -165,6 +191,36 @@ namespace handlelisteApp.Specs.Features
             _mockContext.Verify(m => m.SaveChanges(), Times.Once());
 
         }
+
+        [Given(@"I provide a kitchen to the RecipeRepository")]
+        public void GivenIProvideAKitchenToTheRecipeRepository()
+        {
+            List<Item> items = kitchen.ItemsInMyKitchen.Select(i => i.Item).ToList();
+            //Kitchen containing Milk and Eggs
+            var result = _repository.GetAllRecipesUsingSeveralItems(items);
+            _scenarioContext.Add("Result from searching for recipes by kitchen", result);
+
+        }
+
+        [Then(@"the suggested recipes should contain only recipes using those items")]
+        public void ThenTheSuggestedRecipesShouldContainOnlyRecipesUsingThatItem()
+        {
+            var result = _scenarioContext.Get<IEnumerable<Recipe>>("Result from searching for recipes by kitchen");
+            result.Should().Contain(EggRecipe);
+            result.Should().Contain(EggRecipe2);
+            result.Should().Contain(MilkRecipe);
+            result.Should().Contain(MilkRecipe2);
+        }
+
+        [Then(@"the suggested recipes should not contain recipes using items not in my kitchen")]
+        public void ThenTheSuggestedRecipesShouldNotContainRecipes()
+        {
+            var result = _scenarioContext.Get<IEnumerable<Recipe>>("Result from searching for recipes by kitchen");
+            result.Should().NotContain(CheeseRecipe);
+
+        }
+
+
 
 
     }
