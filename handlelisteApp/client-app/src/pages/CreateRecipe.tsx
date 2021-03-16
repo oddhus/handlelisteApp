@@ -55,13 +55,11 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
   const toast = useToast()
 
   useEffect(() => {
-    console.log('reset')
     recipeStore.reset()
   }, [])
 
   useEffect(() => {
     if (recipeId) {
-      console.log('get recipe')
       recipeStore.getRecipe(parseInt(recipeId))
     }
   }, [recipeId, recipeStore])
@@ -72,7 +70,6 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
       recipeStore.currentRecipe &&
       recipeStore.currentRecipe.recipeID === parseInt(recipeId)
     ) {
-      console.log('set values')
       setInitialValues({
         recipeName: recipeStore.currentRecipe.recipeName,
         shortDescription: recipeStore.currentRecipe.shortDescription,
@@ -124,7 +121,11 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
   return (
     <Container>
       <Center>
-        <Heading>{settingStore.language.createRecipe}</Heading>
+        <Heading>
+          {!recipeId
+            ? settingStore.language.createRecipe
+            : settingStore.language.update}
+        </Heading>
       </Center>
       <Formik
         enableReinitialize

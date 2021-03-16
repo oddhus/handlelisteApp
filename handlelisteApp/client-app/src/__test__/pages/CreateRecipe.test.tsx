@@ -24,7 +24,7 @@ jest.mock('../../stores/store', () => ({
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useParams: () => ({
-    recipeId: '1',
+    recipeId: undefined,
   }),
   useHistory: () => ({
     history: {

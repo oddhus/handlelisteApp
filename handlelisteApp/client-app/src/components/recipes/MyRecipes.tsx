@@ -1,4 +1,4 @@
-import { Button, Center, Spinner, VStack } from '@chakra-ui/react'
+import { Button, Center, Spinner, VStack, Text } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'
 import { useStore } from '../../stores/store'
@@ -21,6 +21,11 @@ export const MyRecipes: React.FC<Props> = () => {
       {recipeStore.loading ? (
         <Center>
           <Spinner />
+        </Center>
+      ) : !recipeStore.currentRecipeList ||
+        recipeStore.currentRecipeList.length === 0 ? (
+        <Center>
+          <Text>No recipes found...</Text>
         </Center>
       ) : (
         <RecipeList

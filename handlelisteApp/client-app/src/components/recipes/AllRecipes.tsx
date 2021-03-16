@@ -1,4 +1,4 @@
-import { Center, Spinner } from '@chakra-ui/react'
+import { Center, Spinner, Text } from '@chakra-ui/react'
 import React, { Fragment, useEffect } from 'react'
 import { useStore } from '../../stores/store'
 import { RecipeList } from './RecipeList'
@@ -17,6 +17,10 @@ export const AllRecipes: React.FC<Props> = () => {
       {recipeStore.loading ? (
         <Center>
           <Spinner />
+        </Center>
+      ) : !recipeStore.allRecipes || recipeStore.allRecipes.length === 0 ? (
+        <Center>
+          <Text>No recipes found...</Text>
         </Center>
       ) : (
         <RecipeList
