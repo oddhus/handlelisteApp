@@ -11,7 +11,7 @@ import { Settings } from '../pages/Settings'
 import { Household } from '../pages/Household'
 import { NoMatch } from '../pages/NoMatch'
 import { HomePage } from '../pages/HomePage'
-import {MyKitchen} from "../pages/MyKitchen";
+import { MyKitchen } from '../pages/MyKitchen'
 
 interface Props {}
 
@@ -22,6 +22,7 @@ export const AppRoutes: React.FC<Props> = () => {
       <Route exact path="/signin" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
       <Route exact path="/create-recipe" component={CreateRecipe} />
+      <Route exact path="/create-recipe/:recipeId" component={CreateRecipe} />
       <Route exact path="/recipes" component={Recipes} />
       <Route exact path="/recipes/:recipeId" component={Recipe} />
       <Route exact path="/shopping-list" component={ShoppingLists} />

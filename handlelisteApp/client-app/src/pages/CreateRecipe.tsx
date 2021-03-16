@@ -55,21 +55,24 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
   const toast = useToast()
 
   useEffect(() => {
+    console.log('reset')
     recipeStore.reset()
   }, [])
 
   useEffect(() => {
     if (recipeId) {
+      console.log('get recipe')
       recipeStore.getRecipe(parseInt(recipeId))
     }
   }, [recipeId, recipeStore])
 
   useEffect(() => {
     if (
-      !recipeId &&
+      recipeId &&
       recipeStore.currentRecipe &&
-      recipeStore.currentRecipe.recipeID === recipeId
+      recipeStore.currentRecipe.recipeID === parseInt(recipeId)
     ) {
+      console.log('set values')
       setInitialValues({
         recipeName: recipeStore.currentRecipe.recipeName,
         shortDescription: recipeStore.currentRecipe.shortDescription,

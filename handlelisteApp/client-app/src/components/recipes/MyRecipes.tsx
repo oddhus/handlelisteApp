@@ -11,8 +11,8 @@ export const MyRecipes: React.FC<Props> = () => {
   const history = useHistory()
 
   useEffect(() => {
-    if (userStore.user) {
-      recipeStore.getUserRecipes(parseInt(userStore.user!.id))
+    if (userStore.user?.id) {
+      recipeStore.getUserRecipes(parseInt(userStore.user.id))
     }
   }, [])
 

@@ -46,13 +46,14 @@ export const RecipeList: React.FC<Props> = observer(
               {recipes.map((recipe) => (
                 <Tr
                   key={recipe.recipeID}
-                  onClick={() => history.push(`recipe/${recipe.recipeID}`)}
                   _hover={{
                     boxShadow: 'rgba(0, 0, 0, 0.15) 0px 18px 43px',
                     cursor: 'pointer',
                   }}
                 >
-                  <Td>{recipe.recipeName}</Td>
+                  <Td onClick={() => history.push(`recipe/${recipe.recipeID}`)}>
+                    {recipe.recipeName}
+                  </Td>
                   {(editable || deleteable) && (
                     <Td>
                       <HStack justify="flex-end">

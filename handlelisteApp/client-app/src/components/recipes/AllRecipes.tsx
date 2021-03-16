@@ -20,7 +20,7 @@ export const AllRecipes: React.FC<Props> = () => {
         </Center>
       ) : (
         <RecipeList
-          recipes={recipeStore.currentRecipeList}
+          recipes={recipeStore.allRecipes}
           editable={false}
           deleteable={false}
         />

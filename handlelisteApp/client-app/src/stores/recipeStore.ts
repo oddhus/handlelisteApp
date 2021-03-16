@@ -29,6 +29,7 @@ export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
   currentRecipeList: IRecipe[] = DUMMY_DATA
   usersRecipeList: Map<number, IRecipe[]> = new Map()
+  allRecipes: IRecipe[] = DUMMY_DATA
   loading: boolean = false
   successToastMessage: string = ''
   errorToastMessage: string = ''
@@ -41,12 +42,18 @@ export default class RecipeStore {
     this.resetAndStartLoading()
 
     if (this.currentRecipe?.recipeID === id) {
+      runInAction(() => {
+        this.loading = false
+      })
       return
     }
 
     let recipe = this.currentRecipeList.find((recipe) => recipe.recipeID === id)
     if (recipe) {
       this.currentRecipe = recipe
+      runInAction(() => {
+        this.loading = false
+      })
       return
     }
 
@@ -92,7 +99,7 @@ export default class RecipeStore {
     try {
       const recipes = await agent.recipes.getAllRecipes()
       runInAction(() => {
-        this.currentRecipeList = recipes || []
+        this.allRecipes = recipes || []
         this.loading = false
       })
     } catch (e) {
