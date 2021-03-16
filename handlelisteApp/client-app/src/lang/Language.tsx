@@ -20,6 +20,8 @@ export interface ILanguage {
   categoryError: string
   itemNameError: string
 
+  myRecipes: string
+  allRecipes: string
   recipes: string
   recipe: string
   createRecipe: string

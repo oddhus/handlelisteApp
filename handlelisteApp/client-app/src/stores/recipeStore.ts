@@ -4,9 +4,30 @@ import { store } from './store'
 import { IRecipe } from '../models/recipe'
 import { history } from '../index'
 
+const DUMMY_DATA = [
+  {
+    recipeID: 1,
+    recipeName: 'Hamburger',
+    shortDescription: 'Smaker godt',
+    approach: 'Stek den på grillen',
+  },
+  {
+    recipeID: 2,
+    recipeName: 'Ostesmørbrød',
+    shortDescription: 'Smaker godt',
+    approach: 'Stek det på grillen',
+  },
+  {
+    recipeID: 3,
+    recipeName: 'Pølse i brød',
+    shortDescription: 'Smaker godt',
+    approach: 'Stek pølsen på grillen',
+  },
+] as IRecipe[]
+
 export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
-  currentRecipeList: IRecipe[] = []
+  currentRecipeList: IRecipe[] = DUMMY_DATA
   usersRecipeList: Map<number, IRecipe[]> = new Map()
   loading: boolean = false
   successToastMessage: string = ''
@@ -58,6 +79,20 @@ export default class RecipeStore {
       userRecipes = await agent.recipes.getAllUserRecipes(id)
       runInAction(() => {
         this.usersRecipeList.set(id, userRecipes || [])
+        this.currentRecipeList = userRecipes || []
+        this.loading = false
+      })
+    } catch (e) {
+      this.error('retrive recipes.')
+    }
+  }
+
+  getAllRecipes = async () => {
+    this.resetAndStartLoading()
+    try {
+      const recipes = await agent.recipes.getAllRecipes()
+      runInAction(() => {
+        this.currentRecipeList = recipes || []
         this.loading = false
       })
     } catch (e) {

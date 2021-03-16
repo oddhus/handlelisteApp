@@ -11,6 +11,17 @@ jest.mock('../../stores/store', () => ({
     settingStore: {
       language: { ...MockLanguage },
     },
+    recipeStore: {
+      currentRecipeList: [],
+      loading: false,
+      getUserRecipes: () => undefined,
+      getAllRecipes: () => undefined,
+    },
+    userStore: {
+      user: {
+        id: undefined,
+      },
+    },
   }),
 }))
 
@@ -19,7 +30,7 @@ describe('RecipesPage', () => {
     it('has header of Recipes', () => {
       const { container } = render(<Recipes />)
       const div = container.querySelector('div')
-      expect(div).toHaveTextContent('Recipes')
+      expect(div).toHaveTextContent('No recipes found')
     })
   })
 })

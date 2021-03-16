@@ -24,6 +24,8 @@ export default class English implements ILanguage {
   categoryError = 'Category is required'
   itemNameError = 'Item name is required'
 
+  myRecipes = 'My recipes'
+  allRecipes = 'All recipes'
   recipes = 'Recipes'
   recipe = 'Recipe'
   createRecipe = 'Create recipe'

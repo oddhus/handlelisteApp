@@ -23,6 +23,8 @@ export default class Norwegian_B implements ILanguage {
   categoryError = 'Krever kategori'
   itemNameError = 'Navn er påkrevd'
 
+  myRecipes = 'Mine oppskrifter'
+  allRecipes = 'Alle oppskrifter'
   recipes = 'Oppskrifter'
   recipe = 'Oppskrift'
   createRecipe = 'Lag ny oppskrift'

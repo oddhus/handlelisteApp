@@ -64,6 +64,10 @@ jest.mock('../../stores/store', () => ({
       currentRecipe: null,
       getRecipe: () => null,
       reset: () => null,
+      currentRecipeList: [],
+      loading: false,
+      getUserRecipes: () => undefined,
+      getAllRecipes: () => undefined,
     },
   }),
 }))
@@ -108,7 +112,7 @@ describe('AppRoutes', () => {
     it('displays recipesPage when url is /recipes', () => {
       const { container } = setup('/recipes')
       const header = container.querySelector('div')
-      expect(header).toHaveTextContent('Recipes')
+      expect(header).toHaveTextContent('No recipes found')
     })
 
     it('displays RecipePage when url is /recipes/:recipeId', () => {
