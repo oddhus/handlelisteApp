@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/icons'
 import { Iitem } from '../../models/ShoppingList'
 import { useStore } from '../../stores/store'
-import {observer} from "mobx-react-lite";
+import { observer } from 'mobx-react-lite'
 
 interface Props {
   items: Iitem[]
@@ -29,6 +29,15 @@ interface Props {
   onChecked: Function
 }
 
+/*
+ * Sets up the table body and returns the table.
+ *
+ * @param itemsList:        An categorized list of items. (Only items with the same category)
+ * @param edit:             Boolean value to tell if the list should be in edit mode or not. (Delete icon or checkbox etc..)
+ * @param onDeleteItem:     Function that handles what to do when the trashcan icon is clicked
+ * @param onChangeQunatity: Function to handle what to do when clicking (-) or (+) buttons
+ * @returns                 Returns a list containing the react elements for the table body, with the correct item information.
+ */
 const setupTableBody = (
   itemsList: Iitem[],
   edit: Boolean,
@@ -86,6 +95,9 @@ const setupTableBody = (
   ))
 }
 
+/*
+ * Returns a a list of each unique category in the items list.
+ */
 const getListOfCategories = (itemsList: { category: string }[]) => {
   if (itemsList.length === 0) {
     return []
@@ -113,18 +125,17 @@ export const ListComponent: React.FC<Props> = observer(
 
     const setupTables = (itemsList: Iitem[], edit: Boolean) => {
       var tables: React.ReactFragment[] = []
-      var strictHeaders = settingStore.language.shoppingList
+      const strictHeaders = settingStore.language.shoppingList
 
+      //Makes it so new tables (categories) "spawn" with visible body.
       if (categories.length > toShow.length)
         setToShow(new Array(categories.length).fill(true))
 
+      // For each category make a list that contains the correct items.
       categories.forEach((category, index) => {
-        let categorizedItems: Iitem[] = []
-        itemsList.forEach((item) => {
-          if (item.category && category === item?.category.toLowerCase()) {
-            categorizedItems.push(item)
-          }
-        })
+        let categorizedItems = itemsList.filter(
+          (item) => item.category === category
+        )
         tables.push(
           <div key={category}>
             <Table variant="simple">
@@ -158,7 +169,7 @@ export const ListComponent: React.FC<Props> = observer(
                   <Th color="black">{strictHeaders[1]}</Th>
                 </Tr>
               </Thead>
-              {toShow[index] ? (
+              {toShow[index] ? ( // Checks the toShow list if that tablebody should be visible.
                 <Tbody>
                   {setupTableBody(
                     categorizedItems,
