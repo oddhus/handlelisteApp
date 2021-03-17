@@ -24,6 +24,14 @@ namespace handlelisteApp.Services
 
         public RecipeDTO AddRecipe(RecipeDTO recipe, int userId)
         {
+            Recipe newRecipe = RecipeFromRecipeDTO(recipe, userId);
+
+            return _mapper.Map<RecipeDTO>(_repository.AddRecipe(newRecipe));
+
+        }
+
+        private Recipe RecipeFromRecipeDTO(RecipeDTO recipe, int userId)
+        {
             Recipe newRecipe = new Recipe
             {
                 RecipeName = recipe.RecipeName,
@@ -51,7 +59,7 @@ namespace handlelisteApp.Services
                 });
             }
 
-            return _mapper.Map<RecipeDTO>(_repository.AddRecipe(newRecipe));
+            return newRecipe;
         }
 
         public bool DeleteRecipe(int id)
@@ -126,12 +134,49 @@ namespace handlelisteApp.Services
             return _mapper.Map<List<RecipeDTO>>(_repository.GetAllRecipesUsingItem(item));
         }
 
-        public RecipeDTO UpdateRecipe(int id, RecipeDTO recipe)
+        public RecipeDTO UpdateRecipe(int recipeId, int userId, RecipeDTO recipe)
         {
-            Recipe storedRecipe = _repository.GetRecipeById(recipe.RecipeID);
+            Recipe storedRecipe = _repository.GetRecipeById(recipeId);
+            if (storedRecipe == null)
+            {
+                return null;
+            }
 
-            Recipe updatedRecipe = _repository.UpdateRecipe(id, storedRecipe);
-            return _mapper.Map<RecipeDTO>(updatedRecipe);
+            if(storedRecipe.UserID != userId) //Some user other than the recipe's creator is trying to change it
+            {
+                return null;
+            }
+
+            storedRecipe.RecipeName = recipe.RecipeName;
+            storedRecipe.Approach = recipe.Approach;
+            storedRecipe.ShortDescription = recipe.ShortDescription;
+            storedRecipe.Items = new List<ItemInRecipe>();
+            
+            foreach (var item in recipe.Items)
+            {
+                var storedItem = _itemRepository.FindByItemName(item.ItemName);
+                if (storedItem == null)
+                {
+                    storedItem = new Item() { ItemName = item.ItemName };
+                    _itemRepository.AddItem(storedItem);
+                }
+
+                storedRecipe.Items.Add(new ItemInRecipe()
+                {
+                    ItemID = storedItem.ItemID,
+                    Item = storedItem,
+                    Quantity = item.Quantity,
+                    Recipe = storedRecipe,
+                    Unit = item.Unit
+                });
+            }
+
+
+            storedRecipe = _repository.UpdateRecipe(recipeId, storedRecipe);
+
+
+
+            return _mapper.Map<RecipeDTO>(storedRecipe);
         }
     }
 }

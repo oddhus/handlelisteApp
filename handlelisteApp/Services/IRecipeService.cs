@@ -21,7 +21,7 @@ namespace handlelisteApp.Services
 
         List<RecipeDTO> GetAllByUserIdRecipes(int userId);
 
-        RecipeDTO UpdateRecipe(int id, RecipeDTO recipe);
+        RecipeDTO UpdateRecipe(int recipeId, int userId, RecipeDTO recipe);
 
         bool DeleteRecipe(int id);
     }

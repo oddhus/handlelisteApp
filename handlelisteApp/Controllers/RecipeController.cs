@@ -57,9 +57,10 @@ namespace handlelisteApp.Controllers
         public ActionResult<RecipeDTO> UpdateRecipe(int id, [FromBody] RecipeDTO recipe)
         {
             RecipeDTO storedRecipe;
+            int userId = Int32.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
             try
             {
-                storedRecipe = _recipeService.UpdateRecipe(id, recipe);
+                storedRecipe = _recipeService.UpdateRecipe(id, userId, recipe);
             }
             catch (ArgumentNullException)
             {
