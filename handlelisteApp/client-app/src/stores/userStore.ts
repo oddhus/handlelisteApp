@@ -62,7 +62,6 @@ export default class UserStore {
   getUser = async () => {
     try {
       const user = await agent.User.currentUser()
-      console.log('user', user)
       runInAction(() => (this.user = user))
     } catch (e) {
       throw e

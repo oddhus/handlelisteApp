@@ -30,8 +30,6 @@ export const Recipe: React.FC<Props> = observer(() => {
     }
   }, [recipeId])
 
-  console.log('Items', recipeStore.currentRecipe?.items)
-
   if (recipeStore.loading) {
     return (
       <Center>

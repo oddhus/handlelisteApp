@@ -51,10 +51,8 @@ export default class shoppingListStore {
         this.shoppingList,
         this.shoppingList.shoppingListID
       )
-      let index = newList.indexOf(
-        this.shoppingLists.find(
-          (list) => list.shoppingListID === newList.shoppingListID
-        )
+      let index = this.shoppingLists.findIndex(
+        (list) => list.shoppingListID === newList.shoppingListID
       )
       runInAction(() => {
         this.shoppingLists[index] = newList
@@ -67,7 +65,9 @@ export default class shoppingListStore {
 
   addShoppinglist = async () => {
     try {
-      let addedList = await agent.shoppingList.postShoppingList(this.shoppingList)
+      let addedList = await agent.shoppingList.postShoppingList(
+        this.shoppingList
+      )
       runInAction(() => {
         this.shoppingLists.push(addedList)
         this.shoppingList = addedList
@@ -99,9 +99,12 @@ export default class shoppingListStore {
 
   changeQuantity = (item: Iitem, increment: boolean) => {
     if (item.quantity > 0) {
-      const index = this.shoppingList.items.findIndex((foundItem) => foundItem === item)
+      const index = this.shoppingList.items.findIndex(
+        (foundItem) => foundItem === item
+      )
       runInAction(() => {
-        this.shoppingList.items[index].quantity = this.shoppingList.items[index].quantity + (increment ? 1 : -1)
+        this.shoppingList.items[index].quantity =
+          this.shoppingList.items[index].quantity + (increment ? 1 : -1)
       })
     }
   }
@@ -125,15 +128,20 @@ export default class shoppingListStore {
 
   onDeleteItem = (item: Iitem) => {
     runInAction(() => {
-      this.shoppingList.items = this.shoppingList.items.filter((foundItem) => foundItem !== item)
+      this.shoppingList.items = this.shoppingList.items.filter(
+        (foundItem) => foundItem !== item
+      )
     })
   }
 
   onChecked = (item: Iitem) => {
-    let index = this.shoppingList.items.findIndex((foundItem) => foundItem === item)
+    let index = this.shoppingList.items.findIndex(
+      (foundItem) => foundItem === item
+    )
     runInAction(() => {
-      this.shoppingList.items[index].hasBeenBought = !this.shoppingList.items[index].hasBeenBought
+      this.shoppingList.items[index].hasBeenBought = !this.shoppingList.items[
+        index
+      ].hasBeenBought
     })
-
   }
 }
