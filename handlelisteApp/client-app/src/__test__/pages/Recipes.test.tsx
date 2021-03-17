@@ -17,6 +17,7 @@ jest.mock('../../stores/store', () => ({
       loading: false,
       getUserRecipes: () => undefined,
       getAllRecipes: () => undefined,
+      reset: () => undefined,
     },
     userStore: {
       user: {
