@@ -22,6 +22,8 @@ export default class Norwegian_B implements ILanguage {
   newShoppingList = 'Ny handleliste'
   categoryError = 'Krever kategori'
   itemNameError = 'Navn er påkrevd'
+  shoppingListSaved = 'Handlelisten ble lagret!'
+  shoppingListDeleted = 'Handlelisten ble slettet!'
 
   myRecipes = 'Mine oppskrifter'
   allRecipes = 'Alle oppskrifter'
@@ -44,6 +46,8 @@ export default class Norwegian_B implements ILanguage {
   household = 'Hushold'
 
   noMatch = 'Ingen treff'
+
+  somethingError = 'Noe gikk galt, venligst prøv igjen!'
 
   Username = 'Brukernavn'
 

@@ -23,6 +23,8 @@ export default class English implements ILanguage {
   newShoppingList = 'New Shopping list'
   categoryError = 'Category is required'
   itemNameError = 'Item name is required'
+  shoppingListSaved = 'Shoppinglist successfully saved!'
+  shoppingListDeleted = 'Shoppinglist successfully deleted!'
 
   myRecipes = 'My recipes'
   allRecipes = 'All recipes'
@@ -45,6 +47,8 @@ export default class English implements ILanguage {
   household = 'Household'
 
   noMatch = 'No match'
+
+  somethingError = 'Something went wrong, please try again!'
 
   Username = 'Your username'
 
