@@ -36,7 +36,7 @@ namespace handlelisteApp.Services
             {
                 RecipeName = recipe.RecipeName,
                 Approach = recipe.Approach,
-                ShortDescription = recipe.Approach,
+                ShortDescription = recipe.ShortDescription,
                 UserID = userId,
                 Items = new List<ItemInRecipe>()
             };
@@ -142,7 +142,7 @@ namespace handlelisteApp.Services
                 return null;
             }
 
-            if(storedRecipe.UserID != userId) //Some user other than the recipe's creator is trying to change it
+            if (storedRecipe.UserID != userId) //Some user other than the recipe's creator is trying to change it
             {
                 return null;
             }
@@ -151,7 +151,7 @@ namespace handlelisteApp.Services
             storedRecipe.Approach = recipe.Approach;
             storedRecipe.ShortDescription = recipe.ShortDescription;
             storedRecipe.Items = new List<ItemInRecipe>();
-            
+
             foreach (var item in recipe.Items)
             {
                 var storedItem = _itemRepository.FindByItemName(item.ItemName);
