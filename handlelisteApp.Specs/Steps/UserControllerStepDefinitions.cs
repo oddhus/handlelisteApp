@@ -23,13 +23,13 @@ namespace handlelisteApp.Specs.Steps
 
 
         private Mock<IUserService> _mockUserService;
-        
+
         private UserDTO newUserDTO;
         private User user;
 
         UserController _userController;
 
-       
+
 
         public UserControllerStepDefinitions(ScenarioContext scenarioContext)
         {
@@ -43,7 +43,7 @@ namespace handlelisteApp.Specs.Steps
         public void GivenIPOSTAValidUserToTheUsercontroller()
         {
 
-            user = new User { Username = "TestUser", UserAge = 1, EmailAdress = "test@test.com" };
+            user = new User { Username = "TestUser", UserAge = 1, EmailAddress = "test@test.com" };
 
 
             _mockUserService = new Mock<IUserService>();
@@ -51,7 +51,7 @@ namespace handlelisteApp.Specs.Steps
             _mockUserService.Setup(s => s.CreateNewUser(user)).Returns(new UserDTO { Username = user.Username, UserAge = user.UserAge });
             _mockUserService.Setup(s => s.GetUser(It.IsAny<int>())).Returns(newUserDTO);
 
-           
+
             _userController = new UserController(_mockUserService.Object);
 
             var result = _userController.CreateUser(user);

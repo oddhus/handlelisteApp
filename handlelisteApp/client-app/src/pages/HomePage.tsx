@@ -51,7 +51,9 @@ export const HomePage: React.FC<Props> = observer(() => {
             size="lg"
             colorScheme="blue"
             mt="24px"
-            onClick={() => history.push(`/shopping-list/${userStore.user?.id}`)}
+            onClick={() =>
+              history.push(`/shopping-list/${userStore.user?.userID}`)
+            }
           >
             {settingStore.language.myShoppingList}
           </Button>

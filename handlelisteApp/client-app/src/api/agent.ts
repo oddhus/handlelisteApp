@@ -30,7 +30,11 @@ const User = {
   getUsers: (): Promise<IUser> => requests.get('user'),
   signUp: (user: IUser) => requests.post('user', user),
   login: (loginDetails: any) => requests.post('user/login', loginDetails),
-  currentUser: () => requests.get('user/loggedIn'),
+  currentUser: () =>
+    requests.get('user/loggedIn').then((res) => {
+      console.log(res)
+      return res
+    }),
 }
 
 const shoppingList = {

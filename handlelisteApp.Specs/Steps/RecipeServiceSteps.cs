@@ -70,7 +70,7 @@ namespace handlelisteApp.Specs.Steps
                     new ItemInRecipe()
                     {
                         Item = item,
-                        Quantiy = 2,
+                        Quantity = 2,
                         Unit = "pcs",
                         ItemID = 1,
                         RecipeID = 123,

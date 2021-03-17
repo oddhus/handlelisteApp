@@ -37,7 +37,7 @@ namespace handlelisteApp.Data
 
         public IEnumerable<Recipe> GetAllUserRecipes(int userID)
         {
-            return _context.Recipes.Where(r => r.UserID == userID).Include(r => r.Items).ToList();
+            return _context.Recipes.Where(r => r.UserID == userID).Include(r => r.Items).ThenInclude(iir => iir.Item).ToList();
         }
 
         public IEnumerable<Recipe> GetAllRecipesUsingItem(Item item)

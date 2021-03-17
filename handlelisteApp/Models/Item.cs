@@ -10,6 +10,5 @@ namespace handlelisteApp.Models
         public int ItemID { get; set; }
         public String ItemName { get; set; }
         public double Weight { get; set; }
-
     }
 }

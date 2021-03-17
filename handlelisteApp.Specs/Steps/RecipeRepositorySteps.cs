@@ -45,14 +45,14 @@ namespace handlelisteApp.Specs.Features
             {
                 RecipeID = 0,
                 RecipeName = "EggRecipe",
-                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs, Quantiy = 1 } },
+                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs, Quantity = 1 } },
                 UserID = 1
             };
             EggRecipe2 = new Recipe
             {
                 RecipeID = 1,
                 RecipeName = "EggRecipe2",
-                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs, Quantiy = 2 } },
+                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs, Quantity = 2 } },
                 UserID = 1
             };
 
@@ -60,21 +60,21 @@ namespace handlelisteApp.Specs.Features
             {
                 RecipeID = 2,
                 RecipeName = "MilkRecipe2",
-                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantiy = 1 } },
+                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantity = 1 } },
                 UserID = 1
             };
             MilkRecipe2 = new Recipe
             {
                 RecipeID = 3,
                 RecipeName = "MilkRecipe2",
-                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantiy = 2 } },
+                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantity = 2 } },
                 UserID = 1
             };
             CheeseRecipe = new Recipe
             {
                 RecipeID = 4,
                 RecipeName = "CheeseRecipe",
-                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Cheese, Quantiy = 2 } },
+                Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Cheese, Quantity = 2 } },
                 UserID = 2
             };
             MilkAndEggsRecipe = new Recipe

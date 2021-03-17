@@ -1,4 +1,5 @@
 import { makeAutoObservable, reaction } from 'mobx'
+import { store } from './store'
 
 export default class CommonStore {
   token: string | null = window.localStorage.getItem('jwt')

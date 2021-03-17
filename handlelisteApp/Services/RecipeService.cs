@@ -45,7 +45,7 @@ namespace handlelisteApp.Services
                 {
                     ItemID = storedItem.ItemID,
                     Item = storedItem,
-                    Quantiy = item.Quantity,
+                    Quantity = item.Quantity,
                     Recipe = newRecipe,
                     Unit = item.Unit
                 });
@@ -95,7 +95,7 @@ namespace handlelisteApp.Services
             RecipeDTO recipeDTO = new RecipeDTO() { RecipeID = recipe.RecipeID, RecipeName = recipe.RecipeName, Approach = recipe.Approach, ShortDescription = recipe.ShortDescription, Items = new List<ItemInRecipeDTO>() };
             foreach (ItemInRecipe itemInRecipe in recipe.Items)
             {
-                recipeDTO.Items.Add(new ItemInRecipeDTO() { ItemName = itemInRecipe.Item.ItemName, Quantity = itemInRecipe.Quantiy, Unit = itemInRecipe.Unit });
+                recipeDTO.Items.Add(new ItemInRecipeDTO() { ItemName = itemInRecipe.Item.ItemName, Quantity = itemInRecipe.Quantity, Unit = itemInRecipe.Unit });
             }
             return recipeDTO;
         }

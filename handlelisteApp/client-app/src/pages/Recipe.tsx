@@ -30,6 +30,8 @@ export const Recipe: React.FC<Props> = observer(() => {
     }
   }, [recipeId])
 
+  console.log('Items', recipeStore.currentRecipe?.items)
+
   if (recipeStore.loading) {
     return (
       <Center>
@@ -66,13 +68,15 @@ export const Recipe: React.FC<Props> = observer(() => {
             </Tr>
           </Thead>
           <Tbody>
-            {recipeStore.currentRecipe!.items.map((item) => (
-              <Tr>
-                <Td>{item.productName}</Td>
-                <Td isNumeric>{item.quantity}</Td>
-                <Td>{item.unit}</Td>
-              </Tr>
-            ))}
+            {recipeStore.currentRecipe!.items.map((item) => {
+              return (
+                <Tr key={`${item.itemName}-${item.quantity}`}>
+                  <Td>{item.itemName}</Td>
+                  <Td isNumeric>{item.quantity}</Td>
+                  <Td>{item.unit}</Td>
+                </Tr>
+              )
+            })}
           </Tbody>
         </Table>
       </VStack>

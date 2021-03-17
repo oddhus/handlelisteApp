@@ -26,6 +26,8 @@ export const RecipeList: React.FC<Props> = observer(
     const { recipeStore } = useStore()
     const history = useHistory()
 
+    console.log(recipes)
+
     return (
       <Fragment>
         <Table>

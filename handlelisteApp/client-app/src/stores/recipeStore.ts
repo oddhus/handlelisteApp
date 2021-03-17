@@ -99,7 +99,7 @@ export default class RecipeStore {
       }
 
       if (store.userStore.user) {
-        const userId = parseInt(store.userStore.user.id)
+        const userId = parseInt(store.userStore.user.userID)
         const oldList = this.usersRecipeList.get(userId) || []
         runInAction(() => {
           this.currentRecipe = newRecipe
@@ -125,7 +125,7 @@ export default class RecipeStore {
       return
     }
 
-    const userId = parseInt(store.userStore.user?.id)
+    const userId = parseInt(store.userStore.user?.userID)
 
     try {
       const updatedRecipe = (await agent.recipe.updateRecipe(

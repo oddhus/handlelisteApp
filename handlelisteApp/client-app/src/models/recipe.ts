@@ -7,7 +7,7 @@ export interface IRecipe {
 }
 
 export interface IitemInRecipe {
-  productName: string
+  itemName: string
   quantity: number
   unit: string
 }

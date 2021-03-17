@@ -12,10 +12,11 @@ export const MyRecipes: React.FC<Props> = observer(() => {
   const history = useHistory()
 
   useEffect(() => {
-    if (userStore.user?.id) {
-      recipeStore.getUserRecipes(parseInt(userStore.user.id))
+    console.log(userStore.user?.userID)
+    if (userStore.user?.userID) {
+      recipeStore.getUserRecipes(parseInt(userStore.user.userID))
     }
-  }, [])
+  }, [userStore.user])
 
   return (
     <VStack>
