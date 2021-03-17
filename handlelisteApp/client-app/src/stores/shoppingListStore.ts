@@ -11,6 +11,8 @@ export default class shoppingListStore {
   }
   shoppingLists: IShoppingList[] = []
   isNew: boolean = false
+  isLoading: boolean = false
+  feedBack: any = null
   constructor() {
     makeAutoObservable(this)
   }
@@ -35,13 +37,18 @@ export default class shoppingListStore {
 
   fetchShoppingLists = async () => {
     try {
+      this.isLoading = true
       let shoppingLists = await agent.shoppingLists.getShoppingLists()
       if (shoppingLists == undefined) shoppingLists = []
       runInAction(() => {
         this.shoppingLists = shoppingLists
+        this.isLoading = false
       })
     } catch (e) {
-      console.log(e)
+      this.feedBack = {
+        status: e.response.status,
+        type: 'error'
+      }
     }
   }
 
@@ -51,17 +58,17 @@ export default class shoppingListStore {
         this.shoppingList,
         this.shoppingList.shoppingListID
       )
-      let index = newList.indexOf(
-        this.shoppingLists.find(
-          (list) => list.shoppingListID === newList.shoppingListID
-        )
-      )
+      let index = this.shoppingLists.findIndex(i => i.shoppingListID === newList.shoppingListID)
       runInAction(() => {
+        this.feedBack = {
+          status: 200,
+          type: "success"
+        }
         this.shoppingLists[index] = newList
         this.shoppingList = newList
       })
     } catch (e) {
-      throw e
+      this.setError(e)
     }
   }
 
@@ -71,9 +78,13 @@ export default class shoppingListStore {
       runInAction(() => {
         this.shoppingLists.push(addedList)
         this.shoppingList = addedList
+        this.feedBack = {
+          status: 200,
+          type: "success"
+        }
       })
     } catch (e) {
-      throw e
+      this.setError(e)
     }
   }
 
@@ -90,10 +101,14 @@ export default class shoppingListStore {
         (shoppingList) => shoppingList !== listToDelete
       )
       runInAction(() => {
+        this.feedBack = {
+          status: 200,
+          type: "success"
+        }
         this.shoppingLists = newListOfShopLists
       })
     } catch (e) {
-      throw e
+      this.setError(e)
     }
   }
 
@@ -134,6 +149,13 @@ export default class shoppingListStore {
     runInAction(() => {
       this.shoppingList.items[index].hasBeenBought = !this.shoppingList.items[index].hasBeenBought
     })
+  }
 
+  setError = (e: any) => {
+    console.log(e)
+    this.feedBack = {
+      status: e.response.status,
+      type: 'error'
+    }
   }
 }

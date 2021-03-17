@@ -24,9 +24,13 @@ jest.mock('../../stores/store', () => ({
             itemName: 'melk',
             quantity: 3,
             unit: 'liter',
-            hasBeenBought: false
+            hasBeenBought: false,
           },
         ],
+      },
+      feedBack: {
+        status: 200,
+        type: 'success',
       },
       getShoppinglist(id: number) {
         return [
@@ -38,7 +42,7 @@ jest.mock('../../stores/store', () => ({
                 itemName: 'product',
                 quantity: 1,
                 unit: 'pcs',
-                hasBeenBought: false
+                hasBeenBought: false,
               },
             ],
           },

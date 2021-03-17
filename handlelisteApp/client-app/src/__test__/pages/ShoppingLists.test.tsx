@@ -9,6 +9,10 @@ jest.mock('../../stores/store', () => ({
   useStore: () => ({
     shoppingListStore: {
       shoppingLists: [],
+      feedBack: {
+        status: 200,
+        type: 'success',
+      },
       fetchShoppingLists() {},
     },
     settingStore: {

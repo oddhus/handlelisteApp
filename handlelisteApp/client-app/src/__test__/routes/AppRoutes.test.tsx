@@ -38,6 +38,10 @@ jest.mock('../../stores/store', () => ({
           },
         ],
       },
+      feedBack: {
+        status: 200,
+        type: 'success',
+      },
       shoppingLists: [],
       fetchShoppingLists() {},
       getShoppinglist(id: number) {

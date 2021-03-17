@@ -19,6 +19,8 @@ export interface ILanguage {
   newShoppingList: string
   categoryError: string
   itemNameError: string
+  shoppingListSaved: string
+  shoppingListDeleted: string
 
   myRecipes: string
   allRecipes: string
@@ -41,6 +43,8 @@ export interface ILanguage {
   household: string
 
   noMatch: string
+
+  somethingError: string
 
   Username: string
 

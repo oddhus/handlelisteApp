@@ -5,6 +5,7 @@ import { ListComponent } from '../components/shoppingList/ListComponent'
 import { AddItem } from '../components/shoppingList/AddItem'
 import { useStore } from '../stores/store'
 import { observer } from 'mobx-react-lite'
+import { Toast } from '../components/shared/Toast'
 
 interface Props {}
 
@@ -16,6 +17,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
   const makingNewList = useLocation().pathname.includes('new-shopping-list')
   const paramObj: useParam = useParams()
   const { shoppingListStore, settingStore } = useStore()
+  const [edit, setEdit] = useState(makingNewList)
 
   useEffect(() => {
     shoppingListStore.isNew = makingNewList
@@ -37,20 +39,20 @@ export const ShoppingList: React.FC<Props> = observer(() => {
     <Container maxW="container.xl">
       <FormControl display="flex" alignItems="center" mb={5}>
         <FormLabel htmlFor="email-alerts" mb="0">
-          {shoppingListStore.isNew
+          {edit
             ? settingStore.language.saveList
             : settingStore.language.editList}
         </FormLabel>
         <Switch
           colorScheme="teal"
           id="editList"
-          isChecked={shoppingListStore.isNew}
+          isChecked={edit}
           onChange={(e) => {
-            if (shoppingListStore.isNew) {
-              shoppingListStore.isNew = e.target.checked
+            if (edit) {
               shoppingListStore.handleSaveList()
+              setEdit(e.target.checked)
             }
-            shoppingListStore.isNew = e.target.checked
+            setEdit(e.target.checked)
           }}
         />
       </FormControl>
@@ -61,9 +63,19 @@ export const ShoppingList: React.FC<Props> = observer(() => {
         deleteItem={shoppingListStore.onDeleteItem}
         onChecked={shoppingListStore.onChecked}
       />
-      {shoppingListStore.isNew ? (
-        <AddItem onAdd={shoppingListStore.addItem} />
-      ) : null}
+      {edit ? <AddItem onAdd={shoppingListStore.addItem} /> : null}
+
+      {shoppingListStore.feedBack !== null && (
+        <Toast
+          text={
+            shoppingListStore.feedBack.status !== 200
+              ? settingStore.language.somethingError
+              : settingStore.language.shoppingListSaved
+          }
+          store={shoppingListStore}
+          status={shoppingListStore.feedBack.type}
+        />
+      )}
     </Container>
   )
 })
