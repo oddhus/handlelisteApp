@@ -10,16 +10,14 @@ interface Props {
 export const Toast: React.FC<Props> = ({ status, text, store }) => {
   const toast = useToast()
   useEffect(() => {
-    {
-      store.feedBack !== null &&
-        toast({
-          title: text,
-          status: status,
-          isClosable: true,
-          position: 'bottom',
-          onCloseComplete: () => (store.feedBack = null),
-        })
-    }
+    store.feedBack !== null &&
+      toast({
+        title: text,
+        status: status,
+        isClosable: true,
+        position: 'bottom',
+        onCloseComplete: () => (store.feedBack = null),
+      })
   }, [status, text, store, toast])
   return <Wrap hidden={true}></Wrap>
 }

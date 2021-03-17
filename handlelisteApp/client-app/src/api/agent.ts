@@ -30,40 +30,33 @@ const User = {
   getUsers: (): Promise<IUser> => requests.get('user'),
   signUp: (user: IUser) => requests.post('user', user),
   login: (loginDetails: any) => requests.post('user/login', loginDetails),
-  currentUser: () =>
-    requests.get('user/loggedIn').then((res) => {
-      console.log(res)
-      return res
-    }),
+  currentUser: () => requests.get('user/loggedIn'),
 }
 
 const shoppingList = {
   postShoppingList: (shoppingList: any) =>
-    requests.post('ShoppingList', shoppingList).then(response),
+    requests.post('ShoppingList', shoppingList),
   updateShoppingList: (shoppingList: any, id: number) =>
-    requests.put('ShoppingList/' + id, shoppingList).then(response),
-  getShoppingList: (id: number) =>
-    requests.get('shoppinglist/' + id).then(response),
+    requests.put('ShoppingList/' + id, shoppingList),
+  getShoppingList: (id: number) => requests.get('shoppinglist/' + id),
   deleteShoppingList: (id: number) => requests.del('shoppinglist/' + id),
 }
 
 const shoppingLists = {
-  getShoppingLists: () => requests.get('shoppinglist').then(response),
+  getShoppingLists: () => requests.get('shoppinglist'),
 }
 
 const recipe = {
-  postRecipe: (recipe: IRecipe) =>
-    requests.post('recipe', recipe).then((res) => res),
+  postRecipe: (recipe: IRecipe) => requests.post('recipe', recipe),
   updateRecipe: (recipe: IRecipe, id: number) =>
-    requests.put('recipe/' + id, recipe).then(response),
-  getRecipe: (id: number) => requests.get('recipe/' + id).then(response),
-  deleteRecipe: (id: number) => requests.del('recipe/' + id).then(response),
+    requests.put('recipe/' + id, recipe),
+  getRecipe: (id: number) => requests.get('recipe/' + id),
+  deleteRecipe: (id: number) => requests.del('recipe/' + id),
 }
 
 const recipes = {
-  getAllUserRecipes: (id: number) =>
-    requests.get('recipe/user/' + id).then(response),
-  getAllRecipes: () => requests.get('recipe/all').then(response),
+  getAllUserRecipes: (id: number) => requests.get('recipe/user/' + id),
+  getAllRecipes: () => requests.get('recipe/all'),
 }
 
 const myKitchen = {
