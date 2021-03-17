@@ -4,50 +4,50 @@ import {IMyKitchenList} from "../models/myKitchenList";
 import agent from "../api/agent";
 import {Iitem} from "../models/ShoppingList";
 import {store} from "./store";
-import {SyntheticEvent} from "react";
 
 export default class MyKitchenStore {
     myKitchenList: IMyKitchenList | null = null
     itemsInMyKitchen = new Map();
     loading: boolean = false
-    target = '';
-
+    
+    
+    
     constructor() {
         makeAutoObservable(this)
     }
-
+    
     get itemsInMyKitchenToArray() {
         return Array.from(this.itemsInMyKitchen.values())
     }
-
-    getMyKitchen = async () => {
+    
+    getMyKitchen = async() => {
         this.loading = true
         try {
             const myKitchenList = await agent.myKitchen.getMyKitchen()
-            runInAction(() => {
+            runInAction(() =>{
                 this.myKitchenList = myKitchenList
-                this.myKitchenList?.items.forEach(item => {
+                this.myKitchenList?.items.forEach(item =>{
                     this.itemsInMyKitchen.set(item.itemName, item)
                 })
                 this.loading = false
             })
-        } catch (e) {
+        }catch (e) {
             runInAction(() => {
                 this.loading = false
             })
-            throw e
+            throw e 
         }
     }
 
-    updateItemInMyKitchen = async (item: Iitem) => {
+    updateItemInMyKitchen = async (item: Iitem) =>{
         this.loading = true
         try {
             this.itemsInMyKitchen.set(item.itemName, item)
             this.loading = false
-        } catch (e) {
+        }catch(e){
             this.loading = false
             throw e
-        }
+        } 
     }
 
     onChangeQuantity = (item: Iitem, add: boolean) => {
@@ -55,7 +55,7 @@ export default class MyKitchenStore {
         this.updateItemInMyKitchen(item)
     }
 
-    addItemInMyKitchen = async (item: Iitem) => {
+    addItemInMyKitchen = async (item: Iitem) =>{
         this.loading = true
         try {
             //const newItem = await agent.myKitchen.addItemToMyKitchen(item)
@@ -64,7 +64,7 @@ export default class MyKitchenStore {
                 this.loading = false
             })
             store.modalStore.closeModal()
-        } catch (e) {
+        }catch(e){
             runInAction(() => {
                 this.loading = false
             })
@@ -72,7 +72,7 @@ export default class MyKitchenStore {
         }
     }
 
-    deleteItemInMyKitchen = async (item: Iitem, event: SyntheticEvent<HTMLButtonElement>) => {
+    deleateItemInMyKitchen = async (item: Iitem) =>{
         this.loading = true
         try {
             //const newItem = await agent.myKitchen.addItemToMyKitchen(item)
@@ -80,7 +80,7 @@ export default class MyKitchenStore {
                 this.itemsInMyKitchen.delete(item.itemName)
                 this.loading = false
             })
-        } catch (e) {
+        }catch(e){
             runInAction(() => {
                 this.loading = false
             })
