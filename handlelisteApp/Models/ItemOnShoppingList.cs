@@ -14,5 +14,6 @@ namespace handlelisteApp.Models
         public int Quantity { get; set; }
         public string Unit { get; set; }
         public bool HasBeenBought { get; set; }
+        public string Category { get; set; }
     }
 }

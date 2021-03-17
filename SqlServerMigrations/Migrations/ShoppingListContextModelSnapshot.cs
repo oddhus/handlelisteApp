@@ -87,6 +87,9 @@ namespace SqlServerMigrations.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("HasBeenBought")
                         .HasColumnType("bit");
 
