@@ -15,7 +15,7 @@ For å oppdatere SqlServer skriv følgende kommando fra handlelisteApp-mappen:
 - (2) Skriv inn kommandoen: dotnet ef migrations add NavnetPaMigrasjonen --project ../SqlServerMigrations -- --provider SqlServer
 - (3) Sørg deretter for at "Provider" i appsetting står til "SqlServer".
 - (4) Start prosjektet ved å skrive inn: dotnet run. Deretter avslutt kjøringen (her går det sikkert an å bruke dotnet build eller dotnet restore også)
-- (5) Naviger til mappen SqServerMigrations og skriv inn: dotnet ef database update --startup-project ../handlelisteApp
+- (5) Naviger til mappen SqlServerMigrations og skriv inn: dotnet ef database update --startup-project ../handlelisteApp
 - Hvis dette ikke fungerer ta å slett /bin mappen i handlelisteApp, og begynn på punkt 4.
 
 

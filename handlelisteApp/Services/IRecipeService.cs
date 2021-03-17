@@ -10,11 +10,19 @@ namespace handlelisteApp.Services
     public interface IRecipeService
     {
         IEnumerable<RecipeDTO> GetAllRecipes();
+
         RecipeDTO GetRecipeById(int id);
-        RecipeDTO AddRecipe(RecipeDTO recipe);
+
+        RecipeDTO AddRecipe(RecipeDTO recipe, int userId);
+
         IEnumerable<RecipeDTO> GetRecipesMatchingBasedOnItemsInMyKitchen(MyKitchen kitchen);
+
         IEnumerable<RecipeDTO> GetRecipesUsingItem(Item item);
+
+        List<RecipeDTO> GetAllByUserIdRecipes(int userId);
+
         RecipeDTO UpdateRecipe(int id, RecipeDTO recipe);
+
         bool DeleteRecipe(int id);
     }
 }

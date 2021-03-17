@@ -1,10 +1,12 @@
 ﻿using handlelisteApp.Models;
 using handlelisteApp.Models.DTO;
 using handlelisteApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace handlelisteApp.Controllers
@@ -13,7 +15,6 @@ namespace handlelisteApp.Controllers
     [Route("[controller]")]
     public class RecipeController : Controller
     {
-
         private readonly IRecipeService _recipeService;
 
         public RecipeController(IRecipeService service)
@@ -21,7 +22,7 @@ namespace handlelisteApp.Controllers
             _recipeService = service;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public IEnumerable<RecipeDTO> GetAllRecipes()
         {
             return _recipeService.GetAllRecipes();
@@ -31,17 +32,24 @@ namespace handlelisteApp.Controllers
         public ActionResult<RecipeDTO> GetRecipe(int id)
         {
             RecipeDTO recipe = _recipeService.GetRecipeById(id);
-            if(recipe == null)
+            if (recipe == null)
             {
                 return NotFound();
             }
             return recipe;
         }
 
+        [HttpGet("user/{id}")]
+        public List<RecipeDTO> Get(int id)
+        {
+            return _recipeService.GetAllByUserIdRecipes(id);
+        }
+
+        [Authorize]
         [HttpPost]
         public ActionResult<RecipeDTO> CreateNewRecipe(RecipeDTO recipe)
         {
-            RecipeDTO savedRecipe = _recipeService.AddRecipe(recipe);
+            RecipeDTO savedRecipe = _recipeService.AddRecipe(recipe, GetUserId());
             return savedRecipe;
         }
 
@@ -72,6 +80,9 @@ namespace handlelisteApp.Controllers
             return NoContent();
         }
 
-
+        private int GetUserId()
+        {
+            return Int32.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        }
     }
 }

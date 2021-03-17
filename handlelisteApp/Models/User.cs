@@ -14,9 +14,8 @@ namespace handlelisteApp.Models
         public int UserAge { get; set; }
         public ICollection<ShoppingList> ShoppingLists { get; set; }
         public string EmailAdress { get; set; }
-        public Preferences Preferences {get; set;}
+        public Preferences Preferences { get; set; }
         public MyKitchen MyKitchen { get; set; }
-
-
+        public ICollection<Recipe> Recipes { get; set; }
     }
 }

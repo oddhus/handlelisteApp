@@ -12,6 +12,7 @@ export default class RecipeStore {
   loading: boolean = false
   successToastMessage: string = ''
   errorToastMessage: string = ''
+  tabIndex: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -55,14 +56,14 @@ export default class RecipeStore {
   getUserRecipes = async (id: number) => {
     this.resetAndStartLoading()
 
-    let userRecipes = this.usersRecipeList.get(id)
-    if (userRecipes) {
-      runInAction(() => (this.loading = false))
-      return
-    }
+    // let userRecipes = this.usersRecipeList.get(id)
+    // if (userRecipes) {
+    //   runInAction(() => (this.loading = false))
+    //   return
+    // }
 
     try {
-      userRecipes = await agent.recipes.getAllUserRecipes(id)
+      const userRecipes = await agent.recipes.getAllUserRecipes(id)
       runInAction(() => {
         this.usersRecipeList.set(id, userRecipes || [])
         this.currentRecipeList = userRecipes || []
@@ -94,6 +95,7 @@ export default class RecipeStore {
 
       if (!newRecipe) {
         this.error('create recipe.')
+        return
       }
 
       if (store.userStore.user) {
@@ -103,7 +105,7 @@ export default class RecipeStore {
           this.currentRecipe = newRecipe
           this.usersRecipeList.set(userId, [...oldList, newRecipe])
           this.successToastMessage = 'Recipe created successfully'
-          runInAction(() => (this.loading = false))
+          this.loading = false
           history.push(`recipe/${newRecipe.recipeID}`)
         })
       }
@@ -170,6 +172,13 @@ export default class RecipeStore {
         this.currentRecipeList = this.currentRecipeList.filter(
           (recipe) => recipe.recipeID !== id
         )
+
+        this.allRecipes = this.allRecipes.filter(
+          (recipe) => recipe.recipeID !== id
+        )
+
+        this.successToastMessage = 'Deleted successfully'
+        this.loading = false
       })
     } catch (e) {
       this.error('delete recipe')
@@ -182,6 +191,10 @@ export default class RecipeStore {
       this.successToastMessage = ''
       this.errorToastMessage = ''
     })
+  }
+
+  setTabIndex(index: number) {
+    runInAction(() => (this.tabIndex = index))
   }
 
   private resetAndStartLoading() {

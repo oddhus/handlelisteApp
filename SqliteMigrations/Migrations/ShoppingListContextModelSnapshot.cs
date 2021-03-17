@@ -148,7 +148,12 @@ namespace SqliteMigrations.Migrations
                     b.Property<string>("ShortDescription")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("RecipeID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Recipes");
                 });
@@ -271,6 +276,17 @@ namespace SqliteMigrations.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("handlelisteApp.Models.Recipe", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.User", "user")
+                        .WithMany("Recipes")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
                 {
                     b.HasOne("handlelisteApp.Models.User", "user")
@@ -309,6 +325,8 @@ namespace SqliteMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.User", b =>
                 {
                     b.Navigation("MyKitchen");
+
+                    b.Navigation("Recipes");
 
                     b.Navigation("ShoppingLists");
                 });

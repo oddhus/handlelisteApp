@@ -9,12 +9,19 @@ namespace handlelisteApp.Data
     public interface IRecipeRepository
     {
         Recipe GetRecipeById(int id);
-        Recipe AddRecipe(Recipe newRecipe);
-        IEnumerable<Recipe> GetAllRecipes();
-        IEnumerable<Recipe> GetAllRecipesUsingItem(Item item);
-        IEnumerable<Recipe> GetAllRecipesUsingSeveralItems(List<Item> items);
-        void DeleteRecipe(Recipe recipe);
-        Recipe UpdateRecipe(int id, Recipe recipe);
 
+        Recipe AddRecipe(Recipe newRecipe);
+
+        IEnumerable<Recipe> GetAllRecipes();
+
+        IEnumerable<Recipe> GetAllRecipesUsingItem(Item item);
+
+        IEnumerable<Recipe> GetAllRecipesUsingSeveralItems(List<Item> items);
+
+        IEnumerable<Recipe> GetAllUserRecipes(int id);
+
+        void DeleteRecipe(Recipe recipe);
+
+        Recipe UpdateRecipe(int id, Recipe recipe);
     }
 }

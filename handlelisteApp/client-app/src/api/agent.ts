@@ -49,17 +49,17 @@ const shoppingLists = {
 
 const recipe = {
   postRecipe: (recipe: IRecipe) =>
-    requests.post('recipe', recipe).then(responseBody),
+    requests.post('recipe', recipe).then((res) => res),
   updateRecipe: (recipe: IRecipe, id: number) =>
-    requests.put('recipe/' + id, shoppingList).then(responseBody),
-  getRecipe: (id: number) => requests.get('recipe/' + id).then(responseBody),
-  deleteRecipe: (id: number) => requests.del('recipe/' + id).then(responseBody),
+    requests.put('recipe/' + id, recipe).then(response),
+  getRecipe: (id: number) => requests.get('recipe/' + id).then(response),
+  deleteRecipe: (id: number) => requests.del('recipe/' + id).then(response),
 }
 
 const recipes = {
   getAllUserRecipes: (id: number) =>
-    requests.get('recipes/' + id).then(responseBody),
-  getAllRecipes: () => requests.get('recipes/all').then(responseBody),
+    requests.get('recipe/user/' + id).then(response),
+  getAllRecipes: () => requests.get('recipe/all').then(response),
 }
 
 const myKitchen = {

@@ -8,47 +8,48 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useToast,
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
-import { IRecipe } from '../models/recipe'
 
 interface Props {}
 
-const DUMMY_DATA = [
-  {
-    recipeID: 1,
-    recipeName: 'Hamburger',
-    shortDescription: 'Smaker godt',
-    approach: 'Stek den på grillen',
-  },
-  {
-    recipeID: 2,
-    recipeName: 'Ostesmørbrød',
-    shortDescription: 'Smaker godt',
-    approach: 'Stek det på grillen',
-  },
-  {
-    recipeID: 3,
-    recipeName: 'Pølse i brød',
-    shortDescription: 'Smaker godt',
-    approach: 'Stek pølsen på grillen',
-  },
-] as IRecipe[]
-
 export const Recipes: React.FC<Props> = observer(() => {
-  const { settingStore, recipeStore } = useStore()
+  const { settingStore, recipeStore, userStore } = useStore()
+
+  const toast = useToast()
 
   useEffect(() => {
-    recipeStore.allRecipes = DUMMY_DATA
-    recipeStore.currentRecipeList = DUMMY_DATA
+    recipeStore.reset()
   }, [])
+
+  useEffect(() => {
+    if (recipeStore.errorToastMessage || recipeStore.successToastMessage) {
+      toast({
+        title: !!recipeStore.errorToastMessage ? 'Failed' : 'Success',
+        description: !!recipeStore.errorToastMessage
+          ? recipeStore.errorToastMessage
+          : recipeStore.successToastMessage,
+        status: !!recipeStore.errorToastMessage ? 'error' : 'success',
+        duration: 4000,
+        isClosable: true,
+      })
+    }
+  }, [recipeStore.errorToastMessage, recipeStore.successToastMessage, toast])
 
   return (
     <Container maxW="container.md">
-      <Tabs isFitted variant="enclosed">
-        <TabList mb="1em">
-          <Tab>{settingStore.language.myRecipes}</Tab>
+      <Tabs
+        isFitted
+        variant="enclosed"
+        index={userStore.isLoggedIn ? recipeStore.tabIndex : 1}
+        onChange={(index) => recipeStore.setTabIndex(index)}
+      >
+        <TabList>
+          <Tab isDisabled={!userStore.isLoggedIn}>
+            {settingStore.language.myRecipes}
+          </Tab>
           <Tab>{settingStore.language.allRecipes}</Tab>
         </TabList>
         <TabPanels>

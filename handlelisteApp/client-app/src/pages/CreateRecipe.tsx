@@ -226,7 +226,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                           gap={2}
                         >
                           <GridItem colSpan={isLargerThan500 ? 5 : 12}>
-                            <Field name={`items[${index}].productName`}>
+                            <Field name={`items[${index}].itemName`}>
                               {({ form, field }: FieldProps) => {
                                 return (
                                   <FormControl
@@ -236,13 +236,13 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                                   >
                                     <Input
                                       {...field}
-                                      id={`items[${index}].productName`}
+                                      id={`items[${index}].itemName`}
                                       placeholder={
                                         settingStore.language.ingredient
                                       }
                                     />
                                     <FormErrorMessage>
-                                      {form.errors.productName}
+                                      {form.errors.itemName}
                                     </FormErrorMessage>
                                   </FormControl>
                                 )
@@ -314,9 +314,9 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                       aria-label={settingStore.language.add}
                       onClick={() =>
                         arrayHelpers.push({
-                          productName: '',
+                          itemName: '',
                           quantity: 1,
-                          unit: '',
+                          unit: 'PCS',
                         })
                       }
                       icon={<AddIcon />}
