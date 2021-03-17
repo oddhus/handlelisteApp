@@ -12,14 +12,12 @@ function App() {
   useEffect(() => {
     if (commonStore.token) {
       userStore.getUser().finally(() => commonStore.setAppLoaded())
-      userStore.getUser()
-      console.log(userStore.user)
     } else {
       commonStore.setAppLoaded()
     }
   }, [commonStore, userStore])
 
-  if (!commonStore.appLoaded) return <LoadingComponent />
+  if (!commonStore.appLoaded) return <LoadingComponent loadingText='loading app' />
 
   return (
     <Fragment>

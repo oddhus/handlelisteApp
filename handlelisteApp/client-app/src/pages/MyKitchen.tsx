@@ -4,18 +4,16 @@ import {observer} from "mobx-react-lite";
 import {MyKitchenItems} from "../components/MyKitchen/MyKitchenItems";
 import {Iitem} from "../models/ShoppingList";
 import {useStore} from "../stores/store";
+import {LoadingComponent} from "../components/shared/LoadingComponent";
 
 interface Props {
 
 }
 
 export const MyKitchen: React.FC<Props> = observer(() => {
-
-    const [data, setData] = useState()
-
+    
     const {myKitchenStore} = useStore()
-
-
+    
     // FOR TESTING:
     const item: Iitem = {
         category: 'meieri',
@@ -50,13 +48,13 @@ export const MyKitchen: React.FC<Props> = observer(() => {
     }
 
     const items = [item, item1, item2, item3]
-
     useEffect(() => {
         items.forEach(item => {
             myKitchenStore.addItemInMyKitchen(item)
         })
     }, [])
 // TEST-BLOCK COMPLETE
+    if (myKitchenStore.loading) return <LoadingComponent loadingText='Loading My kitchen'/>
 
 
     return (
@@ -64,7 +62,7 @@ export const MyKitchen: React.FC<Props> = observer(() => {
             items={myKitchenStore.itemsInMyKitchenToArray}
             edit={true}
             onChangeQuantity={myKitchenStore.onChangeQuantity}
-            deleteItem={myKitchenStore.deleateItemInMyKitchen}
+            deleteItem={myKitchenStore.deleteItemInMyKitchen}
             onChecked={() => {
             }}/>
     )

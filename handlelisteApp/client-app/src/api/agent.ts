@@ -10,7 +10,6 @@ axios.defaults.baseURL = '/'
 const responseBody = (response: AxiosResponse) => response.data
 const response = (response: any) => response
 
-// @ts-ignore
 axios.interceptors.request.use((config: AxiosRequestConfig) => {
   const token = store.commonStore.token
   if (token) {
