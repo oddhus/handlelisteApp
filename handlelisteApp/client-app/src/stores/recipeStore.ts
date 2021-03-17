@@ -91,7 +91,7 @@ export default class RecipeStore {
     this.resetAndStartLoading()
 
     try {
-      const newRecipe = (await agent.recipe.postRecipe(recipe)) as IRecipe
+      const newRecipe = await agent.recipe.postRecipe(recipe)
 
       if (!newRecipe) {
         this.error('create recipe.')

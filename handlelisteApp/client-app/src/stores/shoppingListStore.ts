@@ -36,7 +36,9 @@ export default class shoppingListStore {
   fetchShoppingLists = async () => {
     try {
       let shoppingLists = await agent.shoppingLists.getShoppingLists()
-      if (shoppingLists == undefined) shoppingLists = []
+      if (!shoppingLists) {
+        shoppingLists = []
+      }
       runInAction(() => {
         this.shoppingLists = shoppingLists
       })
@@ -47,11 +49,11 @@ export default class shoppingListStore {
 
   saveShoppinglist = async () => {
     try {
-      let newList = await agent.shoppingList.updateShoppingList(
+      const newList = await agent.shoppingList.updateShoppingList(
         this.shoppingList,
         this.shoppingList.shoppingListID
       )
-      let index = this.shoppingLists.findIndex(
+      const index = this.shoppingLists.findIndex(
         (list) => list.shoppingListID === newList.shoppingListID
       )
       runInAction(() => {
