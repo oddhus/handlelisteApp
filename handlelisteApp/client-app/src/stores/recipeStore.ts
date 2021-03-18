@@ -120,7 +120,7 @@ export default class RecipeStore {
   updateRecipe = async (recipe: IRecipe, id: number) => {
     this.resetAndStartLoading()
 
-    if (!store.userStore.user) {
+    if (!store.userStore.user?.userID) {
       this.error('update recipe')
       return
     }
@@ -128,10 +128,7 @@ export default class RecipeStore {
     const userId = parseInt(store.userStore.user?.userID)
 
     try {
-      const updatedRecipe = (await agent.recipe.updateRecipe(
-        recipe,
-        id
-      )) as IRecipe
+      const updatedRecipe = await agent.recipe.updateRecipe(recipe, id)
 
       const oldList = this.usersRecipeList.get(userId) || []
       const index = oldList.findIndex(

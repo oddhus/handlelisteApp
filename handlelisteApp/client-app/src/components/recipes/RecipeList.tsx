@@ -11,9 +11,11 @@ import {
   Th,
   IconButton,
   HStack,
+  Tooltip,
 } from '@chakra-ui/react'
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { IRecipe } from '../../models/recipe'
+import { RecipeToShoppingList } from './RecipeToShoppingList'
 
 interface Props {
   recipes: IRecipe[]
@@ -23,7 +25,7 @@ interface Props {
 
 export const RecipeList: React.FC<Props> = observer(
   ({ recipes, deleteable, editable }) => {
-    const { recipeStore } = useStore()
+    const { recipeStore, modalStore } = useStore()
     const history = useHistory()
 
     return (
@@ -36,20 +38,32 @@ export const RecipeList: React.FC<Props> = observer(
             </Tr>
           </Thead>
           <Tbody>
-            {recipes.map((recipe) => (
-              <Tr
-                key={recipe.recipeID}
-                _hover={{
-                  boxShadow: 'rgba(0, 0, 0, 0.15) 0px 18px 43px',
-                  cursor: 'pointer',
-                }}
-              >
-                <Td onClick={() => history.push(`recipe/${recipe.recipeID}`)}>
-                  {recipe.recipeName}
-                </Td>
-                {(editable || deleteable) && (
+            {recipes &&
+              recipes.map((recipe) => (
+                <Tr
+                  key={recipe.recipeID}
+                  _hover={{
+                    boxShadow: 'rgba(0, 0, 0, 0.15) 0px 18px 43px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Td onClick={() => history.push(`recipe/${recipe.recipeID}`)}>
+                    {recipe.recipeName}
+                  </Td>
                   <Td>
                     <HStack justify="flex-end">
+                      <Tooltip label="Add to shopping list" fontSize="md">
+                        <IconButton
+                          colorScheme="green"
+                          aria-label="Add recipe"
+                          size="md"
+                          onClick={() => {
+                            recipeStore.setCurrentRecipe(recipe)
+                            modalStore.openModal(<RecipeToShoppingList />)
+                          }}
+                          icon={<AddIcon />}
+                        />
+                      </Tooltip>
                       {editable && (
                         <IconButton
                           colorScheme="yellow"
@@ -62,6 +76,7 @@ export const RecipeList: React.FC<Props> = observer(
                           icon={<EditIcon />}
                         />
                       )}
+
                       {deleteable && (
                         <IconButton
                           colorScheme="red"
@@ -78,9 +93,8 @@ export const RecipeList: React.FC<Props> = observer(
                       )}
                     </HStack>
                   </Td>
-                )}
-              </Tr>
-            ))}
+                </Tr>
+              ))}
           </Tbody>
         </Table>
       </Fragment>

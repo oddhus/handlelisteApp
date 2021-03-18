@@ -18,16 +18,16 @@ export default class shoppingListStore {
   }
 
   getShoppinglist = async (id: number) => {
-    let shoppingList = this.shoppingLists.find(
+    const shoppingList = this.shoppingLists.find(
       (shoppinglist) => shoppinglist.shoppingListID === id
     )
-    if (this.shoppingList != null && id == this.shoppingList.shoppingListID) {
-      return this.shoppingList.items
-    } else if (shoppingList === null || shoppingList === undefined) {
+    if (shoppingList) {
+      runInAction(() => (this.shoppingList = shoppingList))
+    } else {
       try {
-        const shoppingList = await agent.shoppingList.getShoppingList(id)
+        const fetchedShoppingList = await agent.shoppingList.getShoppingList(id)
         runInAction(() => {
-          this.shoppingList = shoppingList
+          this.shoppingList = fetchedShoppingList
         })
       } catch (e) {
         console.log(e)
@@ -60,7 +60,7 @@ export default class shoppingListStore {
         this.shoppingList,
         this.shoppingList.shoppingListID
       )
-      let index = this.shoppingLists.findIndex(
+      const index = this.shoppingLists.findIndex(
         (i) => i.shoppingListID === newList.shoppingListID
       )
       runInAction(() => {
@@ -78,7 +78,7 @@ export default class shoppingListStore {
 
   addShoppinglist = async () => {
     try {
-      let addedList = await agent.shoppingList.postShoppingList(
+      const addedList = await agent.shoppingList.postShoppingList(
         this.shoppingList
       )
       runInAction(() => {
@@ -103,7 +103,7 @@ export default class shoppingListStore {
   deleteShoppingList = async (listToDelete: IShoppingList) => {
     try {
       await agent.shoppingList.deleteShoppingList(listToDelete.shoppingListID)
-      let newListOfShopLists = this.shoppingLists.filter(
+      const newListOfShopLists = this.shoppingLists.filter(
         (shoppingList) => shoppingList !== listToDelete
       )
       runInAction(() => {
@@ -131,9 +131,21 @@ export default class shoppingListStore {
   }
 
   addItem = (item: Iitem) => {
-    runInAction(() => {
-      this.shoppingList.items.push(item)
-    })
+    const itemIndex = this.shoppingList.items.findIndex(
+      (existingItem) => existingItem.itemName === item.itemName
+    )
+
+    //If item exists increase quantity, else add to shoppinglist
+    if (itemIndex > -1) {
+      runInAction(() => {
+        this.shoppingList.items[itemIndex].quantity =
+          this.shoppingList.items[itemIndex].quantity + item.quantity
+      })
+    } else {
+      runInAction(() => {
+        this.shoppingList.items.push(item)
+      })
+    }
   }
 
   handleSaveList = () => {
@@ -172,5 +184,9 @@ export default class shoppingListStore {
       status: e.response.status,
       type: 'error',
     }
+  }
+
+  resetFeedBack = () => {
+    this.feedBack = null
   }
 }

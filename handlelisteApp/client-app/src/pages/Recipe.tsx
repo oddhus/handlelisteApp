@@ -1,27 +1,25 @@
 import { CircularProgress } from '@chakra-ui/progress'
 import {
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Tr,
   Center,
   Container,
   Heading,
   Text,
   VStack,
-  Thead,
   Box,
+  Divider,
+  Button,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { ItemList } from '../components/recipes/ItemList'
+import { RecipeToShoppingList } from '../components/recipes/RecipeToShoppingList'
 import { useStore } from '../stores/store'
 
 interface Props {}
 
 export const Recipe: React.FC<Props> = observer(() => {
-  const { settingStore, recipeStore } = useStore()
+  const { settingStore, recipeStore, modalStore } = useStore()
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
 
   useEffect(() => {
@@ -41,6 +39,7 @@ export const Recipe: React.FC<Props> = observer(() => {
   if (!recipeStore.loading && !recipeStore.currentRecipe) {
     return (
       <Center>
+        <Divider />
         <Heading>Recipe not found...</Heading>
       </Center>
     )
@@ -57,26 +56,22 @@ export const Recipe: React.FC<Props> = observer(() => {
         </Box>
         <Text fontSize="xl">{recipeStore.currentRecipe!.shortDescription}</Text>
         <Text fontSize="xl">{recipeStore.currentRecipe!.approach}</Text>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>Name</Th>
-              <Th isNumeric>Quanitiy</Th>
-              <Th>Unit</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {recipeStore.currentRecipe!.items.map((item) => {
-              return (
-                <Tr key={`${item.itemName}-${item.quantity}`}>
-                  <Td>{item.itemName}</Td>
-                  <Td isNumeric>{item.quantity}</Td>
-                  <Td>{item.unit}</Td>
-                </Tr>
-              )
-            })}
-          </Tbody>
-        </Table>
+        <Box minW="100%">
+          <ItemList items={recipeStore.currentRecipe!.items} />
+        </Box>
+        <Divider />
+        <Box minW="100%" pt={2}>
+          <Center>
+            <Button
+              onClick={() => modalStore.openModal(<RecipeToShoppingList />)}
+              disabled={recipeStore.currentRecipe?.items.length === 0}
+              colorScheme="teal"
+              variant="outline"
+            >
+              Add to Shopping list
+            </Button>
+          </Center>
+        </Box>
       </VStack>
     </Container>
   )

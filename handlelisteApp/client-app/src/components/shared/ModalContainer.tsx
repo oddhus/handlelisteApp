@@ -7,6 +7,8 @@ import {
   ModalOverlay,
   ModalFooter,
   Button,
+  ModalCloseButton,
+  ModalBody,
 } from '@chakra-ui/react'
 
 export default observer(function ModalStore() {
@@ -16,12 +18,9 @@ export default observer(function ModalStore() {
     <Modal isOpen={modalStore.modal.open} onClose={modalStore.closeModal}>
       <ModalOverlay />
       <ModalContent>
-        {modalStore.modal.body}
-        <ModalFooter>
-          <Button colorScheme="blue" onClick={() => modalStore.closeModal()}>
-            Close
-          </Button>
-        </ModalFooter>
+        <ModalCloseButton onClick={() => modalStore.closeModal()} />
+        <ModalBody>{modalStore.modal.body}</ModalBody>
+        <ModalFooter />
       </ModalContent>
     </Modal>
   )

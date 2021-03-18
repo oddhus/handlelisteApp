@@ -21,6 +21,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
 
   useEffect(() => {
     shoppingListStore.isNew = makingNewList
+    shoppingListStore.resetFeedBack()
   }, [])
 
   useEffect(() => {

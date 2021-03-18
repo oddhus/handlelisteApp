@@ -60,6 +60,7 @@ jest.mock('../../stores/store', () => ({
           },
         ]
       },
+      resetFeedBack: () => undefined,
     },
     settingStore: {
       language: { ...MockLanguage },

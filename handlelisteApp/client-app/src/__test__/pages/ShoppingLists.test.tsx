@@ -14,6 +14,7 @@ jest.mock('../../stores/store', () => ({
         type: 'success',
       },
       fetchShoppingLists() {},
+      resetFeedBack: () => undefined,
     },
     settingStore: {
       language: { ...MockLanguage },

@@ -29,6 +29,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
   const toast = useToast()
 
   useEffect(() => {
+    shoppingListStore.resetFeedBack()
     shoppingListStore.fetchShoppingLists()
   }, [])
 
