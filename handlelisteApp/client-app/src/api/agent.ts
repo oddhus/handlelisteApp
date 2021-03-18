@@ -1,14 +1,15 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { request } from 'node:http'
+import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios'
 import { IRecipe } from '../models/recipe'
 import { Iitem, IShoppingList } from '../models/ShoppingList'
 import { IUser } from '../models/user'
 import { store } from '../stores/store'
+import {history} from "../index";
+import { useToast } from "@chakra-ui/react"
 
 axios.defaults.baseURL = '/'
 
 const responseBody = (response: AxiosResponse) => response.data
-const response = (response: any) => response
+//const response = (response: any) => response
 
 // @ts-ignore
 axios.interceptors.request.use((config: AxiosRequestConfig) => {
@@ -17,6 +18,43 @@ axios.interceptors.request.use((config: AxiosRequestConfig) => {
     config.headers.Authorization = `Bearer ${token}`
   }
   return config
+})
+
+axios.interceptors.response.use(async ( response) => {
+  return response
+}, (error:AxiosError) => {
+  const {data, status} = error.response!;
+  
+  switch(status) {
+    //need to test if this is working
+    case 400: //bad request
+        if(typeof data === 'string'){
+          useToast({
+            title: 'Bad request',
+          })
+        }
+        if(data.errors){
+          const modalErrors = [];
+          for (const key in data.errors){
+            if(data.errors[key]){
+              modalErrors.push(data.errors[key]);
+            }
+          }
+          throw modalErrors.flat()
+        } 
+      break;
+    case 401: // unauthorised
+        history.push('/unauthorised')
+      break;
+    case 404: // not found
+        history.push('/nomatch')
+      break;
+    case 500: //server error
+        store.commonStore.setServerError(data)
+        history.push('/server-error')
+      break;
+  }
+  return Promise.reject(error)
 })
 
 const requests = {
@@ -60,14 +98,9 @@ const recipes = {
 }
 
 const myKitchen = {
-  addItemToMyKitchen: (item: Iitem) =>
-    requests.post('mykitchen', item).then(response),
-
-  updateItemInMyKitchen: (id: number) =>
-    requests.put('mykitchen/' + id, {}).then(response),
-
-  getMyKitchen: () => requests.get('mykitchen/').then(response),
-
+  addItemToMyKitchen: (item: Iitem) => requests.post('mykitchen', item),
+  updateItemInMyKitchen: (id: number) => requests.put('mykitchen/' + id, {}),
+  getMyKitchen: () => requests.get('mykitchen/'),
   deleteItemInMyKitchen: (id: number) => requests.del('mykitchen/' + id),
 }
 
