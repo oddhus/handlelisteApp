@@ -9,9 +9,11 @@ import { ShoppingLists } from '../pages/ShoppingLists'
 import { ShoppingList } from '../pages/ShoppingList'
 import { Settings } from '../pages/Settings'
 import { Household } from '../pages/Household'
-import { NoMatch } from '../pages/NoMatch'
 import { HomePage } from '../pages/HomePage'
 import { MyKitchen } from '../pages/MyKitchen'
+import {NoMatch} from "../pages/errors/NoMatch";
+import {ServerError} from "../pages/errors/ServerError";
+import {Unauthorized} from "../pages/errors/Unauthorized";
 
 interface Props {}
 
@@ -40,6 +42,8 @@ export const AppRoutes: React.FC<Props> = () => {
       <Route exact path="/settings/household" component={Settings} />
       <Route exact path="/household" component={Household} />
       <Route exact path="/mykitchen" component={MyKitchen} />
+      <Route exact path="/server-error" component={ServerError} />
+      <Route exact path="/unauthorised" component={Unauthorized} />
       <Route exact component={NoMatch} />
     </Switch>
   )

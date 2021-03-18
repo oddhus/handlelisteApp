@@ -1,9 +1,12 @@
 import { makeAutoObservable, reaction } from 'mobx'
 import { store } from './store'
+import {ServerError} from "../models/ServerError";
 
 export default class CommonStore {
   token: string | null = window.localStorage.getItem('jwt')
   appLoaded: boolean = false
+  error: ServerError | null = null
+  
   constructor() {
     makeAutoObservable(this)
 
@@ -17,6 +20,10 @@ export default class CommonStore {
         }
       }
     )
+  }
+  
+  setServerError = (error: ServerError) =>{
+    this.error = error;
   }
 
   setToken = (token: string | null) => {
