@@ -181,7 +181,7 @@ export default class shoppingListStore {
   setError = (e: any) => {
     console.log(e)
     this.feedBack = {
-      status: e.response.status,
+      status: e.response?.status,
       type: 'error',
     }
   }

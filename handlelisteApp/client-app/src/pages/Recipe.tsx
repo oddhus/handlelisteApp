@@ -36,7 +36,7 @@ export const Recipe: React.FC<Props> = observer(() => {
     )
   }
 
-  if (!recipeStore.loading && !recipeStore.currentRecipe) {
+  if (!recipeStore.currentRecipe) {
     return (
       <Center>
         <Divider />
@@ -59,7 +59,7 @@ export const Recipe: React.FC<Props> = observer(() => {
         <Box minW="100%">
           <ItemList items={recipeStore.currentRecipe!.items} />
         </Box>
-        <Divider />
+        {recipeStore.currentRecipe.items.length === 0 && <Divider />}
         <Box minW="100%" pt={2}>
           <Center>
             <Button

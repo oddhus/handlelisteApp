@@ -21,6 +21,9 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
     modalStore,
   } = useStore()
   const [checked, setCheckedItems] = useState<CheckedItems[]>([])
+  const [selectedShoppingList, setSelectedShoppingList] = useState<
+    number | undefined
+  >(undefined)
 
   useEffect(() => {
     if (recipeStore.currentRecipe) {
@@ -29,6 +32,14 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
       })
     }
   }, [])
+
+  const onSelectShoppingList = (id: number) => {
+    console.log(id)
+    if (id) {
+      setSelectedShoppingList(id)
+      shoppingListStore.getShoppinglist(id)
+    }
+  }
 
   const onChecked = (item: IitemInRecipe) => {
     setCheckedItems(
@@ -43,7 +54,6 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
 
   const onAddToShoppingList = () => {
     checked.forEach((checkedItem) => {
-      console.log(checkedItem)
       if (checkedItem.isChecked) {
         shoppingListStore.addItem({
           ...checkedItem.item,
@@ -68,7 +78,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
 
   return (
     <VStack alignItems="flex-start">
-      <SelectShoppingList />
+      <SelectShoppingList onSelectShoppingList={onSelectShoppingList} />
       <Box minW="100%">
         <Center>
           <Text fontSize="xl">{recipeStore.currentRecipe!.recipeName}</Text>
@@ -83,7 +93,11 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
       </Box>
       <Box minW="100%">
         <Center>
-          <Button onClick={() => onAddToShoppingList()} colorScheme="green">
+          <Button
+            disabled={!selectedShoppingList}
+            onClick={() => onAddToShoppingList()}
+            colorScheme="green"
+          >
             Add
           </Button>
         </Center>

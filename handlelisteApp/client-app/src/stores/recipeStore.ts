@@ -7,8 +7,8 @@ import { history } from '../index'
 export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
   currentRecipeList: IRecipe[] = []
-  usersRecipeList: Map<number, IRecipe[]> = new Map()
-  allRecipes: IRecipe[] = []
+  usersRecipeList: Map<number, IRecipe[] | undefined> = new Map()
+  allRecipes: IRecipe[] | undefined = undefined
   loading: boolean = false
   successToastMessage: string = ''
   errorToastMessage: string = ''
@@ -57,8 +57,12 @@ export default class RecipeStore {
     this.resetAndStartLoading()
 
     // let userRecipes = this.usersRecipeList.get(id)
+    // console.log(userRecipes)
     // if (userRecipes) {
-    //   runInAction(() => (this.loading = false))
+    //   runInAction(() => {
+    //     this.currentRecipeList = userRecipes!
+    //     this.loading = false
+    //   })
     //   return
     // }
 
@@ -76,10 +80,20 @@ export default class RecipeStore {
 
   getAllRecipes = async () => {
     this.resetAndStartLoading()
+
+    if (this.allRecipes) {
+      runInAction(() => {
+        this.currentRecipeList = this.allRecipes!
+        this.loading = false
+      })
+      return
+    }
+
     try {
       const recipes = await agent.recipes.getAllRecipes()
       runInAction(() => {
         this.allRecipes = recipes || []
+        this.currentRecipeList = recipes || []
         this.loading = false
       })
     } catch (e) {
@@ -106,7 +120,7 @@ export default class RecipeStore {
           this.usersRecipeList.set(userId, [...oldList, newRecipe])
           this.successToastMessage = 'Recipe created successfully'
           this.loading = false
-          history.push(`recipe/${newRecipe.recipeID}`)
+          history.push(`recipes`)
         })
       }
     } catch (e) {
@@ -170,9 +184,11 @@ export default class RecipeStore {
           (recipe) => recipe.recipeID !== id
         )
 
-        this.allRecipes = this.allRecipes.filter(
-          (recipe) => recipe.recipeID !== id
-        )
+        if (this.allRecipes) {
+          this.allRecipes = this.allRecipes.filter(
+            (recipe) => recipe.recipeID !== id
+          )
+        }
 
         this.successToastMessage = 'Deleted successfully'
         this.loading = false
@@ -197,8 +213,6 @@ export default class RecipeStore {
   private resetAndStartLoading() {
     runInAction(() => {
       this.loading = true
-      this.successToastMessage = ''
-      this.errorToastMessage = ''
     })
   }
 

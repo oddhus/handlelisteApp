@@ -52,7 +52,6 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
 
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
   const { recipeStore, settingStore } = useStore()
-  const toast = useToast()
 
   useEffect(() => {
     recipeStore.reset()
@@ -78,30 +77,6 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
       })
     }
   }, [recipeId, recipeStore])
-
-  useEffect(() => {
-    if (recipeStore.successToastMessage) {
-      toast({
-        title: recipeId ? 'Recipe updated.' : 'Recipe created',
-        description: recipeStore.successToastMessage,
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-      })
-    }
-  }, [recipeStore.successToastMessage, recipeId, toast])
-
-  useEffect(() => {
-    if (recipeStore.errorToastMessage) {
-      toast({
-        title: 'Error',
-        description: recipeStore.errorToastMessage,
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-      })
-    }
-  }, [recipeStore.errorToastMessage, toast])
 
   const SignupSchema = Yup.object().shape({
     recipeName: Yup.string()

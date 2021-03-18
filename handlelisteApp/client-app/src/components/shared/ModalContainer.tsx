@@ -9,6 +9,7 @@ import {
   Button,
   ModalCloseButton,
   ModalBody,
+  ModalHeader,
 } from '@chakra-ui/react'
 
 export default observer(function ModalStore() {
