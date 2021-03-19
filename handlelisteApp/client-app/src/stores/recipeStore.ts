@@ -56,25 +56,29 @@ export default class RecipeStore {
   getUserRecipes = async (id: number) => {
     this.resetAndStartLoading()
 
-    // let userRecipes = this.usersRecipeList.get(id)
-    // console.log(userRecipes)
-    // if (userRecipes) {
-    //   runInAction(() => {
-    //     this.currentRecipeList = userRecipes!
-    //     this.loading = false
-    //   })
-    //   return
-    // }
-
-    try {
-      const userRecipes = await agent.recipes.getAllUserRecipes(id)
+    //First return old list if exists
+    let userRecipes = this.usersRecipeList.get(id)
+    if (userRecipes) {
       runInAction(() => {
-        this.usersRecipeList.set(id, userRecipes || [])
-        this.currentRecipeList = userRecipes || []
+        this.currentRecipeList = userRecipes!
         this.loading = false
       })
+    }
+
+    //Then update list
+    try {
+      userRecipes = await agent.recipes.getAllUserRecipes(id)
+      if (userRecipes) {
+        runInAction(() => {
+          this.usersRecipeList.set(id, userRecipes)
+          this.currentRecipeList = userRecipes!
+          this.loading = false
+        })
+      } else {
+        this.error('retrive recipe.')
+      }
     } catch (e) {
-      this.error('retrive recipes.')
+      this.error('retrive recipe.')
     }
   }
 
@@ -118,6 +122,7 @@ export default class RecipeStore {
         runInAction(() => {
           this.currentRecipe = newRecipe
           this.usersRecipeList.set(userId, [...oldList, newRecipe])
+          this.currentRecipeList = [...oldList, newRecipe]
           this.successToastMessage = 'Recipe created successfully'
           this.loading = false
           history.push(`recipes`)
@@ -184,6 +189,13 @@ export default class RecipeStore {
           (recipe) => recipe.recipeID !== id
         )
 
+        if (store.userStore.user?.userID) {
+          this.usersRecipeList.set(
+            parseInt(store.userStore.user!.userID),
+            this.currentRecipeList
+          )
+        }
+
         if (this.allRecipes) {
           this.allRecipes = this.allRecipes.filter(
             (recipe) => recipe.recipeID !== id
@@ -208,6 +220,10 @@ export default class RecipeStore {
 
   setTabIndex(index: number) {
     runInAction(() => (this.tabIndex = index))
+  }
+
+  setToastSuccessMessage(message: string) {
+    runInAction(() => (this.successToastMessage = message))
   }
 
   private resetAndStartLoading() {

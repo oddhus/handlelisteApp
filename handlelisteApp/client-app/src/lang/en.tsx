@@ -13,6 +13,7 @@ export default class English implements ILanguage {
 
   shoppingList = ['Quantity', 'Unit']
   shoppingLists = 'Shopping lists'
+  selectShoppingList = 'Select shopping list'
   createShoppingList = 'Create shopping list'
   product = 'Product'
   category = 'Category'
@@ -25,6 +26,7 @@ export default class English implements ILanguage {
   itemNameError = 'Item name is required'
   shoppingListSaved = 'Shoppinglist successfully saved!'
   shoppingListDeleted = 'Shoppinglist successfully deleted!'
+  noShoppingListFound = 'No shoppinglists found'
 
   myRecipes = 'My recipes'
   allRecipes = 'All recipes'
@@ -36,6 +38,11 @@ export default class English implements ILanguage {
   shortDescription = 'Short description'
   approach = 'Approach'
   recipeName = 'Recipe name'
+  recipeAddedToShoppingList = 'Recipe added to shopping list'
+  addRecipeToShoppingList = 'Add recipe to shopping list'
+  noRecipeSelected = 'No recipe selected'
+  noRecipesFound = 'No recipes found'
+  noRecipeFound = 'No recipe found'
 
   settings = 'Settings'
   userSettings = 'User settings'

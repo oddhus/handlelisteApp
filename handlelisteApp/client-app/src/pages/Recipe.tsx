@@ -8,6 +8,7 @@ import {
   Box,
   Divider,
   Button,
+  useToast,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
@@ -21,12 +22,31 @@ interface Props {}
 export const Recipe: React.FC<Props> = observer(() => {
   const { settingStore, recipeStore, modalStore } = useStore()
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
+  const toast = useToast()
+
+  useEffect(() => {
+    recipeStore.reset()
+  }, [])
 
   useEffect(() => {
     if (recipeId) {
       recipeStore.getRecipe(parseInt(recipeId))
     }
   }, [recipeId])
+
+  useEffect(() => {
+    if (recipeStore.errorToastMessage || recipeStore.successToastMessage) {
+      toast({
+        title: !!recipeStore.errorToastMessage ? 'Failed' : 'Success',
+        description: !!recipeStore.errorToastMessage
+          ? recipeStore.errorToastMessage
+          : recipeStore.successToastMessage,
+        status: !!recipeStore.errorToastMessage ? 'error' : 'success',
+        duration: 4000,
+        isClosable: true,
+      })
+    }
+  }, [recipeStore.errorToastMessage, recipeStore.successToastMessage, toast])
 
   if (recipeStore.loading) {
     return (
@@ -40,7 +60,7 @@ export const Recipe: React.FC<Props> = observer(() => {
     return (
       <Center>
         <Divider />
-        <Heading>Recipe not found...</Heading>
+        <Text>{settingStore.language.noRecipeFound}</Text>
       </Center>
     )
   }
@@ -68,7 +88,7 @@ export const Recipe: React.FC<Props> = observer(() => {
               colorScheme="teal"
               variant="outline"
             >
-              Add to Shopping list
+              {settingStore.language.addRecipeToShoppingList}
             </Button>
           </Center>
         </Box>

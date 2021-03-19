@@ -21,6 +21,10 @@ export const Recipes: React.FC<Props> = observer(() => {
   const toast = useToast()
 
   useEffect(() => {
+    recipeStore.reset()
+  }, [])
+
+  useEffect(() => {
     if (recipeStore.errorToastMessage || recipeStore.successToastMessage) {
       toast({
         title: !!recipeStore.errorToastMessage ? 'Failed' : 'Success',
@@ -33,6 +37,14 @@ export const Recipes: React.FC<Props> = observer(() => {
       })
     }
   }, [recipeStore.errorToastMessage, recipeStore.successToastMessage, toast])
+
+  useEffect(() => {
+    if (recipeStore.tabIndex === 1) {
+      recipeStore.getAllRecipes()
+    } else if (userStore.user?.userID && recipeStore.tabIndex === 0) {
+      recipeStore.getUserRecipes(parseInt(userStore.user.userID))
+    }
+  }, [recipeStore.tabIndex])
 
   return (
     <Container maxW="container.md">

@@ -12,6 +12,7 @@ export default class Norwegian_B implements ILanguage {
 
   shoppingList = ['Antall', 'Enhet']
   shoppingLists = 'Handlelister'
+  selectShoppingList = 'Velg handleliste'
   createShoppingList = 'Lag ny handleliste'
   product = 'Produkt'
   category = 'Kategori'
@@ -24,6 +25,7 @@ export default class Norwegian_B implements ILanguage {
   itemNameError = 'Navn er påkrevd'
   shoppingListSaved = 'Handlelisten ble lagret!'
   shoppingListDeleted = 'Handlelisten ble slettet!'
+  noShoppingListFound = 'Fant ingen handlelister'
 
   myRecipes = 'Mine oppskrifter'
   allRecipes = 'Alle oppskrifter'
@@ -35,6 +37,11 @@ export default class Norwegian_B implements ILanguage {
   shortDescription = 'Kort beskrivelse'
   approach = 'Fremgangsmåte'
   recipeName = 'Navn på oppskrift'
+  recipeAddedToShoppingList = 'Oppskrift lagt til handleliste'
+  addRecipeToShoppingList = 'Legg til oppskrift i handleliste'
+  noRecipeSelected = 'Ingen oppskrift er valgt'
+  noRecipesFound = 'Fant ingen oppskrifter'
+  noRecipeFound = 'Fant ingen oppskrift'
 
   settings = 'Innstillinger'
   userSettings = 'Bruker innstillinger'

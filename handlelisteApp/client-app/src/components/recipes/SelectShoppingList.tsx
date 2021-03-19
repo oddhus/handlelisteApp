@@ -18,7 +18,7 @@ interface Props {
 
 export const SelectShoppingList: React.FC<Props> = observer(
   ({ onSelectShoppingList }) => {
-    const { shoppingListStore } = useStore()
+    const { shoppingListStore, modalStore, settingStore } = useStore()
     const history = useHistory()
 
     useEffect(() => {
@@ -27,37 +27,36 @@ export const SelectShoppingList: React.FC<Props> = observer(
       }
     }, [])
 
-    if (
-      !shoppingListStore.shoppingList &&
-      (!shoppingListStore.shoppingLists ||
-        shoppingListStore.shoppingLists.length === 0)
-    ) {
-      return (
-        <VStack>
-          <Text>No shopping list found</Text>
-          <Button
-            onClick={() => history.push('shopping-list/new-shopping-list')}
-          >
-            Create Shopping List
-          </Button>
-        </VStack>
-      )
-    }
-
     return (
       <Box pt={3}>
         <FormControl>
-          <FormLabel>Shopping list</FormLabel>
-          <Select
-            onChange={(e) => onSelectShoppingList(parseInt(e.target.value))}
-            placeholder={'Select shopping list'}
-          >
-            {shoppingListStore.shoppingLists.map((list) => (
-              <option key={list.shoppingListID} value={list.shoppingListID}>
-                {list.updatedOn}
-              </option>
-            ))}
-          </Select>
+          <FormLabel>{settingStore.language.shoppingList}</FormLabel>
+          {shoppingListStore.shoppingLists.length === 0 ? (
+            <Box>
+              <Text>{settingStore.language.noShoppingListFound}</Text>
+              <Button
+                variant="outline"
+                colorScheme="green"
+                onClick={() => {
+                  modalStore.closeModal()
+                  history.push('/shopping-list/new-shopping-list')
+                }}
+              >
+                {settingStore.language.createShoppingList}
+              </Button>
+            </Box>
+          ) : (
+            <Select
+              onChange={(e) => onSelectShoppingList(parseInt(e.target.value))}
+              placeholder={settingStore.language.selectShoppingList}
+            >
+              {shoppingListStore.shoppingLists.map((list) => (
+                <option key={list.shoppingListID} value={list.shoppingListID}>
+                  {list.updatedOn}
+                </option>
+              ))}
+            </Select>
+          )}
         </FormControl>
       </Box>
     )

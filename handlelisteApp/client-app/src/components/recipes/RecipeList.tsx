@@ -17,7 +17,6 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import { IRecipe } from '../../models/recipe'
 import { RecipeToShoppingList } from './RecipeToShoppingList'
 
 interface Props {
@@ -27,7 +26,7 @@ interface Props {
 
 export const RecipeList: React.FC<Props> = observer(
   ({ deleteable, editable }) => {
-    const { recipeStore, modalStore } = useStore()
+    const { recipeStore, modalStore, settingStore } = useStore()
     const history = useHistory()
 
     if (recipeStore.loading) {
@@ -44,7 +43,7 @@ export const RecipeList: React.FC<Props> = observer(
     ) {
       return (
         <Center>
-          <Text>No recipes found...</Text>
+          <Text>{settingStore.language.noRecipesFound}</Text>
         </Center>
       )
     }
@@ -54,7 +53,7 @@ export const RecipeList: React.FC<Props> = observer(
         <Table>
           <Thead>
             <Tr>
-              <Th>Name</Th>
+              <Th>{settingStore.language.recipeName}</Th>
               {(editable || deleteable) && <Th isNumeric>Actions</Th>}
             </Tr>
           </Thead>
@@ -72,7 +71,10 @@ export const RecipeList: React.FC<Props> = observer(
                 </Td>
                 <Td>
                   <HStack justify="flex-end">
-                    <Tooltip label="Add to shopping list" fontSize="md">
+                    <Tooltip
+                      label={settingStore.language.addRecipeToShoppingList}
+                      fontSize="md"
+                    >
                       <IconButton
                         colorScheme="green"
                         aria-label="Add recipe"

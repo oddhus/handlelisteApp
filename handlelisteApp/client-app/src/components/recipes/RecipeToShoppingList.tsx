@@ -31,10 +31,9 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
         setCheckedItems((items) => [...items, { isChecked: true, item }])
       })
     }
-  }, [])
+  }, [recipeStore.currentRecipe])
 
   const onSelectShoppingList = (id: number) => {
-    console.log(id)
     if (id) {
       setSelectedShoppingList(id)
       shoppingListStore.getShoppinglist(id)
@@ -62,6 +61,9 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
         })
       }
     })
+    recipeStore.setToastSuccessMessage(
+      settingStore.language.recipeAddedToShoppingList
+    )
     shoppingListStore.saveShoppinglist()
     modalStore.closeModal()
   }
@@ -70,7 +72,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
     return (
       <Box minW="100%">
         <Center>
-          <Text>No recipe selected... Please try again</Text>
+          <Text>{settingStore.language.noRecipeSelected}</Text>
         </Center>
       </Box>
     )
@@ -98,7 +100,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
             onClick={() => onAddToShoppingList()}
             colorScheme="green"
           >
-            Add
+            {settingStore.language.add}
           </Button>
         </Center>
       </Box>

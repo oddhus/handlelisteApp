@@ -10,6 +10,7 @@ export interface ILanguage {
   shoppingList: string[]
   shoppingLists: string
   createShoppingList: string
+  selectShoppingList: string
   product: string
   category: string
   units: string[]
@@ -21,6 +22,7 @@ export interface ILanguage {
   itemNameError: string
   shoppingListSaved: string
   shoppingListDeleted: string
+  noShoppingListFound: string
 
   myRecipes: string
   allRecipes: string
@@ -32,6 +34,11 @@ export interface ILanguage {
   shortDescription: string
   approach: string
   recipeName: string
+  recipeAddedToShoppingList: string
+  addRecipeToShoppingList: string
+  noRecipeSelected: string
+  noRecipesFound: string
+  noRecipeFound: string
 
   settings: string
   userSettings: string

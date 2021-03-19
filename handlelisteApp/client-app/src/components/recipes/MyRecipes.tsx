@@ -8,21 +8,15 @@ import { RecipeList } from './RecipeList'
 interface Props {}
 
 export const MyRecipes: React.FC<Props> = observer(() => {
-  const { recipeStore, userStore } = useStore()
+  const { recipeStore, settingStore } = useStore()
   const history = useHistory()
-
-  useEffect(() => {
-    if (userStore.user?.userID && recipeStore.tabIndex === 0) {
-      recipeStore.getUserRecipes(parseInt(userStore.user.userID))
-    }
-  }, [userStore.user, recipeStore.tabIndex])
 
   return (
     <VStack>
       <RecipeList editable={true} deleteable={true} />
       {!recipeStore.loading && recipeStore.currentRecipeList.length === 0 && (
-        <Button onClick={() => history.push('create-recipe')}>
-          Create recipe
+        <Button onClick={() => history.push('/create-recipe')}>
+          {settingStore.language.createRecipe}
         </Button>
       )}
     </VStack>

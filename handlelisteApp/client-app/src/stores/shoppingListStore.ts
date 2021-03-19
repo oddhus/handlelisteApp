@@ -2,13 +2,15 @@ import { Iitem, IShoppingList } from '../models/ShoppingList'
 import { makeAutoObservable, runInAction } from 'mobx'
 import agent from '../api/agent'
 
+const emptyShoppingList = {
+  shoppingListID: NaN,
+  items: [],
+  createdOn: '',
+  updatedOn: '',
+}
+
 export default class shoppingListStore {
-  shoppingList: IShoppingList = {
-    shoppingListID: NaN,
-    items: [],
-    createdOn: '',
-    updatedOn: '',
-  }
+  shoppingList: IShoppingList = emptyShoppingList
   shoppingLists: IShoppingList[] = []
   isNew: boolean = false
   isLoading: boolean = false
@@ -106,6 +108,7 @@ export default class shoppingListStore {
       const newListOfShopLists = this.shoppingLists.filter(
         (shoppingList) => shoppingList !== listToDelete
       )
+      this.shoppingList = emptyShoppingList
       runInAction(() => {
         this.feedBack = {
           status: 200,
