@@ -16,6 +16,7 @@ export const Toast: React.FC<Props> = ({ status, text, store }) => {
         status: status,
         isClosable: true,
         position: 'bottom',
+        duration: 4000,
         onCloseComplete: () => (store.feedBack = null),
       })
   }, [status, text, store, toast])

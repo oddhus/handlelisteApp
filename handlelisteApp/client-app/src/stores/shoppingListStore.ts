@@ -189,6 +189,10 @@ export default class shoppingListStore {
     }
   }
 
+  resetShoppingList = () => {
+    this.shoppingList = emptyShoppingList
+  }
+
   resetFeedBack = () => {
     this.feedBack = null
   }

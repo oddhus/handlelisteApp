@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../stores/store'
@@ -22,12 +22,21 @@ import { DeleteIcon } from '@chakra-ui/icons'
 
 interface Props {}
 
+let firstRender = true
+
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory()
   const { shoppingListStore, settingStore } = useStore()
 
-  useEffect(() => {
+  const willMount = useRef(true)
+
+  if (willMount.current) {
     shoppingListStore.resetFeedBack()
+    willMount.current = false
+  }
+
+  useEffect(() => {
+    firstRender = false
     shoppingListStore.fetchShoppingLists()
   }, [])
 
@@ -103,7 +112,11 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
         colorScheme="teal"
         ml={'12vw'}
         mt={'5vh'}
-        onClick={() => history.push('shopping-list/new-shopping-list')}
+        onClick={() => {
+          shoppingListStore.resetShoppingList()
+          shoppingListStore.resetFeedBack()
+          history.push('shopping-list/new-shopping-list')
+        }}
       >
         {settingStore.language.newShoppingList}
       </Button>

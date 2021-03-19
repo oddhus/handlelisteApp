@@ -49,7 +49,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
         setTimeout(function () {
           shoppingListStore.resetFeedBack()
           history.go(-1)
-        }, 100)
+        }, 200)
       }
     })
   }
