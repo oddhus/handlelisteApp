@@ -11,6 +11,9 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({
     listId: 1,
   }),
+  useHistory: () => ({
+    pathname: 'history',
+  }),
 }))
 
 jest.mock('../../stores/store', () => ({

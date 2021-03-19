@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import {
   FormControl,
   FormLabel,
@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { ListComponent } from '../components/shoppingList/ListComponent'
 import { AddItem } from '../components/shoppingList/AddItem'
-import { useStore } from '../stores/store'
+import { store, useStore } from '../stores/store'
 import { observer } from 'mobx-react-lite'
 import { Toast } from '../components/shared/Toast'
 
@@ -21,6 +21,7 @@ interface useParam {
 
 export const ShoppingList: React.FC<Props> = observer(() => {
   const makingNewList = useLocation().pathname.includes('new-shopping-list')
+  const history = useHistory()
   const paramObj: useParam = useParams()
   const { shoppingListStore, settingStore } = useStore()
   const [edit, setEdit] = useState(makingNewList)
@@ -41,6 +42,17 @@ export const ShoppingList: React.FC<Props> = observer(() => {
       }
     }
   }, [makingNewList, paramObj])
+
+  const handleEndShoppingTrip = async () => {
+    await shoppingListStore.saveShoppinglist().then(() => {
+      if (shoppingListStore.feedBack.status === 200) {
+        setTimeout(function () {
+          shoppingListStore.resetFeedBack()
+          history.go(-1)
+        }, 100)
+      }
+    })
+  }
 
   return (
     <Container maxW="container.xl">
@@ -78,7 +90,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
           colorScheme="teal"
           ml={'25vw'}
           mt={'5vh'}
-          onClick={() => shoppingListStore.saveShoppinglist}
+          onClick={() => handleEndShoppingTrip()}
         >
           {settingStore.language.endShoppingTrip}
         </Button>
