@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-import { FormControl, FormLabel, Switch, Container } from '@chakra-ui/react'
+import {
+  FormControl,
+  FormLabel,
+  Switch,
+  Container,
+  Button,
+} from '@chakra-ui/react'
 import { ListComponent } from '../components/shoppingList/ListComponent'
 import { AddItem } from '../components/shoppingList/AddItem'
 import { useStore } from '../stores/store'
@@ -59,12 +65,24 @@ export const ShoppingList: React.FC<Props> = observer(() => {
       </FormControl>
       <ListComponent
         items={shoppingListStore.shoppingList?.items || []}
-        edit={shoppingListStore.isNew}
+        edit={edit}
         onChangeQuantity={shoppingListStore.changeQuantity}
         deleteItem={shoppingListStore.onDeleteItem}
         onChecked={shoppingListStore.onChecked}
       />
-      {edit ? <AddItem onAdd={shoppingListStore.addItem} /> : null}
+      {edit ? (
+        <AddItem onAdd={shoppingListStore.addItem} />
+      ) : (
+        <Button
+          size="lg"
+          colorScheme="teal"
+          ml={'25vw'}
+          mt={'5vh'}
+          onClick={() => shoppingListStore.saveShoppinglist}
+        >
+          {settingStore.language.endShoppingTrip}
+        </Button>
+      )}
 
       {shoppingListStore.feedBack !== null && (
         <Toast

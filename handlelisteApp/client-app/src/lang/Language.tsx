@@ -23,6 +23,7 @@ export interface ILanguage {
   shoppingListSaved: string
   shoppingListDeleted: string
   noShoppingListFound: string
+  endShoppingTrip: string
 
   myRecipes: string
   allRecipes: string

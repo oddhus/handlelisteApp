@@ -46,7 +46,10 @@ const setupTableBody = (
   onChecked: Function
 ) => {
   return itemsList.map((item) => (
-    <Tr key={item.itemName}>
+    <Tr
+      color={item.hasBeenBought && !edit ? 'rgba(0,0,0,0.3)' : ''}
+      key={item.itemName}
+    >
       <Td>
         {edit ? (
           <IconButton
@@ -58,7 +61,11 @@ const setupTableBody = (
             icon={<DeleteIcon />}
           />
         ) : (
-          <Checkbox onChange={(e) => onChecked(item)} colorScheme="green" />
+          <Checkbox
+            isChecked={item.hasBeenBought}
+            onChange={(e) => onChecked(item)}
+            colorScheme="green"
+          />
         )}
       </Td>
       <Td>{item.itemName}</Td>

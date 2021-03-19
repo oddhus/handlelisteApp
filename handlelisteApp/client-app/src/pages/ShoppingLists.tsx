@@ -16,7 +16,6 @@ import {
   Center,
   Spinner,
   Stack,
-  useToast,
 } from '@chakra-ui/react'
 import { IShoppingList } from '../models/ShoppingList'
 import { DeleteIcon } from '@chakra-ui/icons'
@@ -26,7 +25,6 @@ interface Props {}
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory()
   const { shoppingListStore, settingStore } = useStore()
-  const toast = useToast()
 
   useEffect(() => {
     shoppingListStore.resetFeedBack()
@@ -103,7 +101,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
       <Button
         size="lg"
         colorScheme="teal"
-        ml={'11vw'}
+        ml={'12vw'}
         mt={'5vh'}
         onClick={() => history.push('shopping-list/new-shopping-list')}
       >

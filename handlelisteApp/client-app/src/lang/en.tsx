@@ -27,6 +27,7 @@ export default class English implements ILanguage {
   shoppingListSaved = 'Shoppinglist successfully saved!'
   shoppingListDeleted = 'Shoppinglist successfully deleted!'
   noShoppingListFound = 'No shoppinglists found'
+  endShoppingTrip = 'End shopping trip'
 
   myRecipes = 'My recipes'
   allRecipes = 'All recipes'
