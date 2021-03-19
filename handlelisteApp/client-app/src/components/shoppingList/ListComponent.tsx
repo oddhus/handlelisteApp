@@ -141,7 +141,7 @@ export const ListComponent: React.FC<Props> = observer(
       // For each category make a list that contains the correct items.
       categories.forEach((category, index) => {
         let categorizedItems = itemsList.filter(
-          (item) => item.category === category
+          (item) => item.category.toLowerCase() === category.toLowerCase()
         )
         tables.push(
           <div key={category}>
