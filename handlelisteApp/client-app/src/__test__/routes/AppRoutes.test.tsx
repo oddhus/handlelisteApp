@@ -66,7 +66,10 @@ jest.mock('../../stores/store', () => ({
       language: { ...MockLanguage },
     },
     recipeStore: {
-      currentRecipe: null,
+      currentRecipe: {
+        recipeName: 'Recipe',
+        items: [],
+      },
       getRecipe: () => null,
       reset: () => null,
       currentRecipeList: [],
@@ -118,7 +121,7 @@ describe('AppRoutes', () => {
     it('displays recipesPage when url is /recipes', () => {
       const { container } = setup('/recipes')
       const header = container.querySelector('div')
-      expect(header).toHaveTextContent('No recipes found')
+      expect(header).toHaveTextContent('Create recipe')
     })
 
     it('displays RecipePage when url is /recipes/:recipeId', () => {

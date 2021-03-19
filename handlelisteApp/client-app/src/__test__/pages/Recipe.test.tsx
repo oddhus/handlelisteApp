@@ -14,6 +14,10 @@ jest.mock('../../stores/store', () => ({
     recipeStore: {
       loading: false,
       reset: () => undefined,
+      currentRecipe: {
+        recipeName: 'Recipe',
+        items: [],
+      },
     },
   }),
 }))

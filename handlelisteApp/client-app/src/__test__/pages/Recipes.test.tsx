@@ -32,7 +32,7 @@ describe('RecipesPage', () => {
     it('has header of Recipes', () => {
       const { container } = render(<Recipes />)
       const div = container.querySelector('div')
-      expect(div).toHaveTextContent('No recipes found')
+      expect(div).toHaveTextContent('Create recipe')
     })
   })
 })
