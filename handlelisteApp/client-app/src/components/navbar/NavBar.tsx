@@ -13,7 +13,7 @@ export const NavBar: React.FC = (props) => {
     <NavBarContainer {...props}>
       <Logo w="100px" color={['white', 'teal.500', 'teal.500', 'teal.500']} />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
-      <MenuLinks isOpen={isOpen} />
+      <MenuLinks isOpen={isOpen} setIsOpen={setIsOpen} />
     </NavBarContainer>
   )
 }

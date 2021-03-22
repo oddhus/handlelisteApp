@@ -23,9 +23,10 @@ import { observer } from 'mobx-react-lite'
 
 interface Props {
   isOpen: boolean
+  setIsOpen: Function
 }
 
-const MenuLinks: React.FC<Props> = ({ isOpen }) => {
+const MenuLinks: React.FC<Props> = ({ isOpen, setIsOpen }) => {
   const [isLargerThan420] = useMediaQuery('(min-width: 30em)')
 
   const { userStore, settingStore } = useStore()
@@ -46,7 +47,12 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
             {settingStore.isEnglish ? route.nameEn : route.nameNo}
           </MenuItemChakra>
         ))}
-        <MenuItemChakra onClick={() => userStore.logout()}>
+        <MenuItemChakra
+          onClick={() => {
+            setIsOpen(false)
+            userStore.logout()
+          }}
+        >
           {settingStore.isEnglish ? 'Logout' : 'Logg ut'}
         </MenuItemChakra>
       </MenuList>
@@ -56,14 +62,17 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
   const listMenu = (
     <React.Fragment>
       {[...userSettings].map((route) => (
-        <MenuItem key={route.path} to={route.path}>
+        <MenuItem key={route.path} to={route.path} setIsOpen={setIsOpen}>
           {settingStore.isEnglish ? route.nameEn : route.nameNo}
         </MenuItem>
       ))}
       <Button
         size="small"
         colorScheme="teal"
-        onClick={() => userStore.logout()}
+        onClick={() => {
+          setIsOpen(false)
+          userStore.logout()
+        }}
         fontWeight="normal"
         _hover={{
           backgroundColor: 'transparent',
@@ -78,7 +87,12 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
   const signedOutList = (
     <React.Fragment>
       {signedOut.map((route) => (
-        <MenuItem key={route.path} to={route.path} isLast={route.isLast}>
+        <MenuItem
+          key={route.path}
+          to={route.path}
+          isLast={route.isLast}
+          setIsOpen={setIsOpen}
+        >
           {settingStore.isEnglish ? route.nameEn : route.nameNo}
         </MenuItem>
       ))}
@@ -100,7 +114,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen }) => {
         pt={[4, 0, 0, 0]}
       >
         {mainItems.map((route) => (
-          <MenuItem key={route.path} to={route.path}>
+          <MenuItem key={route.path} to={route.path} setIsOpen={setIsOpen}>
             {settingStore.isEnglish ? route.nameEn : route.nameNo}
           </MenuItem>
         ))}

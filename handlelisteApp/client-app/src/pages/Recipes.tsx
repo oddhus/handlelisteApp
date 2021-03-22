@@ -21,10 +21,6 @@ export const Recipes: React.FC<Props> = observer(() => {
   const toast = useToast()
 
   useEffect(() => {
-    recipeStore.reset()
-  }, [])
-
-  useEffect(() => {
     if (recipeStore.errorToastMessage || recipeStore.successToastMessage) {
       toast({
         title: !!recipeStore.errorToastMessage ? 'Failed' : 'Success',
@@ -37,6 +33,10 @@ export const Recipes: React.FC<Props> = observer(() => {
       })
     }
   }, [recipeStore.errorToastMessage, recipeStore.successToastMessage, toast])
+
+  useEffect(() => {
+    recipeStore.reset()
+  }, [])
 
   useEffect(() => {
     if (recipeStore.tabIndex === 1) {

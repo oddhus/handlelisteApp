@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from 'mobx'
+import { computed, makeAutoObservable, runInAction } from 'mobx'
 import agent from '../api/agent'
 import { store } from './store'
 import { IRecipe } from '../models/recipe'
@@ -13,9 +13,32 @@ export default class RecipeStore {
   successToastMessage: string = ''
   errorToastMessage: string = ''
   tabIndex: number = 0
+  isOwnerOfCurrentRecipe: boolean = false
 
   constructor() {
     makeAutoObservable(this)
+  }
+
+  //Check is the current user is the owner of the current recipe
+  get isOwner() {
+    if (
+      !store.userStore.user?.userID ||
+      !this.currentRecipe ||
+      !this.currentRecipe?.recipeID
+    ) {
+      return false
+    }
+
+    const userRecipes = this.usersRecipeList.get(
+      parseInt(store.userStore.user!.userID)
+    )
+
+    return (
+      !!userRecipes &&
+      !!userRecipes.find(
+        (recipe) => recipe.recipeID === this.currentRecipe!.recipeID
+      )
+    )
   }
 
   getRecipe = async (id: number) => {
@@ -118,14 +141,14 @@ export default class RecipeStore {
 
       if (store.userStore.user) {
         const userId = parseInt(store.userStore.user.userID)
-        const oldList = this.usersRecipeList.get(userId) || []
+        const recipeList = this.usersRecipeList.get(userId) || []
         runInAction(() => {
           this.currentRecipe = newRecipe
-          this.usersRecipeList.set(userId, [...oldList, newRecipe])
-          this.currentRecipeList = [...oldList, newRecipe]
+          this.usersRecipeList.set(userId, [...recipeList, newRecipe])
+          this.currentRecipeList = [...recipeList, newRecipe]
           this.successToastMessage = 'Recipe created successfully'
           this.loading = false
-          history.push(`recipes`)
+          history.push(`/recipes`)
         })
       }
     } catch (e) {
@@ -149,20 +172,22 @@ export default class RecipeStore {
     try {
       const updatedRecipe = await agent.recipe.updateRecipe(recipe, id)
 
-      const oldList = this.usersRecipeList.get(userId) || []
-      const index = oldList.findIndex(
+      const recipeList = this.usersRecipeList.get(userId) || []
+      const index = recipeList.findIndex(
         (recipe) => recipe.recipeID === updatedRecipe.recipeID
       )
 
       if (index !== -1) {
-        oldList[index] = updatedRecipe
+        recipeList[index] = updatedRecipe
       }
 
       runInAction(() => {
         this.currentRecipe = updatedRecipe
-        this.currentRecipeList = oldList
-        this.usersRecipeList.set(userId, oldList)
-        runInAction(() => (this.loading = false))
+        this.currentRecipeList = recipeList
+        this.usersRecipeList.set(userId, recipeList)
+        this.successToastMessage = 'Recipe updated successfully'
+        this.loading = false
+        history.push(`/recipes`)
       })
     } catch (e) {
       this.error('update recipe')

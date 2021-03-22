@@ -9,15 +9,11 @@ import {
   Tr,
   Thead,
   Th,
-  IconButton,
-  HStack,
-  Tooltip,
   Spinner,
   Center,
   Text,
 } from '@chakra-ui/react'
-import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
-import { RecipeToShoppingList } from './RecipeToShoppingList'
+import { RecipeActionButtons } from './RecipeActionButtons'
 
 interface Props {
   editable: boolean
@@ -26,7 +22,7 @@ interface Props {
 
 export const RecipeList: React.FC<Props> = observer(
   ({ deleteable, editable }) => {
-    const { recipeStore, modalStore, settingStore } = useStore()
+    const { recipeStore, settingStore } = useStore()
     const history = useHistory()
 
     if (recipeStore.loading) {
@@ -70,50 +66,12 @@ export const RecipeList: React.FC<Props> = observer(
                   {recipe.recipeName}
                 </Td>
                 <Td>
-                  <HStack justify="flex-end">
-                    <Tooltip
-                      label={settingStore.language.addRecipeToShoppingList}
-                      fontSize="md"
-                    >
-                      <IconButton
-                        colorScheme="green"
-                        aria-label="Add recipe"
-                        size="md"
-                        onClick={() => {
-                          recipeStore.setCurrentRecipe(recipe)
-                          modalStore.openModal(<RecipeToShoppingList />)
-                        }}
-                        icon={<AddIcon />}
-                      />
-                    </Tooltip>
-                    {editable && (
-                      <IconButton
-                        colorScheme="yellow"
-                        aria-label="Edit recipe"
-                        size="md"
-                        className="edit"
-                        onClick={() =>
-                          history.push(`create-recipe/${recipe.recipeID}`)
-                        }
-                        icon={<EditIcon />}
-                      />
-                    )}
-
-                    {deleteable && (
-                      <IconButton
-                        colorScheme="red"
-                        aria-label="Delete recipe"
-                        size="md"
-                        className="edit"
-                        onClick={() => {
-                          if (recipe.recipeID) {
-                            recipeStore.deleteRecipe(recipe.recipeID)
-                          }
-                        }}
-                        icon={<DeleteIcon />}
-                      />
-                    )}
-                  </HStack>
+                  <RecipeActionButtons
+                    recipe={recipe}
+                    addable
+                    editable
+                    deleteable
+                  />
                 </Td>
               </Tr>
             ))}

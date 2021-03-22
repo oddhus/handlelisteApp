@@ -1,3 +1,4 @@
+import { EditIcon } from '@chakra-ui/icons'
 import { CircularProgress } from '@chakra-ui/progress'
 import {
   Center,
@@ -9,11 +10,14 @@ import {
   Divider,
   Button,
   useToast,
+  HStack,
+  IconButton,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import { ItemList } from '../components/recipes/ItemList'
+import { RecipeActionButtons } from '../components/recipes/RecipeActionButtons'
 import { RecipeToShoppingList } from '../components/recipes/RecipeToShoppingList'
 import { useStore } from '../stores/store'
 
@@ -23,6 +27,7 @@ export const Recipe: React.FC<Props> = observer(() => {
   const { settingStore, recipeStore, modalStore } = useStore()
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
   const toast = useToast()
+  const history = useHistory()
 
   useEffect(() => {
     recipeStore.reset()
@@ -68,14 +73,21 @@ export const Recipe: React.FC<Props> = observer(() => {
   return (
     <Container>
       <VStack alignItems="flex-start">
-        {settingStore.language.recipe}
         <Box minW="100%">
-          <Center>
+          <HStack justify="space-between">
             <Heading>{recipeStore.currentRecipe?.recipeName}</Heading>
-          </Center>
+            {recipeStore.isOwner && (
+              <RecipeActionButtons
+                recipe={recipeStore.currentRecipe}
+                editable
+              />
+            )}
+          </HStack>
         </Box>
-        <Text fontSize="xl">{recipeStore.currentRecipe!.shortDescription}</Text>
-        <Text fontSize="xl">{recipeStore.currentRecipe!.approach}</Text>
+        <Text fontSize="xl" as="i">
+          {recipeStore.currentRecipe!.shortDescription}
+        </Text>
+        <Text fontSize="md">{recipeStore.currentRecipe!.approach}</Text>
         <Box minW="100%">
           <ItemList items={recipeStore.currentRecipe!.items} />
         </Box>
