@@ -25,7 +25,7 @@ export default class UserStore {
         this.user = user
         this.loading = false
       })
-      history.push(`/shopping-list/${user.id}`)
+      history.push(`/`)
       store.modalStore.closeModal()
     } catch (e) {
       runInAction(() => {

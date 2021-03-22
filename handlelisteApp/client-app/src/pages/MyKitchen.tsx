@@ -1,17 +1,13 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect} from "react"
 import {observer} from "mobx-react-lite";
 
 import {MyKitchenItems} from "../components/MyKitchen/MyKitchenItems";
 import {Iitem} from "../models/ShoppingList";
 import {useStore} from "../stores/store";
 
-interface Props {
-
-}
+interface Props {}
 
 export const MyKitchen: React.FC<Props> = observer(() => {
-
-    const [data, setData] = useState()
 
     const {myKitchenStore} = useStore()
 

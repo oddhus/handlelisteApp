@@ -52,7 +52,7 @@ export const HomePage: React.FC<Props> = observer(() => {
             colorScheme="blue"
             mt="24px"
             onClick={() =>
-              history.push(`/shopping-list/${userStore.user?.userID}`)
+              history.push(`/shopping-list`)
             }
           >
             {settingStore.language.myShoppingList}
