@@ -1,17 +1,17 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { ListComponent } from '../../components/shoppingList/ListComponent'
 import { Iitem } from '../../models/ShoppingList'
 import userEvent from '@testing-library/user-event'
 import { MockLanguage } from '../MockLanguage'
+import { ShoppingListItems } from '../../components/shoppingList/ShoppingListItems'
 
 var item: Iitem = {
   category: 'meieri',
   itemName: 'egg',
   quantity: 1,
   unit: 'stk',
-  hasBeenBought: false
+  hasBeenBought: false,
 }
 
 var item1: Iitem = {
@@ -19,7 +19,7 @@ var item1: Iitem = {
   itemName: 'laks',
   quantity: 3,
   unit: 'stk',
-  hasBeenBought: false
+  hasBeenBought: false,
 }
 
 var item2: Iitem = {
@@ -27,7 +27,7 @@ var item2: Iitem = {
   itemName: 'mjøl',
   quantity: 2,
   unit: 'kg',
-  hasBeenBought: false
+  hasBeenBought: false,
 }
 
 var item3: Iitem = {
@@ -35,17 +35,39 @@ var item3: Iitem = {
   itemName: 'melk',
   quantity: 3,
   unit: 'liter',
-  hasBeenBought: false
+  hasBeenBought: false,
 }
 
 var dummyData: Iitem[] = [item, item1, item2, item3]
 
-var onIncrement: any, onDecrement: any, onDeleteItem: any
+var onIncrement: any, onDecrement: any, onDeleteItem: any, onDelete
 
 jest.mock('../../stores/store', () => ({
   useStore: () => ({
     settingStore: {
       language: { ...MockLanguage },
+    },
+    shoppingListStore: {
+      onDeleteItem: jest.fn(),
+      shoppingList: {
+        shoppingListID: 1,
+        items: [
+          {
+            category: 'category',
+            itemName: 'product',
+            quantity: 1,
+            unit: 'pcs',
+            hasBeenBought: false,
+          },
+          {
+            category: 'meieri',
+            itemName: 'melk',
+            quantity: 1,
+            unit: 'liter',
+            hasBeenBought: false,
+          },
+        ],
+      },
     },
   }),
 }))
@@ -56,82 +78,45 @@ describe('ShoppingList', () => {
   })
 
   describe('Layout', () => {
-    it('contains the header meieri', () => {
-      const { container } = render(
-        <ListComponent
-          items={dummyData}
-          edit={false}
-          onIncrement={onIncrement}
-          onDecrement={onDecrement}
-          deleteItem={onDeleteItem}
-        />
-      )
-      const header = container.getElementsByClassName('meieri')
-      expect(header).toHaveLength(1)
-      expect(header[0]).toHaveTextContent('meieri')
+    it('contains item melk', async () => {
+      const { findAllByText } = render(<ShoppingListItems />)
+      const result = await findAllByText('melk')
+      expect(result).toHaveLength(1)
     })
 
-    it('contains the correct amount of tables', () => {
-      const { container } = render(
-        <ListComponent
-          items={dummyData}
-          edit={false}
-          onIncrement={onIncrement}
-          onDecrement={onDecrement}
-          deleteItem={onDeleteItem}
-        />
-      )
-      const tables = container.getElementsByTagName('Table')
-      expect(tables).toHaveLength(3)
+    it('contains the correct amount of items', async () => {
+      const { findAllByDisplayValue } = render(<ShoppingListItems />)
+      const items = await findAllByDisplayValue(1)
+      expect(items).toHaveLength(2)
     })
 
-    it('hides elements when edit is disabled', () => {
-      const { container } = render(
-        <ListComponent
-          items={dummyData}
-          edit={false}
-          onIncrement={onIncrement}
-          onDecrement={onDecrement}
-          deleteItem={onDeleteItem}
-        />
-      )
-      const editBtns = container.getElementsByClassName('edit')
-      expect(editBtns).toHaveLength(0)
-    })
+    // it('hides elements when edit is disabled', async () => {
+    //   const { getAllByLabelText } = render(<ShoppingListItems />)
 
-    it('shows elements correct when edit is enabled', () => {
-      const { container } = render(
-        <ListComponent
-          items={dummyData}
-          edit={true}
-          onIncrement={onIncrement}
-          onDecrement={onDecrement}
-          deleteItem={onDeleteItem}
-        />
-      )
-      const editBtns = container.getElementsByClassName('edit')
-      expect(editBtns[0]).toBeVisible()
-      expect(editBtns[1]).toBeVisible()
-      expect(editBtns[2]).toBeVisible()
-    })
+    //   const spy = jest.spyOn(store.useStore().shoppingListStore, 'onDeleteItem')
+    //   const link = getAllByLabelText('delete item')[0]
+    //   link.simul
 
-    it('hides tables as supposed to', () => {
-      const { container } = render(
-        <ListComponent
-          items={dummyData}
-          edit={false}
-          onIncrement={onIncrement}
-          onDecrement={onDecrement}
-          deleteItem={onDeleteItem}
-        />
-      )
-      userEvent.click(screen.getByTestId('hide/show meieri'))
-      let tableBodies = container.getElementsByTagName('Tbody')
-      expect(tableBodies).toHaveLength(2)
+    //   expect(spy).toHaveBeenCalled()
+    // })
 
-      userEvent.click(screen.getByTestId('hide/show meieri'))
-      tableBodies = container.getElementsByTagName('Tbody')
-      expect(tableBodies).toHaveLength(3)
-    })
+    // it('shows elements correct when edit is enabled', () => {
+    //   const { container } = render(<ShoppingListItems />)
+    //   const editBtns = container.getElementsByClassName('edit')
+    //   expect(editBtns[0]).toBeVisible()
+    //   expect(editBtns[1]).toBeVisible()
+    //   expect(editBtns[2]).toBeVisible()
+    // })
+
+    // it('hides tables as supposed to', () => {
+    //   const { container } = render(<ShoppingListItems />)
+    //   userEvent.click(screen.getByTestId('hide/show meieri'))
+    //   let tableBodies = container.getElementsByTagName('Tbody')
+    //   expect(tableBodies).toHaveLength(2)
+
+    //   userEvent.click(screen.getByTestId('hide/show meieri'))
+    //   tableBodies = container.getElementsByTagName('Tbody')
+    //   expect(tableBodies).toHaveLength(3)
+    // })
   })
 })

@@ -136,10 +136,10 @@ describe('AppRoutes', () => {
       expect(div).toBeVisible
     })
 
-    it('displays ShoppingList when url is /shopping-list/:listId', () => {
+    it('displays ShoppingList as inputs when url is /shopping-list/:listId', () => {
       const { container } = setup('/shopping-list/:listId')
-      const table = container.querySelector('table')
-      expect(table).toBeVisible()
+      const input = container.querySelector('input')
+      expect(input).toBeVisible()
     })
 
     it('displays SettingPage when url is /settings/user', () => {

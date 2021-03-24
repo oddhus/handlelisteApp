@@ -38,10 +38,10 @@ export const Item: React.FC<Props> = observer(({ item }) => {
   const [isRead, setIsRead] = useState(true)
 
   useEffect(() => {
-    if (item.itemName === '') {
+    if (!item) {
       setIsRead(false)
     }
-  }, [item.itemName])
+  }, [item])
 
   return (
     <Grid
@@ -138,7 +138,7 @@ export const Item: React.FC<Props> = observer(({ item }) => {
         <Box minW="100%" justifyContent="flex-end" display="flex">
           <IconButton
             colorScheme="red"
-            aria-label="Call Segun"
+            aria-label="delete item"
             size="md"
             className="edit"
             onClick={() => shoppingListStore.onDeleteItem(item)}

@@ -63,7 +63,7 @@ describe('ShoppingList', () => {
   describe('Layout', () => {
     it('has a wisible table', () => {
       const { container } = render(<ShoppingList />)
-      const table = container.querySelector('table')
+      const table = container.querySelector('input')
       expect(table).toBeVisible()
     })
   })
