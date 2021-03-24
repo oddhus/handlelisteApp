@@ -1,140 +1,22 @@
-import React, { ChangeEvent, useState } from 'react'
-import { Iitem } from '../../models/ShoppingList'
-import { Button, ButtonGroup, FormErrorMessage } from '@chakra-ui/react'
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  NumberInput,
-  NumberInputField,
-  NumberIncrementStepper,
-  NumberInputStepper,
-  NumberDecrementStepper,
-  Select,
-  Container,
-} from '@chakra-ui/react'
+import React from 'react'
+import { Button } from '@chakra-ui/react'
+
 import { useStore } from '../../stores/store'
+import { AddIcon } from '@chakra-ui/icons'
 
-interface Props {
-  onAdd(arg: Iitem): void
-}
+interface Props {}
 
-export const AddItem: React.FC<Props> = ({ onAdd }) => {
-  const { settingStore } = useStore()
-  const [category, setCategory] = useState('')
-  const [categoryError, setCategoryError] = useState(false)
-  const [itemName, setItemName] = useState('')
-  const [itemNameError, setItemNameError] = useState(false)
-  const [quantity, setQuantity] = useState(1)
-  const [unit, setUnit] = useState(settingStore.language.units[0])
-
-  const onAddClicked = () => {
-    let error
-    if (category.length < 1) {
-      setCategoryError(true)
-      error = true
-    }
-    if (itemName.length < 1) {
-      setItemNameError(true)
-      error = true
-    }
-
-    if (!error) {
-      const item: Iitem = {
-        category: category.toLowerCase(),
-        itemName: itemName.toLowerCase(),
-        quantity: quantity,
-        unit: unit,
-        hasBeenBought: false,
-      }
-      onAdd(item)
-    }
-  }
-
-  const onCancel = () => {
-    setCategory('')
-    setItemName('')
-    setQuantity(1)
-    setUnit(settingStore.language.units[0])
-  }
+export const AddItem: React.FC<Props> = () => {
+  const { shoppingListStore, settingStore } = useStore()
 
   return (
-    <Container
-      mb={5}
-      border="1px"
-      borderRadius="lg"
-      p={4}
-      borderColor="#A0AEC0"
+    <Button
+      aria-label={settingStore.language.add}
+      onClick={() => shoppingListStore.insertEmptyItem()}
+      icon={<AddIcon />}
+      colorScheme="green"
     >
-      <FormControl id="category" isRequired isInvalid={categoryError}>
-        <FormLabel>{settingStore.language.category}</FormLabel>
-        <Input
-          value={category}
-          onChange={(e) => {
-            setCategoryError(false)
-            setCategory(e.target.value)
-          }}
-        />
-        <FormErrorMessage>
-          {settingStore.language.categoryError}
-        </FormErrorMessage>
-      </FormControl>
-      <FormControl id="itemName" isRequired isInvalid={itemNameError}>
-        <FormLabel>{settingStore.language.product}</FormLabel>
-        <Input
-          value={itemName}
-          onChange={(e) => {
-            setItemNameError(false)
-            setItemName(e.target.value)
-          }}
-        />
-        <FormErrorMessage>
-          {settingStore.language.itemNameError}
-        </FormErrorMessage>
-      </FormControl>
-      <FormControl id="amount" isRequired>
-        <FormLabel>{settingStore.language.shoppingList[1]}</FormLabel>
-        <NumberInput
-          value={quantity}
-          onChange={(valueString) => setQuantity(parseInt(valueString))}
-          max={100}
-          min={1}
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </FormControl>
-      <br />
-      <FormLabel>{settingStore.language.shoppingList[1]}</FormLabel>
-      <Select value={unit} onChange={(e) => setUnit(e.target.value)}>
-        <option value={settingStore.language.units[0]}>
-          {settingStore.language.units[0]}
-        </option>
-        <option value={settingStore.language.units[1]}>
-          {settingStore.language.units[1]}
-        </option>
-        <option value={settingStore.language.units[2]}>
-          {settingStore.language.units[2]}
-        </option>
-        <option value={settingStore.language.units[3]}>
-          {settingStore.language.units[3]}
-        </option>
-        <option value={settingStore.language.units[4]}>
-          {settingStore.language.units[4]}
-        </option>
-      </Select>
-      <br />
-      <ButtonGroup>
-        <Button onClick={() => onCancel()} colorScheme={'red'}>
-          {settingStore.language.clear}
-        </Button>
-        <Button onClick={() => onAddClicked()} colorScheme={'teal'}>
-          {settingStore.language.add}
-        </Button>
-      </ButtonGroup>
-    </Container>
+      Add item
+    </Button>
   )
 }

@@ -121,6 +121,17 @@ export default class shoppingListStore {
     }
   }
 
+  setQuantity = (item: Iitem, value: number) => {
+    if (value > 0) {
+      const index = this.shoppingList.items.findIndex(
+        (foundItem) => foundItem === item
+      )
+      runInAction(() => {
+        this.shoppingList.items[index].quantity = value
+      })
+    }
+  }
+
   changeQuantity = (item: Iitem, increment: boolean) => {
     if (item.quantity > 0) {
       const index = this.shoppingList.items.findIndex(
@@ -131,6 +142,25 @@ export default class shoppingListStore {
           this.shoppingList.items[index].quantity + (increment ? 1 : -1)
       })
     }
+  }
+
+  setItemName = (item: Iitem, name: string) => {
+    const index = this.shoppingList.items.findIndex(
+      (foundItem) => foundItem === item
+    )
+    runInAction(() => {
+      this.shoppingList.items[index].itemName = name
+    })
+  }
+
+  insertEmptyItem = () => {
+    this.shoppingList.items.unshift({
+      itemName: '',
+      category: '',
+      hasBeenBought: false,
+      quantity: 1,
+      unit: '',
+    })
   }
 
   addItem = (item: Iitem) => {

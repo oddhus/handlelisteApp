@@ -5,13 +5,13 @@ import {
   FormLabel,
   Switch,
   Container,
-  Button,
+  VStack,
 } from '@chakra-ui/react'
-import { ListComponent } from '../components/shoppingList/ListComponent'
 import { AddItem } from '../components/shoppingList/AddItem'
-import { store, useStore } from '../stores/store'
+import { useStore } from '../stores/store'
 import { observer } from 'mobx-react-lite'
 import { Toast } from '../components/shared/Toast'
+import { ShoppingListItems } from '../components/shoppingList/ShoppingListItems'
 
 interface Props {}
 
@@ -56,57 +56,40 @@ export const ShoppingList: React.FC<Props> = observer(() => {
 
   return (
     <Container maxW="container.xl">
-      <FormControl display="flex" alignItems="center" mb={5}>
-        <FormLabel htmlFor="email-alerts" mb="0">
-          {edit
-            ? settingStore.language.saveList
-            : settingStore.language.editList}
-        </FormLabel>
-        <Switch
-          colorScheme="teal"
-          id="editList"
-          isChecked={edit}
-          onChange={(e) => {
-            if (edit) {
-              shoppingListStore.handleSaveList()
+      <VStack>
+        <FormControl display="flex" alignItems="center" mb={5}>
+          <FormLabel htmlFor="email-alerts" mb="0">
+            {edit
+              ? settingStore.language.saveList
+              : settingStore.language.editList}
+          </FormLabel>
+          <Switch
+            colorScheme="teal"
+            id="editList"
+            isChecked={edit}
+            onChange={(e) => {
+              if (edit) {
+                shoppingListStore.handleSaveList()
+                setEdit(e.target.checked)
+              }
               setEdit(e.target.checked)
+            }}
+          />
+        </FormControl>
+        <AddItem />
+        <ShoppingListItems />
+        {shoppingListStore.feedBack !== null && (
+          <Toast
+            text={
+              shoppingListStore.feedBack.status !== 200
+                ? settingStore.language.somethingError
+                : settingStore.language.shoppingListSaved
             }
-            setEdit(e.target.checked)
-          }}
-        />
-      </FormControl>
-      <ListComponent
-        items={shoppingListStore.shoppingList?.items || []}
-        edit={edit}
-        onChangeQuantity={shoppingListStore.changeQuantity}
-        deleteItem={shoppingListStore.onDeleteItem}
-        onChecked={shoppingListStore.onChecked}
-      />
-      {edit ? (
-        <AddItem onAdd={shoppingListStore.addItem} />
-      ) : (
-        <Button
-          size="lg"
-          colorScheme="teal"
-          ml={'25vw'}
-          mt={'5vh'}
-          onClick={() => handleEndShoppingTrip()}
-        >
-          {settingStore.language.endShoppingTrip}
-        </Button>
-      )}
-
-      {shoppingListStore.feedBack !== null && (
-        <Toast
-          text={
-            shoppingListStore.feedBack.status !== 200
-              ? settingStore.language.somethingError
-              : settingStore.language.shoppingListSaved
-          }
-          store={shoppingListStore}
-          status={shoppingListStore.feedBack.type}
-        />
-      )}
+            store={shoppingListStore}
+            status={shoppingListStore.feedBack.type}
+          />
+        )}
+      </VStack>
     </Container>
   )
 })

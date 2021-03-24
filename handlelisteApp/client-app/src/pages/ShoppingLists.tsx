@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../stores/store'
