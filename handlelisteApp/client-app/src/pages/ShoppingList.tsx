@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { observer } from 'mobx-react-lite'
 import {
-  FormControl,
-  FormLabel,
-  Switch,
   ButtonGroup,
   Button,
   Heading,
   Container,
   VStack,
 } from '@chakra-ui/react'
+
 import { AddItem } from '../components/shoppingList/AddItem'
 import { useStore } from '../stores/store'
-import { observer } from 'mobx-react-lite'
 import { Toast } from '../components/shared/Toast'
 import { ShoppingListItems } from '../components/shoppingList/ShoppingListItems'
-import {Recipes} from "./Recipes";
 
 interface Props {}
 
@@ -27,8 +24,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
   const makingNewList = useLocation().pathname.includes('new-shopping-list')
   const history = useHistory()
   const paramObj: useParam = useParams()
-  const { shoppingListStore, settingStore, modalStore } = useStore()
-  const [edit, setEdit] = useState(makingNewList)
+  const { shoppingListStore, settingStore} = useStore()
 
   useEffect(() => {
     shoppingListStore.isNew = makingNewList
@@ -57,6 +53,11 @@ export const ShoppingList: React.FC<Props> = observer(() => {
       }
     })
   }
+  
+  const sendToRecipes = () =>{
+    shoppingListStore.backToMyShoppingList = shoppingListStore.shoppingList.shoppingListID.toString()
+    history.push('/recipes');
+  }
 
   return (
     <Container maxW="container.md">
@@ -77,7 +78,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
           <Button
               colorScheme="teal" 
               variant="outline"
-              onClick={() => modalStore.openModal(<Recipes/>)}
+              onClick={() => sendToRecipes()}
           >Add items from recipe</Button>
         </ButtonGroup>
         <ShoppingListItems />
