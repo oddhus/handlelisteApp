@@ -16,6 +16,8 @@ export default class shoppingListStore {
   isNew: boolean = false
   isLoading: boolean = false
   feedBack: any = null
+  backToMyShoppingList: string | null = null
+  
   constructor() {
     makeAutoObservable(this)
   }

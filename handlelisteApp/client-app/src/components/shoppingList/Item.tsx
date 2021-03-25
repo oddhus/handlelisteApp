@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 
-import React, { useEffect, useState } from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 import { Iitem } from '../../models/ShoppingList'
 import { useStore } from '../../stores/store'
 
@@ -84,10 +84,9 @@ export const Item: React.FC<Props> = observer(({ item }) => {
         ) : (
           <Input
             variant="flushed"
-            placeholder="Item"
+            placeholder="New Item"
             value={item.itemName}
-            onBlur={() => setIsRead(true)}
-            onChange={(e) => {
+            onChange={(e:ChangeEvent<HTMLInputElement>) => {
               shoppingListStore.setItemName(item, e.target.value)
             }}
           />

@@ -9,14 +9,17 @@ import {
   TabPanels,
   Tabs,
   useToast,
+  Button,
+  Center,
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
+import { history } from '../index'
 
 interface Props {}
 
 export const Recipes: React.FC<Props> = observer(() => {
-  const { settingStore, recipeStore, userStore } = useStore()
+  const { settingStore, recipeStore, userStore, shoppingListStore } = useStore()
 
   const toast = useToast()
 
@@ -49,8 +52,27 @@ export const Recipes: React.FC<Props> = observer(() => {
     }
   }, [recipeStore.tabIndex, userStore.user])
 
+  const backToShoppingList = () => {
+    history.push(`shopping-list/${shoppingListStore.backToMyShoppingList}`)
+    shoppingListStore.backToMyShoppingList = null
+  }
+
   return (
     <Container maxW="container.md">
+      {shoppingListStore.backToMyShoppingList && (
+        <Center>
+          <Button
+            onClick={() => backToShoppingList()}
+            size="lg"
+            colorScheme="teal"
+            variant="outline"
+            style={{ marginBottom: '20px' }}
+          >
+            Back to my shopping list
+          </Button>
+        </Center>
+      )}
+
       <Tabs
         isFitted
         variant="enclosed"
