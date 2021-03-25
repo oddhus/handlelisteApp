@@ -299,16 +299,19 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                   </Stack>
                 )}
               />
-              <Button
-                mt={4}
-                colorScheme="teal"
-                isLoading={recipeStore.loading}
-                type="submit"
-              >
-                {recipeId
-                  ? settingStore.language.update
-                  : settingStore.language.createNew}
-              </Button>
+              <Center pt={2} pb={10}>
+                <Button
+                  paddingX={5}
+                  mt={4}
+                  colorScheme="green"
+                  isLoading={recipeStore.loading}
+                  type="submit"
+                >
+                  {recipeId
+                    ? settingStore.language.update
+                    : settingStore.language.createNew}
+                </Button>
+              </Center>
             </Form>
           )
         }}

@@ -49,7 +49,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
   }
 
   return (
-    <Container maxW="container.md">
+    <Container maxW="container.sm">
       <VStack>
         <Heading as="h1" size="xl" isTruncated style={{ marginBottom: '20px' }}>
           amazing demo list
