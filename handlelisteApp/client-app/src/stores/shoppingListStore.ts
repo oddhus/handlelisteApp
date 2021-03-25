@@ -1,5 +1,6 @@
 import { Iitem, IShoppingList } from '../models/ShoppingList'
 import { makeAutoObservable, runInAction } from 'mobx'
+import { v4 as uuidv4 } from 'uuid'
 import agent from '../api/agent'
 
 const emptyShoppingList = {
@@ -122,18 +123,16 @@ export default class shoppingListStore {
   }
 
   setQuantity = (item: Iitem, value: number) => {
-    if (value > 0) {
-      const index = this.shoppingList.items.findIndex(
-        (foundItem) => foundItem === item
-      )
-      runInAction(() => {
-        this.shoppingList.items[index].quantity = value
-      })
-    }
+    const index = this.shoppingList.items.findIndex(
+      (foundItem) => foundItem === item
+    )
+    runInAction(() => {
+      this.shoppingList.items[index].quantity = value ? value : 0
+    })
   }
 
   changeQuantity = (item: Iitem, increment: boolean) => {
-    if (item.quantity > 0) {
+    if (item.quantity >= 0) {
       const index = this.shoppingList.items.findIndex(
         (foundItem) => foundItem === item
       )
@@ -160,6 +159,7 @@ export default class shoppingListStore {
       hasBeenBought: false,
       quantity: 1,
       unit: '',
+      tempId: uuidv4(),
     })
   }
 

@@ -11,4 +11,5 @@ export interface Iitem {
   quantity: number
   unit: string
   hasBeenBought: boolean
+  tempId?: string
 }

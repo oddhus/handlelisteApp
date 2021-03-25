@@ -55,7 +55,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
   }
 
   return (
-    <Container maxW="container.xl">
+    <Container maxW="container.md">
       <VStack>
         <FormControl display="flex" alignItems="center" mb={5}>
           <FormLabel htmlFor="email-alerts" mb="0">

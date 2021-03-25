@@ -38,7 +38,7 @@ export const Item: React.FC<Props> = observer(({ item }) => {
   const [isRead, setIsRead] = useState(true)
 
   useEffect(() => {
-    if (!item) {
+    if (item && item.itemName === '') {
       setIsRead(false)
     }
   }, [item])
@@ -46,7 +46,7 @@ export const Item: React.FC<Props> = observer(({ item }) => {
   return (
     <Grid
       templateColumns="repeat(18, 1fr)"
-      gap={2}
+      gap={1}
       color={item.hasBeenBought ? 'rgba(0,0,0,0.3)' : ''}
     >
       <GridItem
@@ -70,7 +70,7 @@ export const Item: React.FC<Props> = observer(({ item }) => {
         </Box>
       </GridItem>
 
-      <GridItem colSpan={9}>
+      <GridItem colSpan={8}>
         {isRead ? (
           <Box
             onClick={() => setIsRead(false)}
@@ -93,25 +93,14 @@ export const Item: React.FC<Props> = observer(({ item }) => {
           />
         )}
       </GridItem>
-      <GridItem colSpan={5}>
-        <HStack pr={5}>
-          {/* <IconButton
-            m={1}
-            colorScheme="teal"
-            aria-label="Call Segun"
-            size="small"
-            isRound
-            className="edit"
-            isDisabled={item.quantity <= 1}
-            onClick={() => shoppingListStore.changeQuantity(item, false)}
-            icon={<ChevronLeftIcon />}
-          /> */}
-
+      <GridItem colSpan={6}>
+        <HStack pr={5} pl={[0, 5, 10]}>
           <NumberInput
             onChange={(valueString) =>
               shoppingListStore.setQuantity(item, parseInt(valueString))
             }
             value={item.quantity.toString()}
+            min={0}
             max={999}
             allowMouseWheel
           >
@@ -121,16 +110,6 @@ export const Item: React.FC<Props> = observer(({ item }) => {
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-          {/* <IconButton
-            m={1}
-            colorScheme="teal"
-            aria-label="Call Segun"
-            isRound
-            size="small"
-            className="edit"
-            onClick={() => shoppingListStore.changeQuantity(item, true)}
-            icon={<ChevronRightIcon />}
-          /> */}
         </HStack>
       </GridItem>
 
