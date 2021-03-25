@@ -57,25 +57,6 @@ export const ShoppingList: React.FC<Props> = observer(() => {
   return (
     <Container maxW="container.md">
       <VStack>
-        <FormControl display="flex" alignItems="center" mb={5}>
-          <FormLabel htmlFor="email-alerts" mb="0">
-            {edit
-              ? settingStore.language.saveList
-              : settingStore.language.editList}
-          </FormLabel>
-          <Switch
-            colorScheme="teal"
-            id="editList"
-            isChecked={edit}
-            onChange={(e) => {
-              if (edit) {
-                shoppingListStore.handleSaveList()
-                setEdit(e.target.checked)
-              }
-              setEdit(e.target.checked)
-            }}
-          />
-        </FormControl>
         <AddItem />
         <ShoppingListItems />
         {shoppingListStore.feedBack !== null && (
