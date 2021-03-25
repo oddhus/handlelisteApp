@@ -67,7 +67,8 @@ export const SignUp: React.FC<Props> = observer(() => {
 
       <FormControl style={{ marginTop: '10px' }} id="username" isRequired>
         <FormLabel>{settingStore.language.Username}</FormLabel>
-        <Input
+        <Input 
+          aria-label={settingStore.language.Username}
           placeholder={settingStore.language.Username}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             onchangeUsernameHandler(event)
@@ -78,6 +79,7 @@ export const SignUp: React.FC<Props> = observer(() => {
       <FormControl style={{ marginTop: '10px' }} id="username" isRequired>
         <FormLabel>{settingStore.language.age}</FormLabel>
         <Input
+          aria-label={settingStore.language.age}  
           placeholder={settingStore.language.age}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             onchangeAgeHandler(event)
@@ -88,7 +90,8 @@ export const SignUp: React.FC<Props> = observer(() => {
 
       <FormControl style={{ marginTop: '10px' }} id="password" isRequired>
         <FormLabel>{settingStore.language.password}</FormLabel>
-        <Input
+        <Input 
+          aria-label={settingStore.language.password}   
           placeholder={settingStore.language.password}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             onchangePasswordHandler(event)
@@ -99,7 +102,8 @@ export const SignUp: React.FC<Props> = observer(() => {
 
       <FormControl style={{ marginTop: '10px' }} id="passwordRepeat" isRequired>
         <FormLabel>{settingStore.language.passwordRepeat}</FormLabel>
-        <Input
+        <Input 
+          aria-label={settingStore.language.passwordRepeat}  
           placeholder={settingStore.language.passwordRepeat}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             onchangeRepeatPasswordHandler(event)
@@ -108,7 +112,8 @@ export const SignUp: React.FC<Props> = observer(() => {
         />
       </FormControl>
 
-      <Button
+      <Button 
+        aria-label={settingStore.language.signUp}
         data-testid="signup-button"
         style={{ marginTop: '10px' }}
         colorScheme="blue"

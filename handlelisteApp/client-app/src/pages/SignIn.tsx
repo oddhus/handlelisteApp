@@ -43,6 +43,7 @@ export const SignIn: React.FC<Props> = observer(() => {
       <FormControl style={{ marginTop: '10px' }} id="username">
         <FormLabel>{settingStore.language.emailAddress}</FormLabel>
         <Input
+          aria-label={settingStore.language.emailAddress} 
           type="text"
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             onChangeUsernameHandler(event)
@@ -57,6 +58,7 @@ export const SignIn: React.FC<Props> = observer(() => {
       <FormControl style={{ marginTop: '10px' }} id="email">
         <FormLabel>{settingStore.language.password}</FormLabel>
         <Input
+          aria-label={settingStore.language.password}
           type="password"
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
             onChangePasswordHandler(event)
@@ -66,6 +68,7 @@ export const SignIn: React.FC<Props> = observer(() => {
         />
       </FormControl>
       <Button
+        aria-label={settingStore.language.login}
         isLoading={userStore.loading}
         data-testid="login-Button"
         style={{ marginTop: '10px' }}
