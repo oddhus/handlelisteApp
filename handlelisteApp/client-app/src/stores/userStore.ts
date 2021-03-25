@@ -20,8 +20,8 @@ export default class UserStore {
     this.loading = true
     try {
       const user = await agent.User.login(creds)
-      store.commonStore.setToken(user.token)
       runInAction(() => {
+        store.commonStore.setToken(user.token)
         this.user = user
         this.loading = false
       })

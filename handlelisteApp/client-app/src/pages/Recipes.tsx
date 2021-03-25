@@ -36,22 +36,25 @@ export const Recipes: React.FC<Props> = observer(() => {
 
   useEffect(() => {
     recipeStore.reset()
+    if (!userStore.isLoggedIn) {
+      recipeStore.tabIndex = 1
+    }
   }, [])
 
   useEffect(() => {
     if (recipeStore.tabIndex === 1) {
       recipeStore.getAllRecipes()
-    } else if (userStore.user?.userID && recipeStore.tabIndex === 0) {
+    } else if (recipeStore.tabIndex === 0 && userStore.user?.userID) {
       recipeStore.getUserRecipes(parseInt(userStore.user.userID))
     }
-  }, [recipeStore.tabIndex])
+  }, [recipeStore.tabIndex, userStore.user])
 
   return (
     <Container maxW="container.md">
       <Tabs
         isFitted
         variant="enclosed"
-        index={userStore.isLoggedIn ? recipeStore.tabIndex : 1}
+        index={recipeStore.tabIndex}
         onChange={(index) => recipeStore.setTabIndex(index)}
       >
         <TabList>

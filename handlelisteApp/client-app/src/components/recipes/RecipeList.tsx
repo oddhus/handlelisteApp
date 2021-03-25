@@ -69,8 +69,8 @@ export const RecipeList: React.FC<Props> = observer(
                   <RecipeActionButtons
                     recipe={recipe}
                     addable
-                    editable
-                    deleteable
+                    editable={editable}
+                    deleteable={deleteable}
                   />
                 </Td>
               </Tr>
