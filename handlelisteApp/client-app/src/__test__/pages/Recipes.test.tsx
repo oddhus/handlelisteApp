@@ -24,6 +24,17 @@ jest.mock('../../stores/store', () => ({
         id: undefined,
       },
     },
+    shoppingListStore: {
+      backToMyShoppingList: 4
+    }
+  }),
+}))
+
+jest.mock('react-router-dom', () => ({
+  useHistory: () => ({
+    history: {
+      push: jest.fn(),
+    },
   }),
 }))
 

@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
-import { history } from '../index'
+import {useHistory} from "react-router-dom";
 
 interface Props {}
 
@@ -22,7 +22,7 @@ export const Recipes: React.FC<Props> = observer(() => {
   const { settingStore, recipeStore, userStore, shoppingListStore } = useStore()
 
   const toast = useToast()
-
+  const history = useHistory()
   useEffect(() => {
     if (recipeStore.errorToastMessage || recipeStore.successToastMessage) {
       toast({
