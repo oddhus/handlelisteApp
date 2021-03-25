@@ -7,7 +7,7 @@ import { Item } from './Item'
 interface Props {}
 
 export const ShoppingListItems: React.FC<Props> = observer(() => {
-  const { settingStore, shoppingListStore } = useStore()
+  const { shoppingListStore } = useStore()
 
   return (
     <React.Fragment>
