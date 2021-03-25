@@ -24,7 +24,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
   const makingNewList = useLocation().pathname.includes('new-shopping-list')
   const history = useHistory()
   const paramObj: useParam = useParams()
-  const { shoppingListStore, settingStore} = useStore()
+  const { shoppingListStore, settingStore } = useStore()
 
   useEffect(() => {
     shoppingListStore.isNew = makingNewList
@@ -43,43 +43,26 @@ export const ShoppingList: React.FC<Props> = observer(() => {
     }
   }, [makingNewList, paramObj])
 
-  const handleEndShoppingTrip = async () => {
-    await shoppingListStore.saveShoppinglist().then(() => {
-      if (shoppingListStore.feedBack.status === 200) {
-        setTimeout(function () {
-          shoppingListStore.resetFeedBack()
-          history.go(-1)
-        }, 200)
-      }
-    })
-  }
-  
-  const sendToRecipes = () =>{
+  const sendToRecipes = () => {
     shoppingListStore.backToMyShoppingList = shoppingListStore.shoppingList.shoppingListID.toString()
-    history.push('/recipes');
+    history.push('/recipes')
   }
 
   return (
     <Container maxW="container.md">
       <VStack>
-        <Heading 
-            as="h1" 
-            size="xl" 
-            isTruncated
-            style={{marginBottom: '20px'}}
-        >
+        <Heading as="h1" size="xl" isTruncated style={{ marginBottom: '20px' }}>
           amazing demo list
         </Heading>
-        <ButtonGroup 
-          style={{marginBottom: '20px'}}
-          spacing="4"
-          size="md">
+        <ButtonGroup style={{ marginBottom: '20px' }} spacing="4" size="md">
           <AddItem />
           <Button
-              colorScheme="teal" 
-              variant="outline"
-              onClick={() => sendToRecipes()}
-          >Add items from recipe</Button>
+            colorScheme="teal"
+            variant="outline"
+            onClick={() => sendToRecipes()}
+          >
+            Add items from recipe
+          </Button>
         </ButtonGroup>
         <ShoppingListItems />
         {shoppingListStore.feedBack !== null && (

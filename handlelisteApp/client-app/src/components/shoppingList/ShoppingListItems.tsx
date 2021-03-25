@@ -13,7 +13,7 @@ export const ShoppingListItems: React.FC<Props> = observer(() => {
     <React.Fragment>
       <VStack>
         {shoppingListStore.shoppingList.items.map((item, index) => (
-          <Item key={`${item.itemName}-${item.tempId}`} item={item} />
+          <Item key={item.tempId} item={item} />
         ))}
       </VStack>
     </React.Fragment>

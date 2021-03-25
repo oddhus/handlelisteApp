@@ -86,10 +86,10 @@ export const Recipes: React.FC<Props> = observer(() => {
           <Tab>{settingStore.language.allRecipes}</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <MyRecipes />
           </TabPanel>
-          <TabPanel>
+          <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <AllRecipes />
           </TabPanel>
         </TabPanels>

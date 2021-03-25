@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 
-import React, {ChangeEvent, useEffect, useState} from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Iitem } from '../../models/ShoppingList'
 import { useStore } from '../../stores/store'
 
@@ -85,15 +85,16 @@ export const Item: React.FC<Props> = observer(({ item }) => {
           <Input
             variant="flushed"
             placeholder="New Item"
+            onBlur={() => setIsRead(item.itemName !== '')}
             value={item.itemName}
-            onChange={(e:ChangeEvent<HTMLInputElement>) => {
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
               shoppingListStore.setItemName(item, e.target.value)
             }}
           />
         )}
       </GridItem>
       <GridItem colSpan={6}>
-        <HStack pr={5} pl={[0, 5, 10]}>
+        <HStack pr={[2, 5]} pl={[0, 5, 10]}>
           <NumberInput
             onChange={(valueString) =>
               shoppingListStore.setQuantity(item, parseInt(valueString))

@@ -17,7 +17,7 @@ export default class shoppingListStore {
   isLoading: boolean = false
   feedBack: any = null
   backToMyShoppingList: string | null = null
-  
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -32,6 +32,9 @@ export default class shoppingListStore {
       try {
         const fetchedShoppingList = await agent.shoppingList.getShoppingList(id)
         runInAction(() => {
+          fetchedShoppingList.items = this.addTempIdToItem(
+            fetchedShoppingList.items
+          )
           this.shoppingList = fetchedShoppingList
         })
       } catch (e) {
@@ -47,7 +50,12 @@ export default class shoppingListStore {
       if (!shoppingLists) {
         shoppingLists = []
       }
+
       runInAction(() => {
+        shoppingLists.map(
+          (shoppingList: IShoppingList) =>
+            (shoppingList.items = this.addTempIdToItem(shoppingList.items))
+        )
         this.shoppingLists = shoppingLists
         this.isLoading = false
       })
@@ -169,6 +177,7 @@ export default class shoppingListStore {
     const itemIndex = this.shoppingList.items.findIndex(
       (existingItem) => existingItem.itemName === item.itemName
     )
+    this.shoppingList.items[itemIndex].tempId = uuidv4()
 
     //If item exists increase quantity, else add to shoppinglist
     if (itemIndex > -1) {
@@ -227,5 +236,9 @@ export default class shoppingListStore {
 
   resetFeedBack = () => {
     this.feedBack = null
+  }
+
+  private addTempIdToItem(items: Iitem[]) {
+    return items.map((item) => ({ ...item, tempId: uuidv4() }))
   }
 }
