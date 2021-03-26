@@ -75,4 +75,8 @@ export default class English implements ILanguage {
   remove = 'Remove'
   update = 'Update'
   createNew = 'Create'
+  
+  archiveShoppingList = 'Archive shopping list'
+  addItemsFromRecipe = 'Add items from recipe'
+  addItem = 'Add Item'
 }

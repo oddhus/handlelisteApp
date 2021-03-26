@@ -74,7 +74,7 @@ const User = {
 const shoppingList = {
   postShoppingList: (shoppingList: any) =>
     requests.post('ShoppingList', shoppingList),
-  updateShoppingList: (shoppingList: any, id: number) =>
+  updateShoppingList: (shoppingList: IShoppingList, id: number) =>
     requests.put('ShoppingList/' + id, shoppingList),
   getShoppingList: (id: number) => requests.get('shoppinglist/' + id),
   deleteShoppingList: (id: number) => requests.del('shoppinglist/' + id),

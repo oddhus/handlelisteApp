@@ -3,6 +3,8 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { v4 as uuidv4 } from 'uuid'
 import agent from '../api/agent'
 
+import { history } from '../index'
+
 const emptyShoppingList = {
   shoppingListID: NaN,
   items: [],
@@ -102,6 +104,7 @@ export default class shoppingListStore {
           type: 'success',
         }
       })
+      history.push(`/shopping-list/${this.shoppingList.shoppingListID}`)
     } catch (e) {
       this.setError(e)
     }
@@ -186,6 +189,7 @@ export default class shoppingListStore {
       })
     } else {
       runInAction(() => {
+        item.tempId = uuidv4()
         this.shoppingList.items.push(item)
       })
     }
@@ -202,23 +206,29 @@ export default class shoppingListStore {
     }
   }
 
-  onDeleteItem = (item: Iitem) => {
-    runInAction(() => {
-      this.shoppingList.items = this.shoppingList.items.filter(
-        (foundItem) => foundItem !== item
-      )
-    })
+  onDeleteItem = async (item: Iitem) => {
+    this.shoppingList.items = this.shoppingList.items.filter(
+      (foundItem) => foundItem !== item
+    )
+    try {
+      await this.saveShoppinglist()
+    } catch (e) {
+      throw e
+    }
   }
 
-  onChecked = (item: Iitem) => {
+  onChecked = async (item: Iitem) => {
     let index = this.shoppingList.items.findIndex(
       (foundItem) => foundItem === item
     )
-    runInAction(() => {
-      this.shoppingList.items[index].hasBeenBought = !this.shoppingList.items[
-        index
-      ].hasBeenBought
-    })
+    this.shoppingList.items[index].hasBeenBought = !this.shoppingList.items[
+      index
+    ].hasBeenBought
+    try {
+      await this.saveShoppinglist()
+    } catch (e) {
+      throw e
+    }
   }
 
   setError = (e: any) => {
