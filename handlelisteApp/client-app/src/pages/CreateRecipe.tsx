@@ -233,7 +233,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                                   >
                                     <Input
                                       {...field}
-                                      variant="flushed"
+                                      size="small"
                                       id={`items[${index}].itemName`}
                                       placeholder={
                                         settingStore.language.ingredient
