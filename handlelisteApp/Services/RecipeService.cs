@@ -38,6 +38,7 @@ namespace handlelisteApp.Services
                 Approach = recipe.Approach,
                 ShortDescription = recipe.ShortDescription,
                 UserID = userId,
+                ImgUrl = recipe.ImgUrl,
                 Items = new List<ItemInRecipe>()
             };
             foreach (var item in recipe.Items)
@@ -100,7 +101,7 @@ namespace handlelisteApp.Services
 
         private RecipeDTO convertRecipeToRecipeDTO(Recipe recipe)
         {
-            RecipeDTO recipeDTO = new RecipeDTO() { RecipeID = recipe.RecipeID, RecipeName = recipe.RecipeName, Approach = recipe.Approach, ShortDescription = recipe.ShortDescription, Items = new List<ItemInRecipeDTO>() };
+            RecipeDTO recipeDTO = new RecipeDTO() { RecipeID = recipe.RecipeID, RecipeName = recipe.RecipeName, Approach = recipe.Approach, ShortDescription = recipe.ShortDescription, ImgUrl = recipe.ImgUrl, Items = new List<ItemInRecipeDTO>() };
             foreach (ItemInRecipe itemInRecipe in recipe.Items)
             {
                 recipeDTO.Items.Add(new ItemInRecipeDTO() { ItemName = itemInRecipe.Item.ItemName, Quantity = itemInRecipe.Quantity, Unit = itemInRecipe.Unit });
@@ -150,6 +151,7 @@ namespace handlelisteApp.Services
             storedRecipe.RecipeName = recipe.RecipeName;
             storedRecipe.Approach = recipe.Approach;
             storedRecipe.ShortDescription = recipe.ShortDescription;
+            storedRecipe.ImgUrl = recipe.ImgUrl;
             storedRecipe.Items = new List<ItemInRecipe>();
 
             foreach (var item in recipe.Items)
@@ -171,10 +173,7 @@ namespace handlelisteApp.Services
                 });
             }
 
-
             storedRecipe = _repository.UpdateRecipe(recipeId, storedRecipe);
-
-
 
             return _mapper.Map<RecipeDTO>(storedRecipe);
         }
