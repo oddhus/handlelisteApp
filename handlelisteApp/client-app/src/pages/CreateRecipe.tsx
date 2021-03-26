@@ -13,13 +13,12 @@ import {
   Select,
   Stack,
   Textarea,
-  useMediaQuery,
-  useToast,
 } from '@chakra-ui/react'
 import {
   Field,
   FieldArray,
   FieldProps,
+  ErrorMessage,
   Form,
   Formik,
   FormikProps,
@@ -46,9 +45,14 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
     recipeName: '',
     shortDescription: '',
     approach: '',
-    items: [],
+    items: [
+      {
+        itemName: '',
+        quantity: 1,
+        unit: 'PCS',
+      },
+    ],
   })
-  const [isLargerThan500] = useMediaQuery('(min-width: 500px)')
 
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
   const { recipeStore, settingStore } = useStore()
@@ -80,17 +84,30 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
 
   const SignupSchema = Yup.object().shape({
     recipeName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
+      .min(2, 'Min 2 chars')
+      .max(50, 'Max 50 chars')
       .required('Required'),
     shortDescription: Yup.string()
-      .min(2, 'Too Short!')
-      .max(120, 'Too Long!')
+      .min(2, 'Min 2 chars')
+      .max(120, 'Max 120 chars')
       .required('Required'),
     approach: Yup.string()
-      .min(2, 'Too Short!')
-      .max(500, 'Too Long!')
+      .min(2, 'Min 2 chars')
+      .max(1000, 'Max 1000 chars')
       .required('Required'),
+    items: Yup.array().of(
+      Yup.object().shape({
+        itemName: Yup.string().max(30, 'Max 30 chars').required('Required'),
+        quantity: Yup.number()
+          .typeError('Must be a number')
+          .max(9999, 'Max value is 9999')
+          .min(0, 'Min value is 0')
+          .required('Required'),
+        unit: Yup.string()
+          .oneOf(settingStore.language.units, 'Please select a valid unit')
+          .required('Required'),
+      })
+    ),
   })
 
   return (
@@ -115,7 +132,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
         validationSchema={SignupSchema}
       >
         {(props: FormikProps<FormValues>) => {
-          const { values, isSubmitting } = props
+          const { values, isSubmitting, errors, touched } = props
           return (
             <Form>
               <Field name="recipeName">
@@ -186,77 +203,108 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
               <FieldArray
                 name="items"
                 render={(arrayHelpers) => (
-                  <Stack spacing={4}>
+                  <Stack spacing={2}>
                     {values.items &&
                       values.items.length > 0 &&
                       values.items.map((items, index) => (
                         <Grid
                           key={index}
                           templateColumns="repeat(12, 1fr)"
-                          templateRows={
-                            isLargerThan500
-                              ? 'repeat(1, 1fr)'
-                              : 'repeat(2, 1fr)'
-                          }
-                          gap={2}
+                          templateRows="repeat(1, 1fr)"
+                          gap={1}
                         >
-                          <GridItem colSpan={isLargerThan500 ? 5 : 12}>
+                          <GridItem colSpan={[5, 6]}>
                             <Field name={`items[${index}].itemName`}>
                               {({ form, field }: FieldProps) => {
                                 return (
                                   <FormControl
                                     isInvalid={
-                                      !!form.errors?.c && !!form.touched?.items
+                                      !!errors &&
+                                      !!errors.items &&
+                                      !!errors.items[index] &&
+                                      !!((errors.items[
+                                        index
+                                      ] as unknown) as IitemInRecipe)
+                                        .itemName &&
+                                      !!touched &&
+                                      !!touched.items &&
+                                      !!touched.items[index]?.itemName
                                     }
                                   >
                                     <Input
                                       {...field}
+                                      variant="flushed"
                                       id={`items[${index}].itemName`}
                                       placeholder={
                                         settingStore.language.ingredient
                                       }
                                     />
                                     <FormErrorMessage>
-                                      {form.errors.itemName}
+                                      {errors?.items && errors.items[index]
+                                        ? ((errors.items[
+                                            index
+                                          ] as unknown) as IitemInRecipe)
+                                            .itemName
+                                        : ''}
                                     </FormErrorMessage>
                                   </FormControl>
                                 )
                               }}
                             </Field>
                           </GridItem>
-                          <GridItem colSpan={isLargerThan500 ? 3 : 6}>
+                          <GridItem colSpan={2}>
                             <Field name={`items[${index}].quantity`}>
                               {({ form, field }: FieldProps) => (
                                 <FormControl
                                   isInvalid={
-                                    !!form.errors?.items &&
-                                    !!form.touched?.items
+                                    !!errors &&
+                                    !!errors.items &&
+                                    !!errors.items[index] &&
+                                    !!((errors.items[
+                                      index
+                                    ] as unknown) as IitemInRecipe).quantity &&
+                                    !!touched &&
+                                    !!touched.items &&
+                                    !!touched.items[index]?.quantity
                                   }
                                 >
                                   <Input
                                     {...field}
+                                    size="small"
                                     id={`items[${index}].quantity`}
                                     placeholder={
                                       settingStore.language.shoppingList[0]
                                     }
                                   />
                                   <FormErrorMessage>
-                                    {form.errors.name}
+                                    {errors?.items && errors.items[index]
+                                      ? ((errors.items[
+                                          index
+                                        ] as unknown) as IitemInRecipe).quantity
+                                      : ''}
                                   </FormErrorMessage>
                                 </FormControl>
                               )}
                             </Field>
                           </GridItem>
-                          <GridItem colSpan={isLargerThan500 ? 3 : 5}>
+                          <GridItem colSpan={[4, 3]}>
                             <Field name={`items[${index}].unit`}>
                               {({ form, field }: FieldProps) => (
                                 <FormControl
                                   isInvalid={
-                                    !!form.errors?.items &&
-                                    !!form.touched?.items
+                                    !!errors &&
+                                    !!errors.items &&
+                                    !!errors.items[index] &&
+                                    !!((errors.items[
+                                      index
+                                    ] as unknown) as IitemInRecipe).unit &&
+                                    !!touched &&
+                                    !!touched.items &&
+                                    !!touched.items[index]?.unit
                                   }
                                 >
                                   <Select
+                                    size="small"
                                     id={`items[${index}].unit`}
                                     placeholder={settingStore.language.units[0]}
                                     {...field}
@@ -270,14 +318,19 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                                       ))}
                                   </Select>
                                   <FormErrorMessage>
-                                    {form.errors.unit}
+                                    {errors?.items && errors.items[index]
+                                      ? ((errors.items[
+                                          index
+                                        ] as unknown) as IitemInRecipe).unit
+                                      : ''}
                                   </FormErrorMessage>
                                 </FormControl>
                               )}
                             </Field>
                           </GridItem>
-                          <GridItem colSpan={1}>
+                          <GridItem colSpan={1} justifyContent="flex-end">
                             <IconButton
+                              size="xs"
                               aria-label={settingStore.language.remove}
                               onClick={() => arrayHelpers.remove(index)}
                               icon={<CloseIcon />}
