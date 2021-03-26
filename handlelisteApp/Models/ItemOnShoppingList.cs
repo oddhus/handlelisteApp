@@ -7,6 +7,7 @@ namespace handlelisteApp.Models
 {
     public class ItemOnShoppingList
     {
+        public int Id { get; set; }
         public int ShoppingListId { get; set; }
         public ShoppingList ShoppingList { get; set; }
         public int ItemId { get; set; }

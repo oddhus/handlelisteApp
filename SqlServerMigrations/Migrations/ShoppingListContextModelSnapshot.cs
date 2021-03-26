@@ -81,14 +81,16 @@ namespace SqlServerMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.ItemOnShoppingList", b =>
                 {
-                    b.Property<int>("ShoppingListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("HasBeenBought")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ItemIdentifier")
                         .HasColumnType("nvarchar(max)");
@@ -96,9 +98,14 @@ namespace SqlServerMigrations.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("ShoppingListId", "ItemId");
+                    b.Property<int>("ShoppingListId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("ShoppingListId");
 
                     b.ToTable("ItemOnShoppingLists");
                 });
@@ -151,6 +158,9 @@ namespace SqlServerMigrations.Migrations
                     b.Property<string>("Approach")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RecipeName")
                         .HasColumnType("nvarchar(max)");
 
@@ -167,19 +177,26 @@ namespace SqlServerMigrations.Migrations
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("handlelisteApp.Models.RecipeFavorite", b =>
+            modelBuilder.Entity("handlelisteApp.Models.SavedRecipe", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("RecipeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "RecipeId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeFavorites");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SavedRecipes");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
@@ -316,19 +333,15 @@ namespace SqlServerMigrations.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("handlelisteApp.Models.RecipeFavorite", b =>
+            modelBuilder.Entity("handlelisteApp.Models.SavedRecipe", b =>
                 {
                     b.HasOne("handlelisteApp.Models.Recipe", "Recipe")
-                        .WithMany("UserFavorite")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("UserSaved")
+                        .HasForeignKey("RecipeId");
 
                     b.HasOne("handlelisteApp.Models.User", "User")
-                        .WithMany("Favorites")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("SavedRecipes")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Recipe");
 
@@ -364,7 +377,7 @@ namespace SqlServerMigrations.Migrations
                 {
                     b.Navigation("Items");
 
-                    b.Navigation("UserFavorite");
+                    b.Navigation("UserSaved");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
@@ -374,9 +387,9 @@ namespace SqlServerMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.User", b =>
                 {
-                    b.Navigation("Favorites");
-
                     b.Navigation("Recipes");
+
+                    b.Navigation("SavedRecipes");
 
                     b.Navigation("ShoppingLists");
                 });

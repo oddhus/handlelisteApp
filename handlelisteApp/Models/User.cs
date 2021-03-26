@@ -16,6 +16,6 @@ namespace handlelisteApp.Models
         public string EmailAddress { get; set; }
         public Preferences Preferences { get; set; }
         public ICollection<Recipe> Recipes { get; set; }
-        public ICollection<RecipeFavorite> Favorites { get; set; }
+        public ICollection<SavedRecipe> SavedRecipes { get; set; }
     }
 }

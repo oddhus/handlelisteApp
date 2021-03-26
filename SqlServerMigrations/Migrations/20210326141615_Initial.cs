@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SqlServerMigrations.Migrations
 {
-    public partial class UpdatedCategory : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -87,6 +87,7 @@ namespace SqlServerMigrations.Migrations
                     RecipeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Approach = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -107,6 +108,7 @@ namespace SqlServerMigrations.Migrations
                     ShoppingListID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -174,19 +176,46 @@ namespace SqlServerMigrations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemOnShoppingLists",
+                name: "SavedRecipes",
                 columns: table => new
                 {
-                    ShoppingListId = table.Column<int>(type: "int", nullable: false),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HasBeenBought = table.Column<bool>(type: "bit", nullable: false),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    RecipeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemOnShoppingLists", x => new { x.ShoppingListId, x.ItemId });
+                    table.PrimaryKey("PK_SavedRecipes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SavedRecipes_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "RecipeID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SavedRecipes_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemOnShoppingLists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ShoppingListId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    HasBeenBought = table.Column<bool>(type: "bit", nullable: false),
+                    ItemIdentifier = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemOnShoppingLists", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ItemOnShoppingLists_Items_ItemId",
                         column: x => x.ItemId,
@@ -207,6 +236,11 @@ namespace SqlServerMigrations.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ItemOnShoppingLists_ShoppingListId",
+                table: "ItemOnShoppingLists",
+                column: "ShoppingListId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ItemsInKitchens_ItemID",
                 table: "ItemsInKitchens",
                 column: "ItemID");
@@ -219,13 +253,22 @@ namespace SqlServerMigrations.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Kitchens_UserID",
                 table: "Kitchens",
-                column: "UserID",
-                unique: true);
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recipes_UserID",
                 table: "Recipes",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavedRecipes_RecipeId",
+                table: "SavedRecipes",
+                column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavedRecipes_UserId",
+                table: "SavedRecipes",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShoppingLists_UserId",
@@ -248,6 +291,9 @@ namespace SqlServerMigrations.Migrations
 
             migrationBuilder.DropTable(
                 name: "ItemsInRecipes");
+
+            migrationBuilder.DropTable(
+                name: "SavedRecipes");
 
             migrationBuilder.DropTable(
                 name: "ShoppingLists");

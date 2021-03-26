@@ -2,37 +2,33 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using handlelisteApp.Context;
 
-namespace SqlServerMigrations.Migrations
+namespace SqliteMigrations.Migrations
 {
     [DbContext(typeof(ShoppingListContext))]
-    [Migration("20210312150913_Kitchens")]
-    partial class Kitchens
+    [Migration("20210326142441_ImgUrl")]
+    partial class ImgUrl
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.3");
 
             modelBuilder.Entity("handlelisteApp.Models.Item", b =>
                 {
                     b.Property<int>("ItemID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ItemName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<double>("Weight")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.HasKey("ItemID");
 
@@ -42,13 +38,13 @@ namespace SqlServerMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.ItemInMyKitchen", b =>
                 {
                     b.Property<int>("MyKitchenID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("MyKitchenID", "ItemID");
 
@@ -60,16 +56,19 @@ namespace SqlServerMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.ItemInRecipe", b =>
                 {
                     b.Property<int>("RecipeID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<int>("Quantiy")
-                        .HasColumnType("int");
+                    b.Property<string>("Category")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("RecipeID", "ItemID");
 
@@ -80,24 +79,30 @@ namespace SqlServerMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.ItemOnShoppingList", b =>
                 {
-                    b.Property<int>("ShoppingListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("HasBeenBought")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ItemIdentifier")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ShoppingListId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasKey("ShoppingListId", "ItemId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("ShoppingListId");
 
                     b.ToTable("ItemOnShoppingLists");
                 });
@@ -106,16 +111,14 @@ namespace SqlServerMigrations.Migrations
                 {
                     b.Property<int>("MyKitchenID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("MyKitchenID");
 
-                    b.HasIndex("UserID")
-                        .IsUnique();
+                    b.HasIndex("UserID");
 
                     b.ToTable("Kitchens");
                 });
@@ -124,17 +127,16 @@ namespace SqlServerMigrations.Migrations
                 {
                     b.Property<int>("PreferencesID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Darkmode")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Fontsize")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Language")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PreferencesID");
 
@@ -145,38 +147,68 @@ namespace SqlServerMigrations.Migrations
                 {
                     b.Property<int>("RecipeID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Approach")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RecipeName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ShortDescription")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("RecipeID");
 
+                    b.HasIndex("UserID");
+
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.SavedRecipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SavedRecipes");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
                 {
                     b.Property<int>("ShoppingListID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ShoppingListID");
 
@@ -189,23 +221,22 @@ namespace SqlServerMigrations.Migrations
                 {
                     b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("EmailAdress")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("HashedPassword")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int?>("PreferencesID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("UserAge")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserID");
 
@@ -274,10 +305,36 @@ namespace SqlServerMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
                 {
                     b.HasOne("handlelisteApp.Models.User", "User")
-                        .WithOne("MyKitchen")
-                        .HasForeignKey("handlelisteApp.Models.MyKitchen", "UserID")
+                        .WithMany()
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.Recipe", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.User", "user")
+                        .WithMany("Recipes")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.SavedRecipe", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.Recipe", "Recipe")
+                        .WithMany("UserSaved")
+                        .HasForeignKey("RecipeId");
+
+                    b.HasOne("handlelisteApp.Models.User", "User")
+                        .WithMany("SavedRecipes")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Recipe");
 
                     b.Navigation("User");
                 });
@@ -310,6 +367,8 @@ namespace SqlServerMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.Recipe", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("UserSaved");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
@@ -319,7 +378,9 @@ namespace SqlServerMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.User", b =>
                 {
-                    b.Navigation("MyKitchen");
+                    b.Navigation("Recipes");
+
+                    b.Navigation("SavedRecipes");
 
                     b.Navigation("ShoppingLists");
                 });

@@ -10,8 +10,8 @@ using handlelisteApp.Context;
 namespace SqlServerMigrations.Migrations
 {
     [DbContext(typeof(ShoppingListContext))]
-    [Migration("20210317123741_UpdatedCategory")]
-    partial class UpdatedCategory
+    [Migration("20210326141615_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,27 +83,31 @@ namespace SqlServerMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.ItemOnShoppingList", b =>
                 {
-                    b.Property<int>("ShoppingListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("HasBeenBought")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ItemIdentifier")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ShoppingListId")
+                        .HasColumnType("int");
 
-                    b.HasKey("ShoppingListId", "ItemId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("ShoppingListId");
 
                     b.ToTable("ItemOnShoppingLists");
                 });
@@ -120,8 +124,7 @@ namespace SqlServerMigrations.Migrations
 
                     b.HasKey("MyKitchenID");
 
-                    b.HasIndex("UserID")
-                        .IsUnique();
+                    b.HasIndex("UserID");
 
                     b.ToTable("Kitchens");
                 });
@@ -157,6 +160,9 @@ namespace SqlServerMigrations.Migrations
                     b.Property<string>("Approach")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RecipeName")
                         .HasColumnType("nvarchar(max)");
 
@@ -173,6 +179,28 @@ namespace SqlServerMigrations.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("handlelisteApp.Models.SavedRecipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SavedRecipes");
+                });
+
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
                 {
                     b.Property<int>("ShoppingListID")
@@ -182,6 +210,9 @@ namespace SqlServerMigrations.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
@@ -285,8 +316,8 @@ namespace SqlServerMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
                 {
                     b.HasOne("handlelisteApp.Models.User", "User")
-                        .WithOne("MyKitchen")
-                        .HasForeignKey("handlelisteApp.Models.MyKitchen", "UserID")
+                        .WithMany()
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -302,6 +333,21 @@ namespace SqlServerMigrations.Migrations
                         .IsRequired();
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.SavedRecipe", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.Recipe", "Recipe")
+                        .WithMany("UserSaved")
+                        .HasForeignKey("RecipeId");
+
+                    b.HasOne("handlelisteApp.Models.User", "User")
+                        .WithMany("SavedRecipes")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
@@ -332,6 +378,8 @@ namespace SqlServerMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.Recipe", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("UserSaved");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
@@ -341,9 +389,9 @@ namespace SqlServerMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.User", b =>
                 {
-                    b.Navigation("MyKitchen");
-
                     b.Navigation("Recipes");
+
+                    b.Navigation("SavedRecipes");
 
                     b.Navigation("ShoppingLists");
                 });

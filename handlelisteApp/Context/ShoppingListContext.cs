@@ -21,17 +21,19 @@ namespace handlelisteApp.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .Entity<ItemOnShoppingList>()
-                .HasKey(s => new { s.ShoppingListId, s.ItemId });
-            modelBuilder
                 .Entity<ItemInRecipe>()
                 .HasKey(s => new { s.RecipeID, s.ItemID });
             modelBuilder
                 .Entity<ItemInMyKitchen>()
                 .HasKey(s => new { s.MyKitchenID, s.ItemID });
-            modelBuilder
-                .Entity<RecipeFavorite>()
-                .HasKey(s => new { s.UserId, s.RecipeId });
+            modelBuilder.Entity<SavedRecipe>()
+                .HasOne(bc => bc.User)
+                .WithMany(b => b.SavedRecipes)
+                .HasForeignKey(bc => bc.UserId);
+            modelBuilder.Entity<SavedRecipe>()
+                .HasOne(bc => bc.Recipe)
+                .WithMany(c => c.UserSaved)
+                .HasForeignKey(bc => bc.RecipeId);
         }
 
         public virtual DbSet<Item> Items { get; set; }
@@ -43,6 +45,6 @@ namespace handlelisteApp.Context
         public virtual DbSet<ItemInRecipe> ItemsInRecipes { get; set; }
         public virtual DbSet<MyKitchen> Kitchens { get; set; }
         public virtual DbSet<ItemInMyKitchen> ItemsInKitchens { get; set; }
-        public virtual DbSet<RecipeFavorite> RecipeFavorites { get; set; }
+        public virtual DbSet<SavedRecipe> SavedRecipes { get; set; }
     }
 }

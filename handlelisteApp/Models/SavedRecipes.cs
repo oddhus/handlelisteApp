@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 
 namespace handlelisteApp.Models
 {
-    public class RecipeFavorite
+    public class SavedRecipe
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
-        public int RecipeId { get; set; }
+        public int? RecipeId { get; set; }
         public virtual Recipe Recipe { get; set; }
 
     }
