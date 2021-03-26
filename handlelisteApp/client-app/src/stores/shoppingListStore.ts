@@ -177,7 +177,6 @@ export default class shoppingListStore {
     const itemIndex = this.shoppingList.items.findIndex(
       (existingItem) => existingItem.itemName === item.itemName
     )
-    this.shoppingList.items[itemIndex].tempId = uuidv4()
 
     //If item exists increase quantity, else add to shoppinglist
     if (itemIndex > -1) {

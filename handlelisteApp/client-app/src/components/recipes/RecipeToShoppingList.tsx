@@ -20,6 +20,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
     shoppingListStore,
     modalStore,
   } = useStore()
+  const [numberOfItems, setNumberOfItems] = useState<number[]>()
   const [checked, setCheckedItems] = useState<CheckedItems[]>([])
   const [selectedShoppingList, setSelectedShoppingList] = useState<
     number | undefined
@@ -30,6 +31,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
       recipeStore.currentRecipe.items.forEach((item) => {
         setCheckedItems((items) => [...items, { isChecked: true, item }])
       })
+      setNumberOfItems(Array(recipeStore.currentRecipe.items.length).fill(1))
     }
   }, [recipeStore.currentRecipe])
 
@@ -51,11 +53,22 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
     )
   }
 
+  const onChangeNumberOfItems = (value: number, index: number) => {
+    if (numberOfItems) {
+      setNumberOfItems([
+        ...numberOfItems.slice(0, index),
+        value ? value : 0,
+        ...numberOfItems.slice(index + 1),
+      ])
+    }
+  }
+
   const onAddToShoppingList = () => {
-    checked.forEach((checkedItem) => {
-      if (checkedItem.isChecked) {
+    checked.forEach((checkedItem, i) => {
+      if (checkedItem.isChecked && numberOfItems && numberOfItems[i] > 0) {
         shoppingListStore.addItem({
           ...checkedItem.item,
+          quantity: numberOfItems[i],
           hasBeenBought: false,
           category: recipeStore.currentRecipe!.recipeName,
         })
@@ -79,7 +92,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
   }
 
   return (
-    <VStack alignItems="flex-start">
+    <VStack alignItems="flex-start" p={0}>
       <SelectShoppingList onSelectShoppingList={onSelectShoppingList} />
       <Box minW="100%">
         <Center pt={2}>
@@ -93,6 +106,8 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
           items={recipeStore.currentRecipe!.items}
           addTick
           onChecked={onChecked}
+          onChangeNumberOfItems={onChangeNumberOfItems}
+          numberOfItems={numberOfItems}
         />
       </Box>
       <Box minW="100%">
