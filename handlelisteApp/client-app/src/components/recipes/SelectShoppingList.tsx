@@ -29,8 +29,10 @@ export const SelectShoppingList: React.FC<Props> = observer(
 
     return (
       <Box pt={3}>
-        <FormControl>
-          <FormLabel>{settingStore.language.shoppingList}</FormLabel>
+        <Text fontWeight="600" fontSize="xl">
+          {settingStore.language.addRecipeToShoppingList}
+        </Text>
+        <FormControl pt={3}>
           {shoppingListStore.shoppingLists.length === 0 ? (
             <Box>
               <Text>{settingStore.language.noShoppingListFound}</Text>

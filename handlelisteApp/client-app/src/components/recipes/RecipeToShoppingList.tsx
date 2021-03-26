@@ -82,8 +82,10 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
     <VStack alignItems="flex-start">
       <SelectShoppingList onSelectShoppingList={onSelectShoppingList} />
       <Box minW="100%">
-        <Center>
-          <Text fontSize="xl">{recipeStore.currentRecipe!.recipeName}</Text>
+        <Center pt={2}>
+          <Text fontSize="xl" as="i">
+            {recipeStore.currentRecipe!.recipeName}
+          </Text>
         </Center>
       </Box>
       <Box minW="100%">

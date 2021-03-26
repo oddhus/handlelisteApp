@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../../stores/store'
 import { IconButton, HStack, Tooltip } from '@chakra-ui/react'
-import { AddIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { AddIcon, CalendarIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { RecipeToShoppingList } from './RecipeToShoppingList'
 import { IRecipe } from '../../models/recipe'
 
@@ -34,7 +34,7 @@ export const RecipeActionButtons: React.FC<Props> = observer(
                 recipeStore.setCurrentRecipe(recipe)
                 modalStore.openModal(<RecipeToShoppingList />)
               }}
-              icon={<AddIcon />}
+              icon={<CalendarIcon />}
             />
           </Tooltip>
         )}
