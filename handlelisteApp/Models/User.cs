@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace handlelisteApp.Models
         public ICollection<ShoppingList> ShoppingLists { get; set; }
         public string EmailAddress { get; set; }
         public Preferences Preferences { get; set; }
-        public MyKitchen MyKitchen { get; set; }
         public ICollection<Recipe> Recipes { get; set; }
+        public ICollection<RecipeFavorite> Favorites { get; set; }
     }
 }

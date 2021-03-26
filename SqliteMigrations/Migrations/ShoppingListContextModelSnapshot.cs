@@ -83,17 +83,14 @@ namespace SqliteMigrations.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("HasBeenBought")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ItemIdentifier")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("TEXT");
 
                     b.HasKey("ShoppingListId", "ItemId");
 
@@ -113,8 +110,7 @@ namespace SqliteMigrations.Migrations
 
                     b.HasKey("MyKitchenID");
 
-                    b.HasIndex("UserID")
-                        .IsUnique();
+                    b.HasIndex("UserID");
 
                     b.ToTable("Kitchens");
                 });
@@ -164,6 +160,21 @@ namespace SqliteMigrations.Migrations
                     b.ToTable("Recipes");
                 });
 
+            modelBuilder.Entity("handlelisteApp.Models.RecipeFavorite", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserId", "RecipeId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("RecipeFavorites");
+                });
+
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
                 {
                     b.Property<int>("ShoppingListID")
@@ -171,6 +182,9 @@ namespace SqliteMigrations.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedOn")
@@ -274,8 +288,8 @@ namespace SqliteMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.MyKitchen", b =>
                 {
                     b.HasOne("handlelisteApp.Models.User", "User")
-                        .WithOne("MyKitchen")
-                        .HasForeignKey("handlelisteApp.Models.MyKitchen", "UserID")
+                        .WithMany()
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -291,6 +305,25 @@ namespace SqliteMigrations.Migrations
                         .IsRequired();
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("handlelisteApp.Models.RecipeFavorite", b =>
+                {
+                    b.HasOne("handlelisteApp.Models.Recipe", "Recipe")
+                        .WithMany("UserFavorite")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("handlelisteApp.Models.User", "User")
+                        .WithMany("Favorites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
@@ -321,6 +354,8 @@ namespace SqliteMigrations.Migrations
             modelBuilder.Entity("handlelisteApp.Models.Recipe", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("UserFavorite");
                 });
 
             modelBuilder.Entity("handlelisteApp.Models.ShoppingList", b =>
@@ -330,7 +365,7 @@ namespace SqliteMigrations.Migrations
 
             modelBuilder.Entity("handlelisteApp.Models.User", b =>
                 {
-                    b.Navigation("MyKitchen");
+                    b.Navigation("Favorites");
 
                     b.Navigation("Recipes");
 

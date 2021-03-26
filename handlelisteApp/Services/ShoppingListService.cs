@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using handlelisteApp.Data;
 using handlelisteApp.Models;
@@ -24,6 +25,7 @@ namespace handlelisteApp.Services
         {
             ShoppingList shoppingList = new ShoppingList()
             {
+                Name = shoppingListDTO.Name,
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now,
                 UserId = userID,
@@ -47,10 +49,9 @@ namespace handlelisteApp.Services
                     Item = foundItem,
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = item.Quantity,
-                    Unit = item.Unit,
                     HasBeenBought = item.HasBeenBought,
-                    Category = item.Category
-                });;
+                    ItemIdentifier = item.ItemIdentifier
+                }); ;
             }
 
             _shoppingListRepo.AddShoppingList(shoppingList);
@@ -70,6 +71,7 @@ namespace handlelisteApp.Services
 
             shoppingList.Items = new List<ItemOnShoppingList>();
             shoppingList.UpdatedOn = DateTime.Now;
+            shoppingList.Name = shoppingListDTO.Name;
 
             foreach (var item in shoppingListDTO.Items)
             {
@@ -87,9 +89,8 @@ namespace handlelisteApp.Services
                     Item = foundItem,
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = item.Quantity,
-                    Unit = item.Unit,
                     HasBeenBought = item.HasBeenBought,
-                    Category = item.Category
+                    ItemIdentifier = item.ItemIdentifier
                 });
             }
 
@@ -97,6 +98,46 @@ namespace handlelisteApp.Services
             _shoppingListRepo.SaveChanges();
 
             return _mapper.Map<ShoppingListReadDTO>(shoppingList);
+        }
+
+        public ItemOnShoppingListReadDTO UpdateOrCreateItemOnShoppingList(int userId, int shoppingListId, ItemOnShoppingListCreateDTO itemDto)
+        {
+            var shoppingList = _shoppingListRepo.FindShoppingListByUserIdAndListId(userId, shoppingListId);
+            if (shoppingList == null || shoppingList.UserId != userId)
+            {
+                return null;
+            }
+
+            var foundItem = _itemRepo.FindByItemName(itemDto.ItemName);
+            if (foundItem == null)
+            {
+                foundItem = new Item() { ItemName = itemDto.ItemName };
+                _itemRepo.AddItem(foundItem);
+            }
+
+            var itemInShoppingList = shoppingList.Items.FirstOrDefault(i => i.ItemIdentifier == itemDto.ItemIdentifier);
+            if (itemInShoppingList != null)
+            {
+                itemInShoppingList.HasBeenBought = itemDto.HasBeenBought;
+                itemInShoppingList.Quantity = itemDto.Quantity;
+                itemInShoppingList.Item = foundItem;
+            }
+            else
+            {
+                itemInShoppingList = new ItemOnShoppingList()
+                {
+                    ItemId = foundItem.ItemID,
+                    Item = foundItem,
+                    ShoppingListId = shoppingList.ShoppingListID,
+                    Quantity = itemDto.Quantity,
+                    HasBeenBought = itemDto.HasBeenBought,
+                    ItemIdentifier = itemDto.ItemIdentifier
+                };
+                shoppingList.Items.Add(itemInShoppingList);
+            };
+
+            _shoppingListRepo.SaveChanges();
+            return _mapper.Map<ItemOnShoppingListReadDTO>(itemInShoppingList);
         }
 
         public ShoppingListReadDTO GetShoppingListByUserIdAndListId(int userId, int shoppingListId)

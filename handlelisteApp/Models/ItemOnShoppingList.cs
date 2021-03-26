@@ -12,8 +12,7 @@ namespace handlelisteApp.Models
         public int ItemId { get; set; }
         public virtual Item Item { get; set; }
         public int Quantity { get; set; }
-        public string Unit { get; set; }
         public bool HasBeenBought { get; set; }
-        public string Category { get; set; }
+        public string ItemIdentifier { get; set; }
     }
 }

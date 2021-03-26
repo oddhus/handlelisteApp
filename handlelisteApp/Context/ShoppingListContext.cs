@@ -16,15 +16,6 @@ namespace handlelisteApp.Context
         }
         public ShoppingListContext(DbContextOptions options) : base(options)
         {
-            /*
-            if (!_created)
-            {
-                _created = true;
-                Database.EnsureDeleted();
-                Database.EnsureCreated();
-            }
-            */
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +29,9 @@ namespace handlelisteApp.Context
             modelBuilder
                 .Entity<ItemInMyKitchen>()
                 .HasKey(s => new { s.MyKitchenID, s.ItemID });
+            modelBuilder
+                .Entity<RecipeFavorite>()
+                .HasKey(s => new { s.UserId, s.RecipeId });
         }
 
         public virtual DbSet<Item> Items { get; set; }
@@ -48,6 +42,7 @@ namespace handlelisteApp.Context
         public virtual DbSet<Recipe> Recipes { get; set; }
         public virtual DbSet<ItemInRecipe> ItemsInRecipes { get; set; }
         public virtual DbSet<MyKitchen> Kitchens { get; set; }
-        public virtual DbSet<ItemInMyKitchen> ItemsInKitchens {get; set;}
+        public virtual DbSet<ItemInMyKitchen> ItemsInKitchens { get; set; }
+        public virtual DbSet<RecipeFavorite> RecipeFavorites { get; set; }
     }
 }

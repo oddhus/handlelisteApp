@@ -59,6 +59,17 @@ namespace handlelisteApp.Controllers
             return updatedShoppingList;
         }
 
+        [HttpPost("{shoppingListId}")]
+        public ActionResult<ItemOnShoppingListReadDTO> CreateOrUpdateItemInShoppingList(int shoppingListId, [FromBody] ItemOnShoppingListCreateDTO itemDto)
+        {
+            var newOrUpdatedItem = _shoppingListService.UpdateOrCreateItemOnShoppingList(GetUserId(), shoppingListId, itemDto);
+            if (newOrUpdatedItem == null)
+            {
+                return BadRequest();
+            };
+            return newOrUpdatedItem;
+        }
+
         [HttpDelete("{shoppingListId}")]
         public ActionResult DeleteShoppingList(int shoppingListId)
         {

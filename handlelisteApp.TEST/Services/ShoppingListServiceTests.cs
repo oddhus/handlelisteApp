@@ -50,7 +50,6 @@ namespace handlelisteApp.TEST.Data
                     {
                         ItemName = "brus",
                         Quantity = 2,
-                        Unit = "pcs",
                         HasBeenBought = true
                     }
                 }
@@ -67,7 +66,6 @@ namespace handlelisteApp.TEST.Data
                     {
                         ItemId = 123,
                         Quantity = 2,
-                        Unit = "pcs",
                         Item = item,
                         HasBeenBought = true
                     }

@@ -11,6 +11,7 @@ namespace handlelisteApp.Models
         public virtual ICollection<ItemOnShoppingList> Items { get; set; }
         public int UserId { get; set; }
         public User user { get; set; }
+        public string Name { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime UpdatedOn { get; set; }
     }

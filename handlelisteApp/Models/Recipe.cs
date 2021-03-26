@@ -14,5 +14,6 @@ namespace handlelisteApp.Models
         public List<ItemInRecipe> Items { get; set; }
         public User user { get; set; }
         public int UserID { get; set; }
+        public ICollection<RecipeFavorite> UserFavorite { get; set; }
     }
 }
