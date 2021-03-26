@@ -76,7 +76,10 @@ export const Item: React.FC<Props> = observer(({ item }) => {
           <Input
             variant="flushed"
             placeholder="New Item"
-            onBlur={() => setIsRead(item.itemName !== '')}
+            onBlur={() => {
+              setIsRead(item.itemName !== '')
+              shoppingListStore.saveShoppinglist()
+            }}      
             value={item.itemName}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               shoppingListStore.setItemName(item, e.target.value)

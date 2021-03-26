@@ -74,4 +74,8 @@ export default class Norwegian_B implements ILanguage {
   remove = 'Fjern'
   update = 'Oppdater'
   createNew = 'Lag ny'
+  
+  archiveShoppingList = 'Arkiver handlelisten'
+  addItemsFromRecipe = 'Legg til varer fra en oppskrift'
+  addItem = 'Legg til vare'
 }

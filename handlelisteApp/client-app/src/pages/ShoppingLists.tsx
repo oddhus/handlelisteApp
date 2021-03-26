@@ -115,7 +115,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
         onClick={() => {
           shoppingListStore.resetShoppingList()
           shoppingListStore.resetFeedBack()
-          history.push('shopping-list/new-shopping-list')
+          shoppingListStore.addShoppinglist()
         }}
       >
         {settingStore.language.newShoppingList}

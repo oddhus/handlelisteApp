@@ -16,7 +16,7 @@ export const AddItem: React.FC<Props> = () => {
       icon={<AddIcon />}
       colorScheme="green"
     >
-      Add item
+      {settingStore.language.addItem}
     </Button>
   )
 }

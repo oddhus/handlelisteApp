@@ -7,6 +7,7 @@ import {
   Heading,
   Container,
   VStack,
+  Center,
 } from '@chakra-ui/react'
 
 import { AddItem } from '../components/shoppingList/AddItem'
@@ -61,7 +62,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
             variant="outline"
             onClick={() => sendToRecipes()}
           >
-            Add items from recipe
+            {settingStore.language.addItemsFromRecipe}
           </Button>
         </ButtonGroup>
         <ShoppingListItems />
@@ -77,6 +78,16 @@ export const ShoppingList: React.FC<Props> = observer(() => {
           />
         )}
       </VStack>
+      {shoppingListStore.shoppingList.items.length !== 0 &&<Center>
+        <Button
+            style={{marginTop: '40px'}}
+            size="lg"
+            colorScheme="teal"
+            variant="outline"
+            //does nothing for the time being
+            onClick={() => history.push('/shopping-list')}
+        >{settingStore.language.archiveShoppingList}</Button>
+      </Center>}
     </Container>
   )
 })
