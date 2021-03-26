@@ -59,7 +59,7 @@ namespace handlelisteApp.Controllers
             return updatedShoppingList;
         }
 
-        [HttpPost("{shoppingListId}")]
+        [HttpPost("{shoppingListId}/item")]
         public ActionResult<ItemOnShoppingListReadDTO> CreateOrUpdateItemInShoppingList(int shoppingListId, [FromBody] ItemOnShoppingListCreateDTO itemDto)
         {
             var newOrUpdatedItem = _shoppingListService.UpdateOrCreateItemOnShoppingList(GetUserId(), shoppingListId, itemDto);
