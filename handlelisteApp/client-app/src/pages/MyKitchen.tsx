@@ -17,7 +17,6 @@ export const MyKitchen: React.FC<Props> = observer(() => {
         category: 'meieri',
         itemName: "melk",
         quantity: 1,
-        unit: 'stk',
         hasBeenBought: false,
     }
 
@@ -25,7 +24,6 @@ export const MyKitchen: React.FC<Props> = observer(() => {
         category: 'Fryse',
         itemName: "fisk",
         quantity: 3,
-        unit: 'stk',
         hasBeenBought: false,
     }
 
@@ -33,7 +31,6 @@ export const MyKitchen: React.FC<Props> = observer(() => {
         category: 'Baking',
         itemName: "brød",
         quantity: 2,
-        unit: 'kg',
         hasBeenBought: false,
     }
 
@@ -41,7 +38,6 @@ export const MyKitchen: React.FC<Props> = observer(() => {
         category: 'meieri',
         itemName: "smør",
         quantity: 3,
-        unit: 'liter',
         hasBeenBought: false,
     }
 

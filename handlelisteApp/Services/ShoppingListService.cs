@@ -140,6 +140,17 @@ namespace handlelisteApp.Services
             return _mapper.Map<ItemOnShoppingListReadDTO>(itemInShoppingList);
         }
 
+        public void DeleteItemOnShoppingList(int userId, int shoppingListId, ItemOnShoppingListCreateDTO itemDTO)
+        {
+            var shoppingList = _shoppingListRepo.FindShoppingListByUserIdAndListId(userId, shoppingListId);
+            if (shoppingList != null && shoppingList.UserId == userId)
+            {
+                var itemToRemove = shoppingList.Items.Single(i => i.ItemIdentifier == itemDTO.ItemIdentifier);
+                shoppingList.Items.Remove(itemToRemove);
+                _shoppingListRepo.SaveChanges();
+            }
+        }
+
         public ShoppingListReadDTO GetShoppingListByUserIdAndListId(int userId, int shoppingListId)
         {
             return _mapper.Map<ShoppingListReadDTO>(_shoppingListRepo.FindShoppingListByUserIdAndListId(userId, shoppingListId));

@@ -34,9 +34,6 @@ export default class shoppingListStore {
       try {
         const fetchedShoppingList = await agent.shoppingList.getShoppingList(id)
         runInAction(() => {
-          fetchedShoppingList.items = this.addTempIdToItem(
-            fetchedShoppingList.items
-          )
           this.shoppingList = fetchedShoppingList
         })
       } catch (e) {
@@ -54,10 +51,6 @@ export default class shoppingListStore {
       }
 
       runInAction(() => {
-        shoppingLists.map(
-          (shoppingList: IShoppingList) =>
-            (shoppingList.items = this.addTempIdToItem(shoppingList.items))
-        )
         this.shoppingLists = shoppingLists
         this.isLoading = false
       })
@@ -171,8 +164,7 @@ export default class shoppingListStore {
       category: '',
       hasBeenBought: false,
       quantity: 1,
-      unit: '',
-      tempId: uuidv4(),
+      itemIdentifier: uuidv4(),
     })
   }
 
@@ -189,7 +181,7 @@ export default class shoppingListStore {
       })
     } else {
       runInAction(() => {
-        item.tempId = uuidv4()
+        item.itemIdentifier = uuidv4()
         this.shoppingList.items.push(item)
       })
     }
@@ -245,9 +237,5 @@ export default class shoppingListStore {
 
   resetFeedBack = () => {
     this.feedBack = null
-  }
-
-  private addTempIdToItem(items: Iitem[]) {
-    return items.map((item) => ({ ...item, tempId: uuidv4() }))
   }
 }

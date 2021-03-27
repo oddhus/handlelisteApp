@@ -9,7 +9,6 @@ namespace handlelisteApp.Context
 {
     public class ShoppingListContext : DbContext
     {
-        private static bool _created = false;
         public ShoppingListContext() : base()
         {
 

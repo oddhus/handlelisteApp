@@ -9,7 +9,6 @@ export interface Iitem {
   category: string
   itemName: string
   quantity: number
-  unit: string
   hasBeenBought: boolean
-  tempId?: string
+  itemIdentifier?: string
 }
