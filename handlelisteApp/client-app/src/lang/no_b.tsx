@@ -19,7 +19,8 @@ export default class Norwegian_B implements ILanguage {
   units = ['KG', 'L', 'ML', 'STK', 'PK']
   editList = 'Rediger handleliste'
   myShoppingLists = 'Mine handlelister'
-  saveList = 'Save shopping list'
+  saveList = 'Lagre handleliste'
+  saveListName = 'Lagre navn på handlelisten'
   newShoppingList = 'Ny handleliste'
   categoryError = 'Krever kategori'
   itemNameError = 'Navn er påkrevd'
@@ -27,6 +28,7 @@ export default class Norwegian_B implements ILanguage {
   shoppingListDeleted = 'Handlelisten ble slettet!'
   noShoppingListFound = 'Fant ingen handlelister'
   endShoppingTrip = 'Avslutt handletur'
+  editListName = 'Endre handleliste navn'
 
   myRecipes = 'Mine oppskrifter'
   allRecipes = 'Alle oppskrifter'

@@ -98,7 +98,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
                         )
                       }}
                     >
-                      {shoppingList.updatedOn}
+                      {shoppingList.name}
                     </Button>
                   </Td>
                 </Tr>

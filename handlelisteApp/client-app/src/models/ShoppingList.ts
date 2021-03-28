@@ -1,4 +1,5 @@
 export interface IShoppingList {
+  name: string
   shoppingListID: number
   items: Iitem[]
   createdOn: string

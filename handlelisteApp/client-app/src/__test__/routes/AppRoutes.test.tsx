@@ -29,6 +29,7 @@ jest.mock('../../stores/store', () => ({
     shoppingListStore: {
       shoppingList: {
         shoppingListId: 0,
+        name: '',
         items: [
           {
             itemName: 'fisk',
@@ -45,8 +46,9 @@ jest.mock('../../stores/store', () => ({
       shoppingLists: [],
       fetchShoppingLists() {},
       getShoppinglist(id: number) {
-        return [
-          {
+        return new Promise((resolve, reject) => {
+          process.nextTick(() =>
+          id === 1 ? resolve(          {
             shoppingListID: 1,
             items: [
               {
@@ -57,8 +59,12 @@ jest.mock('../../stores/store', () => ({
                 hasBeenBought: false,
               },
             ],
-          },
-        ]
+          },)
+          : reject({
+            error: 'Error'
+          })
+          )
+        })
       },
       resetFeedBack: () => undefined,
     },

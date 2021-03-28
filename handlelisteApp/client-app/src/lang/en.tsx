@@ -21,6 +21,7 @@ export default class English implements ILanguage {
   editList = 'Edit shopping list'
   myShoppingLists = 'My shopping lists'
   saveList = 'Save shopping list'
+  saveListName = 'Save shopping list name'
   newShoppingList = 'New Shopping list'
   categoryError = 'Category is required'
   itemNameError = 'Item name is required'
@@ -28,6 +29,7 @@ export default class English implements ILanguage {
   shoppingListDeleted = 'Shoppinglist successfully deleted!'
   noShoppingListFound = 'No shoppinglists found'
   endShoppingTrip = 'End shopping trip'
+  editListName = 'Edit shopping list name'
 
   myRecipes = 'My recipes'
   allRecipes = 'All recipes'

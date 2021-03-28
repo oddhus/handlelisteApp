@@ -36,8 +36,9 @@ jest.mock('../../stores/store', () => ({
         type: 'success',
       },
       getShoppinglist(id: number) {
-        return [
-          {
+        return new Promise((resolve, reject) => {
+          process.nextTick(() =>
+          id === 1 ? resolve(          {
             shoppingListID: 1,
             items: [
               {
@@ -48,8 +49,12 @@ jest.mock('../../stores/store', () => ({
                 hasBeenBought: false,
               },
             ],
-          },
-        ]
+          },)
+          : reject({
+            error: 'Error'
+          })
+          )
+        })
       },
       resetFeedBack: () => undefined,
     },
@@ -63,7 +68,7 @@ describe('ShoppingList', () => {
   describe('Layout', () => {
     it('has a wisible table', () => {
       const { container } = render(<ShoppingList />)
-      const table = container.querySelector('input')
+      const table = container.getElementsByClassName('itemList')[0]
       expect(table).toBeVisible()
     })
   })

@@ -4,12 +4,16 @@ import { v4 as uuidv4 } from 'uuid'
 import agent from '../api/agent'
 
 import { history } from '../index'
+import SettingStore from './settingStore'
+
+const settingStore = new SettingStore()
 
 const emptyShoppingList = {
   shoppingListID: NaN,
   items: [],
   createdOn: '',
   updatedOn: '',
+  name: settingStore.language.newShoppingList
 }
 
 export default class shoppingListStore {
@@ -36,6 +40,7 @@ export default class shoppingListStore {
         runInAction(() => {
           this.shoppingList = fetchedShoppingList
         })
+        return fetchedShoppingList
       } catch (e) {
         console.log(e)
       }

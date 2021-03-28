@@ -20,6 +20,7 @@ export interface ILanguage {
   editList: string
   myShoppingLists: string
   saveList: string
+  saveListName: string
   newShoppingList: string
   categoryError: string
   itemNameError: string
@@ -27,6 +28,7 @@ export interface ILanguage {
   shoppingListDeleted: string
   noShoppingListFound: string
   endShoppingTrip: string
+  editListName: string
 
   myRecipes: string
   allRecipes: string
