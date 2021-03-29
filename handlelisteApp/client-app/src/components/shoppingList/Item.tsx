@@ -42,7 +42,6 @@ export const Item: React.FC<Props> = observer(({ item }) => {
     >
       <GridItem
         colSpan={2}
-        onClick={(e) => shoppingListStore.onChecked(item)}
         alignItems="center"
       >
         <Box
@@ -78,7 +77,7 @@ export const Item: React.FC<Props> = observer(({ item }) => {
             placeholder="New Item"
             onBlur={() => {
               setIsRead(item.itemName !== '')
-              shoppingListStore.saveShoppinglist()
+              shoppingListStore.CreateOrUpdateItemInShoppingList(item)
             }}      
             value={item.itemName}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {

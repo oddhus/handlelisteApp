@@ -89,6 +89,18 @@ export default class shoppingListStore {
     }
   }
 
+  CreateOrUpdateItemInShoppingList = async (item: Iitem) =>{
+    if (item.itemName === '') return
+    try {
+      await agent.shoppingList.CreateOrUpdateItemInShoppingList(
+          this.shoppingList.shoppingListID,
+          item
+      )
+    }catch (e){
+      throw e;
+    }
+  }
+
   addShoppinglist = async () => {
     try {
       const addedList = await agent.shoppingList.postShoppingList(
@@ -134,12 +146,12 @@ export default class shoppingListStore {
   }
 
   setQuantity = (item: Iitem, value: number) => {
-    const index = this.shoppingList.items.findIndex(
-      (foundItem) => foundItem === item
-    )
-    runInAction(() => {
-      this.shoppingList.items[index].quantity = value ? value : 0
-    })
+    item.quantity = value
+    try {
+      this.CreateOrUpdateItemInShoppingList(item)
+    }catch (e) {
+      throw e
+    }
   }
 
   changeQuantity = (item: Iitem, increment: boolean) => {
@@ -177,7 +189,6 @@ export default class shoppingListStore {
     const itemIndex = this.shoppingList.items.findIndex(
       (existingItem) => existingItem.itemName === item.itemName
     )
-
     //If item exists increase quantity, else add to shoppinglist
     if (itemIndex > -1) {
       runInAction(() => {
@@ -215,14 +226,9 @@ export default class shoppingListStore {
   }
 
   onChecked = async (item: Iitem) => {
-    let index = this.shoppingList.items.findIndex(
-      (foundItem) => foundItem === item
-    )
-    this.shoppingList.items[index].hasBeenBought = !this.shoppingList.items[
-      index
-    ].hasBeenBought
+    item.hasBeenBought = !item.hasBeenBought
     try {
-      await this.saveShoppinglist()
+      await this.CreateOrUpdateItemInShoppingList(item)
     } catch (e) {
       throw e
     }
