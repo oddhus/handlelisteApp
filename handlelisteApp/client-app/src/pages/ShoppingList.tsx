@@ -33,9 +33,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
   const paramObj: useParam = useParams()
   const { shoppingListStore, settingStore } = useStore()
   const [ shoppingListName, setShoppingListName ] = useState(shoppingListStore.shoppingList.name)
-
-  console.log(shoppingListStore.shoppingList.items.length)
-
+  
   useEffect(() => {
     shoppingListStore.isNew = makingNewList
     shoppingListStore.resetFeedBack()

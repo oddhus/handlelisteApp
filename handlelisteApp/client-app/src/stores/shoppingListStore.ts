@@ -42,7 +42,7 @@ export default class shoppingListStore {
         })
         return fetchedShoppingList
       } catch (e) {
-        console.log(e)
+        throw e
       }
     }
   }
@@ -60,10 +60,12 @@ export default class shoppingListStore {
         this.isLoading = false
       })
     } catch (e) {
-      this.feedBack = {
-        status: e.response.status,
-        type: 'error',
-      }
+      runInAction(() => {
+        this.feedBack = {
+          status: e.response.status,
+          type: 'error',
+        }
+      })
     }
   }
 
@@ -85,7 +87,9 @@ export default class shoppingListStore {
         this.shoppingList = newList
       })
     } catch (e) {
-      this.setError(e)
+      runInAction(() => {
+        this.setError(e)
+      })
     }
   }
 
@@ -116,7 +120,9 @@ export default class shoppingListStore {
       })
       history.push(`/shopping-list/${this.shoppingList.shoppingListID}`)
     } catch (e) {
-      this.setError(e)
+      runInAction(() => {
+        this.setError(e)
+      })
     }
   }
 
@@ -132,8 +138,8 @@ export default class shoppingListStore {
       const newListOfShopLists = this.shoppingLists.filter(
         (shoppingList) => shoppingList !== listToDelete
       )
-      this.shoppingList = emptyShoppingList
       runInAction(() => {
+        this.shoppingList = emptyShoppingList
         this.feedBack = {
           status: 200,
           type: 'success',
@@ -141,7 +147,9 @@ export default class shoppingListStore {
         this.shoppingLists = newListOfShopLists
       })
     } catch (e) {
-      this.setError(e)
+      runInAction(() => {
+        this.setError(e)
+      })
     }
   }
 
@@ -235,13 +243,13 @@ export default class shoppingListStore {
   }
 
   setError = (e: any) => {
-    console.log(e)
-    this.feedBack = {
-      status: e.response?.status,
-      type: 'error',
-    }
+    runInAction(() => {
+      this.feedBack = {
+        status: e.response?.status,
+        type: 'error',
+      }
+    })
   }
-
   resetShoppingList = () => {
     this.shoppingList = emptyShoppingList
   }

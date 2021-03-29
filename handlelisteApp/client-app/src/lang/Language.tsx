@@ -82,4 +82,6 @@ export interface ILanguage {
   archiveShoppingList: string
   addItemsFromRecipe : string
   addItem: string
+  addItemsFromLastTrip: string
+  noThanks: string
 }

@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { IShoppingList } from '../models/ShoppingList'
 import { DeleteIcon } from '@chakra-ui/icons'
+import {AddItemsFromLastTrip} from "../components/shoppingList/AddItemsFromLastTrip";
 
 interface Props {}
 
@@ -26,7 +27,7 @@ let firstRender = true
 
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory()
-  const { shoppingListStore, settingStore } = useStore()
+  const { shoppingListStore, settingStore, modalStore } = useStore()
 
   const willMount = useRef(true)
 
@@ -46,6 +47,15 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
 
   if (shoppingListStore.shoppingLists == undefined) {
     shoppingListStore.shoppingLists = []
+  }
+  
+  const onClickNewShoppingList = () => {
+    shoppingListStore.resetShoppingList()
+    shoppingListStore.resetFeedBack()
+    shoppingListStore.addShoppinglist()
+    if(shoppingListStore.shoppingLists[shoppingListStore.shoppingLists.length - 1].items.length >0) {
+      modalStore.openModal(<AddItemsFromLastTrip/>)
+    }
   }
 
   return (
@@ -112,10 +122,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
         colorScheme="teal"
         ml={'12vw'}
         mt={'5vh'}
-        onClick={() => {
-          shoppingListStore.resetShoppingList()
-          shoppingListStore.resetFeedBack()
-          shoppingListStore.addShoppinglist()
+        onClick={() => {onClickNewShoppingList()
         }}
       >
         {settingStore.language.newShoppingList}

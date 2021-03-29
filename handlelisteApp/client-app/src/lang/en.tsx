@@ -81,4 +81,6 @@ export default class English implements ILanguage {
   archiveShoppingList = 'Archive shopping list'
   addItemsFromRecipe = 'Add items from recipe'
   addItem = 'Add Item'
+  addItemsFromLastTrip = 'Do you want to add items from your last trip?'
+  noThanks= 'No thanks'
 }

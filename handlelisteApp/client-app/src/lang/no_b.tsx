@@ -80,4 +80,6 @@ export default class Norwegian_B implements ILanguage {
   archiveShoppingList = 'Arkiver handlelisten'
   addItemsFromRecipe = 'Legg til varer fra en oppskrift'
   addItem = 'Legg til vare'
+  addItemsFromLastTrip="Ønsker du å legge til varer fra din siste handletur?"
+  noThanks = 'Nei takk'
 }
