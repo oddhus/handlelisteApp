@@ -13,13 +13,15 @@ namespace handlelisteApp.Services
     {
         private readonly IRecipeRepository _repository;
         private readonly IItemRepository _itemRepository;
+        private readonly IShoppingListRepository _shoppingListRepository;
         private readonly IMapper _mapper;
 
-        public RecipeService(IRecipeRepository repository, IItemRepository itemRepository, IMapper mapper)
+        public RecipeService(IRecipeRepository repository, IItemRepository itemRepository, IShoppingListRepository shoppingListRepository, IMapper mapper)
         {
             _repository = repository;
             _itemRepository = itemRepository;
             _mapper = mapper;
+            _shoppingListRepository = shoppingListRepository;
         }
 
         public RecipeDTO AddRecipe(RecipeDTO recipe, int userId)
@@ -112,7 +114,12 @@ namespace handlelisteApp.Services
         public RecipeDTO GetRecipeById(int id)
         {
             Recipe recipe = _repository.GetRecipeById(id);
-            return convertRecipeToRecipeDTO(recipe);
+            if (recipe == null)
+            {
+                return null;
+            }
+            //return convertRecipeToRecipeDTO(recipe);
+            return _mapper.Map<RecipeDTO>(recipe);
         }
 
         public IEnumerable<RecipeDTO> GetRecipesMatchingBasedOnItemsInMyKitchen(MyKitchen kitchen)
@@ -124,6 +131,25 @@ namespace handlelisteApp.Services
             foreach (ItemInMyKitchen item in kitchen.ItemsInMyKitchen)
             {
                 IEnumerable<Recipe> matchForItem = _repository.GetAllRecipesUsingItem(item.Item);
+                matches.AddRange(matchForItem);
+            }
+
+            return _mapper.Map<List<RecipeDTO>>(matches);
+        }
+
+        public List<RecipeDTO> GetRecipeMatchesBasedOnUsersShoppingLists(int userId)
+        {
+            IEnumerable<ShoppingList> shoppingListsFromLastThreeWeeks = _shoppingListRepository.FindShoppingListsFromTheLastThreeWeeksByUserId(userId);
+            IEnumerable<Item> ListOfAllItemsBought = shoppingListsFromLastThreeWeeks
+                .SelectMany(i => i.Items)
+                .Where(iis => iis.HasBeenBought)
+                .Select(iis => iis.Item);
+
+            List<Recipe> matches = new List<Recipe>();
+
+            foreach(Item item in ListOfAllItemsBought)
+            {
+                IEnumerable<Recipe> matchForItem = _repository.GetAllRecipesUsingItem(item);
                 matches.AddRange(matchForItem);
             }
 

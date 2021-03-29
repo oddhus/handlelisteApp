@@ -16,6 +16,7 @@ namespace handlelisteApp.Services
         RecipeDTO AddRecipe(RecipeDTO recipe, int userId);
 
         IEnumerable<RecipeDTO> GetRecipesMatchingBasedOnItemsInMyKitchen(MyKitchen kitchen);
+        List<RecipeDTO> GetRecipeMatchesBasedOnUsersShoppingLists(int userId);
 
         IEnumerable<RecipeDTO> GetRecipesUsingItem(Item item);
 

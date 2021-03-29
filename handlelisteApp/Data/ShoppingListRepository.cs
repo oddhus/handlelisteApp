@@ -65,6 +65,13 @@ namespace handlelisteApp.Data
                 .ToList();
         }
 
-
+        public IEnumerable<ShoppingList> FindShoppingListsFromTheLastThreeWeeksByUserId(int userId)
+        {
+            return _context.ShoppingLists
+                .Where(s => s.UserId == userId)
+                .Where(s => DateTime.Compare(DateTime.Now.AddDays(-21), s.UpdatedOn) < 0)
+                .Include(s => s.Items)
+                .ThenInclude(iir => iir.Item);
+        }
     }
 }

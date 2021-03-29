@@ -81,6 +81,13 @@ namespace handlelisteApp.Controllers
             return NoContent();
         }
 
+        [Authorize]
+        [HttpGet("suggestions")]
+        public ActionResult<IEnumerable<RecipeDTO>> GetSuggestionsBasedOnShoppingLists()
+        {
+            return _recipeService.GetRecipeMatchesBasedOnUsersShoppingLists(GetUserId());
+        }
+
         private int GetUserId()
         {
             return Int32.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));

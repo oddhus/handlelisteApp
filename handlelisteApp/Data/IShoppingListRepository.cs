@@ -11,5 +11,6 @@ namespace handlelisteApp.Data
         void DeleteShoppingList(ShoppingList shoppingList);
         ShoppingList FindShoppingListByUserIdAndListId(int userId, int shoppingListId);
         IEnumerable<ShoppingList> FindShoppingListsByUserId(int userId);
+        IEnumerable<ShoppingList> FindShoppingListsFromTheLastThreeWeeksByUserId(int userId);
     }
 }
