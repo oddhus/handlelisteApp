@@ -14,6 +14,7 @@ export default class RecipeStore {
   errorToastMessage: string = ''
   tabIndex: number = 0
   isOwnerOfCurrentRecipe: boolean = false
+  recipieSuggestions: IRecipe[] | undefined = undefined
 
   constructor() {
     makeAutoObservable(this)
@@ -43,7 +44,6 @@ export default class RecipeStore {
 
   getRecipe = async (id: number) => {
     this.resetAndStartLoading()
-
     if (this.currentRecipe?.recipeID === id) {
       runInAction(() => {
         this.loading = false
@@ -235,11 +235,48 @@ export default class RecipeStore {
     }
   }
 
+  async getRecipieSuggestions() {
+    this.resetAndStartLoading()
+    if (this.recipieSuggestions) {
+      runInAction(() => {
+        this.currentRecipeList = this.recipieSuggestions!
+        this.loading = false
+      })
+      return
+    }
+
+    try {
+      const recipes = await agent.recipes.getRecipieSuggestions()
+      runInAction(() => {
+        this.recipieSuggestions = recipes || []
+        this.currentRecipeList = recipes || []
+        this.loading = false
+      })
+    } catch (e) {
+      this.error('Failed to retrieve recipe suggestions')
+    }
+  }
+
   reset() {
     runInAction(() => {
       this.loading = false
       this.successToastMessage = ''
       this.errorToastMessage = ''
+    })
+  }
+
+  resetRecipeStoreData(){
+    runInAction(() => {
+      this.currentRecipe = undefined
+      this.currentRecipeList = []
+      this.usersRecipeList = new Map()
+      this.allRecipes = undefined
+      this.loading = false
+      this.successToastMessage = ''
+      this.errorToastMessage = ''
+      this.tabIndex = 0
+      this.isOwnerOfCurrentRecipe = false
+      this.recipieSuggestions = undefined
     })
   }
 

@@ -98,6 +98,7 @@ const recipe = {
 const recipes = {
   getAllUserRecipes: (id: number) => requests.get('recipe/user/' + id),
   getAllRecipes: () => requests.get('recipe/all'),
+  getRecipieSuggestions: () => requests.get('recipe/suggestions')
 }
 
 const myKitchen = {

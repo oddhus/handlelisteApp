@@ -49,6 +49,8 @@ export const Recipes: React.FC<Props> = observer(() => {
       recipeStore.getAllRecipes()
     } else if (recipeStore.tabIndex === 0 && userStore.user?.userID) {
       recipeStore.getUserRecipes(parseInt(userStore.user.userID))
+    } else if (recipeStore.tabIndex === 2) {
+      recipeStore.getRecipieSuggestions()
     }
   }, [recipeStore.tabIndex, userStore.user])
 
@@ -84,6 +86,7 @@ export const Recipes: React.FC<Props> = observer(() => {
             {settingStore.language.myRecipes}
           </Tab>
           <Tab>{settingStore.language.allRecipes}</Tab>
+          <Tab>{settingStore.language.explore}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
@@ -91,6 +94,9 @@ export const Recipes: React.FC<Props> = observer(() => {
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <AllRecipes />
+          </TabPanel>
+          <TabPanel pl={[0, 5]} pr={[0, 5]}>
+            <AllRecipes/>
           </TabPanel>
         </TabPanels>
       </Tabs>

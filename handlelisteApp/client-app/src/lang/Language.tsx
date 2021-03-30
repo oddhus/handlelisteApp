@@ -71,6 +71,10 @@ export interface ILanguage {
 
   age: string
 
+  explore: string
+  
+  search: string
+
   welcomeToTheShoppingList: string
 
   myShoppingList: string

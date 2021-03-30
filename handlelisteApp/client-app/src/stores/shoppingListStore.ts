@@ -4,16 +4,15 @@ import { v4 as uuidv4 } from 'uuid'
 import agent from '../api/agent'
 
 import { history } from '../index'
-import SettingStore from './settingStore'
+import { store } from './store'
 
-const settingStore = new SettingStore()
 
 const emptyShoppingList = {
   shoppingListID: NaN,
   items: [],
   createdOn: '',
   updatedOn: '',
-  name: settingStore.language.newShoppingList
+  name: '',
 }
 
 export default class shoppingListStore {
@@ -106,9 +105,11 @@ export default class shoppingListStore {
   }
 
   addShoppinglist = async () => {
+    let shoppinglistToAdd = this.shoppingList
+    shoppinglistToAdd.name = store.settingStore.language.newShoppingList
     try {
       const addedList = await agent.shoppingList.postShoppingList(
-        this.shoppingList
+        shoppinglistToAdd
       )
       runInAction(() => {
         this.shoppingLists.push(addedList)

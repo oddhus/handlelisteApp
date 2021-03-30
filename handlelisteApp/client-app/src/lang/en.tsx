@@ -72,6 +72,10 @@ export default class English implements ILanguage {
 
   age = 'Age'
 
+  explore = 'Explore'
+
+  search = "Search"
+
   welcomeToTheShoppingList = ' Welcome to the shopping list'
   myShoppingList = 'My shopping list'
   remove = 'Remove'

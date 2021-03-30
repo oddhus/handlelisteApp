@@ -71,6 +71,10 @@ export default class Norwegian_B implements ILanguage {
 
   age = 'Alder'
 
+  explore = 'Utforsk'
+
+  search = 'Søk'
+
   welcomeToTheShoppingList = 'Velkommen til handlelisten'
   myShoppingList = 'Min handleliste'
   remove = 'Fjern'
