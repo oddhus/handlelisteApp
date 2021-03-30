@@ -15,6 +15,7 @@ import {
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
 import {useHistory} from "react-router-dom";
+import { RecipeSearch } from '../components/recipes/RecipeSearch'
 
 interface Props {}
 
@@ -45,7 +46,7 @@ export const Recipes: React.FC<Props> = observer(() => {
   }, [])
 
   useEffect(() => {
-    if (recipeStore.tabIndex === 1) {
+    if (recipeStore.tabIndex === 1 || recipeStore.tabIndex === 3) {
       recipeStore.getAllRecipes()
     } else if (recipeStore.tabIndex === 0 && userStore.user?.userID) {
       recipeStore.getUserRecipes(parseInt(userStore.user.userID))
@@ -87,6 +88,7 @@ export const Recipes: React.FC<Props> = observer(() => {
           </Tab>
           <Tab>{settingStore.language.allRecipes}</Tab>
           <Tab>{settingStore.language.explore}</Tab>
+          <Tab>{settingStore.language.search}</Tab>
         </TabList>
         <TabPanels>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
@@ -97,6 +99,9 @@ export const Recipes: React.FC<Props> = observer(() => {
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <AllRecipes/>
+          </TabPanel>
+          <TabPanel pl={[0, 5]} pr={[0, 5]}>
+            <RecipeSearch/>
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -288,6 +288,19 @@ export default class RecipeStore {
     runInAction(() => (this.successToastMessage = message))
   }
 
+  searchInRecipies(keyword: string) {
+    let foundRecipes: IRecipe[] = []
+    this.allRecipes!.forEach(recipe => {
+      if(recipe.recipeName.toLocaleLowerCase().includes(keyword)){
+        foundRecipes.push(recipe)
+      }
+      else{
+        if (recipe.items.some(item => item.itemName.toLowerCase() === keyword)) foundRecipes.push(recipe)
+      }
+    })
+    runInAction(() => this.currentRecipeList = foundRecipes)
+  }
+
   private resetAndStartLoading() {
     runInAction(() => {
       this.loading = true
