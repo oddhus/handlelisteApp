@@ -53,7 +53,8 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
     shoppingListStore.resetShoppingList()
     shoppingListStore.resetFeedBack()
     shoppingListStore.addShoppinglist()
-    if(shoppingListStore.shoppingLists[shoppingListStore.shoppingLists.length - 1].items.length >0) {
+    if(shoppingListStore.shoppingLists.length>0 && 
+        shoppingListStore.shoppingLists[shoppingListStore.shoppingLists.length - 1].items.length >0) {
       modalStore.openModal(<AddItemsFromLastTrip/>)
     }
   }
