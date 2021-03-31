@@ -27,13 +27,19 @@ interface Props {
 export const Item: React.FC<Props> = observer(({ item }) => {
   const { shoppingListStore } = useStore()
   const [isRead, setIsRead] = useState(true)
-
+  
   useEffect(() => {
     if (item && item.itemName === '') {
       setIsRead(false)
     }
   }, [item])
 
+  const handleKeyDown = (event:any) => {
+    if (event.key === 'Enter') {
+      shoppingListStore.insertEmptyItem()
+    }
+  }
+    
   return (
     <Grid
       templateColumns="repeat(18, 1fr)"
@@ -75,10 +81,12 @@ export const Item: React.FC<Props> = observer(({ item }) => {
           <Input
             variant="flushed"
             placeholder="New Item"
+            autoFocus
             onBlur={() => {
               setIsRead(item.itemName !== '')
               shoppingListStore.CreateOrUpdateItemInShoppingList(item)
-            }}      
+            }}
+            onKeyDown={(e:any) => {handleKeyDown(e)}}
             value={item.itemName}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               shoppingListStore.setItemName(item, e.target.value)
