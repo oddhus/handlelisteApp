@@ -25,7 +25,7 @@ namespace handlelisteApp.Specs.Steps
         private Mock<IUserService> _mockUserService;
 
         private UserDTO newUserDTO;
-        private User user;
+        private UserRegisterDTO user;
 
         UserController _userController;
 
@@ -43,7 +43,7 @@ namespace handlelisteApp.Specs.Steps
         public void GivenIPOSTAValidUserToTheUsercontroller()
         {
 
-            user = new User { Username = "TestUser", UserAge = 1, EmailAddress = "test@test.com" };
+            user = new UserRegisterDTO { Username = "TestUser", UserAge = 1, EmailAddress = "test@test.com" };
 
 
             _mockUserService = new Mock<IUserService>();

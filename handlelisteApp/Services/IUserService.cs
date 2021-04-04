@@ -11,7 +11,7 @@ namespace handlelisteApp.Services
     {
         public IEnumerable<UserDTO> GetAllUsers();
         public UserDTO GetUser(int id);
-        public UserDTO CreateNewUser(User user);
+        public UserDTO CreateNewUser(UserRegisterDTO user);
         public LoginResponse LoginUser(LoginRequest login);
 
     }

@@ -39,21 +39,29 @@ namespace handlelisteApp.Services
 
             //TODO: Better mapping library?
             UserDTO userDTO = null;
-            if(user != null)
+            if (user != null)
             {
                 userDTO = UserToUserDTO(user);
             }
-             
+
             return userDTO;
         }
 
-        public UserDTO CreateNewUser(User user)
+        public UserDTO CreateNewUser(UserRegisterDTO userRegisterDTO)
         {
-            if(_userRepository.FindUserByUserName(user.Username) != null) //username already exists
+            if (_userRepository.FindUserByUserName(userRegisterDTO.Username) != null) //username already exists
             {
                 return null;
             }
-            user.HashedPassword = _sCryptEncoder.Encode(user.HashedPassword);
+
+            User user = new User()
+            {
+                Username = userRegisterDTO.Username,
+                EmailAddress = userRegisterDTO.EmailAddress,
+                UserAge = userRegisterDTO.UserAge,
+                HashedPassword = _sCryptEncoder.Encode(userRegisterDTO.Password)
+            };
+
             User savedUser = _userRepository.CreateNewUser(user);
             UserDTO userDTO = UserToUserDTO(savedUser);
             return userDTO;
@@ -72,7 +80,8 @@ namespace handlelisteApp.Services
         {
             User user = _userRepository.FindUserByUserName(login.Username);
 
-            if(user == null || !VerifyPassword(login.Password, user.HashedPassword)){
+            if (user == null || !VerifyPassword(login.Password, user.HashedPassword))
+            {
                 return null;
             }
 

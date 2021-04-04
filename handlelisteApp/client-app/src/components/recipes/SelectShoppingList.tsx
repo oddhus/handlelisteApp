@@ -54,7 +54,7 @@ export const SelectShoppingList: React.FC<Props> = observer(
             >
               {shoppingListStore.shoppingLists.map((list) => (
                 <option key={list.shoppingListID} value={list.shoppingListID}>
-                  {list.updatedOn}
+                  {list.name}
                 </option>
               ))}
             </Select>

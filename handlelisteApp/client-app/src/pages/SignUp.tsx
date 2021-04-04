@@ -16,14 +16,14 @@ interface Props {}
 export const SignUp: React.FC<Props> = observer(() => {
   const { userStore, settingStore } = useStore()
 
-  const [email, setEmail] = useState('')
-  const [userName, setUsername] = useState('')
+  const [emailAddress, setEmailAddress] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [age, setAge] = useState(null)
+  const [userAge, setAge] = useState(null)
   const [repeatPassword, setRepeatPassword] = useState('')
 
   const onchangeEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
+    setEmailAddress(event.target.value)
   }
   const onchangeUsernameHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value)
@@ -42,11 +42,10 @@ export const SignUp: React.FC<Props> = observer(() => {
 
   const registerNewUser = () => {
     userStore.registerNewUser({
-      email: email,
-      username: userName,
-      hashedPassword: password,
-      repeatPassword: repeatPassword,
-      userAge: age,
+      emailAddress,
+      username,
+      password,
+      userAge,
     })
   }
 

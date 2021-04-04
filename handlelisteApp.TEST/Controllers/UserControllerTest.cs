@@ -18,10 +18,10 @@ namespace handlelisteApp.Test.Controllers
     public class UserControllerTest
     {
         private Mock<IUserService> _mockUserService;
-        
+
         private UserController _controller;
 
-        private User newUser;
+        private UserRegisterDTO newUser;
         private UserDTO newUserDTO;
 
         [Fact]
@@ -29,17 +29,17 @@ namespace handlelisteApp.Test.Controllers
         {
 
             UserController controller = setupController();
-            Mock<User> mockUser = new Mock<User>();
+            Mock<UserRegisterDTO> mockUser = new Mock<UserRegisterDTO>();
 
             controller.CreateUser(mockUser.Object);
 
-            _mockUserService.Verify(s => s.CreateNewUser(It.IsAny<User>()), Times.Once());
+            _mockUserService.Verify(s => s.CreateNewUser(It.IsAny<UserRegisterDTO>()), Times.Once());
         }
 
         [Fact]
         public void ControllerShouldReturnUserDTOWhenUsingCreateUser()
         {
-            User newUser = new User() { Username = "TestUser", HashedPassword = "abc", UserAge = 1 };
+            UserRegisterDTO newUser = new UserRegisterDTO() { Username = "TestUser", Password = "abc", UserAge = 1, EmailAddress = "test@test.com" };
             UserDTO newUserDTO = new UserDTO() { Username = "TestUser", UserAge = 1 };
 
             _mockUserService = new Mock<IUserService>();
@@ -94,7 +94,7 @@ namespace handlelisteApp.Test.Controllers
 
         private UserController setupController()
         {
-            User newUser = new User() { Username = "TestUser", HashedPassword = "abc", UserAge = 1 };
+            UserRegisterDTO newUser = new UserRegisterDTO() { Username = "TestUser", Password = "abc", UserAge = 1, EmailAddress = "test@test.com" };
             UserDTO newUserDTO = new UserDTO() { Username = "TestUser", UserAge = 1 };
 
             _mockUserService = new Mock<IUserService>();
