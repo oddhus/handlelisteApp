@@ -46,6 +46,9 @@ export interface ILanguage {
   noRecipesFound: string
   noRecipeFound: string
 
+  suggestedRecipes: string
+  suggestedRecipesToolTip: string
+
   settings: string
   userSettings: string
   householdSettings: string

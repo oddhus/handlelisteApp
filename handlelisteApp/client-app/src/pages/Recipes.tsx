@@ -16,6 +16,7 @@ import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
 import {useHistory} from "react-router-dom";
 import { RecipeSearch } from '../components/recipes/RecipeSearch'
+import { SuggestedRecipes } from '../components/recipes/SuggestedRecipes'
 
 interface Props {}
 
@@ -87,8 +88,8 @@ export const Recipes: React.FC<Props> = observer(() => {
             {settingStore.language.myRecipes}
           </Tab>
           <Tab>{settingStore.language.allRecipes}</Tab>
-          <Tab>{settingStore.language.explore}</Tab>
-          <Tab>{settingStore.language.search}</Tab>
+          {userStore.isLoggedIn ? <Tab>{settingStore.language.explore}</Tab> : null}
+          {userStore.isLoggedIn ? <Tab>{settingStore.language.search}</Tab> : null}
         </TabList>
         <TabPanels>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
@@ -98,7 +99,7 @@ export const Recipes: React.FC<Props> = observer(() => {
             <AllRecipes />
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
-            <AllRecipes/>
+            <SuggestedRecipes/>
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <RecipeSearch/>

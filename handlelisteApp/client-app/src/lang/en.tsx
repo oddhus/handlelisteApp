@@ -47,6 +47,9 @@ export default class English implements ILanguage {
   noRecipesFound = 'No recipes found'
   noRecipeFound = 'No recipe found'
 
+  suggestedRecipes = 'Suggested recipes'
+  suggestedRecipesToolTip = 'Based on your latest shopping trips we suggest these recipes.'
+
   settings = 'Settings'
   userSettings = 'User settings'
   householdSettings = 'Household settings'
