@@ -44,6 +44,8 @@ export const RecipeList: React.FC<Props> = observer(
       )
     }
 
+    console.log(recipeStore.currentRecipeList)
+
     return (
       <Fragment>
         <Table>
