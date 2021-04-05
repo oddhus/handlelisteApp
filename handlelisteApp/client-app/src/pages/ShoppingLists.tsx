@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../stores/store'
@@ -9,17 +9,23 @@ import {
   Tbody,
   Td,
   Tr,
-  Thead,
-  Th,
+  Text,
   Container,
   IconButton,
   Center,
   Spinner,
   Stack,
+  Heading,
+  VStack,
+  Box,
+  Grid,
+  GridItem,
+  LinkOverlay,
+  Divider,
 } from '@chakra-ui/react'
 import { IShoppingList } from '../models/ShoppingList'
-import { DeleteIcon } from '@chakra-ui/icons'
-import {AddItemsFromLastTrip} from "../components/shoppingList/AddItemsFromLastTrip";
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
+import { AddItemsFromLastTrip } from '../components/shoppingList/AddItemsFromLastTrip'
 
 interface Props {}
 
@@ -48,20 +54,24 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
   if (shoppingListStore.shoppingLists == undefined) {
     shoppingListStore.shoppingLists = []
   }
-  
+
   const onClickNewShoppingList = () => {
     shoppingListStore.resetShoppingList()
     shoppingListStore.resetFeedBack()
     shoppingListStore.addShoppinglist()
-    if(shoppingListStore.shoppingLists.length>0 && 
-        shoppingListStore.shoppingLists[shoppingListStore.shoppingLists.length - 1].items.length >0) {
-      modalStore.openModal(<AddItemsFromLastTrip/>)
+    if (
+      shoppingListStore.shoppingLists.length > 0 &&
+      shoppingListStore.shoppingLists[
+        shoppingListStore.shoppingLists.length - 1
+      ].items.length > 0
+    ) {
+      modalStore.openModal(<AddItemsFromLastTrip />)
     }
   }
 
-  return (
-    <Container maxW="container.md">
-      {shoppingListStore.isLoading ? (
+  if (shoppingListStore.isLoading) {
+    return (
+      <Container maxW="container.md">
         <Center color="black">
           <Stack>
             <Spinner
@@ -73,73 +83,74 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
             />
           </Stack>
         </Center>
-      ) : (
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th></Th>
-              <Th fontSize={'xl'} paddingLeft={'2.5rem'} textAlign={['left']}>
-                {settingStore.language.myShoppingLists}
-              </Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {shoppingListStore.shoppingLists.map((shoppingList) => {
-              return (
-                <Tr key={shoppingList.shoppingListID}>
-                  <Td>
-                    <IconButton
-                      colorScheme="red"
-                      aria-label="Call Segun"
-                      size="md"
-                      className="edit"
-                      onClick={() => onDeleteShoppingList(shoppingList)}
-                      icon={<DeleteIcon />}
-                    />
-                  </Td>
-                  <Td>
-                    <Button
-                      fontSize={'lg'}
-                      colorScheme="teal"
-                      variant="link"
-                      onClick={() => {
-                        shoppingListStore.setCurrentShoppingList(shoppingList)
-                        history.push(
-                          'shopping-list/' + shoppingList.shoppingListID
-                        )
-                      }}
-                    >
-                      {shoppingList.name}
-                    </Button>
-                  </Td>
-                </Tr>
-              )
-            })}
-          </Tbody>
-        </Table>
-      )}
-      <Button
-        size="lg"
-        colorScheme="teal"
-        ml={'12vw'}
-        mt={'5vh'}
-        onClick={() => {onClickNewShoppingList()
-        }}
-      >
-        {settingStore.language.newShoppingList}
-      </Button>
+      </Container>
+    )
+  }
 
-      {shoppingListStore.feedBack !== null && (
-        <Toast
-          text={
-            shoppingListStore.feedBack.status !== 200
-              ? settingStore.language.somethingError
-              : settingStore.language.shoppingListDeleted
-          }
-          store={shoppingListStore}
-          status={shoppingListStore.feedBack.type}
-        />
-      )}
+  return (
+    <Container maxW="container.md">
+      <VStack spacing={6}>
+        <Center mt="2vh">
+          <Heading size="lg">{settingStore.language.myShoppingLists}</Heading>
+        </Center>
+        <Center>
+          <Button
+            colorScheme="green"
+            leftIcon={<AddIcon />}
+            onClick={() => {
+              onClickNewShoppingList()
+            }}
+          >
+            {settingStore.language.newShoppingList}
+          </Button>
+        </Center>
+        <VStack justify="flex-start " spacing={3}>
+          {shoppingListStore.shoppingLists.map((shoppingList) => (
+            <Fragment key={shoppingList.shoppingListID}>
+              <Grid
+                minW="100%"
+                alignItems="center"
+                templateColumns="repeat(12, 1fr)"
+                gap={4}
+              >
+                <GridItem
+                  colSpan={10}
+                  onClick={() => {
+                    shoppingListStore.setCurrentShoppingList(shoppingList)
+                    history.push('shopping-list/' + shoppingList.shoppingListID)
+                  }}
+                >
+                  <Text color="teal.600" isTruncated fontWeight="700">
+                    {shoppingList.name}
+                  </Text>
+                </GridItem>
+                <GridItem colSpan={2}>
+                  <IconButton
+                    colorScheme="red"
+                    aria-label="Call Segun"
+                    size="md"
+                    className="edit"
+                    onClick={() => onDeleteShoppingList(shoppingList)}
+                    icon={<DeleteIcon />}
+                  />
+                </GridItem>
+              </Grid>
+              <Divider />
+            </Fragment>
+          ))}
+        </VStack>
+        {shoppingListStore.feedBack !== null && (
+          <Toast
+            text={
+              shoppingListStore.feedBack.status !== 200
+                ? settingStore.language.somethingError
+                : settingStore.language.shoppingListDeleted
+            }
+            store={shoppingListStore}
+            status={shoppingListStore.feedBack.type}
+          />
+        )}
+      </VStack>
     </Container>
   )
 })

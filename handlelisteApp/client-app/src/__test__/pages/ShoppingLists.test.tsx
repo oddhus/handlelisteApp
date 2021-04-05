@@ -8,7 +8,12 @@ import { MockLanguage } from '../MockLanguage'
 jest.mock('../../stores/store', () => ({
   useStore: () => ({
     shoppingListStore: {
-      shoppingLists: [],
+      shoppingLists: [
+        {
+          shoppingListID: 1,
+          name: 'test',
+        },
+      ],
       feedBack: {
         status: 200,
         type: 'success',
@@ -32,7 +37,7 @@ describe('ShoppingListsPage', () => {
   describe('Layout', () => {
     it('contains a table', () => {
       const { container } = render(<ShoppingLists />)
-      const div = container.querySelector('table')
+      const div = container.querySelector('div')
       expect(div).toBeVisible()
     })
   })
