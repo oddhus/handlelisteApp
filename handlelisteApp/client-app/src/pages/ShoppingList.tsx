@@ -12,19 +12,24 @@ import {
   EditableInput,
   EditablePreview,
   IconButton,
-  Box,
-  Flex,
-  Grid,
-  GridItem,
   HStack,
   useMediaQuery,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react'
 
 import { AddItem } from '../components/shoppingList/AddItem'
 import { useStore } from '../stores/store'
 import { Toast } from '../components/shared/Toast'
 import { ShoppingListItems } from '../components/shoppingList/ShoppingListItems'
-import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  CloseIcon,
+  EditIcon,
+} from '@chakra-ui/icons'
 
 interface Props {}
 
@@ -131,15 +136,36 @@ export const ShoppingList: React.FC<Props> = observer(() => {
           </Editable>
         )}
 
-        <ButtonGroup style={{ marginBottom: '20px' }} spacing="4" size="md">
+        <ButtonGroup
+          style={{ marginBottom: '20px' }}
+          isAttached
+          spacing="4"
+          size="md"
+        >
           <AddItem />
-          <Button
+          <Menu>
+            <MenuButton
+              backgroundColor="green.100"
+              _hover={{ backgroundColor: 'green.200' }}
+              _active={{ backgroundColor: 'green.300' }}
+              border="1px"
+              borderColor="green.500"
+              as={IconButton}
+              icon={<ChevronDownIcon />}
+            ></MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => sendToRecipes()}>
+                {settingStore.language.addItemsFromRecipe}
+              </MenuItem>
+            </MenuList>
+          </Menu>
+          {/* <Button
             colorScheme="teal"
             variant="outline"
             onClick={() => sendToRecipes()}
           >
             {settingStore.language.addItemsFromRecipe}
-          </Button>
+          </Button> */}
         </ButtonGroup>
         <ShoppingListItems />
         {shoppingListStore.feedBack !== null && (
