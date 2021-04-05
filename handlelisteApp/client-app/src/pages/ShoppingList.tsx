@@ -12,6 +12,12 @@ import {
   EditableInput,
   EditablePreview,
   IconButton,
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  HStack,
+  useMediaQuery,
 } from '@chakra-ui/react'
 
 import { AddItem } from '../components/shoppingList/AddItem'
@@ -27,13 +33,16 @@ interface useParam {
 }
 
 export const ShoppingList: React.FC<Props> = observer(() => {
-
   const makingNewList = useLocation().pathname.includes('new-shopping-list')
   const history = useHistory()
   const paramObj: useParam = useParams()
   const { shoppingListStore, settingStore } = useStore()
-  const [ shoppingListName, setShoppingListName ] = useState(shoppingListStore.shoppingList.name)
-  
+  const [shoppingListName, setShoppingListName] = useState(
+    shoppingListStore.shoppingList.name
+  )
+
+  const [isLargerThan450] = useMediaQuery('(min-width: 450px)')
+
   useEffect(() => {
     shoppingListStore.isNew = makingNewList
     shoppingListStore.resetFeedBack()
@@ -48,11 +57,10 @@ export const ShoppingList: React.FC<Props> = observer(() => {
       ) {
         shoppingListStore.getShoppinglist(listId).then(() => {
           setShoppingListName(shoppingListStore.shoppingList.name)
-    })
+        })
       }
     }
   }, [makingNewList, paramObj])
-  
 
   const handleSaveName = (name: string) => {
     setShoppingListName(name)
@@ -67,21 +75,28 @@ export const ShoppingList: React.FC<Props> = observer(() => {
       getCancelButtonProps,
       getEditButtonProps,
     } = useEditableControls()
-
     return isEditing ? (
       <ButtonGroup justifyContent="center" size="md" mt={'1vh'}>
-        {
-          <IconButton icon={<CheckIcon />} aria-label={settingStore.language.saveListName} {...getSubmitButtonProps()} />
-        }
-        {
-          <IconButton icon={<CloseIcon />} aria-label={settingStore.language.cancel} {...getCancelButtonProps()} />
-        }
+        <IconButton
+          icon={<CheckIcon />}
+          aria-label={settingStore.language.saveListName}
+          {...getSubmitButtonProps()}
+        />
+
+        <IconButton
+          icon={<CloseIcon />}
+          aria-label={settingStore.language.cancel}
+          {...getCancelButtonProps()}
+        />
       </ButtonGroup>
     ) : (
-      <ButtonGroup size="md" ml='1vw'>
-        {
-          <IconButton size="md" icon={<EditIcon />} aria-label={settingStore.language.editListName} {...getEditButtonProps()} />
-        }
+      <ButtonGroup size="md" ml="1vw">
+        <IconButton
+          size="md"
+          icon={<EditIcon />}
+          aria-label={settingStore.language.editListName}
+          {...getEditButtonProps()}
+        />
       </ButtonGroup>
     )
   }
@@ -94,27 +109,31 @@ export const ShoppingList: React.FC<Props> = observer(() => {
   return (
     <Container maxW="container.sm">
       <VStack>
-        {shoppingListName !== '' && ( 
-      <Editable
-      fontWeight="bold"
-      textAlign="center"
-      defaultValue={shoppingListName}
-      fontSize="4xl"
-      isPreviewFocusable={true}
-      mb="2vh"
-      mt="2vh"
-      submitOnBlur={true}
-      onSubmit={(name) => handleSaveName(name)}
-    >
-      <EditablePreview maxWidth={'100%'} />
-      <EditableInput />
-      <EditableControls />
-    </Editable>
-        )
-        }
+        {shoppingListName !== '' && (
+          <Editable
+            fontWeight="bold"
+            textAlign="center"
+            defaultValue={shoppingListName}
+            fontSize={isLargerThan450 ? '4xl' : '2xl'}
+            isPreviewFocusable={true}
+            mb="2vh"
+            mt="2vh"
+            submitOnBlur={true}
+            onSubmit={(name) => handleSaveName(name)}
+            minW="100%"
+            maxW="100%"
+          >
+            <HStack minW="100%" justify="center" spacing={4}>
+              <EditablePreview maxWidth="100%" isTruncated />
+              <EditableInput />
+              <EditableControls />
+            </HStack>
+          </Editable>
+        )}
+
         <ButtonGroup style={{ marginBottom: '20px' }} spacing="4" size="md">
           <AddItem />
-                  <Button
+          <Button
             colorScheme="teal"
             variant="outline"
             onClick={() => sendToRecipes()}
@@ -135,16 +154,20 @@ export const ShoppingList: React.FC<Props> = observer(() => {
           />
         )}
       </VStack>
-      {shoppingListStore.shoppingList.items.length !== 0 &&<Center className="itemList">
-      <Button
-            style={{marginTop: '40px'}}
+      {shoppingListStore.shoppingList.items.length !== 0 && (
+        <Center className="itemList">
+          <Button
+            style={{ marginTop: '40px' }}
             size="lg"
             colorScheme="teal"
             variant="outline"
             //does nothing for the time being
             onClick={() => history.push('/shopping-list')}
-        >{settingStore.language.archiveShoppingList}</Button>
-      </Center>}
+          >
+            {settingStore.language.archiveShoppingList}
+          </Button>
+        </Center>
+      )}
     </Container>
   )
 })
