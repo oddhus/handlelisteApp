@@ -17,6 +17,7 @@ import {
   GridItem,
   Divider,
   useMediaQuery,
+  Flex,
 } from '@chakra-ui/react'
 import { IShoppingList } from '../models/ShoppingList'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
@@ -131,15 +132,17 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
                       {shoppingList.name}
                     </Text>
                   </GridItem>
-                  <GridItem colSpan={2} alignItems="flex-end">
-                    <IconButton
-                      colorScheme="red"
-                      aria-label="Call Segun"
-                      size="md"
-                      className="edit"
-                      onClick={() => onDeleteShoppingList(shoppingList)}
-                      icon={<DeleteIcon />}
-                    />
+                  <GridItem colSpan={2} minW="100%">
+                    <Flex justify="flex-end">
+                      <IconButton
+                        colorScheme="red"
+                        aria-label="Call Segun"
+                        size="md"
+                        className="edit"
+                        onClick={() => onDeleteShoppingList(shoppingList)}
+                        icon={<DeleteIcon />}
+                      />
+                    </Flex>
                   </GridItem>
                 </Grid>
                 <Divider />
