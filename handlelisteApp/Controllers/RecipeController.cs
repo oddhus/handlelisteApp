@@ -83,7 +83,7 @@ namespace handlelisteApp.Controllers
 
         [Authorize]
         [HttpGet("suggestions")]
-        public ActionResult<IEnumerable<RecipeDTO>> GetSuggestionsBasedOnShoppingLists()
+        public IEnumerable<RecipeDTO> GetSuggestionsBasedOnShoppingLists()
         {
             return _recipeService.GetRecipeMatchesBasedOnUsersShoppingLists(GetUserId());
         }
