@@ -237,6 +237,7 @@ export default class RecipeStore {
 
   async getRecipieSuggestions() {
     this.resetAndStartLoading()
+    /*
     if (this.recipieSuggestions) {
       runInAction(() => {
         this.currentRecipeList = this.recipieSuggestions!
@@ -244,7 +245,7 @@ export default class RecipeStore {
       })
       return
     }
-
+*/
     try {
       const recipes = await agent.recipes.getRecipieSuggestions()
       runInAction(() => {
