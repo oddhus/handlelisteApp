@@ -154,6 +154,8 @@ namespace handlelisteApp.Services
                 matches.AddRange(matchForItem);
             }
 
+            matches = matches.Distinct().ToList();
+
             return _mapper.Map<List<RecipeDTO>>(matches);
         }
 
