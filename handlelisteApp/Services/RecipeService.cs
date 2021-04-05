@@ -143,7 +143,8 @@ namespace handlelisteApp.Services
             IEnumerable<Item> ListOfAllItemsBought = shoppingListsFromLastThreeWeeks
                 .SelectMany(i => i.Items)
                 .Where(iis => iis.HasBeenBought)
-                .Select(iis => iis.Item);
+                .Select(iis => iis.Item)
+                .ToList();
 
             List<Recipe> matches = new List<Recipe>();
 
