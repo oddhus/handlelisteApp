@@ -120,7 +120,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
           </Center>
         ) : shoppingListStore.shoppingLists.length === 0 ? (
           <Center>
-            <Text>{settingStore.english.noShoppingListFound}</Text>
+            <Text>{settingStore.language.noShoppingListFound}</Text>
           </Center>
         ) : (
           <VStack justify="flex-start " spacing={3} minW="100%">
