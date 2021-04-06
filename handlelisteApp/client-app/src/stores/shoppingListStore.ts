@@ -6,7 +6,6 @@ import agent from '../api/agent'
 import { history } from '../index'
 import { store } from './store'
 
-
 const emptyShoppingList = {
   shoppingListID: NaN,
   items: [],
@@ -92,15 +91,15 @@ export default class shoppingListStore {
     }
   }
 
-  CreateOrUpdateItemInShoppingList = async (item: Iitem) =>{
+  CreateOrUpdateItemInShoppingList = async (item: Iitem) => {
     if (item.itemName === '') return
     try {
       await agent.shoppingList.CreateOrUpdateItemInShoppingList(
-          this.shoppingList.shoppingListID,
-          item
+        this.shoppingList.shoppingListID,
+        item
       )
-    }catch (e){
-      throw e;
+    } catch (e) {
+      throw e
     }
   }
 
@@ -114,10 +113,10 @@ export default class shoppingListStore {
       runInAction(() => {
         this.shoppingLists.push(addedList)
         this.shoppingList = addedList
-        this.feedBack = {
-          status: 200,
-          type: 'success',
-        }
+        // this.feedBack = {
+        //   status: 200,
+        //   type: 'success',
+        // }
       })
       history.push(`/shopping-list/${this.shoppingList.shoppingListID}`)
     } catch (e) {
@@ -158,7 +157,7 @@ export default class shoppingListStore {
     item.quantity = value
     try {
       this.CreateOrUpdateItemInShoppingList(item)
-    }catch (e) {
+    } catch (e) {
       throw e
     }
   }

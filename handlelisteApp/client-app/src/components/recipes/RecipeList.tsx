@@ -44,8 +44,6 @@ export const RecipeList: React.FC<Props> = observer(
       )
     }
 
-    console.log(recipeStore.currentRecipeList)
-
     return (
       <Fragment>
         <Table>
@@ -56,7 +54,7 @@ export const RecipeList: React.FC<Props> = observer(
             </Tr>
           </Thead>
           <Tbody>
-            {(recipeStore.currentRecipeList || []).map((recipe) => (
+            {recipeStore.currentRecipeList.map((recipe) => (
               <Tr
                 key={recipe.recipeID}
                 _hover={{

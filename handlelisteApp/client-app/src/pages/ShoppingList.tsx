@@ -113,16 +113,15 @@ export const ShoppingList: React.FC<Props> = observer(() => {
 
   return (
     <Container maxW="container.sm">
-      <VStack>
+      <VStack spacing={6}>
         {shoppingListName !== '' && (
           <Editable
             fontWeight="bold"
             textAlign="center"
             defaultValue={shoppingListName}
-            fontSize={isLargerThan450 ? '4xl' : '2xl'}
+            fontSize={isLargerThan450 ? '2xl' : 'lg'}
+            mt="1vh"
             isPreviewFocusable={true}
-            mb="2vh"
-            mt="2vh"
             submitOnBlur={true}
             onSubmit={(name) => handleSaveName(name)}
             minW="100%"
@@ -136,12 +135,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
           </Editable>
         )}
 
-        <ButtonGroup
-          style={{ marginBottom: '20px' }}
-          isAttached
-          spacing="4"
-          size="md"
-        >
+        <ButtonGroup isAttached>
           <AddItem />
           <Menu>
             <MenuButton
@@ -159,33 +153,14 @@ export const ShoppingList: React.FC<Props> = observer(() => {
               </MenuItem>
             </MenuList>
           </Menu>
-          {/* <Button
-            colorScheme="teal"
-            variant="outline"
-            onClick={() => sendToRecipes()}
-          >
-            {settingStore.language.addItemsFromRecipe}
-          </Button> */}
         </ButtonGroup>
         <ShoppingListItems />
-        {shoppingListStore.feedBack !== null && (
-          <Toast
-            text={
-              shoppingListStore.feedBack.status !== 200
-                ? settingStore.language.somethingError
-                : settingStore.language.shoppingListSaved
-            }
-            store={shoppingListStore}
-            status={shoppingListStore.feedBack.type}
-          />
-        )}
       </VStack>
+
       {shoppingListStore.shoppingList.items.length !== 0 && (
         <Center className="itemList">
           <Button
-            style={{ marginTop: '40px' }}
-            size="lg"
-            colorScheme="teal"
+            mt={16}
             variant="outline"
             //does nothing for the time being
             onClick={() => history.push('/shopping-list')}
@@ -193,6 +168,18 @@ export const ShoppingList: React.FC<Props> = observer(() => {
             {settingStore.language.archiveShoppingList}
           </Button>
         </Center>
+      )}
+
+      {shoppingListStore.feedBack !== null && (
+        <Toast
+          text={
+            shoppingListStore.feedBack.status !== 200
+              ? settingStore.language.somethingError
+              : settingStore.language.shoppingListSaved
+          }
+          store={shoppingListStore}
+          status={shoppingListStore.feedBack.type}
+        />
       )}
     </Container>
   )

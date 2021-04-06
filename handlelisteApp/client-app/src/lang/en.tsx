@@ -48,7 +48,8 @@ export default class English implements ILanguage {
   noRecipeFound = 'No recipe found'
 
   suggestedRecipes = 'Suggested recipes'
-  suggestedRecipesToolTip = 'Based on your latest shopping trips we suggest these recipes.'
+  suggestedRecipesToolTip =
+    'Based on your latest shopping trips we suggest these recipes.'
 
   settings = 'Settings'
   userSettings = 'User settings'
@@ -77,17 +78,18 @@ export default class English implements ILanguage {
 
   explore = 'Explore'
 
-  search = "Search"
+  search = 'Search'
 
   welcomeToTheShoppingList = ' Welcome to the shopping list'
   myShoppingList = 'My shopping list'
   remove = 'Remove'
   update = 'Update'
   createNew = 'Create'
-  
+
   archiveShoppingList = 'Archive shopping list'
   addItemsFromRecipe = 'Add items from recipe'
   addItem = 'Add Item'
   addItemsFromLastTrip = 'Do you want to add items from your last trip?'
-  noThanks= 'No thanks'
+  addItemsFromLastTripOption = 'New shopping list with unbought items'
+  noThanks = 'No thanks'
 }

@@ -47,7 +47,8 @@ export default class Norwegian_B implements ILanguage {
   noRecipeFound = 'Fant ingen oppskrift'
 
   suggestedRecipes = 'Annbefalte oppskrifter'
-  suggestedRecipesToolTip = 'Basert på dine siste handleturer annbefaler vi disse oppskriftene.'
+  suggestedRecipesToolTip =
+    'Basert på dine siste handleturer annbefaler vi disse oppskriftene.'
 
   settings = 'Innstillinger'
   userSettings = 'Bruker innstillinger'
@@ -83,10 +84,11 @@ export default class Norwegian_B implements ILanguage {
   remove = 'Fjern'
   update = 'Oppdater'
   createNew = 'Lag ny'
-  
+
   archiveShoppingList = 'Arkiver handlelisten'
   addItemsFromRecipe = 'Legg til varer fra en oppskrift'
   addItem = 'Legg til vare'
-  addItemsFromLastTrip="Ønsker du å legge til varer fra din siste handletur?"
+  addItemsFromLastTrip = 'Ønsker du å legge til varer fra din siste handletur?'
+  addItemsFromLastTripOption = 'Lag ny handleliste og legg til ukjøpte varer'
   noThanks = 'Nei takk'
 }

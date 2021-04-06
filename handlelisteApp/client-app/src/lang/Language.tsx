@@ -1,6 +1,3 @@
-import {Button} from "@chakra-ui/react";
-import React from "react";
-
 export interface ILanguage {
   homePage: string
   signUp: string
@@ -75,7 +72,7 @@ export interface ILanguage {
   age: string
 
   explore: string
-  
+
   search: string
 
   welcomeToTheShoppingList: string
@@ -87,8 +84,9 @@ export interface ILanguage {
   createNew: string
 
   archiveShoppingList: string
-  addItemsFromRecipe : string
+  addItemsFromRecipe: string
   addItem: string
   addItemsFromLastTrip: string
+  addItemsFromLastTripOption: string
   noThanks: string
 }

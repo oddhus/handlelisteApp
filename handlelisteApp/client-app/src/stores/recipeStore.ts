@@ -248,7 +248,6 @@ export default class RecipeStore {
 */
     try {
       const recipes = await agent.recipes.getRecipieSuggestions()
-      console.log(recipes)
       runInAction(() => {
         this.recipieSuggestions = recipes || []
         this.currentRecipeList = recipes || []

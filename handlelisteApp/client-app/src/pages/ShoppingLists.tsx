@@ -18,14 +18,17 @@ import {
   Divider,
   useMediaQuery,
   Flex,
+  ButtonGroup,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react'
 import { IShoppingList } from '../models/ShoppingList'
-import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
+import { AddIcon, ChevronDownIcon, DeleteIcon } from '@chakra-ui/icons'
 import { AddItemsFromLastTrip } from '../components/shoppingList/AddItemsFromLastTrip'
 
 interface Props {}
-
-let firstRender = true
 
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory()
@@ -41,19 +44,15 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
   }
 
   useEffect(() => {
-    firstRender = false
     shoppingListStore.fetchShoppingLists()
+    shoppingListStore.resetFeedBack()
   }, [])
 
   const onDeleteShoppingList = (shoppingList: IShoppingList) => {
     shoppingListStore.deleteShoppingList(shoppingList)
   }
 
-  if (shoppingListStore.shoppingLists == undefined) {
-    shoppingListStore.shoppingLists = []
-  }
-
-  const onClickNewShoppingList = () => {
+  const onClickNewShoppingList = (addPrevious: boolean) => {
     shoppingListStore.resetShoppingList()
     shoppingListStore.resetFeedBack()
     shoppingListStore.addShoppinglist()
@@ -61,7 +60,8 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
       shoppingListStore.shoppingLists.length > 0 &&
       shoppingListStore.shoppingLists[
         shoppingListStore.shoppingLists.length - 1
-      ].items.length > 0
+      ].items.length > 0 &&
+      addPrevious
     ) {
       modalStore.openModal(<AddItemsFromLastTrip />)
     }
@@ -72,21 +72,39 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
   }
 
   return (
-    <Container maxW="container.md">
+    <Container maxW="container.sm">
       <VStack spacing={6}>
-        <Center mt="2vh">
+        <Center mt="1vh">
           <Heading size="lg">{settingStore.language.myShoppingLists}</Heading>
         </Center>
         <Center>
-          <Button
-            colorScheme="green"
-            leftIcon={<AddIcon />}
-            onClick={() => {
-              onClickNewShoppingList()
-            }}
-          >
-            {settingStore.language.newShoppingList}
-          </Button>
+          <ButtonGroup isAttached>
+            <Button
+              colorScheme="green"
+              leftIcon={<AddIcon />}
+              onClick={() => {
+                onClickNewShoppingList(false)
+              }}
+            >
+              {settingStore.language.newShoppingList}
+            </Button>
+            <Menu>
+              <MenuButton
+                backgroundColor="green.100"
+                _hover={{ backgroundColor: 'green.200' }}
+                _active={{ backgroundColor: 'green.300' }}
+                border="1px"
+                borderColor="green.500"
+                as={IconButton}
+                icon={<ChevronDownIcon />}
+              ></MenuButton>
+              <MenuList>
+                <MenuItem onClick={() => onClickNewShoppingList(true)}>
+                  {settingStore.language.addItemsFromLastTripOption}
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </ButtonGroup>
         </Center>
         {shoppingListStore.isLoading ? (
           <Center color="black">
@@ -102,7 +120,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
           </Center>
         ) : shoppingListStore.shoppingLists.length === 0 ? (
           <Center>
-            <Text>No shopping lists</Text>
+            <Text>{settingStore.english.noShoppingListFound}</Text>
           </Center>
         ) : (
           <VStack justify="flex-start " spacing={3} minW="100%">
@@ -122,12 +140,16 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
                         'shopping-list/' + shoppingList.shoppingListID
                       )
                     }}
+                    cursor="pointer"
+                    minH="100%"
+                    display="flex"
+                    alignItems="center"
                   >
                     <Text
                       fontSize={isLargerThan450 ? 'lg' : 'md'}
                       color="teal.600"
                       isTruncated
-                      fontWeight="700"
+                      fontWeight="600"
                     >
                       {shoppingList.name}
                     </Text>
