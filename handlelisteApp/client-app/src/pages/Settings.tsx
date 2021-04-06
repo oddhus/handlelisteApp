@@ -12,6 +12,7 @@ export const Settings: React.FC<RouteComponentProps<Props>> = () => {
 
   const onChangeLanguageHandler = (event: string) => {
     setLanguage(event)
+    localStorage.setItem('lang', event)
     settingStore.setLanguage(event)
   }
 
