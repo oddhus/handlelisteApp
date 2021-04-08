@@ -15,8 +15,8 @@ jest.mock('../../stores/store', () => ({
         },
       ],
       feedBack: {
-        status: 200,
-        type: 'success',
+        text: 'Bra',
+        status: 'success',
       },
       fetchShoppingLists() {},
       resetFeedBack: () => undefined,

@@ -18,6 +18,11 @@ jest.mock('../../stores/store', () => ({
         recipeName: 'Recipe',
         items: [],
       },
+      feedBack: {
+        text: 'Bra',
+        status: 'success',
+      },
+      resetFeedBack: () => undefined,
     },
   }),
 }))

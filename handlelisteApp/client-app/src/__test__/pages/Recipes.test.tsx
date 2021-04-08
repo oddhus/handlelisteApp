@@ -18,6 +18,11 @@ jest.mock('../../stores/store', () => ({
       getUserRecipes: () => undefined,
       getAllRecipes: () => undefined,
       reset: () => undefined,
+      resetFeedBack: () => undefined,
+      feedBack: {
+        text: 'Bra',
+        status: 'success',
+      },
     },
     userStore: {
       user: {
@@ -25,8 +30,8 @@ jest.mock('../../stores/store', () => ({
       },
     },
     shoppingListStore: {
-      backToMyShoppingList: 4
-    }
+      backToMyShoppingList: 4,
+    },
   }),
 }))
 

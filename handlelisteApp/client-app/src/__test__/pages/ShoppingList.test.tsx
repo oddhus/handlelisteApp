@@ -32,27 +32,28 @@ jest.mock('../../stores/store', () => ({
         ],
       },
       feedBack: {
-        status: 200,
-        type: 'success',
+        text: 'Bra',
+        status: 'success',
       },
       getShoppinglist(id: number) {
         return new Promise((resolve, reject) => {
           process.nextTick(() =>
-          id === 1 ? resolve(          {
-            shoppingListID: 1,
-            items: [
-              {
-                category: 'category',
-                itemName: 'product',
-                quantity: 1,
-                unit: 'pcs',
-                hasBeenBought: false,
-              },
-            ],
-          },)
-          : reject({
-            error: 'Error'
-          })
+            id === 1
+              ? resolve({
+                  shoppingListID: 1,
+                  items: [
+                    {
+                      category: 'category',
+                      itemName: 'product',
+                      quantity: 1,
+                      unit: 'pcs',
+                      hasBeenBought: false,
+                    },
+                  ],
+                })
+              : reject({
+                  error: 'Error',
+                })
           )
         })
       },
