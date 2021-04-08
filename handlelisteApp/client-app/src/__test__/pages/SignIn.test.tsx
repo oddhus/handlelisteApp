@@ -2,7 +2,6 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { SignIn } from '../../pages/SignIn'
-import English from '../../lang/en'
 import { MockLanguage } from '../MockLanguage'
 
 const routeComponentPropsMock = {
@@ -33,9 +32,9 @@ describe('SignInPage', () => {
       expect(getByTestId('login-container')).toBeInTheDocument()
     })
 
-    it('has input of Email address', async () => {
+    it('has input of Your username', async () => {
       const { queryByPlaceholderText } = render(renderSignInPage)
-      const emailAddressInput = queryByPlaceholderText('Email address')
+      const emailAddressInput = queryByPlaceholderText('Your username')
       expect(emailAddressInput).toBeInTheDocument()
     })
 
@@ -68,9 +67,9 @@ describe('SignInPage', () => {
 
     it('sets the username value into state', () => {
       const { queryByPlaceholderText } = render(renderSignInPage)
-      const emailAddressInput = queryByPlaceholderText('Email address')
-      fireEvent.change(emailAddressInput!, changeEnvent('my-email-address'))
-      expect(emailAddressInput).toHaveValue('my-email-address')
+      const emailAddressInput = queryByPlaceholderText('Your username')
+      fireEvent.change(emailAddressInput!, changeEnvent('Your username'))
+      expect(emailAddressInput).toHaveValue('Your username')
     })
 
     it('sets the password value into state', () => {

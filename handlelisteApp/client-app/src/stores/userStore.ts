@@ -27,11 +27,11 @@ export default class UserStore {
       })
       history.push(`/`)
       store.modalStore.closeModal()
-    } catch (e) {
+    } catch (error) {
       runInAction(() => {
         this.loading = false
       })
-      throw e
+      throw error
     }
   }
 
