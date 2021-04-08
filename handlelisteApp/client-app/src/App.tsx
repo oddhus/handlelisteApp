@@ -7,7 +7,7 @@ import { LoadingComponent } from './components/shared/LoadingComponent'
 import ModalContainer from './components/shared/ModalContainer'
 
 function App() {
-  const { commonStore, userStore } = useStore()
+  const { commonStore, userStore, settingStore } = useStore()
 
   useEffect(() => {
     if (commonStore.token) {
@@ -18,6 +18,34 @@ function App() {
       commonStore.setAppLoaded()
     }
   }, [commonStore, userStore])
+
+  useEffect(() => {
+    if(commonStore.lang && commonStore.lang !== '' && commonStore.lang !== 'null'){
+      console.log('No switch')
+      settingStore.setLanguage(commonStore.lang)
+    }
+    else{
+      const browserLang = navigator.language 
+      switch(browserLang){
+        case 'nb-NO':
+        case 'nb':
+        case 'NO':
+          settingStore.setLanguage('no_b')
+          commonStore.setLang('no_b')
+          break
+        case 'en':
+        case 'en-US':
+        case 'en-GB':
+          settingStore.setLanguage('en')
+          commonStore.setLang('en')
+          break;
+        default:
+          settingStore.setLanguage('en')
+          commonStore.setLang('en')
+      }
+    }
+
+  }, [commonStore, settingStore])
 
   if (!commonStore.appLoaded) return <LoadingComponent />
 

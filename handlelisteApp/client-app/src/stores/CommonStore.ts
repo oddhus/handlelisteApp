@@ -6,6 +6,7 @@ export default class CommonStore {
   token: string | null = window.localStorage.getItem('jwt')
   appLoaded: boolean = false
   error: ServerError | null = null
+  lang: string | null = window.localStorage.getItem("lang")
   
   constructor() {
     makeAutoObservable(this)
@@ -32,5 +33,10 @@ export default class CommonStore {
 
   setAppLoaded = () => {
     this.appLoaded = true
+  }
+
+  setLang = (lang: string) => {
+    window.localStorage.setItem('lang', lang)
+    this.lang = lang
   }
 }
