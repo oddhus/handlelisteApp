@@ -2,9 +2,9 @@ import { Iitem, IShoppingList } from '../models/ShoppingList'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { v4 as uuidv4 } from 'uuid'
 import agent from '../api/agent'
-
 import { history } from '../index'
 import { store } from './store'
+import { IFeedback } from '../models/generalTypes'
 
 const emptyShoppingList = {
   shoppingListID: NaN,
@@ -19,7 +19,7 @@ export default class shoppingListStore {
   shoppingLists: IShoppingList[] = []
   isNew: boolean = false
   isLoading: boolean = false
-  feedBack: any = null
+  feedBack: IFeedback | null = null
   backToMyShoppingList: string | null = null
 
   constructor() {
@@ -52,18 +52,12 @@ export default class shoppingListStore {
       if (!shoppingLists) {
         shoppingLists = []
       }
-
       runInAction(() => {
         this.shoppingLists = shoppingLists
         this.isLoading = false
       })
     } catch (e) {
-      runInAction(() => {
-        this.feedBack = {
-          status: e.response.status,
-          type: 'error',
-        }
-      })
+      this.setError(store.settingStore.language.somethingError)
     }
   }
 
@@ -77,16 +71,13 @@ export default class shoppingListStore {
         (i) => i.shoppingListID === newList.shoppingListID
       )
       runInAction(() => {
-        this.feedBack = {
-          status: 200,
-          type: 'success',
-        }
         this.shoppingLists[index] = newList
         this.shoppingList = newList
+        this.setSuccess(store.settingStore.language.shoppingListSaved)
       })
     } catch (e) {
       runInAction(() => {
-        this.setError(e)
+        this.setError(store.settingStore.language.somethingError)
       })
     }
   }
@@ -113,15 +104,11 @@ export default class shoppingListStore {
       runInAction(() => {
         this.shoppingLists.push(addedList)
         this.shoppingList = addedList
-        // this.feedBack = {
-        //   status: 200,
-        //   type: 'success',
-        // }
       })
       history.push(`/shopping-list/${this.shoppingList.shoppingListID}`)
     } catch (e) {
       runInAction(() => {
-        this.setError(e)
+        this.setError(store.settingStore.language.somethingError)
       })
     }
   }
@@ -140,15 +127,12 @@ export default class shoppingListStore {
       )
       runInAction(() => {
         this.shoppingList = emptyShoppingList
-        this.feedBack = {
-          status: 200,
-          type: 'success',
-        }
         this.shoppingLists = newListOfShopLists
+        this.setSuccess(store.settingStore.language.shoppingListDeleted)
       })
     } catch (e) {
       runInAction(() => {
-        this.setError(e)
+        this.setError(store.settingStore.language.somethingError)
       })
     }
   }
@@ -242,14 +226,26 @@ export default class shoppingListStore {
     }
   }
 
-  setError = (e: any) => {
+  private setError = (text?: string) => {
     runInAction(() => {
       this.feedBack = {
-        status: e.response?.status,
-        type: 'error',
+        status: 'error',
+        text,
       }
+      this.isLoading = false
     })
   }
+
+  private setSuccess(text?: string) {
+    runInAction(() => {
+      this.feedBack = {
+        status: 'success',
+        text,
+      }
+      this.isLoading = false
+    })
+  }
+
   resetShoppingList = () => {
     this.shoppingList = emptyShoppingList
   }

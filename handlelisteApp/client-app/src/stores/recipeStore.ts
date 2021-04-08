@@ -1,8 +1,9 @@
-import { computed, makeAutoObservable, runInAction } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import agent from '../api/agent'
 import { store } from './store'
 import { IRecipe } from '../models/recipe'
 import { history } from '../index'
+import { IFeedback } from '../models/generalTypes'
 
 export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
@@ -15,6 +16,7 @@ export default class RecipeStore {
   tabIndex: number = 0
   isOwnerOfCurrentRecipe: boolean = false
   recipieSuggestions: IRecipe[] | undefined = undefined
+  feedBack: IFeedback | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -146,8 +148,7 @@ export default class RecipeStore {
           this.currentRecipe = newRecipe
           this.usersRecipeList.set(userId, [...recipeList, newRecipe])
           this.currentRecipeList = [...recipeList, newRecipe]
-          this.successToastMessage = 'Recipe created successfully'
-          this.loading = false
+          this.success('Recipe created')
           history.push(`/recipes`)
         })
       }
@@ -185,8 +186,7 @@ export default class RecipeStore {
         this.currentRecipe = updatedRecipe
         this.currentRecipeList = recipeList
         this.usersRecipeList.set(userId, recipeList)
-        this.successToastMessage = 'Recipe updated successfully'
-        this.loading = false
+        this.success('Recipe updated')
         history.push(`/recipes`)
       })
     } catch (e) {
@@ -226,9 +226,7 @@ export default class RecipeStore {
             (recipe) => recipe.recipeID !== id
           )
         }
-
-        this.successToastMessage = 'Deleted successfully'
-        this.loading = false
+        this.success('Deleted')
       })
     } catch (e) {
       this.error('delete recipe')
@@ -310,10 +308,27 @@ export default class RecipeStore {
     })
   }
 
-  private error(message: string) {
+  private success(message: string) {
     runInAction(() => {
-      this.errorToastMessage = `Failed to ${message}`
+      this.feedBack = {
+        status: 'success',
+        text: `${message} successfully`,
+      }
       this.loading = false
     })
+  }
+
+  private error(message: string) {
+    runInAction(() => {
+      this.feedBack = {
+        status: 'error',
+        text: `Failed to ${message}`,
+      }
+      this.loading = false
+    })
+  }
+
+  resetFeedBack = () => {
+    this.feedBack = null
   }
 }

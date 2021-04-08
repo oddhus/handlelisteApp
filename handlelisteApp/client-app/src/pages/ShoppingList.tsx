@@ -169,18 +169,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
           </Button>
         </Center>
       )}
-
-      {shoppingListStore.feedBack !== null && (
-        <Toast
-          text={
-            shoppingListStore.feedBack.status !== 200
-              ? settingStore.language.somethingError
-              : settingStore.language.shoppingListSaved
-          }
-          store={shoppingListStore}
-          status={shoppingListStore.feedBack.type}
-        />
-      )}
+      <Toast store={shoppingListStore} />
     </Container>
   )
 })

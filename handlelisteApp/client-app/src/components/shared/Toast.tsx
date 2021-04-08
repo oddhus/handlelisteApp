@@ -1,24 +1,25 @@
 import { useToast, Wrap } from '@chakra-ui/react'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 
 interface Props {
-  status: 'info' | 'warning' | 'success' | 'error' | undefined
-  text: string
   store: any
 }
 
-export const Toast: React.FC<Props> = ({ status, text, store }) => {
+export const Toast: React.FC<Props> = observer(({ store }) => {
   const toast = useToast()
   useEffect(() => {
-    store.feedBack !== null &&
+    if (store.feedBack) {
       toast({
-        title: text,
-        status: status,
+        title: store.feedBack.text,
+        status: store.feedBack.status,
         isClosable: true,
         position: 'bottom',
         duration: 4000,
-        onCloseComplete: () => (store.feedBack = null),
+        onCloseComplete: () => store.resetFeedBack(),
       })
-  }, [status, text, store, toast])
+      store.resetFeedBack()
+    }
+  }, [store.feedBack])
   return <Wrap hidden={true}></Wrap>
-}
+})

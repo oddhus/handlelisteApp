@@ -13,6 +13,7 @@ import {
   Select,
   Stack,
   Textarea,
+  useToast,
 } from '@chakra-ui/react'
 import {
   Field,
@@ -30,6 +31,7 @@ import { useStore } from '../stores/store'
 import * as Yup from 'yup'
 import { AddIcon, CloseIcon } from '@chakra-ui/icons'
 import { observer } from 'mobx-react-lite'
+import { Toast } from '../components/shared/Toast'
 
 interface Props {}
 
@@ -56,10 +58,6 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
 
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
   const { recipeStore, settingStore } = useStore()
-
-  useEffect(() => {
-    recipeStore.reset()
-  }, [])
 
   useEffect(() => {
     if (recipeId) {
@@ -112,6 +110,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
 
   return (
     <Container>
+      <Toast store={recipeStore} />
       <Center>
         <Heading>
           {!recipeId

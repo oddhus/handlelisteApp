@@ -14,9 +14,10 @@ import {
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
-import {useHistory} from "react-router-dom";
+import { useHistory } from 'react-router-dom'
 import { RecipeSearch } from '../components/recipes/RecipeSearch'
 import { SuggestedRecipes } from '../components/recipes/SuggestedRecipes'
+import { Toast } from '../components/shared/Toast'
 
 interface Props {}
 
@@ -25,22 +26,8 @@ export const Recipes: React.FC<Props> = observer(() => {
 
   const toast = useToast()
   const history = useHistory()
-  useEffect(() => {
-    if (recipeStore.errorToastMessage || recipeStore.successToastMessage) {
-      toast({
-        title: !!recipeStore.errorToastMessage ? 'Failed' : 'Success',
-        description: !!recipeStore.errorToastMessage
-          ? recipeStore.errorToastMessage
-          : recipeStore.successToastMessage,
-        status: !!recipeStore.errorToastMessage ? 'error' : 'success',
-        duration: 4000,
-        isClosable: true,
-      })
-    }
-  }, [recipeStore.errorToastMessage, recipeStore.successToastMessage, toast])
 
   useEffect(() => {
-    recipeStore.reset()
     if (!userStore.isLoggedIn) {
       recipeStore.tabIndex = 1
     }
@@ -63,6 +50,7 @@ export const Recipes: React.FC<Props> = observer(() => {
 
   return (
     <Container maxW="container.md">
+      <Toast store={recipeStore} />
       {shoppingListStore.backToMyShoppingList && (
         <Center>
           <Button
@@ -88,8 +76,12 @@ export const Recipes: React.FC<Props> = observer(() => {
             {settingStore.language.myRecipes}
           </Tab>
           <Tab>{settingStore.language.allRecipes}</Tab>
-          {userStore.isLoggedIn ? <Tab>{settingStore.language.explore}</Tab> : null}
-          {userStore.isLoggedIn ? <Tab>{settingStore.language.search}</Tab> : null}
+          {userStore.isLoggedIn ? (
+            <Tab>{settingStore.language.explore}</Tab>
+          ) : null}
+          {userStore.isLoggedIn ? (
+            <Tab>{settingStore.language.search}</Tab>
+          ) : null}
         </TabList>
         <TabPanels>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
@@ -99,10 +91,10 @@ export const Recipes: React.FC<Props> = observer(() => {
             <AllRecipes />
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
-            <SuggestedRecipes/>
+            <SuggestedRecipes />
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
-            <RecipeSearch/>
+            <RecipeSearch />
           </TabPanel>
         </TabPanels>
       </Tabs>

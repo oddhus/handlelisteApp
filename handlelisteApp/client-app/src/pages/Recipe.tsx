@@ -19,6 +19,7 @@ import { useHistory, useParams } from 'react-router-dom'
 import { ItemList } from '../components/recipes/ItemList'
 import { RecipeActionButtons } from '../components/recipes/RecipeActionButtons'
 import { RecipeToShoppingList } from '../components/recipes/RecipeToShoppingList'
+import { Toast } from '../components/shared/Toast'
 import { useStore } from '../stores/store'
 
 interface Props {}
@@ -26,32 +27,12 @@ interface Props {}
 export const Recipe: React.FC<Props> = observer(() => {
   const { settingStore, recipeStore, modalStore } = useStore()
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
-  const toast = useToast()
-  const history = useHistory()
-
-  useEffect(() => {
-    recipeStore.reset()
-  }, [])
 
   useEffect(() => {
     if (recipeId) {
       recipeStore.getRecipe(parseInt(recipeId))
     }
   }, [recipeId])
-
-  useEffect(() => {
-    if (recipeStore.errorToastMessage || recipeStore.successToastMessage) {
-      toast({
-        title: !!recipeStore.errorToastMessage ? 'Failed' : 'Success',
-        description: !!recipeStore.errorToastMessage
-          ? recipeStore.errorToastMessage
-          : recipeStore.successToastMessage,
-        status: !!recipeStore.errorToastMessage ? 'error' : 'success',
-        duration: 4000,
-        isClosable: true,
-      })
-    }
-  }, [recipeStore.errorToastMessage, recipeStore.successToastMessage, toast])
 
   if (recipeStore.loading) {
     return (
@@ -72,6 +53,7 @@ export const Recipe: React.FC<Props> = observer(() => {
 
   return (
     <Container>
+      <Toast store={recipeStore} />
       <VStack alignItems="flex-start">
         <Box minW="100%">
           <HStack justify="space-between">

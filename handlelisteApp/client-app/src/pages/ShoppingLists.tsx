@@ -172,17 +172,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
             ))}
           </VStack>
         )}
-        {shoppingListStore.feedBack !== null && (
-          <Toast
-            text={
-              shoppingListStore.feedBack.status !== 200
-                ? settingStore.language.somethingError
-                : settingStore.language.shoppingListDeleted
-            }
-            store={shoppingListStore}
-            status={shoppingListStore.feedBack.type}
-          />
-        )}
+        <Toast store={shoppingListStore} />
       </VStack>
     </Container>
   )
