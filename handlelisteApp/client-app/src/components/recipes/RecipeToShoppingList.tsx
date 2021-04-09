@@ -5,7 +5,7 @@ import { IitemInRecipe } from '../../models/recipe'
 import { useStore } from '../../stores/store'
 import { ItemList } from './ItemList'
 import { SelectShoppingList } from './SelectShoppingList'
-import {history} from '../../index'
+import {useHistory} from "react-router-dom";
 
 interface Props {}
 
@@ -26,6 +26,8 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
   const [selectedShoppingList, setSelectedShoppingList] = useState<
     number | undefined
   >(undefined)
+
+  const history = useHistory()
 
   useEffect(() => {
     if (recipeStore.currentRecipe) {

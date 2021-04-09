@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { useStore } from './stores/store'
 import { LoadingComponent } from './components/shared/LoadingComponent'
 import ModalContainer from './components/shared/ModalContainer'
+import {history } from './index'
 
 function App() {
   const { commonStore, userStore, settingStore } = useStore()
@@ -13,6 +14,7 @@ function App() {
     if (commonStore.token) {
       userStore.getUser().finally(() => {
         commonStore.setAppLoaded()
+        history.push('/shopping-list')
       })
     } else {
       commonStore.setAppLoaded()
