@@ -305,16 +305,13 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                                   <Select
                                     size="small"
                                     id={`items[${index}].unit`}
-                                    placeholder={settingStore.language.units[0]}
                                     {...field}
                                   >
-                                    {settingStore.language.units
-                                      .slice(1)
-                                      .map((s) => (
-                                        <option key={s} value={s}>
-                                          {s}
-                                        </option>
-                                      ))}
+                                    {settingStore.language.units.map((s) => (
+                                      <option key={s} value={s}>
+                                        {s}
+                                      </option>
+                                    ))}
                                   </Select>
                                   <FormErrorMessage>
                                     {errors?.items && errors.items[index]
