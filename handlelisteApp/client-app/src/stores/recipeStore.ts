@@ -276,9 +276,10 @@ export default class RecipeStore {
       this.tabIndex = 0
       this.isOwnerOfCurrentRecipe = false
       this.recipieSuggestions = undefined
+      this.feedBack = null
     })
   }
-
+  
   setTabIndex(index: number) {
     runInAction(() => (this.tabIndex = index))
   }

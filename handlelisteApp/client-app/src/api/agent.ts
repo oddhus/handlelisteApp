@@ -44,6 +44,7 @@ axios.interceptors.response.use(async ( response) => {
         } 
       break;
     case 401: // unauthorised
+        store.userStore.clearAllStores()
         history.push('/signin')
       break;
     case 404: // not found

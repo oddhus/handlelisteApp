@@ -53,11 +53,16 @@ export default class UserStore {
       throw e
     }
   }
+  
+  clearAllStores = ()=>{
+    store.recipeStore.resetRecipeStoreData()
+    store.shoppingListStore.resetShoppingListStoreData()
+    store.commonStore.setToken(null)
+    window.localStorage.removeItem('jwt')
+  }
 
   logout = () => {
-    store.commonStore.setToken(null)
-    store.recipeStore.resetRecipeStoreData()
-    window.localStorage.removeItem('jwt')
+    this.clearAllStores()
     this.user = null
     history.push('/')
   }

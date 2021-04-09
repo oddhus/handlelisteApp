@@ -26,6 +26,15 @@ export default class shoppingListStore {
     makeAutoObservable(this)
   }
 
+  resetShoppingListStoreData = () =>{
+    this.shoppingList = emptyShoppingList;
+    this.shoppingLists= [];
+    this.isNew = false
+    this.isLoading = false
+    this.feedBack= null
+    this.backToMyShoppingList = null
+
+  }
   getShoppinglist = async (id: number) => {
     const shoppingList = this.shoppingLists.find(
       (shoppinglist) => shoppinglist.shoppingListID === id
