@@ -44,7 +44,7 @@ axios.interceptors.response.use(async ( response) => {
         } 
       break;
     case 401: // unauthorised
-        history.push('/unauthorised')
+        history.push('/signin')
       break;
     case 404: // not found
         history.push('/nomatch')
