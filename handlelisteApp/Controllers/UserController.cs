@@ -66,13 +66,8 @@ namespace handlelisteApp.Controllers
         public ActionResult<LoginResponse> CreateUser(UserRegisterDTO user)
         {
 
-            UserDTO userDTO = _userService.CreateNewUser(user);
-            var response = _userService.LoginUser(new LoginRequest
-            {
-                Username = user.Username,
-                Password = user.Password
-            });
-            if (userDTO == null || response == null)
+            LoginResponse response = _userService.CreateNewUser(user);
+            if (response == null)
             {
                 return BadRequest(new { message = "Invalid username or password" });
             }

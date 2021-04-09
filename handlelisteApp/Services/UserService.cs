@@ -47,7 +47,7 @@ namespace handlelisteApp.Services
             return userDTO;
         }
 
-        public UserDTO CreateNewUser(UserRegisterDTO userRegisterDTO)
+        public LoginResponse CreateNewUser(UserRegisterDTO userRegisterDTO)
         {
             if (_userRepository.FindUserByUserName(userRegisterDTO.Username) != null) //username already exists
             {
@@ -63,8 +63,8 @@ namespace handlelisteApp.Services
             };
 
             User savedUser = _userRepository.CreateNewUser(user);
-            UserDTO userDTO = UserToUserDTO(savedUser);
-            return userDTO;
+            var token = generateJwtToken(user);
+            return new LoginResponse(UserToUserDTO(user), token);
         }
 
 
