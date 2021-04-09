@@ -8,7 +8,7 @@ namespace handlelisteApp.Models.DTO
     public class ItemInRecipeDTO
     {
         public string ItemName { get; set; }
-        public int Quantity { get; set; }
+        public float Quantity { get; set; }
         public string Unit { get; set; }
     }
 }

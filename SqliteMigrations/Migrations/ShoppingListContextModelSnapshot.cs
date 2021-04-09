@@ -62,8 +62,8 @@ namespace SqliteMigrations.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
+                    b.Property<float>("Quantity")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Unit")
                         .HasColumnType("TEXT");
@@ -89,6 +89,9 @@ namespace SqliteMigrations.Migrations
 
                     b.Property<string>("ItemIdentifier")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
@@ -180,6 +183,9 @@ namespace SqliteMigrations.Migrations
 
                     b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("likedOn")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 

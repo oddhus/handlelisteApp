@@ -11,7 +11,7 @@ namespace handlelisteApp.Models
         public Recipe Recipe { get; set; }
         public int ItemID { get; set; }
         public Item Item { get; set; }
-        public int Quantity { get; set; }
+        public float Quantity { get; set; }
         public string Unit { get; set; }
         public string Category { get; set; }
     }

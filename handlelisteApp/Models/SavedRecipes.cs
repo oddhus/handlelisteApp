@@ -12,6 +12,6 @@ namespace handlelisteApp.Models
         public User User { get; set; }
         public int? RecipeId { get; set; }
         public virtual Recipe Recipe { get; set; }
-
+        public DateTime likedOn { get; set; }
     }
 }
