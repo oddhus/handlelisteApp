@@ -41,7 +41,6 @@ export const AppRoutes: React.FC<Props> = () => {
       <Route exact path="/settings/blacklist" component={Settings} />
       <Route exact path="/settings/household" component={Settings} />
       <Route exact path="/household" component={Household} />
-      <Route exact path="/mykitchen" component={MyKitchen} />
       <Route exact path="/server-error" component={ServerError} />
       <Route exact path="/unauthorised" component={Unauthorized} />
       <Route exact component={NoMatch} />
