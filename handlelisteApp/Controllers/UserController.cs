@@ -63,16 +63,21 @@ namespace handlelisteApp.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult<UserDTO> CreateUser(UserRegisterDTO user)
+        public ActionResult<LoginResponse> CreateUser(UserRegisterDTO user)
         {
 
             UserDTO userDTO = _userService.CreateNewUser(user);
-            if (userDTO == null)
+            var response = _userService.LoginUser(new LoginRequest
+            {
+                Username = user.Username,
+                Password = user.Password
+            });
+            if (userDTO == null || response == null)
             {
                 return BadRequest(new { message = "Invalid username or password" });
             }
 
-            return userDTO;
+            return response;
         }
 
 

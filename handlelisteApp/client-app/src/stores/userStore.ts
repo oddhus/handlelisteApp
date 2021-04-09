@@ -38,12 +38,14 @@ export default class UserStore {
   registerNewUser = async (user: any) => {
     this.loading = true
     try {
-      await agent.User.signUp(user)
+      const newuser = await agent.User.signUp(user)
       runInAction(() => {
+        store.commonStore.setToken(newuser.token)
+        this.user = user
         this.loading = false
       })
       store.modalStore.closeModal()
-      history.push(`/`)
+      history.push(`/shopping-list`)
     } catch (e) {
       runInAction(() => {
         this.loading = false
