@@ -5,6 +5,7 @@ import { IitemInRecipe } from '../../models/recipe'
 import { useStore } from '../../stores/store'
 import { ItemList } from './ItemList'
 import { SelectShoppingList } from './SelectShoppingList'
+import {history} from '../../index'
 
 interface Props {}
 
@@ -79,6 +80,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
     )
     shoppingListStore.saveShoppinglist()
     modalStore.closeModal()
+    history.push(`/shopping-list/${shoppingListStore.backToMyShoppingList}`)
   }
 
   if (!recipeStore.currentRecipe) {
