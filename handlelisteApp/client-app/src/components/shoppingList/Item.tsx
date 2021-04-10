@@ -48,7 +48,10 @@ export const Item: React.FC<Props> = observer(
           templateColumns="repeat(18, 1fr)"
           gap={1}
           color={item.hasBeenBought ? 'rgba(0,0,0,0.3)' : ''}
-          backgroundColor={snapshot.isDragging ? 'green.100' : 'white'}
+          backgroundColor={snapshot.isDragging ? 'teal.50' : 'white'}
+          boxShadow={
+            snapshot.isDragging ? 'rgba(0, 0, 0, 0.15) 0px 12px 43px' : 'none'
+          }
           p={1}
         >
           <GridItem colSpan={2} alignItems="center">
