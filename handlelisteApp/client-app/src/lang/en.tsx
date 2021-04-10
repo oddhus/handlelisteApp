@@ -40,6 +40,7 @@ export default class English implements ILanguage {
   ingredients = 'Ingredients'
   shortDescription = 'Short description'
   approach = 'Approach'
+  imgUrl = 'Image Url'
   recipeName = 'Recipe name'
   recipeAddedToShoppingList = 'Recipe added to shopping list'
   addRecipeToShoppingList = 'Add recipe to shopping list'

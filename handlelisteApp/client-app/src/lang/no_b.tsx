@@ -39,6 +39,7 @@ export default class Norwegian_B implements ILanguage {
   ingredients = 'Ingredienser'
   shortDescription = 'Kort beskrivelse'
   approach = 'Fremgangsmåte'
+  imgUrl = 'Bildeadresse'
   recipeName = 'Navn på oppskrift'
   recipeAddedToShoppingList = 'Oppskrift lagt til handleliste'
   addRecipeToShoppingList = 'Legg til oppskrift i handleliste'

@@ -39,6 +39,7 @@ interface FormValues {
   recipeName: string
   shortDescription: string
   approach: string
+  imgUrl: string
   items: IitemInRecipe[]
 }
 
@@ -47,6 +48,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
     recipeName: '',
     shortDescription: '',
     approach: '',
+    imgUrl: '',
     items: [
       {
         itemName: '',
@@ -75,6 +77,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
         recipeName: recipeStore.currentRecipe.recipeName,
         shortDescription: recipeStore.currentRecipe.shortDescription,
         approach: recipeStore.currentRecipe.approach,
+        imgUrl: recipeStore.currentRecipe.imgUrl,
         items: recipeStore.currentRecipe.items,
       })
     }
@@ -93,6 +96,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
       .min(2, 'Min 2 chars')
       .max(1000, 'Max 1000 chars')
       .required('Required'),
+    imgUrl: Yup.string().max(1000, 'Max 1000 chars'),
     items: Yup.array().of(
       Yup.object().shape({
         itemName: Yup.string().max(30, 'Max 30 chars').required('Required'),
@@ -122,6 +126,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
         enableReinitialize
         initialValues={initialValues}
         onSubmit={async (values, actions) => {
+          console.log(values)
           if (recipeId) {
             recipeStore.updateRecipe(values, parseInt(recipeId))
           } else {
@@ -193,6 +198,23 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                       placeholder={settingStore.language.approach}
                     />
                     <FormErrorMessage>{form.errors.approach}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="imgUrl">
+                {({ form, field }: FieldProps) => (
+                  <FormControl
+                    isInvalid={!!form.errors?.imgUrl && !!form.touched?.imgUrl}
+                  >
+                    <FormLabel htmlFor="imgURL">
+                      {settingStore.language.imgUrl}
+                    </FormLabel>
+                    <Input
+                      {...field}
+                      id="imgUrl"
+                      placeholder={settingStore.language.imgUrl}
+                    />
+                    <FormErrorMessage>{form.errors.imgUrl}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>

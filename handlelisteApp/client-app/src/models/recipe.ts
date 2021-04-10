@@ -3,6 +3,7 @@ export interface IRecipe {
   recipeName: string
   shortDescription: string
   approach: string
+  imgUrl: string
   items: IitemInRecipe[]
 }
 
