@@ -4,13 +4,13 @@ import '@testing-library/jest-dom/extend-expect'
 import { Iitem } from '../../models/ShoppingList'
 import userEvent from '@testing-library/user-event'
 import { MockLanguage } from '../MockLanguage'
-import { ShoppingListItems } from '../../components/shoppingList/ShoppingListItems'
+import { ShoppingList } from '../../components/shoppingList/ShoppingList'
 
 var item: Iitem = {
   category: 'meieri',
   itemName: 'egg',
   quantity: 1,
-  unit: 'stk',
+
   hasBeenBought: false,
 }
 
@@ -18,7 +18,7 @@ var item1: Iitem = {
   category: 'Fryse',
   itemName: 'laks',
   quantity: 3,
-  unit: 'stk',
+
   hasBeenBought: false,
 }
 
@@ -26,7 +26,7 @@ var item2: Iitem = {
   category: 'Baking',
   itemName: 'mjøl',
   quantity: 2,
-  unit: 'kg',
+
   hasBeenBought: false,
 }
 
@@ -34,7 +34,7 @@ var item3: Iitem = {
   category: 'meieri',
   itemName: 'melk',
   quantity: 3,
-  unit: 'liter',
+
   hasBeenBought: false,
 }
 
@@ -58,6 +58,7 @@ jest.mock('../../stores/store', () => ({
             quantity: 1,
             unit: 'pcs',
             hasBeenBought: false,
+            itemIdentifier: '123',
           },
           {
             category: 'meieri',
@@ -65,6 +66,7 @@ jest.mock('../../stores/store', () => ({
             quantity: 1,
             unit: 'liter',
             hasBeenBought: false,
+            itemIdentifier: '1234',
           },
         ],
       },
@@ -79,13 +81,13 @@ describe('ShoppingList', () => {
 
   describe('Layout', () => {
     it('contains item melk', async () => {
-      const { findAllByText } = render(<ShoppingListItems />)
+      const { findAllByText } = render(<ShoppingList />)
       const result = await findAllByText('melk')
       expect(result).toHaveLength(1)
     })
 
     it('contains the correct amount of items', async () => {
-      const { findAllByDisplayValue } = render(<ShoppingListItems />)
+      const { findAllByDisplayValue } = render(<ShoppingList />)
       const items = await findAllByDisplayValue(1)
       expect(items).toHaveLength(2)
     })

@@ -26,14 +26,13 @@ export default class shoppingListStore {
     makeAutoObservable(this)
   }
 
-  resetShoppingListStoreData = () =>{
-    this.shoppingList = emptyShoppingList;
-    this.shoppingLists= [];
+  resetShoppingListStoreData = () => {
+    this.shoppingList = emptyShoppingList
+    this.shoppingLists = []
     this.isNew = false
     this.isLoading = false
-    this.feedBack= null
+    this.feedBack = null
     this.backToMyShoppingList = null
-
   }
   getShoppinglist = async (id: number) => {
     const shoppingList = this.shoppingLists.find(
@@ -147,6 +146,9 @@ export default class shoppingListStore {
   }
 
   setQuantity = (item: Iitem, value: number) => {
+    if (!value) {
+      value = 0
+    }
     item.quantity = value
     try {
       this.CreateOrUpdateItemInShoppingList(item)
@@ -162,8 +164,14 @@ export default class shoppingListStore {
       )
       runInAction(() => {
         this.shoppingList.items[index].quantity =
-          this.shoppingList.items[index].quantity + (increment ? 1 : -1)
+          this.shoppingList.items[index].quantity +
+          (increment ? 1 : item.quantity === 0 ? 0 : -1)
       })
+    }
+    try {
+      this.CreateOrUpdateItemInShoppingList(item)
+    } catch (e) {
+      throw e
     }
   }
 

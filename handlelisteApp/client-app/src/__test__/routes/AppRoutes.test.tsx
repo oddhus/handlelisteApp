@@ -36,6 +36,7 @@ jest.mock('../../stores/store', () => ({
             category: 'mat',
             quantity: 1,
             unit: 'pk',
+            itemIdentifier: '123',
           },
         ],
       },
@@ -58,6 +59,7 @@ jest.mock('../../stores/store', () => ({
                       quantity: 1,
                       unit: 'pcs',
                       hasBeenBought: false,
+                      itemIdentifier: '123',
                     },
                   ],
                 })

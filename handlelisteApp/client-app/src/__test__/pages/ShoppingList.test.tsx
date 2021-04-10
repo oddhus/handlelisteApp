@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import { ShoppingList } from '../../pages/ShoppingList'
+import { ShoppingListPage } from '../../pages/ShoppingList'
 import { MockLanguage } from '../MockLanguage'
 
 jest.mock('react-router-dom', () => ({
@@ -28,6 +28,7 @@ jest.mock('../../stores/store', () => ({
             quantity: 3,
             unit: 'liter',
             hasBeenBought: false,
+            itemIdentifier: '123',
           },
         ],
       },
@@ -48,6 +49,7 @@ jest.mock('../../stores/store', () => ({
                       quantity: 1,
                       unit: 'pcs',
                       hasBeenBought: false,
+                      itemIdentifier: '123',
                     },
                   ],
                 })
@@ -68,7 +70,7 @@ jest.mock('../../stores/store', () => ({
 describe('ShoppingList', () => {
   describe('Layout', () => {
     it('has a wisible table', () => {
-      const { container } = render(<ShoppingList />)
+      const { container } = render(<ShoppingListPage />)
       const table = container.getElementsByClassName('itemList')[0]
       expect(table).toBeVisible()
     })

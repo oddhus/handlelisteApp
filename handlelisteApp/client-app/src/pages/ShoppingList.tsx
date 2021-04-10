@@ -23,7 +23,7 @@ import {
 import { AddItem } from '../components/shoppingList/AddItem'
 import { useStore } from '../stores/store'
 import { Toast } from '../components/shared/Toast'
-import { ShoppingListItems } from '../components/shoppingList/ShoppingListItems'
+import { ShoppingList } from '../components/shoppingList/ShoppingList'
 import {
   CheckIcon,
   ChevronDownIcon,
@@ -37,7 +37,7 @@ interface useParam {
   listId: string | undefined
 }
 
-export const ShoppingList: React.FC<Props> = observer(() => {
+export const ShoppingListPage: React.FC<Props> = observer(() => {
   const makingNewList = useLocation().pathname.includes('new-shopping-list')
   const history = useHistory()
   const paramObj: useParam = useParams()
@@ -154,7 +154,7 @@ export const ShoppingList: React.FC<Props> = observer(() => {
             </MenuList>
           </Menu>
         </ButtonGroup>
-        <ShoppingListItems />
+        <ShoppingList />
       </VStack>
 
       {shoppingListStore.shoppingList.items.length !== 0 && (

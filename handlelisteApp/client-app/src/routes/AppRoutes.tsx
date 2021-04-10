@@ -6,14 +6,14 @@ import { SignIn } from '../pages/SignIn'
 import { SignUp } from '../pages/SignUp'
 import { Recipe } from '../pages/Recipe'
 import { ShoppingLists } from '../pages/ShoppingLists'
-import { ShoppingList } from '../pages/ShoppingList'
+import { ShoppingListPage } from '../pages/ShoppingList'
 import { Settings } from '../pages/Settings'
 import { Household } from '../pages/Household'
 import { HomePage } from '../pages/HomePage'
 import { MyKitchen } from '../pages/MyKitchen'
-import {NoMatch} from "../pages/errors/NoMatch";
-import {ServerError} from "../pages/errors/ServerError";
-import {Unauthorized} from "../pages/errors/Unauthorized";
+import { NoMatch } from '../pages/errors/NoMatch'
+import { ServerError } from '../pages/errors/ServerError'
+import { Unauthorized } from '../pages/errors/Unauthorized'
 
 interface Props {}
 
@@ -32,9 +32,9 @@ export const AppRoutes: React.FC<Props> = () => {
       <Route
         exact
         path="/shopping-list/new-shopping-list"
-        component={ShoppingList}
+        component={ShoppingListPage}
       />
-      <Route exact path="/shopping-list/:listId" component={ShoppingList} />
+      <Route exact path="/shopping-list/:listId" component={ShoppingListPage} />
       <Route exact path="/settings" component={Settings} />
       <Route exact path="/settings/user" component={Settings} />
       <Route exact path="/settings/accessibility" component={Settings} />
