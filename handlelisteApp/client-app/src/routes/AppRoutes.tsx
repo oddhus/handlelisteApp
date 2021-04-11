@@ -10,7 +10,6 @@ import { ShoppingListPage } from '../pages/ShoppingList'
 import { Settings } from '../pages/Settings'
 import { Household } from '../pages/Household'
 import { HomePage } from '../pages/HomePage'
-import { MyKitchen } from '../pages/MyKitchen'
 import { NoMatch } from '../pages/errors/NoMatch'
 import { ServerError } from '../pages/errors/ServerError'
 import { Unauthorized } from '../pages/errors/Unauthorized'
@@ -20,7 +19,7 @@ interface Props {}
 export const AppRoutes: React.FC<Props> = () => {
   return (
     <Switch>
-      <Route exact path="/" component={HomePage} />
+      <Route exact path="/" component={ShoppingLists} />
       <Route exact path="/signin" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
       <Route exact path="/create-recipe" component={CreateRecipe} />
@@ -29,12 +28,7 @@ export const AppRoutes: React.FC<Props> = () => {
       <Route exact path="/recipes" component={Recipes} />
       <Route exact path="/recipes/:recipeId" component={Recipe} />
       <Route exact path="/shopping-list" component={ShoppingLists} />
-      <Route
-        exact
-        path="/shopping-list/new-shopping-list"
-        component={ShoppingListPage}
-      />
-      <Route exact path="/shopping-list/:listId" component={ShoppingListPage} />
+      <Route path="/shopping-list/:listId" component={ShoppingListPage} />
       <Route exact path="/settings" component={Settings} />
       <Route exact path="/settings/user" component={Settings} />
       <Route exact path="/settings/accessibility" component={Settings} />
