@@ -77,7 +77,7 @@ export default class Norwegian_B implements ILanguage {
 
   age = 'Alder'
 
-  explore = 'Utforsk'
+  recommendations = 'Anbefalinger'
 
   search = 'Søk'
 

@@ -73,7 +73,7 @@ export interface ILanguage {
 
   age: string
 
-  explore: string
+  recommendations: string
 
   search: string
 

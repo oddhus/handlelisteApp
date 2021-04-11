@@ -77,7 +77,7 @@ export const Recipes: React.FC<Props> = observer(() => {
           </Tab>
           <Tab>{settingStore.language.allRecipes}</Tab>
           {userStore.isLoggedIn ? (
-            <Tab>{settingStore.language.explore}</Tab>
+            <Tab>{settingStore.language.recommendations}</Tab>
           ) : null}
           {userStore.isLoggedIn ? (
             <Tab>{settingStore.language.search}</Tab>
