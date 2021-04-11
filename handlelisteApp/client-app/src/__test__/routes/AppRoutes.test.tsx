@@ -27,6 +27,7 @@ jest.mock('../../stores/store', () => ({
       loading: true,
     },
     shoppingListStore: {
+      resetBackToShoppingList: () => undefined,
       shoppingList: {
         shoppingListId: 0,
         name: '',
@@ -107,7 +108,6 @@ jest.mock('../../index.tsx', () => ({}))
 
 describe('AppRoutes', () => {
   describe('Layout', () => {
-    
     it('displays SignInPage when url is /signin', () => {
       const { getByTestId } = setup('/signin')
       expect(getByTestId('login-container')).toBeInTheDocument()
