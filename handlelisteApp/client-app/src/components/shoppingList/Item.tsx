@@ -89,7 +89,7 @@ export const Item: React.FC<Props> = observer(
                 autoFocus
                 onBlur={() => {
                   setIsRead(item.itemName !== '')
-                  shoppingListStore.CreateOrUpdateItemInShoppingList(item)
+                  shoppingListStore.createOrUpdateItemInShoppingList(item)
                 }}
                 onKeyDown={(e: any) => {
                   handleKeyDown(e)

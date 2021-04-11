@@ -29,6 +29,7 @@ export default class Norwegian_B implements ILanguage {
   noShoppingListFound = 'Fant ingen handlelister'
   endShoppingTrip = 'Avslutt handletur'
   editListName = 'Endre handleliste navn'
+  noItems = 'Ingen varer'
 
   myRecipes = 'Mine oppskrifter'
   allRecipes = 'Alle oppskrifter'
