@@ -11,6 +11,8 @@ import {
 } from '@chakra-ui/react'
 import {useStore} from '../stores/store'
 import {Form, Formik, ErrorMessage} from 'formik'
+import InputText from "../components/shared/form/InputText";
+import * as Yup from "yup";
 
 interface Props {
 }
@@ -29,6 +31,11 @@ export const SignIn: React.FC<Props> = observer(() => {
         setPassword(event.target.value)
     }
 
+    const validationSchema = Yup.object({
+        username: Yup.string().required('The username is required'),
+        password: Yup.string().required('The password is required'),
+    })
+
     return (
         <Fragment>
             <Container
@@ -39,14 +46,10 @@ export const SignIn: React.FC<Props> = observer(() => {
                     {settingStore.language.login}
                 </Heading>
                 <Formik
+                    validationSchema={validationSchema}
                     initialValues={{username: '', password: '', error: null}}
-                    onSubmit={(values, {setErrors}) => {
-                        userStore.login({
-                            username: userName,
-                            password: password
-                        }).catch(error =>
-                            setErrors({error: 'Invalid username or password'}))
-                    }}
+                    onSubmit={(values, {setErrors}) => userStore.login(values).catch(error =>
+                        setErrors({error: 'Invalid username or password'})) }
                 >
                     {({handleSubmit, errors}) => (
                         <Form className='ui form' onSubmit={handleSubmit}>
@@ -56,30 +59,14 @@ export const SignIn: React.FC<Props> = observer(() => {
                                     {errors.error}
                                 </Tag>}
                             />
-                            <FormControl style={{marginTop: '10px'}} id="username">
-                                <FormLabel>{settingStore.language.Username}</FormLabel>
-                                <Input
+                                <InputText
                                     aria-label={settingStore.language.Username}
-                                    type="text"
-                                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                        onChangeUsernameHandler(event)
-                                    }
-                                    placeholder={settingStore.language.Username}
-                                    value={userName}
-                                />
-                            </FormControl>
-                            <FormControl style={{marginTop: '10px'}} id="email">
-                                <FormLabel>{settingStore.language.password}</FormLabel>
-                                <Input
+                                    name='username' placeholder={settingStore.language.Username}
+                                    label={settingStore.language.Username}/>
+                                <InputText
                                     aria-label={settingStore.language.password}
-                                    type="password"
-                                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                        onChangePasswordHandler(event)
-                                    }
-                                    placeholder="Your password"
-                                    value={password}
-                                />
-                            </FormControl>
+                                    name='password' placeholder={settingStore.language.password}
+                                    label={settingStore.language.password} type='password'/>
                             <Button
                                 data-testid="login-Button"
                                 style={{marginTop: '10px'}}

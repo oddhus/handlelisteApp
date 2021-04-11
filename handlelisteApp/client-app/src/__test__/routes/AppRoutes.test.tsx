@@ -107,11 +107,7 @@ jest.mock('../../index.tsx', () => ({}))
 
 describe('AppRoutes', () => {
   describe('Layout', () => {
-    it('displays homepage when url is /', () => {
-      const { queryByTestId } = setup('/')
-      expect(queryByTestId('homepage')).toBeInTheDocument()
-    })
-
+    
     it('displays SignInPage when url is /signin', () => {
       const { getByTestId } = setup('/signin')
       expect(getByTestId('login-container')).toBeInTheDocument()

@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { SignIn } from '../../pages/SignIn'
 import { MockLanguage } from '../MockLanguage'
+import {act} from "react-dom/test-utils";
 
 const routeComponentPropsMock = {
   history: {} as any,
@@ -40,13 +41,13 @@ describe('SignInPage', () => {
 
     it('has label of Your Password', async () => {
       const { queryByPlaceholderText } = render(renderSignInPage)
-      const passwordInput = queryByPlaceholderText('Your password')
+      const passwordInput = queryByPlaceholderText('Password')
       expect(passwordInput).toBeInTheDocument()
     })
 
     it('has input of password', async () => {
       const { queryByPlaceholderText } = render(renderSignInPage)
-      const passwordInput = queryByPlaceholderText('Your password')
+      const passwordInput = queryByPlaceholderText('Password')
       expect(passwordInput!.type).toBe('password')
     })
 
@@ -56,7 +57,7 @@ describe('SignInPage', () => {
     })
   })
 
-  describe('Interactions', () => {
+describe('Interactions', () => {
     const changeEnvent = (content: any) => {
       return {
         target: {
@@ -68,14 +69,18 @@ describe('SignInPage', () => {
     it('sets the username value into state', () => {
       const { queryByPlaceholderText } = render(renderSignInPage)
       const emailAddressInput = queryByPlaceholderText('Your username')
-      fireEvent.change(emailAddressInput!, changeEnvent('Your username'))
+      act(() =>{
+        fireEvent.change(emailAddressInput!, changeEnvent('Your username'))
+      })
       expect(emailAddressInput).toHaveValue('Your username')
     })
 
-    it('sets the password value into state', () => {
+    it('sets the password value into state', async () => {
       const { queryByPlaceholderText } = render(renderSignInPage)
-      const passwordInput = queryByPlaceholderText('Your password')
-      fireEvent.change(passwordInput!, changeEnvent('password'))
+      const passwordInput = queryByPlaceholderText('Password')
+      act(() =>{
+        fireEvent.change(passwordInput!, changeEnvent('password'))
+      })
       expect(passwordInput).toHaveValue('password')
     })
   })

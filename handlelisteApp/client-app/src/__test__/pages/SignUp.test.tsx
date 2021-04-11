@@ -5,6 +5,7 @@ import { SignUp } from '../../pages/SignUp'
 import English from '../../lang/en'
 import { ILanguage } from '../../lang/Language'
 import { MockLanguage } from '../MockLanguage'
+import {act} from "react-dom/test-utils";
 
 const routeComponentPropsMock = {
   history: {} as any,
@@ -43,11 +44,7 @@ describe('SignUpPage', () => {
       const displayUsernameInput = queryByPlaceholderText('Your username')
       expect(displayUsernameInput).toBeInTheDocument()
     })
-    it('has input display Age', () => {
-      const { queryByPlaceholderText } = render(renderSignUpPage)
-      const displayUsernameInput = queryByPlaceholderText('Age')
-      expect(displayUsernameInput).toBeInTheDocument()
-    })
+  
     it('has input display password', () => {
       const { queryByPlaceholderText } = render(renderSignUpPage)
       const displayPasswordInput = queryByPlaceholderText('Password')
@@ -58,29 +55,13 @@ describe('SignUpPage', () => {
       const displayPasswordInput = queryByPlaceholderText('Password')
       expect(displayPasswordInput!.type).toBe('password')
     })
-
-    it('has input password repeat', () => {
-      const { queryByPlaceholderText } = render(renderSignUpPage)
-      const displayPasswordRepeat = queryByPlaceholderText(
-        'Repeat your password'
-      )
-      expect(displayPasswordRepeat).toBeInTheDocument()
-    })
-
-    it('has password repeat has type of password', () => {
-      const { queryByPlaceholderText } = render(renderSignUpPage)
-      const displayPasswordRepeat = queryByPlaceholderText(
-        'Repeat your password'
-      )
-      expect(displayPasswordRepeat!.type).toBe('password')
-    })
-
+    
     it('has Signup button', () => {
       const { getByTestId } = render(renderSignUpPage)
       expect(getByTestId('signup-button')).toBeInTheDocument()
     })
   })
-  describe('Interactions', () => {
+describe('Interactions', () => {
     const changeEvent = (content: string) => {
       return {
         target: {
@@ -92,17 +73,20 @@ describe('SignUpPage', () => {
     it('set email value into the state', () => {
       const { queryByPlaceholderText } = render(renderSignUpPage)
       const displayEmailInput = queryByPlaceholderText('Email address')
-
-      fireEvent.change(displayEmailInput!, changeEvent('Email'))
-
+      
+      act(() =>{
+        fireEvent.change(displayEmailInput!, changeEvent('Email'))  
+      })
       expect(displayEmailInput).toHaveValue('Email')
     })
 
     it('set username value into the state', () => {
       const { queryByPlaceholderText } = render(renderSignUpPage)
       const displayUsernameInput = queryByPlaceholderText('Your username')
-
-      fireEvent.change(displayUsernameInput!, changeEvent('Your username'))
+      
+      act(() =>{
+        fireEvent.change(displayUsernameInput!, changeEvent('Your username'))
+      })
 
       expect(displayUsernameInput).toHaveValue('Your username')
     })
@@ -110,21 +94,10 @@ describe('SignUpPage', () => {
     it('set password value into the state', () => {
       const { queryByPlaceholderText } = render(renderSignUpPage)
       const displayPasswordInput = queryByPlaceholderText('Password')
-
-      fireEvent.change(displayPasswordInput!, changeEvent('pas4word'))
-
+      act(() =>{
+        fireEvent.change(displayPasswordInput!, changeEvent('pas4word'))
+      })
       expect(displayPasswordInput).toHaveValue('pas4word')
-    })
-
-    it('set repeatPassword value into the state', () => {
-      const { queryByPlaceholderText } = render(renderSignUpPage)
-      const displayRepeatPasswordInput = queryByPlaceholderText(
-        'Repeat your password'
-      )
-
-      fireEvent.change(displayRepeatPasswordInput!, changeEvent('pas4word'))
-
-      expect(displayRepeatPasswordInput).toHaveValue('pas4word')
     })
   })
 })
