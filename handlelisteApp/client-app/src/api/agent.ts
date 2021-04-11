@@ -79,8 +79,9 @@ const shoppingList = {
     requests.put('ShoppingList/' + id, shoppingList),
   getShoppingList: (id: number) => requests.get('shoppinglist/' + id),
   deleteShoppingList: (id: number) => requests.del('shoppinglist/' + id),
-  CreateOrUpdateItemInShoppingList: (shoppingListID: number, item: Iitem) => 
+  createOrUpdateItemInShoppingList: (shoppingListID: number, item: Iitem) => 
       requests.post('shoppinglist/' + shoppingListID + '/item', item),
+  deleteItemInShoppingList: (shoppingListID: number, item: Iitem) => requests.del('shoppinglist/' + shoppingListID + '/item/' + item.itemIdentifier)
 }
 
 const shoppingLists = {

@@ -48,7 +48,7 @@ export default class shoppingListStore {
         })
         return fetchedShoppingList
       } catch (e) {
-        throw e
+        this.setError(store.settingStore.language.somethingError)
       }
     }
   }
@@ -90,15 +90,26 @@ export default class shoppingListStore {
     }
   }
 
-  CreateOrUpdateItemInShoppingList = async (item: Iitem) => {
+  createOrUpdateItemInShoppingList = async (item: Iitem) => {
     if (item.itemName === '') return
     try {
-      await agent.shoppingList.CreateOrUpdateItemInShoppingList(
+      await agent.shoppingList.createOrUpdateItemInShoppingList(
         this.shoppingList.shoppingListID,
         item
       )
     } catch (e) {
-      throw e
+      this.setError(store.settingStore.language.somethingError)
+    }
+  }
+
+  deleteItemInShoppingList = async (item: Iitem) => {
+    try {
+      await agent.shoppingList.deleteItemInShoppingList(
+        this.shoppingList.shoppingListID,
+        item
+      )
+    } catch (e) {
+      this.setError(store.settingStore.language.somethingError)
     }
   }
 
@@ -151,10 +162,16 @@ export default class shoppingListStore {
     }
     item.quantity = value
     try {
-      this.CreateOrUpdateItemInShoppingList(item)
+      this.createOrUpdateItemInShoppingList(item)
     } catch (e) {
-      throw e
+      this.setError(store.settingStore.language.somethingError)
     }
+  }
+
+  setItems = (items: Iitem[]) => {
+    runInAction(()=> {
+      this.shoppingList.items = items
+    })
   }
 
   changeQuantity = (item: Iitem, increment: boolean) => {
@@ -169,9 +186,9 @@ export default class shoppingListStore {
       })
     }
     try {
-      this.CreateOrUpdateItemInShoppingList(item)
+      this.createOrUpdateItemInShoppingList(item)
     } catch (e) {
-      throw e
+      this.setError(store.settingStore.language.somethingError)
     }
   }
 
@@ -212,34 +229,19 @@ export default class shoppingListStore {
     }
   }
 
-  handleSaveList = () => {
-    if (this.isNew) {
-      this.addShoppinglist()
-      runInAction(() => {
-        this.isNew = false
-      })
-    } else {
-      this.saveShoppinglist()
-    }
-  }
-
-  onDeleteItem = async (item: Iitem) => {
+  onDeleteItem = (item: Iitem) => {
     this.shoppingList.items = this.shoppingList.items.filter(
       (foundItem) => foundItem !== item
     )
-    try {
-      await this.saveShoppinglist()
-    } catch (e) {
-      throw e
-    }
+      this.deleteItemInShoppingList(item)
   }
 
   onChecked = async (item: Iitem) => {
     item.hasBeenBought = !item.hasBeenBought
     try {
-      await this.CreateOrUpdateItemInShoppingList(item)
+      await this.createOrUpdateItemInShoppingList(item)
     } catch (e) {
-      throw e
+      this.setError(store.settingStore.language.somethingError)
     }
   }
 
