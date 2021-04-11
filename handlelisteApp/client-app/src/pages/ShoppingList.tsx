@@ -38,34 +38,24 @@ interface useParam {
 }
 
 export const ShoppingListPage: React.FC<Props> = observer(() => {
-  const makingNewList = useLocation().pathname.includes('new-shopping-list')
   const history = useHistory()
   const paramObj: useParam = useParams()
   const { shoppingListStore, settingStore } = useStore()
   const [shoppingListName, setShoppingListName] = useState(
     shoppingListStore.shoppingList.name
   )
-
   const [isLargerThan450] = useMediaQuery('(min-width: 450px)')
-
-  useEffect(() => {
-    shoppingListStore.isNew = makingNewList
-    shoppingListStore.resetFeedBack()
-  }, [])
 
   useEffect(() => {
     if (paramObj?.listId) {
       const listId = parseInt(paramObj.listId)
-      if (
-        !makingNewList &&
-        shoppingListStore.shoppingList.shoppingListID !== listId
-      ) {
+      if (shoppingListStore.shoppingList.shoppingListID !== listId) {
         shoppingListStore.getShoppinglist(listId).then(() => {
           setShoppingListName(shoppingListStore.shoppingList.name)
         })
       }
     }
-  }, [makingNewList, paramObj])
+  }, [paramObj])
 
   const handleSaveName = (name: string) => {
     setShoppingListName(name)
