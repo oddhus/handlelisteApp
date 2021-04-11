@@ -64,7 +64,7 @@ export default class UserStore {
   logout = () => {
     this.clearAllStores()
     this.user = null
-    history.push('/')
+    history.push('/signin')
   }
 
   getUser = async () => {
