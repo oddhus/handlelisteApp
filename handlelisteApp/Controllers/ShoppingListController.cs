@@ -77,10 +77,10 @@ namespace handlelisteApp.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{shoppingListId}/item")]
-        public ActionResult DeleteItemInShoppingList(int shoppingListId, [FromBody] ItemOnShoppingListCreateDTO itemDto)
+        [HttpDelete("{shoppingListId}/item/{itemIdentifier}")]
+        public ActionResult DeleteItemInShoppingList(int shoppingListId, string itemIdentifier)
         {
-            _shoppingListService.DeleteItemOnShoppingList(GetUserId(), shoppingListId, itemDto);
+            _shoppingListService.DeleteItemOnShoppingList(GetUserId(), shoppingListId, itemIdentifier);
             return NoContent();
         }
 
