@@ -17,6 +17,7 @@ export default class RecipeStore {
   isOwnerOfCurrentRecipe: boolean = false
   recipieSuggestions: IRecipe[] | undefined = undefined
   feedBack: IFeedback | null = null
+  cardView: boolean = true
 
   constructor() {
     makeAutoObservable(this)

@@ -10,7 +10,7 @@ import {
   Tabs,
   useToast,
   Button,
-  Center,
+  Center, Switch, FormControl, FormLabel,
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
@@ -83,6 +83,16 @@ export const Recipes: React.FC<Props> = observer(() => {
             <Tab>{settingStore.language.search}</Tab>
           ) : null}
         </TabList>
+        
+        <FormControl display="flex" alignItems="center" style={{ marginTop: '10px' }}>
+          <Switch onChange={() => {
+            recipeStore.cardView = !recipeStore.cardView
+          }} />
+          <FormLabel htmlFor="email-alerts" mb="0" style={{ marginLeft: '10px' }}>
+            List view
+          </FormLabel>
+        </FormControl>
+
         <TabPanels>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <MyRecipes />
