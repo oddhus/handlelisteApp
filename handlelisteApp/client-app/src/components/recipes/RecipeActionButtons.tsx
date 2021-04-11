@@ -12,10 +12,11 @@ interface Props {
   editable?: boolean
   deleteable?: boolean
   recipe: IRecipe
+  iconSize?: 'sm' | 'md' | 'lg'
 }
 
 export const RecipeActionButtons: React.FC<Props> = observer(
-  ({ addable, deleteable, editable, recipe }) => {
+  ({ addable, deleteable, editable, recipe, iconSize }) => {
     const { recipeStore, modalStore, settingStore } = useStore()
     const history = useHistory()
 
@@ -28,8 +29,9 @@ export const RecipeActionButtons: React.FC<Props> = observer(
           >
             <IconButton
               colorScheme="green"
+              variant="outline"
               aria-label="Add recipe"
-              size="md"
+              size={iconSize || 'md'}
               onClick={() => {
                 recipeStore.setCurrentRecipe(recipe)
                 modalStore.openModal(<RecipeToShoppingList />)
@@ -41,8 +43,9 @@ export const RecipeActionButtons: React.FC<Props> = observer(
         {editable && (
           <IconButton
             colorScheme="yellow"
+            variant="outline"
             aria-label="Edit recipe"
-            size="md"
+            size={iconSize || 'md'}
             className="edit"
             onClick={() => history.push(`/create-recipe/${recipe.recipeID}`)}
             icon={<EditIcon />}
@@ -52,8 +55,9 @@ export const RecipeActionButtons: React.FC<Props> = observer(
         {deleteable && (
           <IconButton
             colorScheme="red"
+            variant="outline"
             aria-label="Delete recipe"
-            size="md"
+            size={iconSize || 'md'}
             className="edit"
             onClick={() => {
               if (recipe.recipeID) {
