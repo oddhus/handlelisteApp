@@ -47,6 +47,10 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
   const [isLargerThan450] = useMediaQuery('(min-width: 450px)')
 
   useEffect(() => {
+    shoppingListStore.resetBackToShoppingList()
+  }, [])
+
+  useEffect(() => {
     if (paramObj?.listId) {
       const listId = parseInt(paramObj.listId)
       if (shoppingListStore.shoppingList.shoppingListID !== listId) {

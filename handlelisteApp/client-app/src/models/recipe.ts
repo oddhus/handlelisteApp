@@ -12,3 +12,8 @@ export interface IitemInRecipe {
   quantity: number
   unit: string
 }
+
+export interface ICheckedItems {
+  isChecked: boolean
+  item: IitemInRecipe
+}

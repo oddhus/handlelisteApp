@@ -5,6 +5,7 @@ import agent from '../api/agent'
 import { history } from '../index'
 import { store } from './store'
 import { IFeedback } from '../models/generalTypes'
+import { ICheckedItems } from '../models/recipe'
 
 const emptyShoppingList = {
   shoppingListID: NaN,
@@ -34,6 +35,15 @@ export default class shoppingListStore {
     this.feedBack = null
     this.backToMyShoppingList = null
   }
+
+  resetBackToShoppingList = () => {
+    runInAction(() => {this.backToMyShoppingList = null})
+  }
+
+  setBackToShoppingList = (id: string) => {
+    this.backToMyShoppingList = id
+  }
+
   getShoppinglist = async (id: number) => {
     const shoppingList = this.shoppingLists.find(
       (shoppinglist) => shoppinglist.shoppingListID === id
@@ -48,7 +58,7 @@ export default class shoppingListStore {
         })
         return fetchedShoppingList
       } catch (e) {
-        this.setError(store.settingStore.language.somethingError)
+        this.error(store.settingStore.language.somethingError)
       }
     }
   }
@@ -65,7 +75,7 @@ export default class shoppingListStore {
         this.isLoading = false
       })
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
@@ -81,11 +91,10 @@ export default class shoppingListStore {
       runInAction(() => {
         this.shoppingLists[index] = newList
         this.shoppingList = newList
-        this.setSuccess(store.settingStore.language.shoppingListSaved)
       })
     } catch (e) {
       runInAction(() => {
-        this.setError(store.settingStore.language.somethingError)
+        this.error(store.settingStore.language.somethingError)
       })
     }
   }
@@ -98,7 +107,7 @@ export default class shoppingListStore {
         item
       )
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
@@ -109,7 +118,7 @@ export default class shoppingListStore {
         item
       )
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
@@ -127,8 +136,30 @@ export default class shoppingListStore {
       history.push(`/shopping-list/${this.shoppingList.shoppingListID}`)
     } catch (e) {
       runInAction(() => {
-        this.setError(store.settingStore.language.somethingError)
+        this.error(store.settingStore.language.somethingError)
       })
+    }
+  }
+
+  addToShoppingListFromRecipe = (checked: ICheckedItems[], numberOfItems: number[] | undefined, returnToList: boolean) => {
+    checked.forEach((checkedItem, i) => {
+      if (checkedItem.isChecked && numberOfItems && numberOfItems[i] > 0) {
+        this.addItem({
+          ...checkedItem.item,
+          quantity: numberOfItems[i],
+          hasBeenBought: false,
+          category: store.recipeStore.currentRecipe!.recipeName,
+        })
+      }
+    })
+    this.success(
+      store.settingStore.language.recipeAddedToShoppingList
+    )
+    this.saveShoppinglist()
+    store.modalStore.closeModal()
+    if(this.backToMyShoppingList && returnToList){
+      history.push(`/shopping-list/${this.backToMyShoppingList}`)
+      this.resetBackToShoppingList()
     }
   }
 
@@ -147,11 +178,11 @@ export default class shoppingListStore {
       runInAction(() => {
         this.shoppingList = emptyShoppingList
         this.shoppingLists = newListOfShopLists
-        this.setSuccess(store.settingStore.language.shoppingListDeleted)
+        this.success(store.settingStore.language.shoppingListDeleted)
       })
     } catch (e) {
       runInAction(() => {
-        this.setError(store.settingStore.language.somethingError)
+        this.error(store.settingStore.language.somethingError)
       })
     }
   }
@@ -164,7 +195,7 @@ export default class shoppingListStore {
     try {
       this.createOrUpdateItemInShoppingList(item)
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
@@ -188,7 +219,7 @@ export default class shoppingListStore {
     try {
       this.createOrUpdateItemInShoppingList(item)
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
@@ -241,11 +272,11 @@ export default class shoppingListStore {
     try {
       await this.createOrUpdateItemInShoppingList(item)
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
-  private setError = (text?: string) => {
+  private error = (text?: string) => {
     runInAction(() => {
       this.feedBack = {
         status: 'error',
@@ -255,7 +286,7 @@ export default class shoppingListStore {
     })
   }
 
-  private setSuccess(text?: string) {
+  private success(text?: string) {
     runInAction(() => {
       this.feedBack = {
         status: 'success',

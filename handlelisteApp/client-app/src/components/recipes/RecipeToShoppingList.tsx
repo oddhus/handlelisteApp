@@ -1,11 +1,11 @@
-import { Center, VStack, Box, Button, Text } from '@chakra-ui/react'
+import { Center, VStack, Box, Button, Text, HStack } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import { IitemInRecipe } from '../../models/recipe'
 import { useStore } from '../../stores/store'
 import { ItemList } from './ItemList'
 import { SelectShoppingList } from './SelectShoppingList'
-import {useHistory} from "react-router-dom";
+import { useHistory } from 'react-router-dom'
 
 interface Props {}
 
@@ -66,23 +66,12 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
     }
   }
 
-  const onAddToShoppingList = () => {
-    checked.forEach((checkedItem, i) => {
-      if (checkedItem.isChecked && numberOfItems && numberOfItems[i] > 0) {
-        shoppingListStore.addItem({
-          ...checkedItem.item,
-          quantity: numberOfItems[i],
-          hasBeenBought: false,
-          category: recipeStore.currentRecipe!.recipeName,
-        })
-      }
-    })
-    recipeStore.setToastSuccessMessage(
-      settingStore.language.recipeAddedToShoppingList
+  const onAddToShoppingList = (returnToList: boolean) => {
+    shoppingListStore.addToShoppingListFromRecipe(
+      checked,
+      numberOfItems,
+      returnToList
     )
-    shoppingListStore.saveShoppinglist()
-    modalStore.closeModal()
-    history.push(`/shopping-list/${shoppingListStore.backToMyShoppingList}`)
   }
 
   if (!recipeStore.currentRecipe) {
@@ -116,13 +105,29 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
       </Box>
       <Box minW="100%">
         <Center>
-          <Button
-            disabled={!selectedShoppingList}
-            onClick={() => onAddToShoppingList()}
-            colorScheme="green"
-          >
-            {settingStore.language.add}
-          </Button>
+          <HStack>
+            <Button
+              disabled={
+                !selectedShoppingList && !shoppingListStore.backToMyShoppingList
+              }
+              onClick={() => onAddToShoppingList(false)}
+              colorScheme="green"
+            >
+              {settingStore.language.add}
+            </Button>
+            {!!shoppingListStore.backToMyShoppingList && (
+              <Button
+                disabled={
+                  !selectedShoppingList &&
+                  !shoppingListStore.backToMyShoppingList
+                }
+                onClick={() => onAddToShoppingList(true)}
+                colorScheme="green"
+              >
+                Add and return
+              </Button>
+            )}
+          </HStack>
         </Center>
       </Box>
     </VStack>
