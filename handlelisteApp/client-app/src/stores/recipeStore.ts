@@ -110,7 +110,7 @@ export default class RecipeStore {
 
   getAllRecipes = async () => {
     this.resetAndStartLoading()
-
+/*
     if (this.allRecipes) {
       runInAction(() => {
         this.currentRecipeList = this.allRecipes!
@@ -118,7 +118,7 @@ export default class RecipeStore {
       })
       return
     }
-
+*/
     try {
       const recipes = await agent.recipes.getAllRecipes()
       runInAction(() => {
@@ -291,7 +291,21 @@ export default class RecipeStore {
 
   searchInRecipies(keyword: string) {
     let foundRecipes: IRecipe[] = []
-    this.allRecipes!.forEach((recipe) => {
+    let recipesToSearchIn: IRecipe[] = []
+
+    if(this.tabIndex === 0){
+      recipesToSearchIn = this.usersRecipeList.get(
+        parseInt(store.userStore.user!.userID)
+        ) || []
+    }
+    else if(this.tabIndex === 2){
+      recipesToSearchIn = this.recipieSuggestions || []
+    }
+    else{
+      recipesToSearchIn = this.allRecipes || []
+    }
+
+    recipesToSearchIn!.forEach((recipe) => {
       if (recipe.recipeName.toLocaleLowerCase().includes(keyword)) {
         foundRecipes.push(recipe)
       } else {

@@ -10,14 +10,14 @@ import {
   Tabs,
   useToast,
   Button,
-  Center, Switch, FormControl, FormLabel,
+  Center, Switch, FormControl, FormLabel, VStack, Input, InputGroup, InputLeftElement, HStack,
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
 import { useHistory } from 'react-router-dom'
-import { RecipeSearch } from '../components/recipes/RecipeSearch'
 import { SuggestedRecipes } from '../components/recipes/SuggestedRecipes'
 import { Toast } from '../components/shared/Toast'
+import { Search2Icon } from '@chakra-ui/icons'
 
 interface Props {}
 
@@ -79,12 +79,26 @@ export const Recipes: React.FC<Props> = observer(() => {
           {userStore.isLoggedIn ? (
             <Tab>{settingStore.language.recommendations}</Tab>
           ) : null}
-          {userStore.isLoggedIn ? (
-            <Tab>{settingStore.language.search}</Tab>
-          ) : null}
         </TabList>
         
-        <FormControl display="flex" alignItems="center" style={{ marginTop: '10px' }}>
+        <HStack marginTop="3vh" spacing={5}>
+
+        <InputGroup>
+        <InputLeftElement
+          pointerEvents="none"
+          children={<Search2Icon color="gray.300" 
+          />}
+        />
+        <Input
+          onChange={(e) =>
+            recipeStore.searchInRecipies(e.target.value.toLowerCase())
+          }
+          type="tel"
+          placeholder={settingStore.language.search}
+        /> 
+      </InputGroup>
+
+        <FormControl display="flex" alignItems="center" width={"20%"}>
           <Switch onChange={() => {
             recipeStore.cardView = !recipeStore.cardView
           }} />
@@ -92,6 +106,8 @@ export const Recipes: React.FC<Props> = observer(() => {
             List view
           </FormLabel>
         </FormControl>
+        
+        </HStack>
 
         <TabPanels>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
@@ -102,9 +118,6 @@ export const Recipes: React.FC<Props> = observer(() => {
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <SuggestedRecipes />
-          </TabPanel>
-          <TabPanel pl={[0, 5]} pr={[0, 5]}>
-            <RecipeSearch />
           </TabPanel>
         </TabPanels>
       </Tabs>

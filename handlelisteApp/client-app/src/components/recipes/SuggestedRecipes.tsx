@@ -18,7 +18,6 @@ export const SuggestedRecipes: React.FC<Props> = observer(() => {
           {settingStore.language.suggestedRecipes}
         </Heading>
         <Tooltip
-          hasArrow
           label={settingStore.language.suggestedRecipesToolTip}
           background="gray.100"
           color="black"
