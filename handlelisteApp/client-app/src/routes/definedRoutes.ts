@@ -9,7 +9,7 @@ export const signedIn = [
 ]
 
 export const userSettings = [
-  { path: '/household', nameEn: 'Household', nameNo: 'Husstand' },
+  //{ path: '/household', nameEn: 'Household', nameNo: 'Husstand' },
   { path: '/settings', nameEn: 'Settings', nameNo: 'Innstillinger' },
 ]
 
