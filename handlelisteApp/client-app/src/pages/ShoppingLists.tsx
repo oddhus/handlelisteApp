@@ -34,19 +34,10 @@ interface Props {}
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory()
   const { shoppingListStore, settingStore, modalStore } = useStore()
-
-  const willMount = useRef(true)
-
   const [isLargerThan450] = useMediaQuery('(min-width: 450px)')
-
-  if (willMount.current) {
-    shoppingListStore.resetFeedBack()
-    willMount.current = false
-  }
 
   useEffect(() => {
     shoppingListStore.fetchShoppingLists()
-    shoppingListStore.resetFeedBack()
   }, [])
 
   const onDeleteShoppingList = (shoppingList: IShoppingList) => {
