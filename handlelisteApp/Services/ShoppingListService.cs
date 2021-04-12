@@ -50,7 +50,8 @@ namespace handlelisteApp.Services
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = item.Quantity,
                     HasBeenBought = item.HasBeenBought,
-                    ItemIdentifier = item.ItemIdentifier
+                    ItemIdentifier = item.ItemIdentifier,
+                    Order = item.Order
                 }); ;
             }
 
@@ -90,7 +91,8 @@ namespace handlelisteApp.Services
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = item.Quantity,
                     HasBeenBought = item.HasBeenBought,
-                    ItemIdentifier = item.ItemIdentifier
+                    ItemIdentifier = item.ItemIdentifier,
+                    Order = item.Order
                 });
             }
 
@@ -121,6 +123,7 @@ namespace handlelisteApp.Services
                 itemInShoppingList.HasBeenBought = itemDto.HasBeenBought;
                 itemInShoppingList.Quantity = itemDto.Quantity;
                 itemInShoppingList.Item = foundItem;
+                itemInShoppingList.Order = itemDto.Order;
             }
             else
             {
@@ -131,7 +134,8 @@ namespace handlelisteApp.Services
                     ShoppingListId = shoppingList.ShoppingListID,
                     Quantity = itemDto.Quantity,
                     HasBeenBought = itemDto.HasBeenBought,
-                    ItemIdentifier = itemDto.ItemIdentifier
+                    ItemIdentifier = itemDto.ItemIdentifier,
+                    Order = itemDto.Order
                 };
                 shoppingList.Items.Add(itemInShoppingList);
             };

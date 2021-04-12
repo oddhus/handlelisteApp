@@ -14,8 +14,8 @@ export const ShoppingList: React.FC<Props> = observer(() => {
     const items = Array.from(shoppingListStore.shoppingList.items)
     const [reorderedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderedItem)
-
     shoppingListStore.setItems(items)
+    shoppingListStore.setOrder()
   }
 
   return (

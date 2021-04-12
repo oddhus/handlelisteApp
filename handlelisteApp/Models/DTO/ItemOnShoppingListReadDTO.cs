@@ -12,5 +12,6 @@ namespace handlelisteApp.Models.DTO
         public bool HasBeenBought { get; set; }
         public string Category { get; set; }
         public string ItemIdentifier { get; set; }
+        public int Order { get; set; }
     }
 }

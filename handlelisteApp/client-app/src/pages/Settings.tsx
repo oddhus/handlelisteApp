@@ -40,7 +40,7 @@ export const Settings: React.FC<RouteComponentProps<Props>> = () => {
           >
             <Stack>
               <Radio value="en">English</Radio>
-              <Radio value="no_b">Norsk - Bokmål</Radio>
+              <Radio value="no">Norsk - Bokmål</Radio>
             </Stack>
           </RadioGroup>
         </div>

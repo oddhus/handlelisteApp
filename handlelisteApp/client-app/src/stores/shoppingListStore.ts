@@ -37,7 +37,9 @@ export default class shoppingListStore {
   }
 
   resetBackToShoppingList = () => {
-    runInAction(() => {this.backToMyShoppingList = null})
+    runInAction(() => {
+      this.backToMyShoppingList = null
+    })
   }
 
   setBackToShoppingList = (id: string) => {
@@ -111,6 +113,15 @@ export default class shoppingListStore {
     }
   }
 
+  setOrder = () => {
+    const newList = this.shoppingList.items.map((item, i) => ({
+      ...item,
+      order: i,
+    }))
+    this.shoppingList.items = newList
+    this.saveShoppinglist()
+  }
+
   deleteItemInShoppingList = async (item: Iitem) => {
     try {
       await agent.shoppingList.deleteItemInShoppingList(
@@ -141,7 +152,11 @@ export default class shoppingListStore {
     }
   }
 
-  addToShoppingListFromRecipe = (checked: ICheckedItems[], numberOfItems: number[] | undefined, returnToList: boolean) => {
+  addToShoppingListFromRecipe = (
+    checked: ICheckedItems[],
+    numberOfItems: number[] | undefined,
+    returnToList: boolean
+  ) => {
     checked.forEach((checkedItem, i) => {
       if (checkedItem.isChecked && numberOfItems && numberOfItems[i] > 0) {
         this.addItem({
@@ -149,15 +164,14 @@ export default class shoppingListStore {
           quantity: numberOfItems[i],
           hasBeenBought: false,
           category: store.recipeStore.currentRecipe!.recipeName,
+          order: this.shoppingList.items.length + i,
         })
       }
     })
-    this.success(
-      store.settingStore.language.recipeAddedToShoppingList
-    )
+    this.success(store.settingStore.language.recipeAddedToShoppingList)
     this.saveShoppinglist()
     store.modalStore.closeModal()
-    if(this.backToMyShoppingList && returnToList){
+    if (this.backToMyShoppingList && returnToList) {
       history.push(`/shopping-list/${this.backToMyShoppingList}`)
       this.resetBackToShoppingList()
     }
@@ -200,7 +214,7 @@ export default class shoppingListStore {
   }
 
   setItems = (items: Iitem[]) => {
-    runInAction(()=> {
+    runInAction(() => {
       this.shoppingList.items = items
     })
   }
@@ -239,6 +253,10 @@ export default class shoppingListStore {
       hasBeenBought: false,
       quantity: 1,
       itemIdentifier: uuidv4(),
+      order:
+        (this.shoppingList.items.length === 0
+          ? 0
+          : this.shoppingList.items[0].order) - 1,
     })
   }
 
@@ -264,7 +282,7 @@ export default class shoppingListStore {
     this.shoppingList.items = this.shoppingList.items.filter(
       (foundItem) => foundItem !== item
     )
-      this.deleteItemInShoppingList(item)
+    this.deleteItemInShoppingList(item)
   }
 
   onChecked = async (item: Iitem) => {

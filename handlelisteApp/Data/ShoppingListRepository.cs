@@ -50,7 +50,7 @@ namespace handlelisteApp.Data
         {
             return _context.ShoppingLists
                 .Where(s => s.ShoppingListID == shoppingListId && s.UserId == userId)
-                .Include(s => s.Items)
+                .Include(s => s.Items.OrderBy(i => i.Order))
                 .ThenInclude(iir => iir.Item)
                 .FirstOrDefault();
         }
@@ -60,8 +60,9 @@ namespace handlelisteApp.Data
         {
             return _context.ShoppingLists
                 .Where(s => s.UserId == userId)
-                .Include(s => s.Items)
+                .Include(s => s.Items.OrderBy(i => i.Order))
                 .ThenInclude(iir => iir.Item)
+                .OrderByDescending(s => s.UpdatedOn)
                 .ToList();
         }
 

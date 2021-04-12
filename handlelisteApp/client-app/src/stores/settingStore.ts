@@ -20,9 +20,9 @@ export default class SettingStore {
         this.language = this.english
         this.languageString = 'en'
         break
-      case 'no_b':
+      case 'no':
         this.language = this.norwegian_b
-        this.languageString = 'no_b'
+        this.languageString = 'no'
         break
       default:
         this.language = this.english
