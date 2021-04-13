@@ -24,6 +24,12 @@ namespace handlelisteApp.Services
 
         RecipeDTO UpdateRecipe(int recipeId, int userId, RecipeDTO recipe);
 
+        List<RecipeDTO> GetSavedRecipes(int userId);
+
+        SavedRecipeDTO SaveRecipe(int recipeId, int userId);
+
         bool DeleteRecipe(int id);
+
+        bool DeleteSavedRecipe(int userId, int recipeId);
     }
 }

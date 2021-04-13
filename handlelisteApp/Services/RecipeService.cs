@@ -206,5 +206,37 @@ namespace handlelisteApp.Services
 
             return _mapper.Map<RecipeDTO>(storedRecipe);
         }
+
+        public List<RecipeDTO> GetSavedRecipes(int userId)
+        {
+            return _mapper.Map<List<RecipeDTO>>(_repository.GetSavedRecipes(userId));
+
+        }
+
+        public SavedRecipeDTO SaveRecipe(int userId, int recipeId)
+        {
+            List<RecipeDTO> recipes = GetSavedRecipes(userId);
+            if(recipes.Any(r => r.RecipeID == recipeId))
+            {
+                return _mapper.Map<SavedRecipeDTO>(_repository.GetSavedRecipeByRecipeIdAndUserId(userId, recipeId));
+            }
+
+            SavedRecipe savedRecipe = new SavedRecipe
+            {
+                UserId = userId,
+                RecipeId = recipeId,
+                likedOn = DateTime.Now
+            };
+
+            return _mapper.Map<SavedRecipeDTO>(_repository.SaveRecipe(savedRecipe));
+        }
+
+        public bool DeleteSavedRecipe(int userId, int recipeId)
+        {
+            SavedRecipe savedRecipe = _repository.GetSavedRecipeByRecipeIdAndUserId(userId, recipeId);
+            if (savedRecipe == null) { return false; }
+            _repository.DeleteSavedRecipe(savedRecipe);
+            return true;
+        }
     }
 }

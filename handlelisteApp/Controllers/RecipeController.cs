@@ -46,6 +46,35 @@ namespace handlelisteApp.Controllers
         }
 
         [Authorize]
+        [HttpGet("favorite")]
+        public List<RecipeDTO> GetSavedRecipes()
+        {
+            int userId = GetUserId();
+            return _recipeService.GetSavedRecipes(userId);
+        }
+
+        [Authorize]
+        [HttpPost("favorite/{rId}")]
+        public ActionResult<SavedRecipeDTO> SaveRecipe(int rId)
+        {
+            int userId = GetUserId();
+            return _recipeService.SaveRecipe(userId, rId);
+        }
+
+
+        [HttpDelete("favorite/{rId}")]
+        public ActionResult DeleteSavedRecipe(int rId)
+        {
+            int userId = GetUserId();
+            bool ok = _recipeService.DeleteSavedRecipe(userId, rId);
+            if (!ok)
+            {
+                return BadRequest(new { message = "Recipe not saved! " });
+            }
+            return NoContent();
+        }
+
+        [Authorize]
         [HttpPost]
         public ActionResult<RecipeDTO> CreateNewRecipe(RecipeDTO recipe)
         {

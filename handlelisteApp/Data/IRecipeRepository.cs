@@ -23,5 +23,13 @@ namespace handlelisteApp.Data
         void DeleteRecipe(Recipe recipe);
 
         Recipe UpdateRecipe(int id, Recipe recipe);
+
+        IEnumerable<Recipe> GetSavedRecipes(int userId);
+
+        SavedRecipe SaveRecipe(SavedRecipe savedRecipe);
+
+        SavedRecipe GetSavedRecipeByRecipeIdAndUserId(int userId, int recipeId);
+
+        void DeleteSavedRecipe(SavedRecipe savedRecipe);
     }
 }

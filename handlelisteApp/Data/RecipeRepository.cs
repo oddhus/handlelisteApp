@@ -81,5 +81,31 @@ namespace handlelisteApp.Data
             _context.SaveChanges();
             return recipe;
         }
+
+        public IEnumerable<Recipe> GetSavedRecipes(int userId)
+        {
+            return _context.Recipes.Where(r => _context.SavedRecipes.Any(sr =>
+            sr.UserId == userId && r.RecipeID == sr.RecipeId)).Include(r => r.Items).ThenInclude(iir => iir.Item).ToList();
+
+        }
+
+        public SavedRecipe SaveRecipe(SavedRecipe savedRecipe)
+        {
+            _context.SavedRecipes.Add(savedRecipe);
+            _context.SaveChanges();
+            return savedRecipe;
+        }
+
+        public SavedRecipe GetSavedRecipeByRecipeIdAndUserId(int userId, int recipeId)
+        {
+            return _context.SavedRecipes.Where(r => r.RecipeId == recipeId && r.UserId == userId).FirstOrDefault();
+        }
+
+
+        public void DeleteSavedRecipe(SavedRecipe savedRecipe)
+        {
+            _context.SavedRecipes.Remove(savedRecipe);
+            _context.SaveChanges();
+        }
     }
 }
