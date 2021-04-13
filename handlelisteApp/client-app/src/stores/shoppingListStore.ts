@@ -259,7 +259,6 @@ export default class shoppingListStore {
       )
       runInAction(() => {
         this.shoppingLists[index] = newList
-        this.shoppingList = newList
       })
     } catch (e) {
       if (axios.isCancel(e)) {
