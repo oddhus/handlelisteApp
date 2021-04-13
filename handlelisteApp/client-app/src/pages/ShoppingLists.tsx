@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../stores/store'
 import { Toast } from '../components/shared/Toast'
+import { DateTime } from 'luxon'
 import {
   Button,
   Text,
@@ -24,6 +25,7 @@ import {
   MenuList,
   MenuItem,
   Box,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { IShoppingList } from '../models/ShoppingList'
 import { AddIcon, ChevronDownIcon, DeleteIcon } from '@chakra-ui/icons'
@@ -143,14 +145,22 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
                     display="flex"
                     alignItems="center"
                   >
-                    <Text
-                      fontSize={isLargerThan450 ? 'lg' : 'md'}
-                      color="teal.600"
-                      isTruncated
-                      fontWeight="600"
-                    >
-                      {shoppingList.name}
-                    </Text>
+                    <VStack spacing={0} justify="flex-start">
+                      <Text
+                        fontSize={isLargerThan450 ? 'lg' : 'md'}
+                        color="teal.600"
+                        isTruncated
+                        fontWeight="600"
+                        minW="100%"
+                      >
+                        {shoppingList.name}
+                      </Text>
+                      <Text fontSize="xs" minW="100%">
+                        {DateTime.fromISO(shoppingList.updatedOn).toRelative({
+                          locale: settingStore.languageString,
+                        })}
+                      </Text>
+                    </VStack>
                   </GridItem>
                   <GridItem colSpan={2} minW="100%">
                     <Flex justify="flex-end">

@@ -44,7 +44,7 @@ namespace handlelisteApp.Data
         {
             List<Recipe> itemsInRecipes = _context.Recipes.
 
-                Where(r => r.Items.Any(i => i.Item.ItemID == item.ItemID)).Include(r => r.Items).
+                Where(r => r.Items.Any(i => i.Item.ItemID == item.ItemID)).Include(r => r.Items).ThenInclude(iir => iir.Item).
                 ToList();
 
             /*
@@ -61,7 +61,7 @@ namespace handlelisteApp.Data
 
         public IEnumerable<Recipe> GetAllRecipesUsingSeveralItems(List<Item> items)
         {
-            List<Recipe> recipesWithItems = _context.Recipes.Where(r => r.Items.Any(iir => items.Contains(iir.Item))).Include(r => r.Items).ToList();
+            List<Recipe> recipesWithItems = _context.Recipes.Where(r => r.Items.Any(iir => items.Contains(iir.Item))).Include(r => r.Items).ThenInclude(iir => iir.Item).ToList();
             return recipesWithItems;
         }
 

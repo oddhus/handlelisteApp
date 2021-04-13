@@ -12,4 +12,5 @@ export interface Iitem {
   quantity: number
   hasBeenBought: boolean
   itemIdentifier?: string
+  order: number
 }

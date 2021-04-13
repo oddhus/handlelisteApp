@@ -33,8 +33,8 @@ function App() {
         case 'nb-NO':
         case 'nb':
         case 'NO':
-          settingStore.setLanguage('no_b')
-          commonStore.setLang('no_b')
+          settingStore.setLanguage('no')
+          commonStore.setLang('no')
           break
         case 'en':
         case 'en-US':

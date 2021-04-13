@@ -50,7 +50,11 @@ export const SelectShoppingList: React.FC<Props> = observer(
           ) : (
             <Select
               onChange={(e) => onSelectShoppingList(parseInt(e.target.value))}
-              placeholder={settingStore.language.selectShoppingList}
+              placeholder={
+                shoppingListStore.backToMyShoppingList
+                  ? shoppingListStore.shoppingList.name
+                  : settingStore.language.selectShoppingList
+              }
             >
               {shoppingListStore.shoppingLists.map((list) => (
                 <option key={list.shoppingListID} value={list.shoppingListID}>

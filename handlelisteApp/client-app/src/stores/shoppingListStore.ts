@@ -5,6 +5,7 @@ import agent from '../api/agent'
 import { history } from '../index'
 import { store } from './store'
 import { IFeedback } from '../models/generalTypes'
+import { ICheckedItems } from '../models/recipe'
 
 const emptyShoppingList = {
   shoppingListID: NaN,
@@ -34,6 +35,17 @@ export default class shoppingListStore {
     this.feedBack = null
     this.backToMyShoppingList = null
   }
+
+  resetBackToShoppingList = () => {
+    runInAction(() => {
+      this.backToMyShoppingList = null
+    })
+  }
+
+  setBackToShoppingList = (id: string) => {
+    this.backToMyShoppingList = id
+  }
+
   getShoppinglist = async (id: number) => {
     const shoppingList = this.shoppingLists.find(
       (shoppinglist) => shoppinglist.shoppingListID === id
@@ -48,7 +60,7 @@ export default class shoppingListStore {
         })
         return fetchedShoppingList
       } catch (e) {
-        this.setError(store.settingStore.language.somethingError)
+        this.error(store.settingStore.language.somethingError)
       }
     }
   }
@@ -65,7 +77,7 @@ export default class shoppingListStore {
         this.isLoading = false
       })
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
@@ -81,11 +93,10 @@ export default class shoppingListStore {
       runInAction(() => {
         this.shoppingLists[index] = newList
         this.shoppingList = newList
-        this.setSuccess(store.settingStore.language.shoppingListSaved)
       })
     } catch (e) {
       runInAction(() => {
-        this.setError(store.settingStore.language.somethingError)
+        this.error(store.settingStore.language.somethingError)
       })
     }
   }
@@ -98,8 +109,17 @@ export default class shoppingListStore {
         item
       )
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
+  }
+
+  setOrder = () => {
+    const newList = this.shoppingList.items.map((item, i) => ({
+      ...item,
+      order: i,
+    }))
+    this.shoppingList.items = newList
+    this.saveShoppinglist()
   }
 
   deleteItemInShoppingList = async (item: Iitem) => {
@@ -109,7 +129,7 @@ export default class shoppingListStore {
         item
       )
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
@@ -127,8 +147,33 @@ export default class shoppingListStore {
       history.push(`/shopping-list/${this.shoppingList.shoppingListID}`)
     } catch (e) {
       runInAction(() => {
-        this.setError(store.settingStore.language.somethingError)
+        this.error(store.settingStore.language.somethingError)
       })
+    }
+  }
+
+  addToShoppingListFromRecipe = (
+    checked: ICheckedItems[],
+    numberOfItems: number[] | undefined,
+    returnToList: boolean
+  ) => {
+    checked.forEach((checkedItem, i) => {
+      if (checkedItem.isChecked && numberOfItems && numberOfItems[i] > 0) {
+        this.addItem({
+          ...checkedItem.item,
+          quantity: numberOfItems[i],
+          hasBeenBought: false,
+          category: store.recipeStore.currentRecipe!.recipeName,
+          order: this.shoppingList.items.length + i,
+        })
+      }
+    })
+    this.success(store.settingStore.language.recipeAddedToShoppingList)
+    this.saveShoppinglist()
+    store.modalStore.closeModal()
+    if (this.backToMyShoppingList && returnToList) {
+      history.push(`/shopping-list/${this.backToMyShoppingList}`)
+      this.resetBackToShoppingList()
     }
   }
 
@@ -147,11 +192,11 @@ export default class shoppingListStore {
       runInAction(() => {
         this.shoppingList = emptyShoppingList
         this.shoppingLists = newListOfShopLists
-        this.setSuccess(store.settingStore.language.shoppingListDeleted)
+        this.success(store.settingStore.language.shoppingListDeleted)
       })
     } catch (e) {
       runInAction(() => {
-        this.setError(store.settingStore.language.somethingError)
+        this.error(store.settingStore.language.somethingError)
       })
     }
   }
@@ -161,15 +206,10 @@ export default class shoppingListStore {
       value = 0
     }
     item.quantity = value
-    try {
-      this.createOrUpdateItemInShoppingList(item)
-    } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
-    }
   }
 
   setItems = (items: Iitem[]) => {
-    runInAction(()=> {
+    runInAction(() => {
       this.shoppingList.items = items
     })
   }
@@ -184,11 +224,6 @@ export default class shoppingListStore {
           this.shoppingList.items[index].quantity +
           (increment ? 1 : item.quantity === 0 ? 0 : -1)
       })
-    }
-    try {
-      this.createOrUpdateItemInShoppingList(item)
-    } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
     }
   }
 
@@ -208,6 +243,10 @@ export default class shoppingListStore {
       hasBeenBought: false,
       quantity: 1,
       itemIdentifier: uuidv4(),
+      order:
+        (this.shoppingList.items.length === 0
+          ? 0
+          : this.shoppingList.items[0].order) - 1,
     })
   }
 
@@ -233,7 +272,7 @@ export default class shoppingListStore {
     this.shoppingList.items = this.shoppingList.items.filter(
       (foundItem) => foundItem !== item
     )
-      this.deleteItemInShoppingList(item)
+    this.deleteItemInShoppingList(item)
   }
 
   onChecked = async (item: Iitem) => {
@@ -241,11 +280,11 @@ export default class shoppingListStore {
     try {
       await this.createOrUpdateItemInShoppingList(item)
     } catch (e) {
-      this.setError(store.settingStore.language.somethingError)
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
-  private setError = (text?: string) => {
+  private error = (text?: string) => {
     runInAction(() => {
       this.feedBack = {
         status: 'error',
@@ -255,7 +294,7 @@ export default class shoppingListStore {
     })
   }
 
-  private setSuccess(text?: string) {
+  private success(text?: string) {
     runInAction(() => {
       this.feedBack = {
         status: 'success',

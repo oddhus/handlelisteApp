@@ -10,7 +10,15 @@ import {
   Tabs,
   useToast,
   Button,
-  Center, Switch, FormControl, FormLabel, VStack, Input, InputGroup, InputLeftElement, HStack,
+  Center,
+  Switch,
+  FormControl,
+  FormLabel,
+  VStack,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  HStack,
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
 import { AllRecipes } from '../components/recipes/AllRecipes'
@@ -50,6 +58,7 @@ export const Recipes: React.FC<Props> = observer(() => {
 
   return (
     <Container maxW="container.md">
+      <Toast store={shoppingListStore} />
       <Toast store={recipeStore} />
       {shoppingListStore.backToMyShoppingList && (
         <Center>
@@ -80,33 +89,36 @@ export const Recipes: React.FC<Props> = observer(() => {
             <Tab>{settingStore.language.recommendations}</Tab>
           ) : null}
         </TabList>
-        
+
         <HStack marginTop="3vh" spacing={5}>
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              children={<Search2Icon color="gray.300" />}
+            />
+            <Input
+              onChange={(e) =>
+                recipeStore.searchInRecipies(e.target.value.toLowerCase())
+              }
+              type="tel"
+              placeholder={settingStore.language.search}
+            />
+          </InputGroup>
 
-        <InputGroup>
-        <InputLeftElement
-          pointerEvents="none"
-          children={<Search2Icon color="gray.300" 
-          />}
-        />
-        <Input
-          onChange={(e) =>
-            recipeStore.searchInRecipies(e.target.value.toLowerCase())
-          }
-          type="tel"
-          placeholder={settingStore.language.search}
-        /> 
-      </InputGroup>
-
-        <FormControl display="flex" alignItems="center" width={"20%"}>
-          <Switch onChange={() => {
-            recipeStore.cardView = !recipeStore.cardView
-          }} />
-          <FormLabel htmlFor="email-alerts" mb="0" style={{ marginLeft: '10px' }}>
-            List view
-          </FormLabel>
-        </FormControl>
-        
+          <FormControl display="flex" alignItems="center" width={'20%'}>
+            <Switch
+              onChange={() => {
+                recipeStore.cardView = !recipeStore.cardView
+              }}
+            />
+            <FormLabel
+              htmlFor="email-alerts"
+              mb="0"
+              style={{ marginLeft: '10px' }}
+            >
+              List view
+            </FormLabel>
+          </FormControl>
         </HStack>
 
         <TabPanels>
