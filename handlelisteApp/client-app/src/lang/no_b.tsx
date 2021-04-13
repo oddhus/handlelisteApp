@@ -16,7 +16,7 @@ export default class Norwegian_B implements ILanguage {
   createShoppingList = 'Lag ny handleliste'
   product = 'Produkt'
   category = 'Kategori'
-  units = ['KG', 'L', 'ML', 'STK', 'PK']
+  units = ['KG', 'G', 'L', 'DL', 'ML', 'STK', 'PK', 'SS', 'TS']
   editList = 'Rediger handleliste'
   myShoppingLists = 'Mine handlelister'
   saveList = 'Lagre handleliste'
