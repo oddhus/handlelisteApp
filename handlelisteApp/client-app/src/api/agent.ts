@@ -1,10 +1,15 @@
-import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios'
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  CancelToken,
+} from 'axios'
 import { IRecipe } from '../models/recipe'
 import { Iitem, IShoppingList } from '../models/ShoppingList'
 import { IUser } from '../models/user'
 import { store } from '../stores/store'
-import {history} from "../index";
-import { useToast } from "@chakra-ui/react"
+import { history } from '../index'
+import { useToast } from '@chakra-ui/react'
 
 axios.defaults.baseURL = '/'
 
@@ -20,48 +25,54 @@ axios.interceptors.request.use((config: AxiosRequestConfig) => {
   return config
 })
 
-axios.interceptors.response.use(async ( response) => {
-  return response
-}, (error:AxiosError) => {
-  const {data, status} = error.response!;
-  
-  switch(status) {
-    //need to test if this is working
-    case 400: //bad request
-        if(typeof data === 'string'){
-          useToast({
-            title: 'Bad request',
-          })
-        }
-        if(data.errors){
-          const modalErrors = [];
-          for (const key in data.errors){
-            if(data.errors[key]){
-              modalErrors.push(data.errors[key]);
-            }
-          }
-          throw modalErrors.flat()
-        } 
-      break;
-    case 401: // unauthorised
-        store.userStore.clearAllStores()
-        history.push('/signin')
-      break;
-    case 404: // not found
-        history.push('/nomatch')
-      break;
-    case 500: //server error
-        store.commonStore.setServerError(data)
-        history.push('/server-error')
-      break;
+axios.interceptors.response.use(
+  async (response) => {
+    return response
   }
-  return Promise.reject(error)
-})
+  // (error: AxiosError) => {
+  //   if (error.response) {
+  //     const { data, status } = error.response
+
+  //     switch (status) {
+  //       //need to test if this is working
+  //       case 400: //bad request
+  //         if (typeof data === 'string') {
+  //           useToast({
+  //             title: 'Bad request',
+  //           })
+  //         }
+  //         if (data.errors) {
+  //           const modalErrors = []
+  //           for (const key in data.errors) {
+  //             if (data.errors[key]) {
+  //               modalErrors.push(data.errors[key])
+  //             }
+  //           }
+  //           throw modalErrors.flat()
+  //         }
+  //         break
+  //       case 401: // unauthorised
+  //         store.userStore.clearAllStores()
+  //         history.push('/signin')
+  //         break
+  //       case 404: // not found
+  //         history.push('/nomatch')
+  //         break
+  //       case 500: //server error
+  //         store.commonStore.setServerError(data)
+  //         history.push('/server-error')
+  //         break
+  //     }
+  //     return Promise.reject(error)
+  //   }
+  // }
+)
 
 const requests = {
   get: (url: string) => axios.get(url).then(responseBody),
   post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
-  put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
+  put: (url: string, body: {}, cancelToken?: CancelToken) =>
+    axios.put(url, body, { cancelToken }).then(responseBody),
   del: (url: string) => axios.delete(url).then(responseBody),
 }
 
@@ -75,17 +86,22 @@ const User = {
 const shoppingList = {
   postShoppingList: (shoppingList: any) =>
     requests.post('ShoppingList', shoppingList),
-  updateShoppingList: (shoppingList: IShoppingList, id: number) =>
-    requests.put('ShoppingList/' + id, shoppingList),
+  updateShoppingList: (
+    shoppingList: IShoppingList,
+    id: number,
+    cancelToken?: CancelToken
+  ) => requests.put('ShoppingList/' + id, shoppingList, cancelToken),
   getShoppingList: (id: number) => requests.get('shoppinglist/' + id),
   deleteShoppingList: (id: number) => requests.del('shoppinglist/' + id),
-  createOrUpdateItemInShoppingList: (shoppingListID: number, item: Iitem) => 
-      requests.post('shoppinglist/' + shoppingListID + '/item', item),
-  deleteItemInShoppingList: (shoppingListID: number, item: Iitem) => requests.del('shoppinglist/' + shoppingListID + '/item/' + item.itemIdentifier)
+  createOrUpdateItemInShoppingList: (shoppingListID: number, item: Iitem) =>
+    requests.post('shoppinglist/' + shoppingListID + '/item', item),
+  deleteItemInShoppingList: (shoppingListID: number, item: Iitem) =>
+    requests.del(
+      'shoppinglist/' + shoppingListID + '/item/' + item.itemIdentifier
+    ),
 }
 
 const shoppingLists = {
-  
   getShoppingLists: () => requests.get('shoppinglist'),
 }
 
@@ -100,7 +116,7 @@ const recipe = {
 const recipes = {
   getAllUserRecipes: (id: number) => requests.get('recipe/user/' + id),
   getAllRecipes: () => requests.get('recipe/all'),
-  getRecipieSuggestions: () => requests.get('recipe/suggestions')
+  getRecipieSuggestions: () => requests.get('recipe/suggestions'),
 }
 
 const myKitchen = {

@@ -7,6 +7,7 @@ import { store } from './store'
 import { IFeedback } from '../models/generalTypes'
 import { ICheckedItems } from '../models/recipe'
 import { debounce } from 'lodash'
+import axios, { CancelTokenSource } from 'axios'
 
 const emptyShoppingList = {
   shoppingListID: NaN,
@@ -24,12 +25,15 @@ export default class shoppingListStore {
   feedBack: IFeedback | null = null
   backToMyShoppingList: string | null = null
   orderHasChanged: boolean = false
+  cancelToken: CancelTokenSource | undefined = undefined
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  debouncedSave = debounce(() => this.saveShoppinglist(), 2000)
+  debouncedSave = debounce(() => {
+    this.saveShoppinglist()
+  }, 2000)
 
   resetShoppingListStoreData = () => {
     this.shoppingList = emptyShoppingList
@@ -233,6 +237,12 @@ export default class shoppingListStore {
   }
 
   saveShoppinglist = async () => {
+    if (this.cancelToken) {
+      this.cancelToken.cancel('Operation canceled due to new request.')
+    }
+
+    this.cancelToken = axios.CancelToken.source()
+
     if (this.orderHasChanged) {
       this.orderList()
       this.orderHasChanged = false
@@ -241,7 +251,8 @@ export default class shoppingListStore {
     try {
       const newList = await agent.shoppingList.updateShoppingList(
         this.shoppingList,
-        this.shoppingList.shoppingListID
+        this.shoppingList.shoppingListID,
+        this.cancelToken.token
       )
       const index = this.shoppingLists.findIndex(
         (i) => i.shoppingListID === newList.shoppingListID
@@ -251,9 +262,13 @@ export default class shoppingListStore {
         this.shoppingList = newList
       })
     } catch (e) {
-      runInAction(() => {
-        this.error(store.settingStore.language.somethingError)
-      })
+      if (axios.isCancel(e)) {
+        console.log(e)
+      } else {
+        runInAction(() => {
+          this.error(store.settingStore.language.somethingError)
+        })
+      }
     }
   }
 
