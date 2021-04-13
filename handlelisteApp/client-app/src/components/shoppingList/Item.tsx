@@ -8,8 +8,9 @@ import {
   Input,
   Box,
 } from '@chakra-ui/react'
+import { debounce } from 'lodash'
 import { observer } from 'mobx-react-lite'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd'
 import { Iitem } from '../../models/ShoppingList'
 import { useStore } from '../../stores/store'
@@ -38,6 +39,18 @@ export const Item: React.FC<Props> = observer(
       }
     }
 
+    const debouncedSave = useRef(
+      debounce(
+        () => shoppingListStore.createOrUpdateItemInShoppingList(item),
+        1000
+      )
+    ).current
+
+    const onItemNameChange = (item: Iitem, value: string) => {
+      shoppingListStore.setItemName(item, value)
+      debouncedSave()
+    }
+
     return (
       <div
         ref={provided.innerRef}
@@ -52,7 +65,6 @@ export const Item: React.FC<Props> = observer(
           boxShadow={
             snapshot.isDragging ? 'rgba(0, 0, 0, 0.15) 0px 12px 43px' : 'none'
           }
-          p={1}
         >
           <GridItem colSpan={2} alignItems="center">
             <Box
@@ -89,14 +101,13 @@ export const Item: React.FC<Props> = observer(
                 autoFocus
                 onBlur={() => {
                   setIsRead(item.itemName !== '')
-                  shoppingListStore.createOrUpdateItemInShoppingList(item)
                 }}
                 onKeyDown={(e: any) => {
                   handleKeyDown(e)
                 }}
                 value={item.itemName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  shoppingListStore.setItemName(item, e.target.value)
+                  onItemNameChange(item, e.target.value)
                 }}
               />
             )}
@@ -107,6 +118,7 @@ export const Item: React.FC<Props> = observer(
           <GridItem colSpan={[3, 2]} justifyContent="flex-end">
             <Box minW="100%" justifyContent="flex-end" display="flex">
               <IconButton
+                variant="ghost"
                 colorScheme="red"
                 aria-label="delete item"
                 size="md"

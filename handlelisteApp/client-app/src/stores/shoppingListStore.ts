@@ -206,11 +206,6 @@ export default class shoppingListStore {
       value = 0
     }
     item.quantity = value
-    try {
-      this.createOrUpdateItemInShoppingList(item)
-    } catch (e) {
-      this.error(store.settingStore.language.somethingError)
-    }
   }
 
   setItems = (items: Iitem[]) => {
@@ -229,11 +224,6 @@ export default class shoppingListStore {
           this.shoppingList.items[index].quantity +
           (increment ? 1 : item.quantity === 0 ? 0 : -1)
       })
-    }
-    try {
-      this.createOrUpdateItemInShoppingList(item)
-    } catch (e) {
-      this.error(store.settingStore.language.somethingError)
     }
   }
 

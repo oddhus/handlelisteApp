@@ -6,8 +6,9 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react'
+import { debounce } from 'lodash'
 import { observer } from 'mobx-react-lite'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Iitem } from '../../models/ShoppingList'
 import { useStore } from '../../stores/store'
 
@@ -18,24 +19,40 @@ interface Props {
 export const ItemAmount: React.FC<Props> = observer(({ item }) => {
   const { shoppingListStore } = useStore()
 
+  const debouncedSave = useRef(
+    debounce(
+      () => shoppingListStore.createOrUpdateItemInShoppingList(item),
+      1000
+    )
+  ).current
+
+  const onChangeQuantity = (item: Iitem, increment: boolean) => {
+    shoppingListStore.changeQuantity(item, increment)
+    debouncedSave()
+  }
+
+  const onSetQuantity = (item: Iitem, value: string) => {
+    shoppingListStore.setQuantity(item, parseInt(value))
+    debouncedSave()
+  }
+
   return (
     <HStack pl={[1, 5]}>
       <NumberInput
         onChange={(valueString) => {
-          shoppingListStore.setQuantity(item, parseInt(valueString))
+          onSetQuantity(item, valueString)
         }}
         value={item.quantity.toString() || 0}
         min={0}
         max={999}
-        allowMouseWheel
       >
         <NumberInputField />
         <NumberInputStepper>
           <NumberIncrementStepper
-            onClick={() => shoppingListStore.changeQuantity(item, true)}
+            onClick={() => onChangeQuantity(item, true)}
           />
           <NumberDecrementStepper
-            onClick={() => shoppingListStore.changeQuantity(item, false)}
+            onClick={() => onChangeQuantity(item, false)}
           />
         </NumberInputStepper>
       </NumberInput>
