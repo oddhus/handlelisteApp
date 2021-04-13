@@ -39,18 +39,6 @@ export const Item: React.FC<Props> = observer(
       }
     }
 
-    const debouncedSave = useRef(
-      debounce(
-        () => shoppingListStore.createOrUpdateItemInShoppingList(item),
-        1000
-      )
-    ).current
-
-    const onItemNameChange = (item: Iitem, value: string) => {
-      shoppingListStore.setItemName(item, value)
-      debouncedSave()
-    }
-
     return (
       <div
         ref={provided.innerRef}
@@ -107,7 +95,7 @@ export const Item: React.FC<Props> = observer(
                 }}
                 value={item.itemName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  onItemNameChange(item, e.target.value)
+                  shoppingListStore.onSetItemName(item, e.target.value)
                 }}
               />
             )}

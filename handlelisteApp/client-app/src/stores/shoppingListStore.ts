@@ -6,6 +6,7 @@ import { history } from '../index'
 import { store } from './store'
 import { IFeedback } from '../models/generalTypes'
 import { ICheckedItems } from '../models/recipe'
+import { debounce } from 'lodash'
 
 const emptyShoppingList = {
   shoppingListID: NaN,
@@ -22,10 +23,13 @@ export default class shoppingListStore {
   isLoading: boolean = false
   feedBack: IFeedback | null = null
   backToMyShoppingList: string | null = null
+  orderHasChanged: boolean = false
 
   constructor() {
     makeAutoObservable(this)
   }
+
+  debouncedSave = debounce(() => this.saveShoppinglist(), 2000)
 
   resetShoppingListStoreData = () => {
     this.shoppingList = emptyShoppingList
@@ -46,90 +50,21 @@ export default class shoppingListStore {
     this.backToMyShoppingList = id
   }
 
-  getShoppinglist = async (id: number) => {
-    const shoppingList = this.shoppingLists.find(
-      (shoppinglist) => shoppinglist.shoppingListID === id
+  addItem = (item: Iitem) => {
+    const itemIndex = this.shoppingList.items.findIndex(
+      (existingItem) => existingItem.itemName === item.itemName
     )
-    if (shoppingList) {
-      runInAction(() => (this.shoppingList = shoppingList))
+    //If item exists increase quantity, else add to shoppinglist
+    if (itemIndex > -1) {
+      runInAction(() => {
+        this.shoppingList.items[itemIndex].quantity =
+          this.shoppingList.items[itemIndex].quantity + item.quantity
+      })
     } else {
-      try {
-        const fetchedShoppingList = await agent.shoppingList.getShoppingList(id)
-        runInAction(() => {
-          this.shoppingList = fetchedShoppingList
-        })
-        return fetchedShoppingList
-      } catch (e) {
-        this.error(store.settingStore.language.somethingError)
-      }
-    }
-  }
-
-  fetchShoppingLists = async () => {
-    try {
-      this.isLoading = true
-      let shoppingLists = await agent.shoppingLists.getShoppingLists()
-      if (!shoppingLists) {
-        shoppingLists = []
-      }
       runInAction(() => {
-        this.shoppingLists = shoppingLists
-        this.isLoading = false
+        item.itemIdentifier = uuidv4()
+        this.shoppingList.items.push(item)
       })
-    } catch (e) {
-      this.error(store.settingStore.language.somethingError)
-    }
-  }
-
-  saveShoppinglist = async () => {
-    try {
-      const newList = await agent.shoppingList.updateShoppingList(
-        this.shoppingList,
-        this.shoppingList.shoppingListID
-      )
-      const index = this.shoppingLists.findIndex(
-        (i) => i.shoppingListID === newList.shoppingListID
-      )
-      runInAction(() => {
-        this.shoppingLists[index] = newList
-        this.shoppingList = newList
-      })
-    } catch (e) {
-      runInAction(() => {
-        this.error(store.settingStore.language.somethingError)
-      })
-    }
-  }
-
-  createOrUpdateItemInShoppingList = async (item: Iitem) => {
-    if (item.itemName === '') return
-    try {
-      await agent.shoppingList.createOrUpdateItemInShoppingList(
-        this.shoppingList.shoppingListID,
-        item
-      )
-    } catch (e) {
-      this.error(store.settingStore.language.somethingError)
-    }
-  }
-
-  setOrder = () => {
-    const newList = this.shoppingList.items.map((item, i) => ({
-      ...item,
-      order: i,
-    }))
-    this.shoppingList.items = newList
-    this.saveShoppinglist()
-  }
-
-  deleteItemInShoppingList = async (item: Iitem) => {
-    try {
-      await agent.shoppingList.deleteItemInShoppingList(
-        this.shoppingList.shoppingListID,
-        item
-      )
-    } catch (e) {
-      this.error(store.settingStore.language.somethingError)
     }
   }
 
@@ -169,18 +104,12 @@ export default class shoppingListStore {
       }
     })
     this.success(store.settingStore.language.recipeAddedToShoppingList)
-    this.saveShoppinglist()
+    this.debouncedSave()
     store.modalStore.closeModal()
     if (this.backToMyShoppingList && returnToList) {
       history.push(`/shopping-list/${this.backToMyShoppingList}`)
       this.resetBackToShoppingList()
     }
-  }
-
-  setCurrentShoppingList = (shoppingList: IShoppingList) => {
-    runInAction(() => {
-      this.shoppingList = shoppingList
-    })
   }
 
   deleteShoppingList = async (listToDelete: IShoppingList) => {
@@ -201,39 +130,38 @@ export default class shoppingListStore {
     }
   }
 
-  setQuantity = (item: Iitem, value: number) => {
-    if (!value) {
-      value = 0
-    }
-    item.quantity = value
-  }
-
-  setItems = (items: Iitem[]) => {
-    runInAction(() => {
-      this.shoppingList.items = items
-    })
-  }
-
-  changeQuantity = (item: Iitem, increment: boolean) => {
-    if (item.quantity >= 0) {
-      const index = this.shoppingList.items.findIndex(
-        (foundItem) => foundItem === item
-      )
+  fetchShoppingLists = async () => {
+    try {
+      this.isLoading = true
+      let shoppingLists = await agent.shoppingLists.getShoppingLists()
+      if (!shoppingLists) {
+        shoppingLists = []
+      }
       runInAction(() => {
-        this.shoppingList.items[index].quantity =
-          this.shoppingList.items[index].quantity +
-          (increment ? 1 : item.quantity === 0 ? 0 : -1)
+        this.shoppingLists = shoppingLists
+        this.isLoading = false
       })
+    } catch (e) {
+      this.error(store.settingStore.language.somethingError)
     }
   }
 
-  setItemName = (item: Iitem, name: string) => {
-    const index = this.shoppingList.items.findIndex(
-      (foundItem) => foundItem === item
+  getShoppinglist = async (id: number) => {
+    const shoppingList = this.shoppingLists.find(
+      (shoppinglist) => shoppinglist.shoppingListID === id
     )
-    runInAction(() => {
-      this.shoppingList.items[index].itemName = name
-    })
+    if (shoppingList) {
+      this.shoppingList = shoppingList
+    } else {
+      try {
+        const fetchedShoppingList = await agent.shoppingList.getShoppingList(id)
+        runInAction(() => {
+          this.shoppingList = fetchedShoppingList
+        })
+      } catch (e) {
+        this.error(store.settingStore.language.somethingError)
+      }
+    }
   }
 
   insertEmptyItem = () => {
@@ -250,65 +178,106 @@ export default class shoppingListStore {
     })
   }
 
-  addItem = (item: Iitem) => {
-    const itemIndex = this.shoppingList.items.findIndex(
-      (existingItem) => existingItem.itemName === item.itemName
-    )
-    //If item exists increase quantity, else add to shoppinglist
-    if (itemIndex > -1) {
-      runInAction(() => {
-        this.shoppingList.items[itemIndex].quantity =
-          this.shoppingList.items[itemIndex].quantity + item.quantity
-      })
-    } else {
-      runInAction(() => {
-        item.itemIdentifier = uuidv4()
-        this.shoppingList.items.push(item)
-      })
+  onChangeQuantity = (item: Iitem, increment: boolean) => {
+    if (item.quantity >= 0) {
+      item.quantity =
+        item.quantity + (increment ? 1 : item.quantity === 0 ? 0 : -1)
+      this.debouncedSave()
     }
+  }
+
+  onChecked = (item: Iitem) => {
+    item.hasBeenBought = !item.hasBeenBought
+    this.debouncedSave()
   }
 
   onDeleteItem = (item: Iitem) => {
     this.shoppingList.items = this.shoppingList.items.filter(
       (foundItem) => foundItem !== item
     )
-    this.deleteItemInShoppingList(item)
+    this.debouncedSave()
   }
 
-  onChecked = async (item: Iitem) => {
-    item.hasBeenBought = !item.hasBeenBought
-    try {
-      await this.createOrUpdateItemInShoppingList(item)
-    } catch (e) {
-      this.error(store.settingStore.language.somethingError)
+  onSetItemName = (item: Iitem, name: string) => {
+    item.itemName = name
+    this.debouncedSave()
+  }
+
+  onSetQuantity = (item: Iitem, value: number) => {
+    if (!value) {
+      value = 0
     }
+    item.quantity = value
+    this.debouncedSave()
   }
 
-  private error = (text?: string) => {
-    runInAction(() => {
-      this.feedBack = {
-        status: 'error',
-        text,
-      }
-      this.isLoading = false
-    })
+  onUpdateOrder = () => {
+    this.orderHasChanged = true
+    this.debouncedSave()
   }
 
-  private success(text?: string) {
-    runInAction(() => {
-      this.feedBack = {
-        status: 'success',
-        text,
-      }
-      this.isLoading = false
-    })
+  orderList = () => {
+    const newList = this.shoppingList.items.map((item, i) => ({
+      ...item,
+      order: i,
+    }))
+    this.shoppingList.items = newList
+  }
+
+  resetFeedBack = () => {
+    this.feedBack = null
   }
 
   resetShoppingList = () => {
     this.shoppingList = emptyShoppingList
   }
 
-  resetFeedBack = () => {
-    this.feedBack = null
+  saveShoppinglist = async () => {
+    if (this.orderHasChanged) {
+      this.orderList()
+      this.orderHasChanged = false
+    }
+
+    try {
+      const newList = await agent.shoppingList.updateShoppingList(
+        this.shoppingList,
+        this.shoppingList.shoppingListID
+      )
+      const index = this.shoppingLists.findIndex(
+        (i) => i.shoppingListID === newList.shoppingListID
+      )
+      runInAction(() => {
+        this.shoppingLists[index] = newList
+        this.shoppingList = newList
+      })
+    } catch (e) {
+      runInAction(() => {
+        this.error(store.settingStore.language.somethingError)
+      })
+    }
+  }
+
+  setCurrentShoppingList = (shoppingList: IShoppingList) => {
+    this.shoppingList = shoppingList
+  }
+
+  setItems = (items: Iitem[]) => {
+    this.shoppingList.items = items
+  }
+
+  private error = (text?: string) => {
+    this.feedBack = {
+      status: 'error',
+      text,
+    }
+    this.isLoading = false
+  }
+
+  private success(text?: string) {
+    this.feedBack = {
+      status: 'success',
+      text,
+    }
+    this.isLoading = false
   }
 }
