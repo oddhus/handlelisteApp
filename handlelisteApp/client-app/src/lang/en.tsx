@@ -17,7 +17,7 @@ export default class English implements ILanguage {
   createShoppingList = 'Create shopping list'
   product = 'Product'
   category = 'Category'
-  units = ['PCS', 'KG', 'L', 'ML', 'PCK']
+  units = ['PCS', 'PCK', 'KG', 'G', 'L', 'DL', 'ML', 'TBSP', 'TSP']
   editList = 'Edit shopping list'
   myShoppingLists = 'My shopping lists'
   saveList = 'Save shopping list'
