@@ -31,15 +31,14 @@ export const RecipeListItem: React.FC<Props> = observer(
       <Grid
         templateColumns="repeat(18, 1fr)"
         gap={2}
-        maxH="100%"
         rounded="md"
-        boxShadow="lg"
+        boxShadow="md"
         _hover={{
           boxShadow: 'rgba(0, 0, 0, 0.15) 0px 18px 43px',
           cursor: 'pointer',
         }}
       >
-        <GridItem colSpan={6} alignItems="center">
+        <GridItem colSpan={[6, 4]} alignItems="center">
           <Box
             display="flex"
             justifyContent="flex-start"
@@ -62,7 +61,7 @@ export const RecipeListItem: React.FC<Props> = observer(
           </Box>
         </GridItem>
 
-        <GridItem maxH="100%" colSpan={[12]} pr={2}>
+        <GridItem maxH="100%" colSpan={[12, 14]} pr={2}>
           <Grid templateColumns="repeat(12, 1fr)" maxH="100%">
             <GridItem colSpan={10}>
               <Box
@@ -71,7 +70,7 @@ export const RecipeListItem: React.FC<Props> = observer(
                 alignItems="center"
                 minW="100%"
               >
-                <VStack spacing={0}>
+                <VStack spacing={2}>
                   <Box minW="100%" maxW="100%">
                     <HStack spacing={2} pt={1}>
                       <Heading
@@ -82,13 +81,10 @@ export const RecipeListItem: React.FC<Props> = observer(
                       >
                         {recipe.recipeName}
                       </Heading>
-                      <IconButton
-                        backgroundColor="white"
-                        aria-label="save recipe"
+
+                      <StarIcon
+                        color={liked ? 'yellow.500' : '#CDCDCD'}
                         onClick={() => setLiked(!liked)}
-                        icon={
-                          <StarIcon color={liked ? 'yellow.500' : 'grey.500'} />
-                        }
                       />
                     </HStack>
                   </Box>
@@ -106,9 +102,9 @@ export const RecipeListItem: React.FC<Props> = observer(
               <Box
                 display="flex"
                 justifyContent="flex-end"
-                alignItems="center"
                 minW="100%"
-                py={2}
+                minH="100%"
+                pt={3}
               >
                 <RecipeActionButtons
                   recipe={recipe}

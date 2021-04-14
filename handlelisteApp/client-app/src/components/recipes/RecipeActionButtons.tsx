@@ -11,6 +11,8 @@ import {
   MenuButton,
   Menu,
   MenuItem,
+  Box,
+  background,
 } from '@chakra-ui/react'
 import {
   AddIcon,
@@ -61,16 +63,15 @@ export const RecipeActionButtons: React.FC<Props> = observer(
           <Fragment>
             {(editable || deleteable) && (
               <Menu>
-                <MenuButton>
-                  <IconButton
-                    variant="outline"
-                    colorScheme="teal"
-                    aria-label="Owner menu"
-                    size={iconSize || 'md'}
-                    icon={<HamburgerIcon />}
-                  />
-                </MenuButton>
-                <MenuList width="16">
+                <MenuButton
+                  as={IconButton}
+                  variant="outline"
+                  colorScheme="brand"
+                  aria-label="Owner menu"
+                  size={iconSize || 'md'}
+                  icon={<HamburgerIcon />}
+                />
+                <MenuList>
                   {editable && (
                     <MenuItem
                       onClick={() =>
@@ -135,9 +136,13 @@ export const RecipeActionButtons: React.FC<Props> = observer(
     return (
       <Fragment>
         {vertical ? (
-          <VStack justify="flex-end">{allButtons}</VStack>
+          <VStack display="flex" justify="space-between">
+            {allButtons}
+          </VStack>
         ) : (
-          <HStack justify="flex-end">{allButtons}</HStack>
+          <HStack justify="flex-end" spacing={1}>
+            {allButtons}
+          </HStack>
         )}
       </Fragment>
     )
