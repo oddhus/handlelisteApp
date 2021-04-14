@@ -12,7 +12,11 @@ namespace handlelisteApp.Mappings.Profiles
     {
         public RecipeProfile()
         {
-            CreateMap<Recipe, RecipeDTO>();
+            CreateMap<Recipe, RecipeDTO>()
+                .ForMember(r => r.IsOwner, opt =>
+                    {
+                        opt.MapFrom((src, dest, destVal, ctx) => ctx.Items["UserId"].Equals(src.UserID));
+                    });
         }
     }
 }

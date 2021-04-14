@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Text, Box, Flex, Image, Tag, VStack } from '@chakra-ui/react'
+import { Text, Box, Flex, Image, VStack } from '@chakra-ui/react'
 import { IRecipe } from '../../models/recipe'
 import { useHistory } from 'react-router-dom'
 import { RecipeActionButtons } from './RecipeActionButtons'
@@ -21,7 +21,16 @@ const RecipeCard: React.FC<Props> = ({
   const history = useHistory()
 
   return (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+    <Box
+      maxW="sm"
+      borderWidth="1px"
+      borderRadius="lg"
+      overflow="hidden"
+      _hover={{
+        boxShadow: 'rgba(0, 0, 0, 0.15) 0px 18px 43px',
+        cursor: 'pointer',
+      }}
+    >
       <Image
         src={
           recipe.imgUrl
@@ -33,6 +42,9 @@ const RecipeCard: React.FC<Props> = ({
         overflow="hidden"
         height="150px"
         width="100%"
+        onClick={() => {
+          history.push(`/recipes/${recipe.recipeID}`)
+        }}
       />
       <Box p={4}>
         <VStack spacing={3}>

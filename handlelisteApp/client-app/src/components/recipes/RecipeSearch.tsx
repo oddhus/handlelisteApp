@@ -1,25 +1,5 @@
-import {
-  AddIcon,
-  EditIcon,
-  ExternalLinkIcon,
-  HamburgerIcon,
-  RepeatIcon,
-  Search2Icon,
-} from '@chakra-ui/icons'
-import {
-  InputGroup,
-  InputLeftElement,
-  Input,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Checkbox,
-  Box,
-  MenuItemOption,
-  MenuOptionGroup,
-} from '@chakra-ui/react'
+import { Search2Icon } from '@chakra-ui/icons'
+import { InputGroup, InputLeftElement, Input } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { useStore } from '../../stores/store'
@@ -42,7 +22,7 @@ export const RecipeSearch: React.FC<Props> = observer(() => {
           }
           type="tel"
           placeholder={settingStore.language.search}
-        /> 
+        />
         {/*
         <Box mt={'1vh'} ml={'0.5vw'}>
           <Menu closeOnSelect={false}>
@@ -63,7 +43,7 @@ export const RecipeSearch: React.FC<Props> = observer(() => {
         </Box>
                 */}
       </InputGroup>
-      <RecipeList editable={false} deleteable={false} />
+      <RecipeList />
     </div>
   )
 })

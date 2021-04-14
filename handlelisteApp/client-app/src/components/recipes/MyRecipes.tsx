@@ -13,7 +13,7 @@ export const MyRecipes: React.FC<Props> = observer(() => {
 
   return (
     <VStack>
-      <RecipeList editable={true} deleteable={true} />
+      <RecipeList />
       {!recipeStore.loading && recipeStore.currentRecipeList.length === 0 && (
         <Button onClick={() => history.push('/create-recipe')}>
           {settingStore.language.createRecipe}

@@ -5,5 +5,5 @@ import { RecipeList } from './RecipeList'
 interface Props {}
 
 export const AllRecipes: React.FC<Props> = observer(() => {
-  return <RecipeList editable={false} deleteable={false} />
+  return <RecipeList />
 })

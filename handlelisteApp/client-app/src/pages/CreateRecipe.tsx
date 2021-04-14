@@ -128,9 +128,12 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
         onSubmit={async (values, actions) => {
           console.log(values)
           if (recipeId) {
-            recipeStore.updateRecipe(values, parseInt(recipeId))
+            recipeStore.updateRecipe(
+              { ...values, isOwner: true },
+              parseInt(recipeId)
+            )
           } else {
-            recipeStore.createRecipe(values)
+            recipeStore.createRecipe({ ...values, isOwner: true })
           }
         }}
         validationSchema={SignupSchema}

@@ -8,7 +8,6 @@ import {
   Input,
   Box,
 } from '@chakra-ui/react'
-import { debounce } from 'lodash'
 import { observer } from 'mobx-react-lite'
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd'

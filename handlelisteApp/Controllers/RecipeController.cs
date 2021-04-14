@@ -25,13 +25,13 @@ namespace handlelisteApp.Controllers
         [HttpGet("all")]
         public IEnumerable<RecipeDTO> GetAllRecipes()
         {
-            return _recipeService.GetAllRecipes();
+            return _recipeService.GetAllRecipes(GetUserId());
         }
 
         [HttpGet("{id:int}")]
         public ActionResult<RecipeDTO> GetRecipe(int id)
         {
-            RecipeDTO recipe = _recipeService.GetRecipeById(id);
+            RecipeDTO recipe = _recipeService.GetRecipeById(id, GetUserId());
             if (recipe == null)
             {
                 return NotFound();
@@ -119,7 +119,15 @@ namespace handlelisteApp.Controllers
 
         private int GetUserId()
         {
-            return Int32.Parse(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var id = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (id != null)
+            {
+                return Int32.Parse(id);
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }

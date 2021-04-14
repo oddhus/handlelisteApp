@@ -12,6 +12,7 @@ namespace handlelisteApp.Models.DTO
         public string ShortDescription { get; set; }
         public string Approach { get; set; }
         public string ImgUrl { get; set; }
+        public bool IsOwner { get; set; }
         public List<ItemInRecipeDTO> Items { get; set; }
     }
 }

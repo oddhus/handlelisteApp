@@ -4,6 +4,7 @@ export interface IRecipe {
   shortDescription: string
   approach: string
   imgUrl: string
+  isOwner: boolean
   items: IitemInRecipe[]
 }
 

@@ -28,8 +28,7 @@ namespace handlelisteApp.Services
         {
             Recipe newRecipe = RecipeFromRecipeDTO(recipe, userId);
 
-            return _mapper.Map<RecipeDTO>(_repository.AddRecipe(newRecipe));
-
+            return _mapper.Map<RecipeDTO>(_repository.AddRecipe(newRecipe), opt => opt.Items["UserId"] = userId);
         }
 
         private Recipe RecipeFromRecipeDTO(RecipeDTO recipe, int userId)
@@ -73,68 +72,25 @@ namespace handlelisteApp.Services
             return true;
         }
 
-        public IEnumerable<RecipeDTO> GetAllRecipes()
+        public IEnumerable<RecipeDTO> GetAllRecipes(int userId)
         {
-            IEnumerable<Recipe> recipes = _repository.GetAllRecipes();
-            //Can't get mapper to include items -> manual mapping
-            List<RecipeDTO> recipeDTOs = new List<RecipeDTO>();
-            foreach (Recipe recipe in recipes)
-            {
-                recipeDTOs.Add(convertRecipeToRecipeDTO(recipe));
-            }
-
-            return _mapper.Map<List<RecipeDTO>>(_repository.GetAllRecipes());
+            return _mapper.Map<List<RecipeDTO>>(_repository.GetAllRecipes(), opt => opt.Items["UserId"] = userId);
         }
 
         public List<RecipeDTO> GetAllByUserIdRecipes(int userId)
         {
-            return _mapper.Map<List<RecipeDTO>>(_repository.GetAllUserRecipes(userId));
+            return _mapper.Map<List<RecipeDTO>>(_repository.GetAllUserRecipes(userId), opt => opt.Items["UserId"] = userId);
         }
 
-        private List<RecipeDTO> convertRecipeListToRecipeDTOList(List<Recipe> recipes)
+        public RecipeDTO GetRecipeById(int recipeId, int userId)
         {
-            List<RecipeDTO> recipeDTOs = new List<RecipeDTO>();
-            foreach (Recipe recipe in recipes)
-            {
-                recipeDTOs.Add(convertRecipeToRecipeDTO(recipe));
-            }
-            return recipeDTOs;
-        }
-
-        private RecipeDTO convertRecipeToRecipeDTO(Recipe recipe)
-        {
-            RecipeDTO recipeDTO = new RecipeDTO() { RecipeID = recipe.RecipeID, RecipeName = recipe.RecipeName, Approach = recipe.Approach, ShortDescription = recipe.ShortDescription, ImgUrl = recipe.ImgUrl, Items = new List<ItemInRecipeDTO>() };
-            foreach (ItemInRecipe itemInRecipe in recipe.Items)
-            {
-                recipeDTO.Items.Add(new ItemInRecipeDTO() { ItemName = itemInRecipe.Item.ItemName, Quantity = itemInRecipe.Quantity, Unit = itemInRecipe.Unit });
-            }
-            return recipeDTO;
-        }
-
-        public RecipeDTO GetRecipeById(int id)
-        {
-            Recipe recipe = _repository.GetRecipeById(id);
+            Recipe recipe = _repository.GetRecipeById(recipeId);
             if (recipe == null)
             {
                 return null;
             }
             //return convertRecipeToRecipeDTO(recipe);
-            return _mapper.Map<RecipeDTO>(recipe);
-        }
-
-        public IEnumerable<RecipeDTO> GetRecipesMatchingBasedOnItemsInMyKitchen(MyKitchen kitchen)
-        {
-            List<Item> ItemsInMyKitchen = kitchen.ItemsInMyKitchen.Select(i => i.Item).ToList();
-
-            List<Recipe> matches = new List<Recipe>();
-
-            foreach (ItemInMyKitchen item in kitchen.ItemsInMyKitchen)
-            {
-                IEnumerable<Recipe> matchForItem = _repository.GetAllRecipesUsingItem(item.Item);
-                matches.AddRange(matchForItem);
-            }
-
-            return _mapper.Map<List<RecipeDTO>>(matches);
+            return _mapper.Map<RecipeDTO>(recipe, opt => opt.Items["UserId"] = userId);
         }
 
         public List<RecipeDTO> GetRecipeMatchesBasedOnUsersShoppingLists(int userId)
@@ -148,7 +104,7 @@ namespace handlelisteApp.Services
 
             List<Recipe> matches = new List<Recipe>();
 
-            foreach(Item item in ListOfAllItemsBought)
+            foreach (Item item in ListOfAllItemsBought)
             {
                 IEnumerable<Recipe> matchForItem = _repository.GetAllRecipesUsingItem(item);
                 matches.AddRange(matchForItem);
@@ -156,7 +112,7 @@ namespace handlelisteApp.Services
 
             matches = matches.Distinct().ToList();
 
-            return _mapper.Map<List<RecipeDTO>>(matches);
+            return _mapper.Map<List<RecipeDTO>>(matches, opt => opt.Items["UserId"] = userId);
         }
 
         public IEnumerable<RecipeDTO> GetRecipesUsingItem(Item item)
@@ -204,19 +160,19 @@ namespace handlelisteApp.Services
 
             storedRecipe = _repository.UpdateRecipe(recipeId, storedRecipe);
 
-            return _mapper.Map<RecipeDTO>(storedRecipe);
+            return _mapper.Map<RecipeDTO>(storedRecipe, opt => opt.Items["UserId"] = userId);
         }
 
         public List<RecipeDTO> GetSavedRecipes(int userId)
         {
-            return _mapper.Map<List<RecipeDTO>>(_repository.GetSavedRecipes(userId));
+            return _mapper.Map<List<RecipeDTO>>(_repository.GetSavedRecipes(userId), opt => opt.Items["UserId"] = userId);
 
         }
 
         public SavedRecipeDTO SaveRecipe(int userId, int recipeId)
         {
             List<RecipeDTO> recipes = GetSavedRecipes(userId);
-            if(recipes.Any(r => r.RecipeID == recipeId))
+            if (recipes.Any(r => r.RecipeID == recipeId))
             {
                 return _mapper.Map<SavedRecipeDTO>(_repository.GetSavedRecipeByRecipeIdAndUserId(userId, recipeId));
             }

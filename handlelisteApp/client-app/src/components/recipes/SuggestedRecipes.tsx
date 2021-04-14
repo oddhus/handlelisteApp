@@ -30,7 +30,7 @@ export const SuggestedRecipes: React.FC<Props> = observer(() => {
           />
         </Tooltip>
       </HStack>
-      <RecipeList editable={false} deleteable={false} />
+      <RecipeList />
     </VStack>
   )
 })
