@@ -13,8 +13,8 @@ export const NavBarContainer: React.FC = ({ children, ...props }) => {
       p={4}
       pr={8}
       pl={8}
-      bg={['teal.600', 'transparent', 'transparent', 'transparent']}
-      color={['white', 'teal.700', 'teal.700', 'teal.700']}
+      bg={'teal.600'}
+      color={'white'}
       borderBottom="1px"
       borderBottomColor="teal.800"
       {...props}

@@ -74,23 +74,23 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
         <Center>
           <ButtonGroup isAttached>
             <Button
-              colorScheme="green"
-              leftIcon={<AddIcon />}
+            colorScheme="brand"
+              leftIcon={<AddIcon/>}
               onClick={() => {
-                onClickNewShoppingList(false)
+                onClickNewShoppingList(false) 
               }}
             >
               {settingStore.language.newShoppingList}
             </Button>
             <Menu>
               <MenuButton
-                backgroundColor="green.100"
-                _hover={{ backgroundColor: 'green.200' }}
-                _active={{ backgroundColor: 'green.300' }}
-                border="1px"
-                borderColor="green.500"
+              backgroundColor="#539495"
+              _hover={{ backgroundColor: 'teal.600' }}
+              _active={{ backgroundColor: 'teal.800' }}
+              border="1px"
+              borderColor="teal.500"
                 as={IconButton}
-                icon={<ChevronDownIcon />}
+                icon={<ChevronDownIcon color="white"/>}
               ></MenuButton>
               <MenuList>
                 <MenuItem onClick={() => onClickNewShoppingList(true)}>
@@ -166,6 +166,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
                     <Flex justify="flex-end">
                       <IconButton
                         colorScheme="red"
+                        variant="ghost"
                         aria-label="Call Segun"
                         size="md"
                         className="edit"

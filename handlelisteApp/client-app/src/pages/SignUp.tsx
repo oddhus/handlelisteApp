@@ -78,7 +78,7 @@ export const SignUp: React.FC<Props> = observer(() => {
                         <InputText placeholder={settingStore.language.password} 
                                    name='password' label={settingStore.language.password} type='password'/>
                         <Button
-                            colorScheme="green"    
+                            colorScheme="brand"    
                             type='submit'
                             style={{ marginTop: '10px'}}
                             aria-label={settingStore.language.signUp}

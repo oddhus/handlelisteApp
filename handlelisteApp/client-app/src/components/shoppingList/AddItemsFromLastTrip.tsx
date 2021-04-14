@@ -93,7 +93,7 @@ export const AddItemsFromLastTrip: React.FC<Props> = observer(() => {
                 >
                   <Checkbox
                     isChecked={item.isChecked}
-                    colorScheme="green"
+                    colorScheme="brand"
                     size="lg"
                     onChange={() => onChecked(item)}
                   />
@@ -117,7 +117,7 @@ export const AddItemsFromLastTrip: React.FC<Props> = observer(() => {
           >
             {settingStore.language.noThanks}
           </Button>
-          <Button colorScheme="green" onClick={() => addItemsToShoppingList()}>
+          <Button colorScheme="brand" onClick={() => addItemsToShoppingList()}>
             {settingStore.language.add}
           </Button>
         </HStack>

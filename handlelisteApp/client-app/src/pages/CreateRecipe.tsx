@@ -377,7 +377,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                 <Button
                   paddingX={5}
                   mt={4}
-                  colorScheme="green"
+                  colorScheme="brand"
                   isLoading={recipeStore.loading}
                   type="submit"
                 >

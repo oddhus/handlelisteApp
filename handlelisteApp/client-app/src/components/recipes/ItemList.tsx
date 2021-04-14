@@ -62,7 +62,7 @@ export const ItemList: React.FC<Props> = observer(
                     <Checkbox
                       defaultChecked
                       onChange={() => onChecked(item)}
-                      colorScheme="green"
+                      colorScheme="brand"
                     />
                   </Td>
                 )}

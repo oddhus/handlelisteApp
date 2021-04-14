@@ -45,7 +45,7 @@ export const RecipeActionButtons: React.FC<Props> = observer(
             fontSize="md"
           >
             <IconButton
-              colorScheme="green"
+              colorScheme="brand"
               variant="outline"
               aria-label="Add recipe"
               size={iconSize || 'md'}

@@ -133,13 +133,13 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
           <AddItem />
           <Menu>
             <MenuButton
-              backgroundColor="green.100"
-              _hover={{ backgroundColor: 'green.200' }}
-              _active={{ backgroundColor: 'green.300' }}
+              backgroundColor="#539495"
+              _hover={{ backgroundColor: 'teal.600' }}
+              _active={{ backgroundColor: 'teal.800' }}
               border="1px"
-              borderColor="green.500"
+              borderColor="teal.500"
               as={IconButton}
-              icon={<ChevronDownIcon />}
+              icon={<ChevronDownIcon size="300px" color="white"/>}
             ></MenuButton>
             <MenuList>
               <MenuItem onClick={() => sendToRecipes()}>

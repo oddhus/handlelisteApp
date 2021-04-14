@@ -111,7 +111,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
                 !selectedShoppingList && !shoppingListStore.backToMyShoppingList
               }
               onClick={() => onAddToShoppingList(false)}
-              colorScheme="green"
+              colorScheme="brand"
             >
               {settingStore.language.add}
             </Button>
@@ -122,7 +122,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
                   !shoppingListStore.backToMyShoppingList
                 }
                 onClick={() => onAddToShoppingList(true)}
-                colorScheme="green"
+                colorScheme="brand"
               >
                 Add and return
               </Button>

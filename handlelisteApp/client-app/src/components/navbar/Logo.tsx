@@ -10,7 +10,7 @@ export const Logo = (props: any) => {
         to="/shopping-list"
         style={{ textDecoration: 'none' }}
       >
-        <Text fontSize="md" fontWeight="bold">
+        <Text fontSize="md" fontWeight="bold" color="white">
           ShoppingList
         </Text>
       </Link>

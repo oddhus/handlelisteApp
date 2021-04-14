@@ -35,15 +35,16 @@ const MenuLinks: React.FC<Props> = ({ isOpen, setIsOpen }) => {
     <Menu>
       <MenuButton
         as={Button}
+        variant="link"
         rightIcon={<ChevronDownIcon />}
         fontWeight="normal"
-        colorScheme="teal"
+        color="white"
       >
         {settingStore.isEnglish ? 'Account' : 'Konto'}
       </MenuButton>
       <MenuList>
         {userSettings.map((route) => (
-          <MenuItemChakra as={Link} to={route.path} key={route.path}>
+          <MenuItemChakra as={Link} to={route.path} key={route.path} color="teal.900">
             {settingStore.isEnglish ? route.nameEn : route.nameNo}
           </MenuItemChakra>
         ))}
@@ -52,6 +53,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen, setIsOpen }) => {
             setIsOpen(false)
             userStore.logout()
           }}
+          color="teal.900"
         >
           {settingStore.isEnglish ? 'Logout' : 'Logg ut'}
         </MenuItemChakra>

@@ -70,7 +70,7 @@ export const SignIn: React.FC<Props> = observer(() => {
                             <Button
                                 data-testid="login-Button"
                                 style={{marginTop: '10px'}}
-                                colorScheme='green' type='submit'
+                                colorScheme='brand' type='submit'
                                 isLoading={userStore.loading}
                             >{settingStore.language.login}</Button>
                         </Form>

@@ -64,7 +64,7 @@ export const Item: React.FC<Props> = observer(
               <Checkbox
                 isChecked={item.hasBeenBought}
                 onChange={() => shoppingListStore.onChecked(item)}
-                colorScheme="green"
+                colorScheme="brand"
                 size="lg"
               />
             </Box>

@@ -38,7 +38,7 @@ export const SelectShoppingList: React.FC<Props> = observer(
               <Text>{settingStore.language.noShoppingListFound}</Text>
               <Button
                 variant="outline"
-                colorScheme="green"
+                colorScheme="brand"
                 onClick={() => {
                   modalStore.closeModal()
                   history.push('/shopping-list/new-shopping-list')

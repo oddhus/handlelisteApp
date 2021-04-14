@@ -14,7 +14,7 @@ export const AddItem: React.FC<Props> = () => {
       aria-label={settingStore.language.add}
       onClick={() => shoppingListStore.insertEmptyItem()}
       leftIcon={<AddIcon />}
-      colorScheme="green"
+      colorScheme="brand"
     >
       {settingStore.language.addItem}
     </Button>

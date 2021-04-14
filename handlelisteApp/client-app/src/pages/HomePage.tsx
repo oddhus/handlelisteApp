@@ -31,7 +31,7 @@ export const HomePage: React.FC<Props> = observer(() => {
           <ButtonGroup>
             <Button
               size="lg"
-              colorScheme="green"
+              colorScheme="brand"
               mt="24px"
               onClick={() => modalStore.openModal(<SignIn />)}
             >
