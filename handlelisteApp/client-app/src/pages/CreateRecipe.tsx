@@ -13,13 +13,12 @@ import {
   Select,
   Stack,
   Textarea,
-  useToast,
+  Image
 } from '@chakra-ui/react'
 import {
   Field,
   FieldArray,
   FieldProps,
-  ErrorMessage,
   Form,
   Formik,
   FormikProps,
@@ -32,6 +31,7 @@ import * as Yup from 'yup'
 import { AddIcon, CloseIcon } from '@chakra-ui/icons'
 import { observer } from 'mobx-react-lite'
 import { Toast } from '../components/shared/Toast'
+import ImageUploader from "../components/shared/ImageUpload/ImageUploader";
 
 interface Props {}
 
@@ -59,13 +59,13 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
   })
 
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
-  const { recipeStore, settingStore } = useStore()
+  const { recipeStore, settingStore, modalStore} = useStore()
 
   useEffect(() => {
     if (recipeId) {
       recipeStore.getRecipe(parseInt(recipeId))
     }
-  }, [recipeId, recipeStore])
+  }, [recipeId, recipeStore, recipeStore.currentCroppedImage])
 
   useEffect(() => {
     if (
@@ -126,7 +126,6 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
         enableReinitialize
         initialValues={initialValues}
         onSubmit={async (values, actions) => {
-          console.log(values)
           if (recipeId) {
             recipeStore.updateRecipe(
               { ...values, isOwner: true },
@@ -142,6 +141,9 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
           const { values, isSubmitting, errors, touched } = props
           return (
             <Form>
+              {recipeStore.currentCroppedImage && 
+                  <Image src={URL.createObjectURL(recipeStore.currentCroppedImage)}/>
+              }
               <Field name="recipeName">
                 {({ form, field }: FieldProps) => (
                   <FormControl
@@ -390,6 +392,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
           )
         }}
       </Formik>
+      <Button onClick={() => modalStore.openModal(<ImageUploader/>)}>Add Photo</Button>
     </Container>
   )
 })

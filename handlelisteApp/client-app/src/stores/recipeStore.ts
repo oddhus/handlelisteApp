@@ -18,6 +18,10 @@ export default class RecipeStore {
   recipieSuggestions: IRecipe[] | undefined = undefined
   feedBack: IFeedback | null = null
   cardView: boolean = true
+  uploading = false
+  currentCroppedImage: Blob | undefined = undefined
+  uploadedImageUrl: string = ''
+
 
   constructor() {
     makeAutoObservable(this)
@@ -133,7 +137,8 @@ export default class RecipeStore {
 
   createRecipe = async (recipe: IRecipe) => {
     this.resetAndStartLoading()
-
+    this.currentCroppedImage &&  await this.upLoadPhoto(this.currentCroppedImage)
+    recipe.imgUrl = this.uploadedImageUrl
     try {
       const newRecipe = await agent.recipe.postRecipe(recipe)
 
@@ -346,5 +351,25 @@ export default class RecipeStore {
 
   resetFeedBack = () => {
     this.feedBack = null
+  }
+  
+  upLoadPhoto = async (file:Blob) =>{
+    if (!file) return ''
+    const formData = new FormData();
+    formData.append('file', file);
+
+    formData.append('upload_preset', 'or5l9i0k');
+    const options = {
+      method: 'POST',
+      body: formData,
+    };
+    try {
+      return fetch('https://api.Cloudinary.com/v1_1/superszura/image/upload', options)
+          .then(res => res.json())
+          .then(res => this.uploadedImageUrl = res.secure_url.toString())
+          .catch(err => err);
+    }catch (error) {
+      return ''
+    }
   }
 }
