@@ -20,14 +20,14 @@ steps:
       versionSpec: 10.14.2
     displayName: "Install Node.js"
 
-- task: CacheBeta@1
+- task: Cache@2
   inputs:
     key: 'npm | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
     path: '$(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
     cacheHitVar: 'CacheRestored'
   displayName: Cache node_modules
 
-- task: CacheBeta@1
+- task: Cache@2
   inputs:
     key: 'cypress | $(Agent.OS) | package-lock.json'
     path: '$(LOCALAPPDATA)/Cypress'
