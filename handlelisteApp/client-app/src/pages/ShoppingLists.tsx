@@ -141,7 +141,6 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
                       )
                     }}
                     cursor="pointer"
-                    minH="100%"
                     display="flex"
                     alignItems="center"
                   >
