@@ -22,16 +22,16 @@ steps:
 
   - task: Cache@2
     inputs:
-      key: 'npm | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
-      path: '$(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
+      key: npm | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json
+      path: ./handlelisteApp/client-app/node_modules
       cacheHitVar: 'CacheRestored'
     displayName: "Cache node_modules"
 
   - task: Cache@2
     inputs:
-      key: 'cypress | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
-      path: '$(LOCALAPPDATA)/Cypress'
-      restoreKeys: 'cypress | $(Agent.OS) | package-lock.json'
+      key: cypress | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json
+      path: $(LOCALAPPDATA)/Cypress
+      restoreKeys: cypress | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json
       cacheHitVar: 'CypressRestored'
     displayName: "Cache cypress binary"
 
@@ -39,9 +39,8 @@ steps:
       cd handlelisteApp/client-app
       npm install
     displayName: "Run npm install"
-    condition: eq(variables.CacheRestored, 'false')
+    condition: or(eq(variables.CacheRestored, 'false'), eq(variables.CypressRestored, 'false'))
   
-
   - script: |
       cd handlelisteApp/client-app
       npm run test:ci
@@ -52,25 +51,11 @@ steps:
       npm run cy:verify
     displayName: "Cypress Verify"
 
-  - script: start cmd.exe /c dotnet run handelisteApp.csproj
-    displayName: "Start app"
-
-  - script: |
-      cd handlelisteApp/client-app
-      npm run cy:testh
-    displayName: "Cypress tests"
-
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: "JUnit" # Options: JUnit, NUnit, VSTest, xUnit
       testResultsFiles: "**/junit.xml"
     displayName: "Publish test results"
-
-  - task: PublishTestResults@2
-    inputs:
-      testResultsFormat: "JUnit" # Options: JUnit, NUnit, VSTest, xUnit
-      testResultsFiles: '**/cypress/results/*'
-    displayName: "Publish cypress test results"
 
   - task: PublishCodeCoverageResults@1
     inputs:
