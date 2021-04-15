@@ -21,7 +21,7 @@ export default class RecipeStore {
   uploading = false
   currentCroppedImage: Blob | undefined = undefined
   uploadedImageUrl: string = ''
-
+  uploadOwnImage: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -114,7 +114,7 @@ export default class RecipeStore {
 
   getAllRecipes = async () => {
     this.resetAndStartLoading()
-/*
+    /*
     if (this.allRecipes) {
       runInAction(() => {
         this.currentRecipeList = this.allRecipes!
@@ -137,8 +137,15 @@ export default class RecipeStore {
 
   createRecipe = async (recipe: IRecipe) => {
     this.resetAndStartLoading()
-    this.currentCroppedImage &&  await this.upLoadPhoto(this.currentCroppedImage)
-    recipe.imgUrl = this.uploadedImageUrl
+
+    if (
+      this.uploadOwnImage &&
+      this.currentCroppedImage &&
+      (await this.upLoadPhoto(this.currentCroppedImage))
+    ) {
+      recipe.imgUrl = this.uploadedImageUrl
+    }
+
     try {
       const newRecipe = await agent.recipe.postRecipe(recipe)
 
@@ -154,6 +161,7 @@ export default class RecipeStore {
           this.currentRecipe = newRecipe
           this.usersRecipeList.set(userId, [...recipeList, newRecipe])
           this.currentRecipeList = [...recipeList, newRecipe]
+          this.currentCroppedImage = undefined
           this.success('Recipe created')
           history.push(`/recipes`)
         })
@@ -163,6 +171,8 @@ export default class RecipeStore {
         'create recipe.' +
           (e.response ? ` With status code: ${e.response.status}` : '')
       )
+    } finally {
+      this.uploadOwnImage = false
     }
   }
 
@@ -175,6 +185,14 @@ export default class RecipeStore {
     }
 
     const userId = parseInt(store.userStore.user?.userID)
+
+    if (
+      this.uploadOwnImage &&
+      this.currentCroppedImage &&
+      (await this.upLoadPhoto(this.currentCroppedImage))
+    ) {
+      recipe.imgUrl = this.uploadedImageUrl
+    }
 
     try {
       const updatedRecipe = await agent.recipe.updateRecipe(recipe, id)
@@ -192,11 +210,14 @@ export default class RecipeStore {
         this.currentRecipe = updatedRecipe
         this.currentRecipeList = recipeList
         this.usersRecipeList.set(userId, recipeList)
+        this.currentCroppedImage = undefined
         this.success('Recipe updated')
         history.push(`/recipes`)
       })
     } catch (e) {
       this.error('update recipe')
+    } finally {
+      this.uploadOwnImage = false
     }
   }
 
@@ -285,9 +306,14 @@ export default class RecipeStore {
       this.feedBack = null
     })
   }
-  
+
   setTabIndex(index: number) {
     runInAction(() => (this.tabIndex = index))
+  }
+
+  setUploadOwnImage() {
+    console.log(this.uploadOwnImage)
+    this.uploadOwnImage = !this.uploadOwnImage
   }
 
   setToastSuccessMessage(message: string) {
@@ -298,15 +324,12 @@ export default class RecipeStore {
     let foundRecipes: IRecipe[] = []
     let recipesToSearchIn: IRecipe[] = []
 
-    if(this.tabIndex === 0){
-      recipesToSearchIn = this.usersRecipeList.get(
-        parseInt(store.userStore.user!.userID)
-        ) || []
-    }
-    else if(this.tabIndex === 2){
+    if (this.tabIndex === 0) {
+      recipesToSearchIn =
+        this.usersRecipeList.get(parseInt(store.userStore.user!.userID)) || []
+    } else if (this.tabIndex === 2) {
       recipesToSearchIn = this.recipieSuggestions || []
-    }
-    else{
+    } else {
       recipesToSearchIn = this.allRecipes || []
     }
 
@@ -352,23 +375,26 @@ export default class RecipeStore {
   resetFeedBack = () => {
     this.feedBack = null
   }
-  
-  upLoadPhoto = async (file:Blob) =>{
-    if (!file) return ''
-    const formData = new FormData();
-    formData.append('file', file);
 
-    formData.append('upload_preset', 'or5l9i0k');
+  upLoadPhoto = async (file: Blob) => {
+    if (!file) return ''
+    const formData = new FormData()
+    formData.append('file', file)
+
+    formData.append('upload_preset', 'or5l9i0k')
     const options = {
       method: 'POST',
       body: formData,
-    };
+    }
     try {
-      return fetch('https://api.Cloudinary.com/v1_1/superszura/image/upload', options)
-          .then(res => res.json())
-          .then(res => this.uploadedImageUrl = res.secure_url.toString())
-          .catch(err => err);
-    }catch (error) {
+      return fetch(
+        'https://api.Cloudinary.com/v1_1/superszura/image/upload',
+        options
+      )
+        .then((res) => res.json())
+        .then((res) => (this.uploadedImageUrl = res.secure_url.toString()))
+        .catch((err) => err)
+    } catch (error) {
       return ''
     }
   }

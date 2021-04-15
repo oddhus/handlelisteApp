@@ -13,7 +13,6 @@ import {
   Select,
   Stack,
   Textarea,
-  Image
 } from '@chakra-ui/react'
 import {
   Field,
@@ -31,7 +30,7 @@ import * as Yup from 'yup'
 import { AddIcon, CloseIcon } from '@chakra-ui/icons'
 import { observer } from 'mobx-react-lite'
 import { Toast } from '../components/shared/Toast'
-import ImageUploader from "../components/shared/ImageUpload/ImageUploader";
+import { UploadImageForm } from '../components/recipes/UploadImageForm'
 
 interface Props {}
 
@@ -59,7 +58,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
   })
 
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
-  const { recipeStore, settingStore, modalStore} = useStore()
+  const { recipeStore, settingStore } = useStore()
 
   useEffect(() => {
     if (recipeId) {
@@ -141,9 +140,6 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
           const { values, isSubmitting, errors, touched } = props
           return (
             <Form>
-              {recipeStore.currentCroppedImage && 
-                  <Image src={URL.createObjectURL(recipeStore.currentCroppedImage)}/>
-              }
               <Field name="recipeName">
                 {({ form, field }: FieldProps) => (
                   <FormControl
@@ -208,19 +204,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
               </Field>
               <Field name="imgUrl">
                 {({ form, field }: FieldProps) => (
-                  <FormControl
-                    isInvalid={!!form.errors?.imgUrl && !!form.touched?.imgUrl}
-                  >
-                    <FormLabel htmlFor="imgURL">
-                      {settingStore.language.imgUrl}
-                    </FormLabel>
-                    <Input
-                      {...field}
-                      id="imgUrl"
-                      placeholder={settingStore.language.imgUrl}
-                    />
-                    <FormErrorMessage>{form.errors.imgUrl}</FormErrorMessage>
-                  </FormControl>
+                  <UploadImageForm form={form} field={field} />
                 )}
               </Field>
               <FormLabel htmlFor={`items`} pt={1}>
@@ -392,7 +376,6 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
           )
         }}
       </Formik>
-      <Button onClick={() => modalStore.openModal(<ImageUploader/>)}>Add Photo</Button>
     </Container>
   )
 })
