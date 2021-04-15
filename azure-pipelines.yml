@@ -29,7 +29,7 @@ steps:
 
   - task: Cache@2
     inputs:
-      key: 'cypress | $(Agent.OS) | package-lock.json'
+      key: 'cypress | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
       path: '$(LOCALAPPDATA)/Cypress'
       restoreKeys: 'cypress | $(Agent.OS) | package-lock.json'
       cacheHitVar: 'CypressRestored'
@@ -52,10 +52,8 @@ steps:
       npm run cy:verify
     displayName: "Cypress Verify"
 
-  - bash: |
-      #cd handlelisteApp/ 
-      nohup dotnet run
-    displayName: "Starting app"
+  - script: start cmd.exe /c dotnet run handelisteApp.csproj
+    displayName: "Start app"
 
   - script: |
       cd handlelisteApp/client-app
