@@ -59,8 +59,13 @@ steps:
     inputs:
       testResultsFormat: "JUnit" # Options: JUnit, NUnit, VSTest, xUnit
       testResultsFiles: "**/junit.xml"
-      testResultsFiles: '**/cypress/results/*'
     displayName: "Publish test results"
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: "JUnit" # Options: JUnit, NUnit, VSTest, xUnit
+      testResultsFiles: '**/cypress/results/*'
+    displayName: "Publish cypress test results"
 
   - task: PublishCodeCoverageResults@1
     inputs:
