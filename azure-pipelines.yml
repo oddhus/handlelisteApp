@@ -25,7 +25,7 @@ steps:
     key: 'npm | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
     path: '$(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
     cacheHitVar: 'CacheRestored'
-  displayName: Cache node_modules
+  displayName: "Cache node_modules"
 
 - task: Cache@2
   inputs:
@@ -33,7 +33,7 @@ steps:
     path: '$(LOCALAPPDATA)/Cypress'
     restoreKeys: 'cypress | $(Agent.OS) | package-lock.json'
     cacheHitVar: 'CypressRestored'
-  displayName: Cache cypress binary
+  displayName: "Cache cypress binary"
 
   - script: |
       cd handlelisteApp/client-app
