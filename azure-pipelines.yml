@@ -20,20 +20,20 @@ steps:
       versionSpec: 10.14.2
     displayName: "Install Node.js"
 
-- task: Cache@2
-  inputs:
-    key: 'npm | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
-    path: '$(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
-    cacheHitVar: 'CacheRestored'
-  displayName: "Cache node_modules"
+  - task: Cache@2
+    inputs:
+      key: 'npm | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
+      path: '$(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json'
+      cacheHitVar: 'CacheRestored'
+    displayName: "Cache node_modules"
 
-- task: Cache@2
-  inputs:
-    key: 'cypress | $(Agent.OS) | package-lock.json'
-    path: '$(LOCALAPPDATA)/Cypress'
-    restoreKeys: 'cypress | $(Agent.OS) | package-lock.json'
-    cacheHitVar: 'CypressRestored'
-  displayName: "Cache cypress binary"
+  - task: Cache@2
+    inputs:
+      key: 'cypress | $(Agent.OS) | package-lock.json'
+      path: '$(LOCALAPPDATA)/Cypress'
+      restoreKeys: 'cypress | $(Agent.OS) | package-lock.json'
+      cacheHitVar: 'CypressRestored'
+    displayName: "Cache cypress binary"
 
   - script: |
       cd handlelisteApp/client-app
