@@ -60,7 +60,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "test:ci": "react-scripts test --env=jsdom --testResultsProcessor=\"jest-junit\" --coverage --ci --watchAll=false"
+    "test:ci": "react-scripts test --env=jsdom --testResultsProcessor=\"jest-junit\" --coverage --ci --watchAll=false",
+    "cypress": "cypress open",
+    "cy:testh": "cypress run --project ./ --headless",
+    "cy:run": "cypress run",
+    "cy:verify": "cypress verify"
   },
   "eslintConfig": {
     "extends": [
@@ -84,6 +88,7 @@
     "@types/luxon": "^1.26.3",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/uuid": "^8.3.0",
+    "cypress": "^7.1.0",
     "prettier": "2.2.1"
   }
 }

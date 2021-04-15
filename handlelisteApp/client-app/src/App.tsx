@@ -49,6 +49,16 @@ function App() {
     }
   }, [commonStore, settingStore])
 
+
+  useEffect(() => {    
+    //@ts-ignore
+    if (window.Cypress && typeof window !== "undefined") {
+      //@ts-ignore
+      window.userStore = userStore
+    }
+
+  }, [userStore])
+
   if (!commonStore.appLoaded) return <LoadingComponent />
 
   return (

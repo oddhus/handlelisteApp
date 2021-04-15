@@ -39,12 +39,13 @@ const MenuLinks: React.FC<Props> = ({ isOpen, setIsOpen }) => {
         rightIcon={<ChevronDownIcon />}
         fontWeight="normal"
         color="white"
+        data-cy="account-nav-btn"
       >
         {settingStore.isEnglish ? 'Account' : 'Konto'}
       </MenuButton>
       <MenuList>
         {userSettings.map((route) => (
-          <MenuItemChakra as={Link} to={route.path} key={route.path} color="teal.900">
+          <MenuItemChakra as={Link} to={route.path} key={route.path} data-cy={route.nameEn} color="teal.900">
             {settingStore.isEnglish ? route.nameEn : route.nameNo}
           </MenuItemChakra>
         ))}
@@ -54,6 +55,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen, setIsOpen }) => {
             userStore.logout()
           }}
           color="teal.900"
+          data-cy="logout-nav-btn"
         >
           {settingStore.isEnglish ? 'Logout' : 'Logg ut'}
         </MenuItemChakra>
@@ -64,7 +66,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen, setIsOpen }) => {
   const listMenu = (
     <React.Fragment>
       {[...userSettings].map((route) => (
-        <MenuItem key={route.path} to={route.path} setIsOpen={setIsOpen}>
+        <MenuItem key={route.path} to={route.path} setIsOpen={setIsOpen} data-cy={route.nameEn}>
           {settingStore.isEnglish ? route.nameEn : route.nameNo}
         </MenuItem>
       ))}
@@ -94,6 +96,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen, setIsOpen }) => {
           to={route.path}
           isLast={route.isLast}
           setIsOpen={setIsOpen}
+          data-cy={route.nameEn}
         >
           {settingStore.isEnglish ? route.nameEn : route.nameNo}
         </MenuItem>
@@ -116,7 +119,7 @@ const MenuLinks: React.FC<Props> = ({ isOpen, setIsOpen }) => {
         pt={[4, 0, 0, 0]}
       >
         {mainItems.map((route) => (
-          <MenuItem key={route.path} to={route.path} setIsOpen={setIsOpen}>
+          <MenuItem key={route.path} to={route.path} setIsOpen={setIsOpen} data-cy={route.nameEn}>
             {settingStore.isEnglish ? route.nameEn : route.nameNo}
           </MenuItem>
         ))}

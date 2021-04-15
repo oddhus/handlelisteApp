@@ -40,10 +40,26 @@ steps:
       npm run test:ci
     displayName: "Run npm test"
 
+  - script: |
+      cd handlelisteApp/client-app
+      npm run cy:verify
+    displayName: "Cypress Verify"
+
+  - bash: |
+      #cd handlelisteApp/ 
+      nohup dotnet run
+    displayName: "Starting app"
+
+  - script: |
+      cd handlelisteApp/client-app
+      npm run cy:testh
+    displayName: "Cypress tests"
+
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: "JUnit" # Options: JUnit, NUnit, VSTest, xUnit
       testResultsFiles: "**/junit.xml"
+      testResultsFiles: '**/cypress/results/*'
     displayName: "Publish test results"
 
   - task: PublishCodeCoverageResults@1
