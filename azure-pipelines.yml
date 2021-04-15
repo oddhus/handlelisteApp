@@ -39,7 +39,7 @@ steps:
       cd handlelisteApp/client-app
       npm install
     displayName: "Run npm install"
-    condition: or($[eq(variables.CypressRestored, 'false')], $[eq(variables.CacheRestored), 'false'])
+    condition: or($[eq(variables.CypressRestored, 'false')], $[eq(variables.CacheRestored, 'false'])
   
 
   - script: |
