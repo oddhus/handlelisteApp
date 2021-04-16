@@ -59,7 +59,7 @@ namespace handlelisteApp.Specs.Steps
                 ItemName = "brus",
                 ItemID = 1,
             };
-            
+
             Eggs = new Item() { ItemID = 2, ItemName = "Eggs" };
             Milk = new Item() { ItemID = 3, ItemName = "Milk" };
 
@@ -71,14 +71,16 @@ namespace handlelisteApp.Specs.Steps
                 RecipeID = 0,
                 RecipeName = "EggRecipe",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs, Quantity = 1 } },
-                UserID = 1
+                UserID = 1,
+                UserSaved = new List<SavedRecipe>()
             };
             EggRecipe2 = new Recipe
             {
                 RecipeID = 1,
                 RecipeName = "EggRecipe2",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs, Quantity = 2 } },
-                UserID = 1
+                UserID = 1,
+                UserSaved = new List<SavedRecipe>()
             };
 
             MilkRecipe = new Recipe
@@ -86,34 +88,40 @@ namespace handlelisteApp.Specs.Steps
                 RecipeID = 2,
                 RecipeName = "MilkRecipe",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantity = 1 } },
-                UserID = 1
+                UserID = 1,
+                UserSaved = new List<SavedRecipe>()
             };
             MilkRecipe2 = new Recipe
             {
                 RecipeID = 3,
                 RecipeName = "MilkRecipe2",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantity = 2 } },
-                UserID = 1
+                UserID = 1,
+                UserSaved = new List<SavedRecipe>()
             };
             CheeseRecipe = new Recipe
             {
                 RecipeID = 4,
                 RecipeName = "CheeseRecipe",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Cheese, Quantity = 2 } },
-                UserID = 2
+                UserID = 2,
+                UserSaved = new List<SavedRecipe>()
+
             };
             MilkAndEggsRecipe = new Recipe
             {
                 RecipeID = 4,
                 RecipeName = "MilkAndEggsRecipe",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs }, new ItemInRecipe { Item = Milk } },
-                UserID = 2
+                UserID = 2,
+                UserSaved = new List<SavedRecipe>()
+
             };
 
             user = new User()
             {
                 UserID = 0
-                
+
             };
 
             FourWeeksAgoShoppingList = new ShoppingList
@@ -124,7 +132,6 @@ namespace handlelisteApp.Specs.Steps
                 UserId = 0,
                 user = user,
                 Items = new List<ItemOnShoppingList>() { new ItemOnShoppingList { Item = Cheese, HasBeenBought = true } }
-
             };
             TwoWeeksAgoShoppingList = new ShoppingList
             {
@@ -164,7 +171,9 @@ namespace handlelisteApp.Specs.Steps
                         Quantity = 2,
                         Unit = "pcs"
                     }
-                }
+                },
+                HasLiked = false
+
             };
 
             savedRecipe = new Recipe()
@@ -183,7 +192,8 @@ namespace handlelisteApp.Specs.Steps
                         ItemID = 1,
                         RecipeID = 123,
                     }
-                }
+                },
+                UserSaved = new List<SavedRecipe>()
             };
 
             //Mock repos
@@ -250,8 +260,8 @@ namespace handlelisteApp.Specs.Steps
         [Given(@"I have updated a shopping list in the last three weeks")]
         public void GivenIHaveUpdatedAShoppingListInTheLastThreeWeeks()
         {
-            
-            
+
+
         }
 
         [When(@"I ask for suggestions")]
