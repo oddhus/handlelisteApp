@@ -1,3 +1,4 @@
+import { CloseIcon } from '@chakra-ui/icons'
 import {
   Button,
   FormControl,
@@ -8,6 +9,9 @@ import {
   RadioGroup,
   Stack,
   Image,
+  HStack,
+  VStack,
+  IconButton,
 } from '@chakra-ui/react'
 import { FieldInputProps, FormikProps } from 'formik'
 import { observer } from 'mobx-react-lite'
@@ -38,27 +42,47 @@ export const UploadImageForm: React.FC<Props> = observer(({ form, field }) => {
           <Radio
             colorScheme="brand"
             isChecked={recipeStore.uploadOwnImage}
-            onChange={() => recipeStore.setUploadOwnImage()}
+            onChange={() => {
+              recipeStore.setUploadOwnImage()
+              recipeStore.removeCurrentImage()
+            }}
           >
             Upload img
           </Radio>
         </Stack>
       </RadioGroup>
       {recipeStore.uploadOwnImage ? (
-        <Fragment>
-          {recipeStore.currentCroppedImage && (
-            <Image
-              src={URL.createObjectURL(recipeStore.currentCroppedImage)}
-              pb={1}
+        recipeStore.currentCroppedImage ? (
+          <HStack>
+            <Button
+              isFullWidth
+              variant="outline"
+              colorScheme="brand"
+              onClick={() =>
+                modalStore.openModal(
+                  <Image
+                    src={URL.createObjectURL(recipeStore.currentCroppedImage)}
+                    pb={1}
+                  />
+                )
+              }
+            >
+              View Photo
+            </Button>
+            <IconButton
+              onClick={() => recipeStore.setUploadOwnImage()}
+              aria-label="remove photo"
+              icon={<CloseIcon />}
             />
-          )}
+          </HStack>
+        ) : (
           <Button
             isFullWidth
             onClick={() => modalStore.openModal(<ImageUploader />)}
           >
             Add Photo
           </Button>
-        </Fragment>
+        )
       ) : (
         <Fragment>
           <Input

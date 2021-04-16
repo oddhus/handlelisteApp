@@ -307,12 +307,15 @@ export default class RecipeStore {
     })
   }
 
+  removeCurrentImage() {
+    this.currentCroppedImage = undefined
+  }
+
   setTabIndex(index: number) {
     runInAction(() => (this.tabIndex = index))
   }
 
   setUploadOwnImage() {
-    console.log(this.uploadOwnImage)
     this.uploadOwnImage = !this.uploadOwnImage
   }
 

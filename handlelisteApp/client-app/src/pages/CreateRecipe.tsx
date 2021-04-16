@@ -12,6 +12,7 @@ import {
   Input,
   Select,
   Stack,
+  Image,
   Textarea,
 } from '@chakra-ui/react'
 import {
