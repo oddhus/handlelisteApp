@@ -111,6 +111,8 @@ const recipe = {
     requests.put('recipe/' + id, recipe),
   getRecipe: (id: number) => requests.get('recipe/' + id),
   deleteRecipe: (id: number) => requests.del('recipe/' + id),
+  likeRecipe: (id: number) => requests.post('recipe/favorite/' + id, {}),
+  deleteRecipeLike: (id: number) => requests.del('recipe/favorite/' + id),
 }
 
 const recipes = {

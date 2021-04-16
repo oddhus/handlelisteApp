@@ -18,6 +18,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import { ItemList } from '../components/recipes/ItemList'
 import { RecipeActionButtons } from '../components/recipes/RecipeActionButtons'
+import { RecipeFavoriteButton } from '../components/recipes/RecipeFavoriteButton'
 import { RecipeToShoppingList } from '../components/recipes/RecipeToShoppingList'
 import { Toast } from '../components/shared/Toast'
 import { useStore } from '../stores/store'
@@ -57,7 +58,10 @@ export const Recipe: React.FC<Props> = observer(() => {
       <VStack alignItems="flex-start">
         <Box minW="100%">
           <HStack justify="space-between">
-            <Heading>{recipeStore.currentRecipe?.recipeName}</Heading>
+            <HStack spacing={4}>
+              <Heading>{recipeStore.currentRecipe?.recipeName}</Heading>
+              <RecipeFavoriteButton recipe={recipeStore.currentRecipe} />
+            </HStack>
             {recipeStore.isOwner && (
               <RecipeActionButtons
                 recipe={recipeStore.currentRecipe}

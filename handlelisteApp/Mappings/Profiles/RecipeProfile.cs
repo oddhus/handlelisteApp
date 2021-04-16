@@ -16,6 +16,10 @@ namespace handlelisteApp.Mappings.Profiles
                 .ForMember(r => r.IsOwner, opt =>
                     {
                         opt.MapFrom((src, dest, destVal, ctx) => ctx.Items["UserId"].Equals(src.UserID));
+                    })
+                .ForMember(r => r.HasLiked, opt =>
+                    {
+                        opt.MapFrom((src, dest, destVal, ctx) => src.UserSaved.Any(u => ctx.Items["UserId"].Equals(u.UserId)));
                     });
         }
     }

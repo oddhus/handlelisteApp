@@ -5,6 +5,7 @@ export interface IRecipe {
   approach: string
   imgUrl: string
   isOwner: boolean
+  hasLiked: boolean
   items: IitemInRecipe[]
 }
 

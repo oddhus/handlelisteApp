@@ -40,7 +40,8 @@ namespace handlelisteApp.Services
                 ShortDescription = recipe.ShortDescription,
                 UserID = userId,
                 ImgUrl = recipe.ImgUrl,
-                Items = new List<ItemInRecipe>()
+                Items = new List<ItemInRecipe>(),
+                UserSaved = new List<SavedRecipe>()
             };
             foreach (var item in recipe.Items)
             {
@@ -171,10 +172,10 @@ namespace handlelisteApp.Services
 
         public SavedRecipeDTO SaveRecipe(int userId, int recipeId)
         {
-            List<RecipeDTO> recipes = GetSavedRecipes(userId);
-            if (recipes.Any(r => r.RecipeID == recipeId))
+            var foundRecipe = _repository.GetSavedRecipeByRecipeIdAndUserId(userId, recipeId);
+            if (foundRecipe != null)
             {
-                return _mapper.Map<SavedRecipeDTO>(_repository.GetSavedRecipeByRecipeIdAndUserId(userId, recipeId));
+                return _mapper.Map<SavedRecipeDTO>(foundRecipe);
             }
 
             SavedRecipe savedRecipe = new SavedRecipe

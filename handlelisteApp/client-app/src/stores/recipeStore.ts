@@ -176,6 +176,22 @@ export default class RecipeStore {
     }
   }
 
+  likeOrRemoveLikeOnRecipe = async (recipe: IRecipe) => {
+    console.log(recipe)
+    if (!store.userStore.user?.userID || !recipe || !recipe.recipeID) {
+      return
+    }
+
+    try {
+      if (!recipe.hasLiked) {
+        await agent.recipe.likeRecipe(recipe.recipeID)
+      } else {
+        await agent.recipe.deleteRecipeLike(recipe.recipeID)
+      }
+      runInAction(() => (recipe.hasLiked = !recipe.hasLiked))
+    } catch (error) {}
+  }
+
   updateRecipe = async (recipe: IRecipe, id: number) => {
     this.resetAndStartLoading()
 

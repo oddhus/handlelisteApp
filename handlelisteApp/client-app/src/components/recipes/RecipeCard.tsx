@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { Text, Box, Flex, Image, VStack } from '@chakra-ui/react'
+import { Text, Box, Flex, Image, VStack, HStack } from '@chakra-ui/react'
 import { IRecipe } from '../../models/recipe'
 import { useHistory } from 'react-router-dom'
 import { RecipeActionButtons } from './RecipeActionButtons'
+import { RecipeFavoriteButton } from './RecipeFavoriteButton'
 
 interface Props {
   recipe: IRecipe
@@ -28,7 +29,6 @@ const RecipeCard: React.FC<Props> = ({
       overflow="hidden"
       _hover={{
         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 18px 43px',
-        cursor: 'pointer',
       }}
     >
       <Image
@@ -45,28 +45,37 @@ const RecipeCard: React.FC<Props> = ({
         onClick={() => {
           history.push(`/recipes/${recipe.recipeID}`)
         }}
+        _hover={{ cursor: 'pointer' }}
       />
-      <Box p={4}>
-        <VStack spacing={3}>
-          <Box
-            minW="100%"
-            maxW="100%"
-            onClick={() => {
-              history.push(`/recipes/${recipe.recipeID}`)
-            }}
-            _hover={{ cursor: 'pointer', color: 'teal.500' }}
-          >
-            <Box
-              mt="1"
-              fontWeight="semibold"
-              as="h4"
-              lineHeight="tight"
-              isTruncated
-            >
-              {recipe.recipeName}
-            </Box>
+      <Box px={4} pb={4} pt={2}>
+        <VStack spacing={4}>
+          <Box minW="100%" maxW="100%">
+            <HStack justify="space-between" maxW="100%">
+              <Box
+                mt="1"
+                fontWeight="semibold"
+                as="h4"
+                isTruncated
+                onClick={() => {
+                  history.push(`/recipes/${recipe.recipeID}`)
+                }}
+                _hover={{ cursor: 'pointer' }}
+              >
+                {recipe.recipeName}
+              </Box>
+              <RecipeFavoriteButton recipe={recipe} />
+            </HStack>
+
             <Box minW="100%">
-              <Text fontSize="sm" isTruncated maxW="100%">
+              <Text
+                fontSize="sm"
+                isTruncated
+                maxW="100%"
+                onClick={() => {
+                  history.push(`/recipes/${recipe.recipeID}`)
+                }}
+                _hover={{ cursor: 'pointer' }}
+              >
                 {recipe.shortDescription}
               </Text>
             </Box>

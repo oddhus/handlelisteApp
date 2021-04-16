@@ -13,6 +13,7 @@ namespace handlelisteApp.Mappings.Profiles
         public SavedRecipeProfile()
         {
             CreateMap<SavedRecipe, SavedRecipeDTO>();
+            CreateMap<Recipe, SavedRecipeDTO>();
         }
     }
 }

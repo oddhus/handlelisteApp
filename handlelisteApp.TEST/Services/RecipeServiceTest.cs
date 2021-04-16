@@ -55,6 +55,9 @@ namespace handlelisteApp.TEST.Data
                         Unit = "Kg"
                     }
 
+                },
+                UserSaved = new List<SavedRecipe>()
+                {
                 }
 
             };
@@ -75,6 +78,9 @@ namespace handlelisteApp.TEST.Data
                         Unit = "Kg"
                     }
 
+                },
+                UserSaved = new List<SavedRecipe>()
+                {
                 }
             };
 
@@ -128,10 +134,10 @@ namespace handlelisteApp.TEST.Data
         }
 
         [Fact]
-        public void ShouldCallGetSavedRecipesOnRecipeRepoWhenUsingSaveRecipe()
+        public void ShouldNotCallSaveRecipeOnRepoWhenUsingSaveRecipeWhenLikeAlreadyExists()
         {
             _service.SaveRecipe(userId, recipeId);
-            _mockRecipeRepo.Verify(m => m.GetSavedRecipes(It.IsAny<int>()), Times.Once());
+            _mockRecipeRepo.Verify(m => m.SaveRecipe(It.IsAny<SavedRecipe>()), Times.Never());
         }
 
         [Fact]
@@ -139,7 +145,7 @@ namespace handlelisteApp.TEST.Data
         {
             SavedRecipeDTO savedRecipe = _service.SaveRecipe(userId, recipeId);
             Assert.NotNull(savedRecipe);
-            
+
         }
 
         [Fact]
@@ -177,11 +183,5 @@ namespace handlelisteApp.TEST.Data
             Assert.NotEmpty(recipes);
         }
 
-        [Fact]
-        public void ShouldCalGetSavedRecipesOnRepoWhenUsingGetSavedRecipes()
-        {
-            _service.SaveRecipe(userId2, 8);
-            _mockRecipeRepo.Verify(m => m.GetSavedRecipes(It.IsAny<int>()), Times.Once());
-        }
     }
 }

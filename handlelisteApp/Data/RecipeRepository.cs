@@ -32,31 +32,34 @@ namespace handlelisteApp.Data
 
         public IEnumerable<Recipe> GetAllRecipes()
         {
-            return _context.Recipes.Include(r => r.Items).ThenInclude(iir => iir.Item).ToList();
+            return _context.Recipes
+                .Include(r => r.Items)
+                    .ThenInclude(iir => iir.Item)
+                .Include(r => r.UserSaved)
+                .AsSplitQuery()
+                .ToList();
         }
 
         public IEnumerable<Recipe> GetAllUserRecipes(int userID)
         {
-            return _context.Recipes.Where(r => r.UserID == userID).Include(r => r.Items).ThenInclude(iir => iir.Item).ToList();
+            return _context.Recipes
+                .Where(r => r.UserID == userID)
+                .Include(r => r.Items)
+                    .ThenInclude(iir => iir.Item)
+                .Include(r => r.UserSaved)
+                .AsSplitQuery()
+                .ToList();
         }
 
         public IEnumerable<Recipe> GetAllRecipesUsingItem(Item item)
         {
-            List<Recipe> itemsInRecipes = _context.Recipes.
-
-                Where(r => r.Items.Any(i => i.Item.ItemID == item.ItemID)).Include(r => r.Items).ThenInclude(iir => iir.Item).
-                ToList();
-
-            /*
-            SelectMany(r => r.Items).
-            Where(iir => iir.Item == item).
-            Select(iir => iir.Recipe).
-            ToList();
-        */
-
-            //.Where(iir => iir.Any(i => i.Item.Equals(item))).Join(a, b => a.RecipeID, b => b.RecipeID, (a, c) => new { c });
-            return itemsInRecipes;
-            //            return _context.Recipes.Select(r => r.Items).Where(iimk => iimk.It)
+            return _context.Recipes
+                .Where(r => r.Items.Any(i => i.Item.ItemID == item.ItemID))
+                .Include(r => r.Items)
+                    .ThenInclude(iir => iir.Item)
+                .Include(r => r.UserSaved)
+                .AsSplitQuery()
+                .ToList();
         }
 
         public IEnumerable<Recipe> GetAllRecipesUsingSeveralItems(List<Item> items)
@@ -67,7 +70,13 @@ namespace handlelisteApp.Data
 
         public Recipe GetRecipeById(int id)
         {
-            return _context.Recipes.Include(r => r.Items).ThenInclude(r => r.Item).Where(r => r.RecipeID == id).FirstOrDefault();
+            return _context.Recipes
+                .Where(r => r.RecipeID == id)
+                .Include(r => r.Items)
+                    .ThenInclude(r => r.Item)
+                .Include(r => r.UserSaved)
+                .AsSplitQuery()
+                .FirstOrDefault();
         }
 
         public Recipe UpdateRecipe(int id, Recipe recipe)
@@ -84,9 +93,14 @@ namespace handlelisteApp.Data
 
         public IEnumerable<Recipe> GetSavedRecipes(int userId)
         {
-            return _context.Recipes.Where(r => _context.SavedRecipes.Any(sr =>
-            sr.UserId == userId && r.RecipeID == sr.RecipeId)).Include(r => r.Items).ThenInclude(iir => iir.Item).ToList();
-
+            return _context.Recipes
+                .Where(r => _context.SavedRecipes.Any(sr =>
+                        sr.UserId == userId && r.RecipeID == sr.RecipeId))
+                .Include(r => r.Items)
+                    .ThenInclude(iir => iir.Item)
+                .Include(r => r.UserSaved)
+                .AsSplitQuery()
+                .ToList();
         }
 
         public SavedRecipe SaveRecipe(SavedRecipe savedRecipe)

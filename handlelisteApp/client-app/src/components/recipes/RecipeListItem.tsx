@@ -1,4 +1,3 @@
-import { StarIcon } from '@chakra-ui/icons'
 import {
   Text,
   Grid,
@@ -8,13 +7,13 @@ import {
   Heading,
   HStack,
   VStack,
-  IconButton,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
-import React, { useState } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router'
 import { IRecipe } from '../../models/recipe'
 import { RecipeActionButtons } from './RecipeActionButtons'
+import { RecipeFavoriteButton } from './RecipeFavoriteButton'
 
 interface Props {
   recipe: IRecipe
@@ -26,7 +25,6 @@ interface Props {
 export const RecipeListItem: React.FC<Props> = observer(
   ({ recipe, editable, deleteable }) => {
     const history = useHistory()
-    const [liked, setLiked] = useState(false)
     return (
       <Grid
         templateColumns="repeat(18, 1fr)"
@@ -82,10 +80,7 @@ export const RecipeListItem: React.FC<Props> = observer(
                         {recipe.recipeName}
                       </Heading>
 
-                      <StarIcon
-                        color={liked ? 'yellow.500' : '#CDCDCD'}
-                        onClick={() => setLiked(!liked)}
-                      />
+                      <RecipeFavoriteButton recipe={recipe} />
                     </HStack>
                   </Box>
                   <Box
