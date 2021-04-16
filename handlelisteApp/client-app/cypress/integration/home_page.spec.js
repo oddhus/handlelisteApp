@@ -2,8 +2,8 @@ describe('The Login Page', () => {
 
     const invalidUsername = 'Testtestesen'
     const invalidPassword = 'thispasswordisinvalid'
-    const validUsername = 'Test7'
-    const validPassword = '123'
+    const validUsername =  Cypress.env('username')
+    const validPassword = Cypress.env('password')
 
     it('Should show error when not including username or password', function () {
         cy.visit('signin')
@@ -24,7 +24,7 @@ describe('The Login Page', () => {
 
     it('Should display error when using incorret password/username combination', function () {
         cy.get('[data-testid=login-Button]').click()
-        cy.contains('Invalid username or password').should('be.visible')
+        cy.contains('Invalid username or password', {timeout: 15000}).should('be.visible')
     })
 
     it('Should redirect to shoppinglist page when logging in with correct credentials and set jwt', function () {
