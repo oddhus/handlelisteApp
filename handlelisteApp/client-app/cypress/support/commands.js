@@ -23,25 +23,27 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
+Cypress.config('pageLoadTimeout', 180000)
 Cypress.Commands.add('login', (username, password) => {
-    console.log(username)
-    console.log(password)
-    let userId = ''
-    cy.request('POST', 'user/login', {
-        username: username,
-        password: password
+  console.log(username)
+  console.log(password)
+  let userId = ''
+  cy.request('POST', 'user/login', {
+    username: username,
+    password: password,
   }).then((response) => {
-      expect(response.status).to.eq(200)
-      expect(response.body.token).to.not.be.null
-      localStorage.setItem('jwt', response.body.token)
-      userId = response.body.userID
+    expect(response.status).to.eq(200)
+    expect(response.body.token).to.not.be.null
+    localStorage.setItem('jwt', response.body.token)
+    userId = response.body.userID
   })
-  cy.window().its('userStore').then(userStore => {
-      userStore.user ={
+  cy.window()
+    .its('userStore')
+    .then((userStore) => {
+      userStore.user = {
         username: username,
         userID: userId,
-        token: localStorage.getItem('jwt')
-    }
-  })
+        token: localStorage.getItem('jwt'),
+      }
+    })
 })
