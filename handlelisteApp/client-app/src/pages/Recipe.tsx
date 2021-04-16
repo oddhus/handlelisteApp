@@ -11,7 +11,7 @@ import {
   Button,
   useToast,
   HStack,
-  IconButton,
+  IconButton, Image,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
@@ -55,6 +55,10 @@ export const Recipe: React.FC<Props> = observer(() => {
     <Container>
       <Toast store={recipeStore} />
       <VStack alignItems="flex-start">
+        <Box minW="100%">
+          <Image src={recipeStore.currentRecipe?.imgUrl ? recipeStore.currentRecipe?.imgUrl 
+              : 'https://rbox.in/img/recipes-default.png'}/>
+        </Box>
         <Box minW="100%">
           <HStack justify="space-between">
             <Heading>{recipeStore.currentRecipe?.recipeName}</Heading>
