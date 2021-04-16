@@ -139,7 +139,6 @@ export default class RecipeStore {
     this.resetAndStartLoading()
 
     if (
-      this.uploadOwnImage &&
       this.currentCroppedImage &&
       (await this.upLoadPhoto(this.currentCroppedImage))
     ) {
