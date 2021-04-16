@@ -56,7 +56,7 @@ export const Recipe: React.FC<Props> = observer(() => {
       <Toast store={recipeStore} />
       <VStack alignItems="flex-start">
         <Box minW="100%">
-          <Image src={recipeStore.currentRecipe?.imgUrl ? recipeStore.currentRecipe?.imgUrl 
+          <img src={recipeStore.currentRecipe?.imgUrl ? recipeStore.currentRecipe?.imgUrl 
               : 'https://rbox.in/img/recipes-default.png'}/>
         </Box>
         <Box minW="100%">
