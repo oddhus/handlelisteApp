@@ -46,6 +46,14 @@ steps:
       npm run cy:verify
     displayName: "Cypress Verify"
 
+  - bash: |
+      #cd handlelisteApp
+      #dotnet run
+      cd handlelisteApp
+      nohup dotnet run &
+      sleep 4
+    displayName: Starting app in BG
+
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: "JUnit" # Options: JUnit, NUnit, VSTest, xUnit
@@ -86,6 +94,22 @@ steps:
 
   - script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml;$(Build.SourcesDirectory)/**/cobertura-coverage.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
     displayName: "Create Code Coverage Reports"
+
+  - script: |
+      cd handlelisteApp/client-app
+      npm run cy:testh
+    displayName: "Cypress tests"
+    env:
+      shop_USERNAME: $(shop_USERNAME)
+      shop_PASSWORD: $(shop_PASSWORD)
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: 'handlelisteApp\client-app\cypress\screenshots'
+      artifactName: cypress-screenshots
+    condition: failed()
+    continueOnError: true
+    displayName: 'Publish screenshots when there were issues'
 
   - task: PublishCodeCoverageResults@1
     displayName: "Publish Code Coverage"
