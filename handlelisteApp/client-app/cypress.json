@@ -1,0 +1,8 @@
+{
+    "baseUrl": "https://localhost:5001/",
+    "reporter": "junit",
+    "reporterOptions": {
+        "mochaFile": "cypress/results/result-[hash].xml"
+    }
+}
+

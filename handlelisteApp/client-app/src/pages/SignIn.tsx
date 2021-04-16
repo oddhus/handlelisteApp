@@ -62,11 +62,15 @@ export const SignIn: React.FC<Props> = observer(() => {
                                 <InputText
                                     aria-label={settingStore.language.Username}
                                     name='username' placeholder={settingStore.language.Username}
-                                    label={settingStore.language.Username}/>
+                                    label={settingStore.language.Username}
+                                    data-cy='username-input'
+                                    />
                                 <InputText
                                     aria-label={settingStore.language.password}
                                     name='password' placeholder={settingStore.language.password}
-                                    label={settingStore.language.password} type='password'/>
+                                    label={settingStore.language.password} type='password'
+                                    data-cy='password-input'
+                                    />
                             <Button
                                 data-testid="login-Button"
                                 style={{marginTop: '10px'}}
