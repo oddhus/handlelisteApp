@@ -1,4 +1,12 @@
-import { Center, VStack, Box, Button, Text, HStack } from '@chakra-ui/react'
+import {
+  Center,
+  VStack,
+  Box,
+  Button,
+  Text,
+  HStack,
+  Checkbox,
+} from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import { IitemInRecipe } from '../../models/recipe'
@@ -6,6 +14,7 @@ import { useStore } from '../../stores/store'
 import { ItemList } from './ItemList'
 import { SelectShoppingList } from './SelectShoppingList'
 import { useHistory } from 'react-router-dom'
+import { RecipeFavoriteButton } from './RecipeFavoriteButton'
 
 interface Props {}
 
@@ -26,6 +35,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
   const [selectedShoppingList, setSelectedShoppingList] = useState<
     number | undefined
   >(undefined)
+  const [addToFavourites, setAddToFavourites] = useState(true)
 
   const history = useHistory()
 
@@ -66,7 +76,17 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
     }
   }
 
-  const onAddToShoppingList = (returnToList: boolean) => {
+  const onAddToShoppingList = (
+    returnToList: boolean,
+    addToFavorites: boolean
+  ) => {
+    if (
+      recipeStore.currentRecipe &&
+      !recipeStore.currentRecipe.hasLiked &&
+      addToFavorites
+    ) {
+      recipeStore.likeOrRemoveLikeOnRecipe(recipeStore.currentRecipe)
+    }
     shoppingListStore.addToShoppingListFromRecipe(
       checked,
       numberOfItems,
@@ -89,9 +109,12 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
       <SelectShoppingList onSelectShoppingList={onSelectShoppingList} />
       <Box minW="100%">
         <Center pt={2}>
-          <Text fontSize="xl" as="i">
-            {recipeStore.currentRecipe!.recipeName}
-          </Text>
+          <HStack spacing={4}>
+            <Text fontSize="xl" as="i">
+              {recipeStore.currentRecipe!.recipeName}
+            </Text>
+            <RecipeFavoriteButton recipe={recipeStore.currentRecipe} />
+          </HStack>
         </Center>
       </Box>
       <Box minW="100%">
@@ -103,31 +126,47 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
           numberOfItems={numberOfItems}
         />
       </Box>
-      <Box minW="100%">
+      <Box minW="100%" pt={3}>
         <Center>
-          <HStack>
-            <Button
-              disabled={
-                !selectedShoppingList && !shoppingListStore.backToMyShoppingList
-              }
-              onClick={() => onAddToShoppingList(false)}
-              colorScheme="brand"
-            >
-              {settingStore.language.add}
-            </Button>
-            {!!shoppingListStore.backToMyShoppingList && (
+          <VStack>
+            {!recipeStore.currentRecipe.hasLiked && (
+              <Checkbox
+                isDisabled={
+                  !selectedShoppingList &&
+                  !shoppingListStore.backToMyShoppingList
+                }
+                colorScheme="brand"
+                isChecked={addToFavourites}
+                onChange={() => setAddToFavourites(!addToFavourites)}
+              >
+                <Text as="i">Save recipe when adding to shopping list</Text>
+              </Checkbox>
+            )}
+            <HStack>
               <Button
                 disabled={
                   !selectedShoppingList &&
                   !shoppingListStore.backToMyShoppingList
                 }
-                onClick={() => onAddToShoppingList(true)}
+                onClick={() => onAddToShoppingList(false, addToFavourites)}
                 colorScheme="brand"
               >
-                Add and return
+                {settingStore.language.add}
               </Button>
-            )}
-          </HStack>
+              {!!shoppingListStore.backToMyShoppingList && (
+                <Button
+                  disabled={
+                    !selectedShoppingList &&
+                    !shoppingListStore.backToMyShoppingList
+                  }
+                  onClick={() => onAddToShoppingList(true, addToFavourites)}
+                  colorScheme="brand"
+                >
+                  Add and return
+                </Button>
+              )}
+            </HStack>
+          </VStack>
         </Center>
       </Box>
     </VStack>

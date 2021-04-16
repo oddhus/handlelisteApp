@@ -9,10 +9,11 @@ import {
   Divider,
   Button,
   HStack,
+  Img,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
-import React, { useEffect} from 'react'
-import {useParams } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import { ItemList } from '../components/recipes/ItemList'
 import { RecipeActionButtons } from '../components/recipes/RecipeActionButtons'
 import { RecipeFavoriteButton } from '../components/recipes/RecipeFavoriteButton'
@@ -55,8 +56,17 @@ export const Recipe: React.FC<Props> = observer(() => {
       <VStack alignItems="flex-start">
         <Box minW="100%">
           <Center>
-            <img src={recipeStore.currentRecipe?.imgUrl ? recipeStore.currentRecipe?.imgUrl
-                : 'https://rbox.in/img/recipes-default.png'}/>
+            <Img
+              objectFit="cover"
+              overflow="hidden"
+              maxH="250px"
+              width="100%"
+              src={
+                recipeStore.currentRecipe?.imgUrl
+                  ? recipeStore.currentRecipe?.imgUrl
+                  : 'https://rbox.in/img/recipes-default.png'
+              }
+            />
           </Center>
         </Box>
         <Box minW="100%">
