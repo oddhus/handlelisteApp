@@ -29,70 +29,29 @@ export const UploadImageForm: React.FC<Props> = observer(({ form, field }) => {
 
   return (
     <FormControl isInvalid={!!form.errors?.imgUrl && !!form.touched?.imgUrl}>
-      <FormLabel htmlFor="imgURL">{settingStore.language.imgUrl}</FormLabel>
-      <RadioGroup pb={2}>
-        <Stack spacing={5} direction="row">
-          <Radio
-            colorScheme="brand"
-            isChecked={!recipeStore.uploadOwnImage}
-            onChange={() => recipeStore.setUploadOwnImage()}
-          >
-            From url
-          </Radio>
-          <Radio
-            colorScheme="brand"
-            isChecked={recipeStore.uploadOwnImage}
-            onChange={() => {
-              recipeStore.setUploadOwnImage()
-              recipeStore.removeCurrentImage()
-            }}
-          >
-            Upload img
-          </Radio>
-        </Stack>
-      </RadioGroup>
-      {recipeStore.uploadOwnImage ? (
+      <FormLabel htmlFor="imgURL">Add Photo</FormLabel>
+      {
         recipeStore.currentCroppedImage ? (
           <HStack>
             <Button
               isFullWidth
               variant="outline"
               colorScheme="brand"
-              onClick={() =>
-                modalStore.openModal(
-                  <Image
-                    src={URL.createObjectURL(recipeStore.currentCroppedImage)}
-                    pb={1}
-                  />
-                )
-              }
+              onClick={() => {recipeStore.currentCroppedImage = undefined}}
             >
-              View Photo
+              Remove photo
             </Button>
-            <IconButton
-              onClick={() => recipeStore.setUploadOwnImage()}
-              aria-label="remove photo"
-              icon={<CloseIcon />}
-            />
           </HStack>
         ) : (
           <Button
             isFullWidth
+            variant="outline"
+            colorScheme="brand"
             onClick={() => modalStore.openModal(<ImageUploader />)}
           >
             Add Photo
           </Button>
-        )
-      ) : (
-        <Fragment>
-          <Input
-            {...field}
-            id="imgUrl"
-            placeholder={settingStore.language.imgUrl}
-          />
-          <FormErrorMessage>{form.errors.imgUrl}</FormErrorMessage>
-        </Fragment>
-      )}
+        )}
     </FormControl>
   )
 })
