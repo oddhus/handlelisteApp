@@ -6,7 +6,9 @@
 ### Requirements: 
 
 1. [.NET](https://dotnet.microsoft.com/learn/aspnet)
-2. [Nodejs](https://nodejs.org/en/)
+2. [Nodejs](https://nodejs.org/en/)'
+
+To run the Cypress tests, set the necessary enviornment variables specified in [plugin/index.js](https://github.com/oddhus/handlelisteApp/blob/main/handlelisteApp/client-app/cypress/plugins/index.js). Or just comment these out and set a username and passowrd that exists in your database.
 
 ## Running the application
 
@@ -28,5 +30,10 @@ npm run test
 
 ### Cypress
 ```bash
-npm run cypress
+npm run cypress 
+npm run cy:testh
+npm run cy:run
+npx cypress run 
 ```
+* note: The full application needs to be running before running the cypress tests.
+* You can add your own [options](https://docs.cypress.io/guides/guides/command-line#How-to-run-commands) to the command ```npm run cy:run ```

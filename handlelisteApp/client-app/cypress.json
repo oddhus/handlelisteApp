@@ -1,5 +1,6 @@
 {
     "baseUrl": "https://localhost:5001/",
+    "pageLoadTimeout": 180000,
     "reporter": "junit",
     "reporterOptions": {
         "mochaFile": "cypress/results/result-[hash].xml"
