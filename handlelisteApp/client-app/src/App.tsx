@@ -6,6 +6,7 @@ import { useStore } from './stores/store'
 import { LoadingComponent } from './components/shared/LoadingComponent'
 import ModalContainer from './components/shared/ModalContainer'
 import { history } from './index'
+import Footer from "./components/shared/Footer";
 
 function App() {
   const { commonStore, userStore, settingStore } = useStore()
@@ -66,6 +67,7 @@ function App() {
       <ModalContainer />
       <NavBar />
       <AppRoutes />
+      <Footer/>
     </Fragment>
   )
 }
