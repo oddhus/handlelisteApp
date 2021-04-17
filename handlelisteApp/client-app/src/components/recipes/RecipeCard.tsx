@@ -63,7 +63,7 @@ const RecipeCard: React.FC<Props> = ({
               >
                 {recipe.recipeName}
               </Box>
-              <RecipeFavoriteButton recipe={recipe} />
+              <RecipeFavoriteButton recipe={recipe} side="left" />
             </HStack>
 
             <Box minW="100%">

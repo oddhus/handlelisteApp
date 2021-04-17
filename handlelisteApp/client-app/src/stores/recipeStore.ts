@@ -11,6 +11,7 @@ export default class RecipeStore {
   usersRecipeList: Map<number, IRecipe[] | undefined> = new Map()
   allRecipes: IRecipe[] | undefined = undefined
   loading: boolean = false
+  loadingAddFavourite: number | undefined = undefined
   successToastMessage: string = ''
   errorToastMessage: string = ''
   tabIndex: number = 0
@@ -21,7 +22,6 @@ export default class RecipeStore {
   uploading = false
   currentCroppedImage: Blob | undefined = undefined
   uploadedImageUrl: string = ''
-  uploadOwnImage: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -170,17 +170,14 @@ export default class RecipeStore {
         'create recipe.' +
           (e.response ? ` With status code: ${e.response.status}` : '')
       )
-    } finally {
-      this.uploadOwnImage = false
     }
   }
 
   likeOrRemoveLikeOnRecipe = async (recipe: IRecipe) => {
-    console.log(recipe)
     if (!store.userStore.user?.userID || !recipe || !recipe.recipeID) {
       return
     }
-
+    this.loadingAddFavourite = recipe.recipeID
     try {
       if (!recipe.hasLiked) {
         await agent.recipe.likeRecipe(recipe.recipeID)
@@ -188,7 +185,10 @@ export default class RecipeStore {
         await agent.recipe.deleteRecipeLike(recipe.recipeID)
       }
       runInAction(() => (recipe.hasLiked = !recipe.hasLiked))
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      runInAction(() => (this.loadingAddFavourite = undefined))
+    }
   }
 
   updateRecipe = async (recipe: IRecipe, id: number) => {
@@ -202,7 +202,6 @@ export default class RecipeStore {
     const userId = parseInt(store.userStore.user?.userID)
 
     if (
-      this.uploadOwnImage &&
       this.currentCroppedImage &&
       (await this.upLoadPhoto(this.currentCroppedImage))
     ) {
@@ -231,8 +230,6 @@ export default class RecipeStore {
       })
     } catch (e) {
       this.error('update recipe')
-    } finally {
-      this.uploadOwnImage = false
     }
   }
 
@@ -328,10 +325,6 @@ export default class RecipeStore {
 
   setTabIndex(index: number) {
     runInAction(() => (this.tabIndex = index))
-  }
-
-  setUploadOwnImage() {
-    this.uploadOwnImage = !this.uploadOwnImage
   }
 
   setToastSuccessMessage(message: string) {
