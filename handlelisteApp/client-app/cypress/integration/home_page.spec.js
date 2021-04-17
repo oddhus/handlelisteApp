@@ -31,7 +31,7 @@ describe('The Login Page', () => {
         cy.get('[data-cy=username-input]').clear().type(validUsername).should('have.value', validUsername)
         cy.get('[data-cy=password-input]').clear().type(`${validPassword}{enter}`)
         
-        cy.url().should('include', '/shopping-list')
+        cy.url({timeout: 15000}).should('include', '/shopping-list')
         cy.should(() => {
             expect(localStorage.getItem('jwt')).to.not.be.null
             expect(localStorage.getItem('jwt')).to.not.equal('')

@@ -22,7 +22,7 @@ steps:
       nohup dotnet run &
       sleep 4
     displayName: Starting app in BG
-    
+
   - task: Cache@2
     inputs:
       key: npm | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json
@@ -110,14 +110,6 @@ steps:
     condition: failed()
     continueOnError: true
     displayName: 'Publish screenshots when there were issues'
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: 'handlelisteApp\client-app\cypress\videos'
-      artifactName: cypress-videos
-    condition: succeededOrFailed()
-    continueOnError: true
-    displayName: 'Publish videos'
 
   - task: PublishCodeCoverageResults@1
     displayName: "Publish Code Coverage"

@@ -62,7 +62,7 @@
     "eject": "react-scripts eject",
     "test:ci": "react-scripts test --env=jsdom --testResultsProcessor=\"jest-junit\" --coverage --ci --watchAll=false",
     "cypress": "cypress open",
-    "cy:testh": "cypress run --project ./ --headless",
+    "cy:testh": "cypress run --project ./ --headless --config video=false",
     "cy:run": "cypress run",
     "cy:verify": "cypress verify"
   },
