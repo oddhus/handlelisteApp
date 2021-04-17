@@ -24,6 +24,9 @@ jest.mock('../../stores/store', () => ({
       },
       resetFeedBack: () => undefined,
     },
+    userStore: {
+      isLoggedIn: false,
+    },
   }),
 }))
 
