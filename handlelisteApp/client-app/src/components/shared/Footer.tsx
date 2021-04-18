@@ -4,7 +4,6 @@ import { Flex, Text, HStack } from "@chakra-ui/react";
 const Footer = (): React.ReactElement => {
     return (
         <Flex
-            style={{marginTop: '215px'}}
             bg="white"
             width="100%"
             justifyContent="center"
