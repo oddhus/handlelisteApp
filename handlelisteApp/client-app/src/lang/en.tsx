@@ -39,6 +39,7 @@ export default class English implements ILanguage {
   createRecipe = 'Create recipe'
   ingredient = 'Ingredient'
   ingredients = 'Ingredients'
+  noIngredients = 'No ingredients...'
   shortDescription = 'Short description'
   approach = 'Approach'
   imgUrl = 'Image Url'

@@ -35,6 +35,7 @@ export interface ILanguage {
   createRecipe: string
   ingredient: string
   ingredients: string
+  noIngredients: string
   shortDescription: string
   approach: string
   imgUrl: string
