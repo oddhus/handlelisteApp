@@ -5,11 +5,14 @@ import '@testing-library/jest-dom/extend-expect'
 import { AppRoutes } from '../../routes/AppRoutes'
 import { Heading } from '@chakra-ui/react'
 import { MockLanguage } from '../MockLanguage'
+import { QueryParamProvider } from 'use-query-params'
 
 const setup = (path: string) => {
   return render(
     <MemoryRouter initialEntries={[path]}>
-      <AppRoutes />
+      <QueryParamProvider>
+        <AppRoutes />
+      </QueryParamProvider>
     </MemoryRouter>
   )
 }
@@ -76,6 +79,7 @@ jest.mock('../../stores/store', () => ({
       language: { ...MockLanguage },
     },
     recipeStore: {
+      searchInRecipes: () => undefined,
       currentRecipe: {
         recipeName: 'Recipe',
         items: [],

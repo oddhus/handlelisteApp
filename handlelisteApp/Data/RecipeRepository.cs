@@ -1,5 +1,6 @@
 ﻿using handlelisteApp.Context;
 using handlelisteApp.Models;
+using handlelisteApp.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,14 +31,10 @@ namespace handlelisteApp.Data
             _context.SaveChanges();
         }
 
-        public IEnumerable<Recipe> GetAllRecipes()
+        public PaginatedRecipeList GetAllRecipes(RecipeParameters recipeParameters)
         {
-            return _context.Recipes
-                .Include(r => r.Items)
-                    .ThenInclude(iir => iir.Item)
-                .Include(r => r.UserSaved)
-                .AsSplitQuery()
-                .ToList();
+            return PaginatedRecipeList.ToPagedList(_context.Recipes, recipeParameters);
+
         }
 
         public IEnumerable<Recipe> GetAllUserRecipes(int userID)

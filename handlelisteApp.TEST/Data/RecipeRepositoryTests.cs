@@ -1,6 +1,7 @@
 ﻿using handlelisteApp.Context;
 using handlelisteApp.Data;
 using handlelisteApp.Models;
+using handlelisteApp.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
@@ -42,7 +43,7 @@ namespace handlelisteApp.Test.Data
 
         public RecipeRepositoryTests()
         {
-            testRecipe1 = new Recipe { RecipeID = 0, Approach = "approach0", RecipeName = "rname0", ShortDescription = "description0" , UserID = 1};
+            testRecipe1 = new Recipe { RecipeID = 0, Approach = "approach0", RecipeName = "rname0", ShortDescription = "description0", UserID = 1 };
             testRecipe2 = new Recipe { RecipeID = 1, Approach = "approach1", RecipeName = "rname1", ShortDescription = "description1", UserID = 1 };
             testRecipe3 = new Recipe { RecipeID = 2, Approach = "approach2", RecipeName = "rname2", ShortDescription = "description2", UserID = 2 };
 
@@ -102,7 +103,7 @@ namespace handlelisteApp.Test.Data
 
             }.AsQueryable();
 
-            
+
 
 
 
@@ -169,14 +170,14 @@ namespace handlelisteApp.Test.Data
         [Fact]
         public void GetAllRecipesReturnsAllRecipes()
         {
-            var result = _recipeRepository.GetAllRecipes();
-            Assert.Equal(6, result.Count());
-            Assert.Contains(EggRecipe, result);
-            Assert.Contains(EggRecipe2, result);
-            Assert.Contains(MilkRecipe, result);
-            Assert.Contains(MilkRecipe2, result);
-            Assert.Contains(MilkAndEggsRecipe, result);
-            Assert.Contains(CheeseRecipe, result);
+            var result = _recipeRepository.GetAllRecipes(new RecipeParameters());
+            Assert.Equal(6, result.recipes.Count());
+            Assert.Contains(EggRecipe, result.recipes);
+            Assert.Contains(EggRecipe2, result.recipes);
+            Assert.Contains(MilkRecipe, result.recipes);
+            Assert.Contains(MilkRecipe2, result.recipes);
+            Assert.Contains(MilkAndEggsRecipe, result.recipes);
+            Assert.Contains(CheeseRecipe, result.recipes);
         }
 
         [Fact]

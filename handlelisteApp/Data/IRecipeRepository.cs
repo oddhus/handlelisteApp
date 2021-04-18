@@ -1,4 +1,5 @@
 ﻿using handlelisteApp.Models;
+using handlelisteApp.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace handlelisteApp.Data
 
         Recipe AddRecipe(Recipe newRecipe);
 
-        IEnumerable<Recipe> GetAllRecipes();
+        PaginatedRecipeList GetAllRecipes(RecipeParameters recipeParameters);
 
         IEnumerable<Recipe> GetAllRecipesUsingItem(Item item);
 

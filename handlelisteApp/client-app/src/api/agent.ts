@@ -117,7 +117,14 @@ const recipe = {
 
 const recipes = {
   getAllUserRecipes: (id: number) => requests.get('recipe/user/' + id),
-  getAllRecipes: () => requests.get('recipe/all'),
+  getAllRecipes: (query: string | undefined) => {
+    if (query) {
+      query = '/recipe/all?' + query
+    } else {
+      query = '/recipe/all'
+    }
+    return requests.get(query)
+  },
   getRecipieSuggestions: () => requests.get('recipe/suggestions'),
 }
 

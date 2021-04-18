@@ -1,15 +1,16 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 import agent from '../api/agent'
 import { store } from './store'
-import { IRecipe } from '../models/recipe'
+import { IPaginatedRecipes, IQueryParams, IRecipe } from '../models/recipe'
 import { history } from '../index'
 import { IFeedback } from '../models/generalTypes'
-
+import { debounce } from 'lodash'
+import { stringify } from 'query-string'
 export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
   currentRecipeList: IRecipe[] = []
-  usersRecipeList: Map<number, IRecipe[] | undefined> = new Map()
-  allRecipes: IRecipe[] | undefined = undefined
+  userRecipeList: IRecipe[] = []
+  allRecipes: IPaginatedRecipes | undefined = undefined
   loading: boolean = false
   loadingAddFavourite: number | undefined = undefined
   successToastMessage: string = ''
@@ -22,32 +23,15 @@ export default class RecipeStore {
   uploading = false
   currentCroppedImage: Blob | undefined = undefined
   uploadedImageUrl: string = ''
+  isFiltering: boolean = true
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  //Check is the current user is the owner of the current recipe
-  get isOwner() {
-    if (
-      !store.userStore.user?.userID ||
-      !this.currentRecipe ||
-      !this.currentRecipe?.recipeID
-    ) {
-      return false
-    }
-
-    const userRecipes = this.usersRecipeList.get(
-      parseInt(store.userStore.user!.userID)
-    )
-
-    return (
-      !!userRecipes &&
-      !!userRecipes.find(
-        (recipe) => recipe.recipeID === this.currentRecipe!.recipeID
-      )
-    )
-  }
+  debouncedGetRecipes = debounce((query) => {
+    this.getAllRecipes(query)
+  }, 500)
 
   getRecipe = async (id: number) => {
     this.resetAndStartLoading()
@@ -83,25 +67,23 @@ export default class RecipeStore {
     }
   }
 
-  getUserRecipes = async (id: number) => {
+  getUserRecipes = async (
+    id: number,
+    searchText?: string | null | undefined,
+    items?: never[] | (string | null)[]
+  ) => {
     this.resetAndStartLoading()
 
-    //First return old list if exists
-    let userRecipes = this.usersRecipeList.get(id)
-    if (userRecipes) {
-      runInAction(() => {
-        this.currentRecipeList = userRecipes!
-        this.loading = false
-      })
-    }
-
-    //Then update list
     try {
-      userRecipes = await agent.recipes.getAllUserRecipes(id)
+      const userRecipes = await agent.recipes.getAllUserRecipes(id)
       if (userRecipes) {
         runInAction(() => {
-          this.usersRecipeList.set(id, userRecipes)
-          this.currentRecipeList = userRecipes!
+          this.userRecipeList = userRecipes || []
+          this.currentRecipeList = this.filterRecipes(
+            userRecipes,
+            searchText,
+            items
+          )
           this.loading = false
         })
       } else {
@@ -112,22 +94,13 @@ export default class RecipeStore {
     }
   }
 
-  getAllRecipes = async () => {
+  getAllRecipes = async (query?: string | undefined) => {
     this.resetAndStartLoading()
-    /*
-    if (this.allRecipes) {
-      runInAction(() => {
-        this.currentRecipeList = this.allRecipes!
-        this.loading = false
-      })
-      return
-    }
-*/
     try {
-      const recipes = await agent.recipes.getAllRecipes()
+      const paginatedRecipes = await agent.recipes.getAllRecipes(query)
       runInAction(() => {
-        this.allRecipes = recipes || []
-        this.currentRecipeList = recipes || []
+        this.allRecipes = paginatedRecipes || []
+        this.currentRecipeList = paginatedRecipes.recipes || []
         this.loading = false
       })
     } catch (e) {
@@ -154,12 +127,10 @@ export default class RecipeStore {
       }
 
       if (store.userStore.user) {
-        const userId = parseInt(store.userStore.user.userID)
-        const recipeList = this.usersRecipeList.get(userId) || []
         runInAction(() => {
           this.currentRecipe = newRecipe
-          this.usersRecipeList.set(userId, [...recipeList, newRecipe])
-          this.currentRecipeList = [...recipeList, newRecipe]
+          this.userRecipeList.push(newRecipe)
+          this.currentRecipeList.push(newRecipe)
           this.currentCroppedImage = undefined
           this.success('Recipe created')
           history.push(`/recipes`)
@@ -199,8 +170,6 @@ export default class RecipeStore {
       return
     }
 
-    const userId = parseInt(store.userStore.user?.userID)
-
     if (
       this.currentCroppedImage &&
       (await this.upLoadPhoto(this.currentCroppedImage))
@@ -211,19 +180,17 @@ export default class RecipeStore {
     try {
       const updatedRecipe = await agent.recipe.updateRecipe(recipe, id)
 
-      const recipeList = this.usersRecipeList.get(userId) || []
-      const index = recipeList.findIndex(
+      const index = this.userRecipeList.findIndex(
         (recipe) => recipe.recipeID === updatedRecipe.recipeID
       )
 
       if (index !== -1) {
-        recipeList[index] = updatedRecipe
+        this.userRecipeList[index] = updatedRecipe
       }
 
       runInAction(() => {
         this.currentRecipe = updatedRecipe
-        this.currentRecipeList = recipeList
-        this.usersRecipeList.set(userId, recipeList)
+        this.currentRecipeList = this.userRecipeList
         this.currentCroppedImage = undefined
         this.success('Recipe updated')
         history.push(`/recipes`)
@@ -253,15 +220,12 @@ export default class RecipeStore {
           (recipe) => recipe.recipeID !== id
         )
 
-        if (store.userStore.user?.userID) {
-          this.usersRecipeList.set(
-            parseInt(store.userStore.user!.userID),
-            this.currentRecipeList
-          )
-        }
+        this.userRecipeList = this.userRecipeList.filter(
+          (recipe) => recipe.recipeID !== id
+        )
 
         if (this.allRecipes) {
-          this.allRecipes = this.allRecipes.filter(
+          this.allRecipes.recipes = this.allRecipes.recipes.filter(
             (recipe) => recipe.recipeID !== id
           )
         }
@@ -272,22 +236,20 @@ export default class RecipeStore {
     }
   }
 
-  async getRecipieSuggestions() {
+  async getRecipieSuggestions(
+    searchText?: string | null | undefined,
+    items?: never[] | (string | null)[]
+  ) {
     this.resetAndStartLoading()
-    /*
-    if (this.recipieSuggestions) {
-      runInAction(() => {
-        this.currentRecipeList = this.recipieSuggestions!
-        this.loading = false
-      })
-      return
-    }
-*/
     try {
       const recipes = await agent.recipes.getRecipieSuggestions()
       runInAction(() => {
         this.recipieSuggestions = recipes || []
-        this.currentRecipeList = recipes || []
+        this.currentRecipeList = this.filterRecipes(
+          recipes || [],
+          searchText,
+          items
+        )
         this.loading = false
       })
     } catch (e) {
@@ -307,7 +269,7 @@ export default class RecipeStore {
     runInAction(() => {
       this.currentRecipe = undefined
       this.currentRecipeList = []
-      this.usersRecipeList = new Map()
+      this.userRecipeList = []
       this.allRecipes = undefined
       this.loading = false
       this.successToastMessage = ''
@@ -331,30 +293,61 @@ export default class RecipeStore {
     runInAction(() => (this.successToastMessage = message))
   }
 
-  searchInRecipies(keyword: string) {
-    let foundRecipes: IRecipe[] = []
-    let recipesToSearchIn: IRecipe[] = []
-
-    if (this.tabIndex === 0) {
-      recipesToSearchIn =
-        this.usersRecipeList.get(parseInt(store.userStore.user!.userID)) || []
-    } else if (this.tabIndex === 2) {
-      recipesToSearchIn = this.recipieSuggestions || []
-    } else {
-      recipesToSearchIn = this.allRecipes || []
+  searchInRecipes(
+    searchText?: string | null | undefined,
+    items?: never[] | (string | null)[]
+  ) {
+    if (!searchText) {
+      searchText = ''
     }
 
-    recipesToSearchIn!.forEach((recipe) => {
-      if (recipe.recipeName.toLocaleLowerCase().includes(keyword)) {
-        foundRecipes.push(recipe)
-      } else {
-        if (
-          recipe.items.some((item) => item.itemName.toLowerCase() === keyword)
+    if (this.tabIndex === 1) {
+      this.currentRecipeList = this.allRecipes?.recipes || []
+      this.debouncedGetRecipes(searchText)
+      return
+    }
+
+    if (this.tabIndex === 0 && store.userStore.user?.userID) {
+      this.currentRecipeList = this.filterRecipes(
+        this.userRecipeList,
+        searchText,
+        items
+      )
+    } else if (
+      this.tabIndex === 2 &&
+      this.recipieSuggestions &&
+      this.recipieSuggestions.length > 0
+    ) {
+      this.currentRecipeList = this.filterRecipes(
+        this.recipieSuggestions,
+        searchText,
+        items
+      )
+    }
+  }
+
+  private filterRecipes(
+    recipesToFilter: IRecipe[],
+    searchText?: string | null | undefined,
+    items?: never[] | (string | null)[]
+  ) {
+    if (searchText) {
+      recipesToFilter = recipesToFilter.filter((recipe) =>
+        recipe.recipeName.toLocaleLowerCase().includes(searchText!)
+      )
+    }
+
+    if (items && items.length > 0) {
+      recipesToFilter = recipesToFilter.filter((recipe) =>
+        (items as (string | null)[]).every((searchitem) =>
+          recipe.items.some(
+            (item) => item.itemName.toLowerCase() === searchitem
+          )
         )
-          foundRecipes.push(recipe)
-      }
-    })
-    runInAction(() => (this.currentRecipeList = foundRecipes))
+      )
+    }
+
+    return recipesToFilter
   }
 
   private resetAndStartLoading() {

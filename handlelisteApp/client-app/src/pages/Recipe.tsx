@@ -75,7 +75,7 @@ export const Recipe: React.FC<Props> = observer(() => {
               <Heading>{recipeStore.currentRecipe?.recipeName}</Heading>
               <RecipeFavoriteButton recipe={recipeStore.currentRecipe} />
             </HStack>
-            {recipeStore.isOwner && (
+            {recipeStore.currentRecipe?.isOwner && (
               <RecipeActionButtons
                 recipe={recipeStore.currentRecipe}
                 editable

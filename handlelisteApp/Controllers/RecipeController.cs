@@ -23,9 +23,9 @@ namespace handlelisteApp.Controllers
         }
 
         [HttpGet("all")]
-        public IEnumerable<RecipeDTO> GetAllRecipes()
+        public PaginatedReadRecipeDTO GetAllRecipes([FromQuery] RecipeParameters recipeParameters)
         {
-            return _recipeService.GetAllRecipes(GetUserId());
+            return _recipeService.GetAllRecipes(GetUserId(), recipeParameters);
         }
 
         [HttpGet("{id:int}")]

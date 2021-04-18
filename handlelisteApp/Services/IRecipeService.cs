@@ -9,7 +9,7 @@ namespace handlelisteApp.Services
 {
     public interface IRecipeService
     {
-        IEnumerable<RecipeDTO> GetAllRecipes(int userId);
+        PaginatedReadRecipeDTO GetAllRecipes(int userId, RecipeParameters recipeParameters);
 
         RecipeDTO GetRecipeById(int id, int userId);
 

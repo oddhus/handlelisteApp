@@ -12,6 +12,7 @@ namespace handlelisteApp.Mappings.Profiles
     {
         public RecipeProfile()
         {
+            CreateMap<PaginatedRecipeList, PaginatedReadRecipeDTO>();
             CreateMap<Recipe, RecipeDTO>()
                 .ForMember(r => r.IsOwner, opt =>
                     {

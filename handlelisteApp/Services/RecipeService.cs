@@ -73,9 +73,9 @@ namespace handlelisteApp.Services
             return true;
         }
 
-        public IEnumerable<RecipeDTO> GetAllRecipes(int userId)
+        public PaginatedReadRecipeDTO GetAllRecipes(int userId, RecipeParameters recipeParameters)
         {
-            return _mapper.Map<List<RecipeDTO>>(_repository.GetAllRecipes(), opt => opt.Items["UserId"] = userId);
+            return _mapper.Map<PaginatedReadRecipeDTO>(_repository.GetAllRecipes(recipeParameters), opt => opt.Items["UserId"] = userId);
         }
 
         public List<RecipeDTO> GetAllByUserIdRecipes(int userId)

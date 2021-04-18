@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { Recipes } from '../../pages/Recipes'
 import English from '../../lang/en'
 import { MockLanguage } from '../MockLanguage'
+import { QueryParamProvider } from 'use-query-params'
 
 //Mock the store returned from the useStore hook. In this case only null is returned.
 jest.mock('../../stores/store', () => ({
@@ -12,6 +13,8 @@ jest.mock('../../stores/store', () => ({
       language: { ...MockLanguage },
     },
     recipeStore: {
+      searchInRecipes: () => undefined,
+
       allRecipes: [],
       currentRecipeList: [],
       loading: false,
@@ -35,7 +38,6 @@ jest.mock('../../stores/store', () => ({
   }),
 }))
 
-
 jest.mock('react-router-dom', () => ({
   useHistory: () => ({
     history: {
@@ -47,7 +49,11 @@ jest.mock('react-router-dom', () => ({
 describe('RecipesPage', () => {
   describe('Layout', () => {
     it('has header of Recipes', () => {
-      const { container } = render(<Recipes />)
+      const { container } = render(
+        <QueryParamProvider>
+          <Recipes />
+        </QueryParamProvider>
+      )
       const div = container.querySelector('div')
       expect(div).toHaveTextContent('Create recipe')
     })
