@@ -38,6 +38,7 @@ export default class Norwegian_B implements ILanguage {
   createRecipe = 'Lag ny oppskrift'
   ingredient = 'Ingrediens'
   ingredients = 'Ingredienser'
+  noIngredients = 'Ingen ingredienser...'
   shortDescription = 'Kort beskrivelse'
   approach = 'Fremgangsmåte'
   imgUrl = 'Bildeadresse'
