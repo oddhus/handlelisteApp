@@ -12,6 +12,7 @@ import {
   FormLabel,
   HStack,
   Input,
+  Select,
   Tag,
   TagCloseButton,
   TagLabel,
@@ -39,6 +40,8 @@ const initialQuery = {
   searchText: '',
 }
 
+const options = [2, 10, 20, 50]
+
 export const AdvancedSearchDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
   const [currentQuery, setCurrentQuery] = useState<IQueryParams>(initialQuery)
   const [ingredientToAdd, setIngredientToAdd] = useState('')
@@ -54,7 +57,7 @@ export const AdvancedSearchDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
     if (query) {
       setCurrentQuery({
         items: query.items || [],
-        pageSize: undefined,
+        pageSize: query.pageSize || undefined,
         searchText: query.searchText || '',
       })
     }
@@ -66,11 +69,11 @@ export const AdvancedSearchDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
   }
 
   const onReset = () => {
-    setQuery(initialQuery)
+    setQuery({ ...initialQuery, pageNumber: 1 })
   }
 
   const onSearch = () => {
-    setQuery(currentQuery)
+    setQuery({ ...currentQuery, pageNumber: 1 })
     onClose()
   }
 
@@ -85,7 +88,7 @@ export const AdvancedSearchDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
             <DrawerBody>
               <VStack minW="100%" spacing={4}>
                 <Box minW="100%">
-                  <FormLabel htmlFor="username">SearchText</FormLabel>
+                  <FormLabel htmlFor="SearchText">Search Text</FormLabel>
                   <Input
                     placeholder="Search"
                     value={currentQuery!.searchText}
@@ -99,7 +102,9 @@ export const AdvancedSearchDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
                 </Box>
 
                 <Box>
-                  <FormLabel htmlFor="ingredient">Include ingredient</FormLabel>
+                  <FormLabel htmlFor="IncludeIngredient">
+                    Include ingredient
+                  </FormLabel>
                   <HStack spacing={2}>
                     <Input
                       value={ingredientToAdd}
@@ -144,6 +149,27 @@ export const AdvancedSearchDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
                       )
                     )}
                 </Flex>
+
+                <Box minW="100%">
+                  <FormLabel htmlFor="ingredient">Results Per Page</FormLabel>
+                  <Select
+                    placeholder={
+                      currentQuery.pageSize ? `${currentQuery.pageSize}` : '50'
+                    }
+                    onChange={(e) =>
+                      setCurrentQuery({
+                        ...currentQuery,
+                        pageSize: parseInt(e.target.value),
+                      })
+                    }
+                  >
+                    {options.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </Select>
+                </Box>
               </VStack>
             </DrawerBody>
 
@@ -154,7 +180,7 @@ export const AdvancedSearchDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
               <Button mr={3} onClick={() => onReset()}>
                 Reset
               </Button>
-              <Button colorScheme="blue" onClick={() => onSearch()}>
+              <Button colorScheme="brand" onClick={() => onSearch()}>
                 Search
               </Button>
             </DrawerFooter>

@@ -1,11 +1,10 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 import agent from '../api/agent'
 import { store } from './store'
-import { IPaginatedRecipes, IQueryParams, IRecipe } from '../models/recipe'
+import { IPaginatedRecipes, IRecipe } from '../models/recipe'
 import { history } from '../index'
 import { IFeedback } from '../models/generalTypes'
 import { debounce } from 'lodash'
-import { stringify } from 'query-string'
 export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
   currentRecipeList: IRecipe[] = []

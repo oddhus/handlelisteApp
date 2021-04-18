@@ -10,17 +10,6 @@ import {
   Tabs,
   Button,
   Center,
-  Switch,
-  FormControl,
-  FormLabel,
-  VStack,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  IconButton,
-  GridItem,
-  Grid,
   useDisclosure,
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
@@ -28,7 +17,6 @@ import { AllRecipes } from '../components/recipes/AllRecipes'
 import { useHistory } from 'react-router-dom'
 import { SuggestedRecipes } from '../components/recipes/SuggestedRecipes'
 import { Toast } from '../components/shared/Toast'
-import { CloseIcon, Search2Icon } from '@chakra-ui/icons'
 import { stringify } from 'query-string'
 import {
   ArrayParam,
@@ -38,6 +26,8 @@ import {
   withDefault,
 } from 'use-query-params'
 import { AdvancedSearchDrawer } from '../components/recipes/AdvancedSearchDrawer'
+import { Pagination } from '../components/shared/Pagination'
+import { SearchBar } from '../components/recipes/SearchBar'
 
 interface Props {}
 
@@ -88,10 +78,6 @@ export const Recipes: React.FC<Props> = observer(() => {
     )
   }, [query])
 
-  const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery({ ...query, searchText: e.target.value.toLowerCase() })
-  }
-
   return (
     <Container maxW="container.md">
       <AdvancedSearchDrawer isOpen={isOpen} onClose={onClose} />
@@ -126,72 +112,7 @@ export const Recipes: React.FC<Props> = observer(() => {
             <Tab>{settingStore.language.recommendations}</Tab>
           ) : null}
         </TabList>
-        <VStack minW="100%">
-          <Grid
-            gap={2}
-            mt="3vh"
-            templateColumns="repeat(12, 1fr)"
-            templateRows={['repeat(2, 1fr)', 'repeat(1, 1fr)']}
-          >
-            <GridItem colSpan={[12, 6, 8]}>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<Search2Icon color="gray.300" />}
-                />
-                <Input
-                  value={searchText || ''}
-                  onChange={(e) => onInput(e)}
-                  type="tel"
-                  placeholder={settingStore.language.search}
-                />
-                {((items && items.length > 0) || searchText) && (
-                  <InputRightElement width="2.5rem">
-                    <IconButton
-                      aria-label="reset"
-                      h="1.75rem"
-                      size="sm"
-                      icon={<CloseIcon />}
-                      onClick={() =>
-                        setQuery({ searchText: undefined, items: undefined })
-                      }
-                    />
-                  </InputRightElement>
-                )}
-              </InputGroup>
-            </GridItem>
-            <GridItem
-              colSpan={[5, 4, 2]}
-              rowStart={[2, 1, 1]}
-              colStart={[1, 7, 9]}
-            >
-              <Button
-                onClick={() => onOpen()}
-                colorScheme="brand"
-                variant={items && items.length > 0 ? 'solid' : 'outline'}
-              >
-                Advanced Search
-              </Button>
-            </GridItem>
-            <GridItem colSpan={[2, 1]} rowStart={[2, 1, 1]} colStart={[10, 12]}>
-              <FormControl display="flex" alignItems="center" width={'20%'}>
-                <Switch
-                  onChange={() => {
-                    recipeStore.cardView = !recipeStore.cardView
-                  }}
-                />
-                <FormLabel
-                  htmlFor="email-alerts"
-                  mb="0"
-                  fontSize="sm"
-                  style={{ marginLeft: '10px' }}
-                >
-                  List view
-                </FormLabel>
-              </FormControl>
-            </GridItem>
-          </Grid>
-        </VStack>
+        <SearchBar onOpen={onOpen} />
 
         <TabPanels>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
@@ -199,6 +120,9 @@ export const Recipes: React.FC<Props> = observer(() => {
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <AllRecipes />
+            <Center pt={4}>
+              <Pagination paginatedRecipe={recipeStore.allRecipes} />
+            </Center>
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
             <SuggestedRecipes />
