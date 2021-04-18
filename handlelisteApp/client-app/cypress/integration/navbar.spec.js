@@ -45,7 +45,7 @@ describe('Nav-bar', () => {
     })
 
     it('Should navigate to sigin page when logging out', function () {
-        cy.get('[data-cy=logout-nav-btn]').should('be.visible').click()
+        cy.get('[data-cy=logout-nav-btn]').should('be.visible').click({force: true})
         cy.url().should('include', 'signin')
     })
 
