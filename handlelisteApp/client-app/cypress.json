@@ -1,5 +1,5 @@
 {
-    "baseUrl": "https://localhost:5001/",
+    "baseUrl": "https://grp8-shoppinglist.azurewebsites.net/",
     "pageLoadTimeout": 180000,
     "reporter": "junit",
     "reporterOptions": {

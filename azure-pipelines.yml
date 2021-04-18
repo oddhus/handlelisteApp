@@ -15,14 +15,6 @@ variables:
   buildConfiguration: "Release"
 
 steps:
-  - bash: |
-      #cd handlelisteApp
-      #dotnet run
-      cd handlelisteApp
-      nohup dotnet run &
-      sleep 4
-    displayName: Starting app in BG
-
   - task: Cache@2
     inputs:
       key: npm | “$(Agent.OS)” | $(Build.SourcesDirectory)/handlelisteApp/client-app/package-lock.json
