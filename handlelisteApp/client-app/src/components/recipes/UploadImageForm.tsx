@@ -30,28 +30,29 @@ export const UploadImageForm: React.FC<Props> = observer(({ form, field }) => {
   return (
     <FormControl isInvalid={!!form.errors?.imgUrl && !!form.touched?.imgUrl}>
       <FormLabel htmlFor="imgURL">Add Photo</FormLabel>
-      {
-        recipeStore.currentCroppedImage ? (
-          <HStack>
-            <Button
-              isFullWidth
-              variant="outline"
-              colorScheme="brand"
-              onClick={() => {recipeStore.currentCroppedImage = undefined}}
-            >
-              Remove photo
-            </Button>
-          </HStack>
-        ) : (
+      {recipeStore.currentCroppedImage ? (
+        <HStack>
           <Button
             isFullWidth
             variant="outline"
             colorScheme="brand"
-            onClick={() => modalStore.openModal(<ImageUploader />)}
+            onClick={() => {
+              recipeStore.currentCroppedImage = undefined
+            }}
           >
-            Add Photo
+            Remove photo
           </Button>
-        )}
+        </HStack>
+      ) : (
+        <Button
+          isFullWidth
+          variant="outline"
+          colorScheme="brand"
+          onClick={() => modalStore.openModal(<ImageUploader />)}
+        >
+          Add Photo
+        </Button>
+      )}
     </FormControl>
   )
 })

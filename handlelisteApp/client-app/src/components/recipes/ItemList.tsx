@@ -31,7 +31,7 @@ interface Props {
 
 export const ItemList: React.FC<Props> = observer(
   ({ items, addTick, onChecked, onChangeNumberOfItems, numberOfItems }) => {
-    const {settingStore} = useStore()
+    const { settingStore } = useStore()
 
     if (!items || items.length === 0) {
       return (
@@ -44,7 +44,7 @@ export const ItemList: React.FC<Props> = observer(
     }
 
     translateUnit(items)
-    
+
     return (
       <Table variant="simple" size="sm">
         <Thead>

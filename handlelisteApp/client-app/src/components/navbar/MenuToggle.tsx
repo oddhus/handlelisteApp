@@ -9,7 +9,11 @@ interface Props {
 
 export const MenuToggle: React.FC<Props> = ({ toggle, isOpen }) => {
   return (
-    <Box display={{ base: 'block', sm: 'none' }} onClick={() => toggle()} data-cy="nav-hamburger">
+    <Box
+      display={{ base: 'block', sm: 'none' }}
+      onClick={() => toggle()}
+      data-cy="nav-hamburger"
+    >
       {isOpen ? <CloseIcon /> : <HamburgerIcon />}
     </Box>
   )
