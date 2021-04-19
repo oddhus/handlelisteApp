@@ -30,6 +30,13 @@ steps:
       cacheHitVar: 'CypressRestored'
     displayName: "Cache cypress binary"
 
+  - bash: |
+      #cd handlelisteApp
+      #dotnet run
+      cd handlelisteApp
+      nohup dotnet run &
+    displayName: Starting app in BG
+
   - script: |
       cd handlelisteApp/client-app
       npm install
