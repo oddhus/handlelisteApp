@@ -9,6 +9,7 @@ export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
   currentRecipeList: IRecipe[] = []
   userRecipeList: IRecipe[] = []
+  recipieSuggestions: IRecipe[] | undefined = undefined
   allRecipes: IPaginatedRecipes | undefined = undefined
   loading: boolean = false
   loadingAddFavourite: number | undefined = undefined
@@ -16,7 +17,6 @@ export default class RecipeStore {
   errorToastMessage: string = ''
   tabIndex: number = 0
   isOwnerOfCurrentRecipe: boolean = false
-  recipieSuggestions: IRecipe[] | undefined = undefined
   feedBack: IFeedback | null = null
   cardView: boolean = true
   uploading = false
@@ -59,10 +59,10 @@ export default class RecipeStore {
           this.loading = false
         })
       } else {
-        this.error('retrive recipe.')
+        this.error('Failed to retrive recipe.')
       }
     } catch (e) {
-      this.error('retrive recipe.')
+      this.error('Failed to retrive recipe.')
     }
   }
 
@@ -86,10 +86,10 @@ export default class RecipeStore {
           this.loading = false
         })
       } else {
-        this.error('retrive recipe.')
+        this.error('Failed to retrive recipe.')
       }
     } catch (e) {
-      this.error('retrive recipe.')
+      this.error('Failed to retrive recipe.')
     }
   }
 
@@ -103,7 +103,7 @@ export default class RecipeStore {
         this.loading = false
       })
     } catch (e) {
-      this.error('retrive recipes.')
+      this.error('Failed to retrive recipes.')
     }
   }
 
@@ -121,7 +121,7 @@ export default class RecipeStore {
       const newRecipe = await agent.recipe.postRecipe(recipe)
 
       if (!newRecipe) {
-        this.error('create recipe.')
+        this.error('Failed to create recipe.')
         return
       }
 
@@ -131,14 +131,13 @@ export default class RecipeStore {
           this.userRecipeList.push(newRecipe)
           this.currentRecipeList.push(newRecipe)
           this.currentCroppedImage = undefined
-          this.success('Recipe created')
+          this.success('Recipe created successfully')
           history.push(`/recipes`)
         })
       }
     } catch (e) {
       this.error(
-        'create recipe.' +
-          (e.response ? ` With status code: ${e.response.status}` : '')
+        'Failed to create recipe.'
       )
     }
   }
@@ -165,7 +164,7 @@ export default class RecipeStore {
     this.resetAndStartLoading()
 
     if (!store.userStore.user?.userID) {
-      this.error('update recipe')
+      this.error('Failed to update recipe')
       return
     }
 
@@ -191,11 +190,11 @@ export default class RecipeStore {
         this.currentRecipe = updatedRecipe
         this.currentRecipeList = this.userRecipeList
         this.currentCroppedImage = undefined
-        this.success('Recipe updated')
+        this.success('Recipe updated successfully')
         history.push(`/recipes`)
       })
     } catch (e) {
-      this.error('update recipe')
+      this.error('Failed to update recipe')
     }
   }
 
@@ -228,10 +227,10 @@ export default class RecipeStore {
             (recipe) => recipe.recipeID !== id
           )
         }
-        this.success('Deleted')
+        this.success('Successfully deleted recipe')
       })
     } catch (e) {
-      this.error('delete recipe')
+      this.error('Failed to delete recipe')
     }
   }
 
@@ -256,14 +255,6 @@ export default class RecipeStore {
     }
   }
 
-  reset() {
-    runInAction(() => {
-      this.loading = false
-      this.successToastMessage = ''
-      this.errorToastMessage = ''
-    })
-  }
-
   resetRecipeStoreData() {
     runInAction(() => {
       this.currentRecipe = undefined
@@ -286,10 +277,6 @@ export default class RecipeStore {
 
   setTabIndex(index: number) {
     runInAction(() => (this.tabIndex = index))
-  }
-
-  setToastSuccessMessage(message: string) {
-    runInAction(() => (this.successToastMessage = message))
   }
 
   searchInRecipes(
@@ -355,21 +342,21 @@ export default class RecipeStore {
     })
   }
 
-  private success(message: string) {
+  private success(text: string) {
     runInAction(() => {
       this.feedBack = {
         status: 'success',
-        text: `${message} successfully`,
+        text,
       }
       this.loading = false
     })
   }
 
-  private error(message: string) {
+  private error(text: string) {
     runInAction(() => {
       this.feedBack = {
         status: 'error',
-        text: `Failed to ${message}`,
+        text,
       }
       this.loading = false
     })
