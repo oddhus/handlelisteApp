@@ -45,7 +45,7 @@ const ImageUploader:React.FC<Props> = observer(() =>{
                     <Fragment>
                         <div className='img-preview' style={{minHeight: 200, overflow: 'hidden'}}/>
                         <ButtonGroup style={{marginBottom: '100px'}}>
-                            <Button onClick={onCrop}>Crop</Button>
+                            <Button colorScheme="brand" onClick={onCrop}>Crop</Button>
                             <Button onClick={() => setFiles([])}>Cancel</Button>
                         </ButtonGroup>
                     </Fragment>
