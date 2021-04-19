@@ -92,7 +92,7 @@ export const Recipes: React.FC<Props> = observer(() => {
             variant="outline"
             style={{ marginBottom: '20px' }}
           >
-            Back to my shopping list
+            {settingStore.language.backToShoppingList}
           </Button>
         </Center>
       )}
@@ -104,28 +104,37 @@ export const Recipes: React.FC<Props> = observer(() => {
         onChange={(index) => recipeStore.setTabIndex(index)}
       >
         <TabList>
-          <Tab isDisabled={!userStore.isLoggedIn}>
+          <Tab data-cy='myCookBookTab' isDisabled={!userStore.isLoggedIn}>
             {settingStore.language.myRecipes}
           </Tab>
-          <Tab>{settingStore.language.allRecipes}</Tab>
+          <Tab data-cy='allRecipesTab'>{settingStore.language.allRecipes}</Tab>
           {userStore.isLoggedIn ? (
-            <Tab>{settingStore.language.recommendations}</Tab>
+            <Tab data-cy='recommendedTab' >{settingStore.language.recommendations}</Tab>
           ) : null}
         </TabList>
         <SearchBar onOpen={onOpen} />
 
         <TabPanels>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
-            <MyRecipes />
+            {
+              recipeStore.tabIndex === 0 ? <MyRecipes /> : null
+            }
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
-            <AllRecipes />
-            <Center pt={4}>
-              <Pagination paginatedRecipe={recipeStore.allRecipes} />
-            </Center>
+          {
+              recipeStore.tabIndex === 1 ? (
+              <>
+              <AllRecipes />
+                <Center pt={4}>
+                  <Pagination paginatedRecipe={recipeStore.allRecipes} />
+                </Center> </>
+                ) : null
+            }
           </TabPanel>
           <TabPanel pl={[0, 5]} pr={[0, 5]}>
-            <SuggestedRecipes />
+          {
+              recipeStore.tabIndex === 2 ? <SuggestedRecipes /> : null
+            }
           </TabPanel>
         </TabPanels>
       </Tabs>

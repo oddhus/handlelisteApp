@@ -49,6 +49,8 @@ export interface ILanguage {
   suggestedRecipes: string
   suggestedRecipesToolTip: string
 
+  backToShoppingList: string
+
   settings: string
   userSettings: string
   householdSettings: string

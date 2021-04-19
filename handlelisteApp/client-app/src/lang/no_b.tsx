@@ -49,6 +49,8 @@ export default class Norwegian_B implements ILanguage {
   noRecipesFound = 'Fant ingen oppskrifter'
   noRecipeFound = 'Fant ingen oppskrift'
 
+  backToShoppingList = "Gå tilbake til din handeliste"
+
   suggestedRecipes = 'Annbefalte oppskrifter'
   suggestedRecipesToolTip =
     'Basert på dine siste handleturer annbefaler vi disse oppskriftene.'
