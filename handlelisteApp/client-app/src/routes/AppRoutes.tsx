@@ -12,6 +12,7 @@ import { Household } from '../pages/Household'
 import { NoMatch } from '../pages/errors/NoMatch'
 import { ServerError } from '../pages/errors/ServerError'
 import { Unauthorized } from '../pages/errors/Unauthorized'
+import PrivateRoute from "./PrivateRoute";
 
 interface Props {}
 
@@ -20,22 +21,17 @@ export const AppRoutes: React.FC<Props> = () => {
       <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
           <div style={{flex: 1}}>
               <Switch>
-                  <Route exact path="/" component={ShoppingLists} />
+                  <PrivateRoute exact path="/" component={ShoppingLists} />
                   <Route exact path="/signin" component={SignIn} />
                   <Route exact path="/signup" component={SignUp} />
-                  <Route exact path="/create-recipe" component={CreateRecipe} />
-                  <Route exact path="/create-recipe/:recipeId" component={CreateRecipe} />
+                  <PrivateRoute exact path="/create-recipe" component={CreateRecipe} />
+                  <PrivateRoute exact path="/create-recipe/:recipeId" component={CreateRecipe} />
                   <Route exact path="/recipe/:recipeId" component={Recipe} />
                   <Route exact path="/recipes" component={Recipes} />
                   <Route exact path="/recipes/:recipeId" component={Recipe} />
-                  <Route exact path="/shopping-list" component={ShoppingLists} />
-                  <Route path="/shopping-list/:listId" component={ShoppingListPage} />
-                  <Route exact path="/settings" component={Settings} />
-                  <Route exact path="/settings/user" component={Settings} />
-                  <Route exact path="/settings/accessibility" component={Settings} />
-                  <Route exact path="/settings/blacklist" component={Settings} />
-                  <Route exact path="/settings/household" component={Settings} />
-                  <Route exact path="/household" component={Household} />
+                  <PrivateRoute exact path="/shopping-list" component={ShoppingLists} />
+                  <PrivateRoute path="/shopping-list/:listId" component={ShoppingListPage} />
+                  <PrivateRoute exact path="/settings" component={Settings} />
                   <Route exact path="/server-error" component={ServerError} />
                   <Route exact path="/unauthorised" component={Unauthorized} />
                   <Route exact component={NoMatch} />
