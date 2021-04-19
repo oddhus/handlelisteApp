@@ -9,7 +9,7 @@ import {
   Divider,
   Button,
   HStack,
-  Img,
+  Img, Image,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
@@ -57,10 +57,10 @@ export const Recipe: React.FC<Props> = observer(() => {
         <Box minW="100%">
           <Center>
             <Img
-              objectFit="cover"
-              overflow="hidden"
-              maxH="250px"
-              width="100%"
+                objectFit="cover"
+                overflow="hidden"
+                height="300px"
+                width="100%"
               src={
                 recipeStore.currentRecipe?.imgUrl
                   ? recipeStore.currentRecipe?.imgUrl

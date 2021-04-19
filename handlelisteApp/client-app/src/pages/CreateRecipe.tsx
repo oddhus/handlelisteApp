@@ -13,7 +13,7 @@ import {
   Select,
   Stack,
   Image,
-  Textarea, Box,
+  Textarea, Box, Img,
 } from '@chakra-ui/react'
 import {
   Field,
@@ -125,7 +125,12 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
       <Box minW="100%" style={{marginTop: '15px'}}>
         {recipeStore.currentCroppedImage && (
             <Center>
-              <Image maxHeight="200px" src={URL.createObjectURL(recipeStore.currentCroppedImage)} />
+              <Image
+                  objectFit="cover"
+                  overflow="hidden"
+                  height="300px"
+                  width="100%"
+                  src={URL.createObjectURL(recipeStore.currentCroppedImage)} />
             </Center>
         )}
       </Box>
