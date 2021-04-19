@@ -79,7 +79,7 @@ export default class English implements ILanguage {
 
   age = 'Age'
 
-  recommendations = 'Recommendations'
+  recommendations = 'We recommend'
 
   search = 'Search'
 
