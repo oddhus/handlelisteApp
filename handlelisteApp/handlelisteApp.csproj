@@ -39,6 +39,7 @@
     <None Include="client-app\src\components\shared\ImageUpload\ImageUploader.tsx" />
     <None Include="client-app\src\components\shared\ImageUpload\PhotoCropper.tsx" />
     <None Include="client-app\src\components\shared\ImageUpload\PhotoDropzone.tsx" />
+    <None Include="client-app\src\routes\PrivateRoute.tsx" />
   </ItemGroup>
 
   <ItemGroup>
