@@ -6,14 +6,14 @@ import { faArchive } from '@fortawesome/free-solid-svg-icons'
 
 export const Logo = (props: any) => {
   return (
-    <Box {...props} style={{color: 'white'}}>
+    <Box {...props} style={{ color: 'white' }}>
       <Link
         as={RouterLink}
         to="/shopping-list"
         style={{ textDecoration: 'none' }}
       >
-          <FontAwesomeIcon icon={faArchive}/>
-          {` Shipping list`}
+        <FontAwesomeIcon icon={faArchive} />
+        {` Shopping list`}
       </Link>
     </Box>
   )
