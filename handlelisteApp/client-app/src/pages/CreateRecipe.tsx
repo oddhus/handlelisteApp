@@ -116,7 +116,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
     <Container>
       <Toast store={recipeStore} />
       <Center>
-        <Heading>
+        <Heading data-testid="create-recipe-heading">
           {!recipeId
             ? settingStore.language.createRecipe
             : settingStore.language.update}

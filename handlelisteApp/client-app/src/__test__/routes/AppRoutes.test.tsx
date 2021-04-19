@@ -6,6 +6,7 @@ import { AppRoutes } from '../../routes/AppRoutes'
 import { Heading } from '@chakra-ui/react'
 import { MockLanguage } from '../MockLanguage'
 import { QueryParamProvider } from 'use-query-params'
+import {CreateRecipe} from "../../pages/CreateRecipe";
 
 const setup = (path: string) => {
   return render(
@@ -122,9 +123,8 @@ describe('AppRoutes', () => {
       expect(getByTestId('signup-container')).toHaveTextContent('Sign up')
     })
     it('displays Create recipe when url is /create-recipe', () => {
-      const { container } = setup('/create-recipe')
-      const header = container.querySelector('div')
-      expect(header).toHaveTextContent('Create recipe')
+      const { getByTestId } = render(<CreateRecipe/>)
+      expect(getByTestId('create-recipe-heading')).toBeInTheDocument()
     })
 
     it('displays recipesPage when url is /recipes', () => {
@@ -149,18 +149,6 @@ describe('AppRoutes', () => {
       const { container } = setup('/shopping-list/:listId')
       const input = container.querySelector('input')
       expect(input).toBeVisible()
-    })
-
-    it('displays SettingPage when url is /settings/user', () => {
-      const { container } = setup('/settings/user')
-      const header = container.querySelector('div')
-      expect(header).toHaveTextContent('Settings')
-    })
-
-    it('displays householdPage when url is /household', () => {
-      const { container } = setup('/household')
-      const header = container.querySelector('div')
-      expect(header).toHaveTextContent('Household')
     })
   })
 })
