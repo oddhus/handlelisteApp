@@ -10,6 +10,7 @@ import {
   Tabs,
   Button,
   Center,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
@@ -105,11 +106,11 @@ export const Recipes: React.FC<Props> = observer(() => {
       >
         <TabList>
           <Tab isDisabled={!userStore.isLoggedIn}>
-            {settingStore.language.myRecipes}
+           <Text fontSize="sm">{settingStore.language.myRecipes}</Text> 
           </Tab>
-          <Tab>{settingStore.language.allRecipes}</Tab>
+          <Tab><Text fontSize="sm">{settingStore.language.allRecipes}</Text></Tab>
           {userStore.isLoggedIn ? (
-            <Tab>{settingStore.language.recommendations}</Tab>
+              <Tab> <Text fontSize="sm">{settingStore.language.recommendations}</Text></Tab>
           ) : null}
         </TabList>
         <SearchBar onOpen={onOpen} />

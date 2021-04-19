@@ -111,6 +111,7 @@ const MenuLinks: React.FC<Props> = ({isOpen, setIsOpen}) => {
             >
                 {settingStore.isEnglish ? 'Logout' : 'Logg ut'}
             </Button>
+            {flags}
         </React.Fragment>
     )
 
