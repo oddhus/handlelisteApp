@@ -52,7 +52,6 @@ export const RecipeList: React.FC<Props> = observer(() => {
             ))
           : recipeStore.currentRecipeList.map((recipe) => (
               <RecipeListItem
-                data-cy="recipe-list-item"
                 key={recipe.recipeID}
                 recipe={recipe}
                 addable

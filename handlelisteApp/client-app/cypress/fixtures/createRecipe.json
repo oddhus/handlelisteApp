@@ -1,0 +1,21 @@
+[{
+    "recipeID":33,
+    "recipeName":"This is a test recipe",
+    "shortDescription":"This is a test decsription",
+    "approach":"Cursh egg, eat nam nam",
+    "imgUrl":"",
+    "isOwner":true,
+    "hasLiked":false,
+    "items":[
+       {
+          "name":"ingredient1",
+          "quantity":1,
+          "unit":"KG"
+       },
+       {
+          "name":"ingredient2",
+          "quantity":2,
+          "unit":"G"
+       }
+    ]
+ }]

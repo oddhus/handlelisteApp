@@ -24,8 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add('login', (username, password) => {
-  console.log(username)
-  console.log(password)
   let userId = ''
   cy.request('POST', 'user/login', {
     username: username,
@@ -45,4 +43,22 @@ Cypress.Commands.add('login', (username, password) => {
         token: localStorage.getItem('jwt'),
       }
     })
+})
+
+Cypress.Commands.add('fillCreateRecipeForm', (recipeName, shortDescription, approach, ingredients) => {
+  cy.get('#recipeName').click().type(recipeName)
+  cy.get('#shortDescription').click().type(shortDescription)
+  cy.get('#approach').click().type(approach)
+  
+  let i = 0 
+  for(let y = 0; ingredients.length-1 > y; y++){
+    cy.get('[data-cy=add-ingredient]').click()
+  }
+  ingredients.forEach(ingredient => {
+    cy.get('[data-cy=ingredient-name' + i + ']').click().type(ingredient.name)
+    cy.get('[data-cy=ingredient-qunatity' + i + ']').click().type(ingredient.quantity)
+    cy.get('[data-cy=unit-select' + i + ']').select(ingredient.unit)
+    i++
+  });
+  cy.get('[data-cy=save-recipe]').click()
 })

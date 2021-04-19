@@ -115,6 +115,7 @@ export const RecipeActionButtons: React.FC<Props> = observer(
             )}
             {deleteable && (
               <IconButton
+                data-cy="delete-recipe-btn"
                 colorScheme="red"
                 variant="outline"
                 aria-label="Delete recipe"

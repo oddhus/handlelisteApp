@@ -26,7 +26,7 @@ export const RecipeListItem: React.FC<Props> = observer(
   ({ recipe, editable, deleteable }) => {
     const history = useHistory()
     return (
-      <Grid
+      <Grid data-cy="recipe-list-item"
         templateColumns="repeat(18, 1fr)"
         gap={2}
         rounded="md"

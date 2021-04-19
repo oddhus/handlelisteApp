@@ -23,6 +23,7 @@ const RecipeCard: React.FC<Props> = ({
 
   return (
     <Box
+      data-cy="recipe-card"
       maxW="sm"
       borderWidth="1px"
       borderRadius="lg"
@@ -52,6 +53,7 @@ const RecipeCard: React.FC<Props> = ({
           <Box minW="100%" maxW="100%">
             <HStack justify="space-between" maxW="100%">
               <Box
+                data-cy="recipe-card-title"
                 mt="1"
                 fontWeight="semibold"
                 as="h4"

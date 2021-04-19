@@ -49,6 +49,16 @@ describe('Nav-bar', () => {
         cy.url().should('include', 'signin')
     })
 
+    it('Should change language when clicking flags', function () {
+        cy.get('[data-cy=lang-flag-no]').should('be.visible').click()
+        cy.contains('Oppskrifter').should('be.visible')
+        cy.get('[data-cy=lang-flag-en]').should('be.visible').click()
+        cy.contains('Recipes').should('be.visible')
+        cy.get('[data-cy=lang-flag-no]').should('be.visible').click()
+        cy.contains('Oppskrifter').should('be.visible')
+
+    })
+
     it('Should clear localstore and mobx store when logging out', function () {
         cy.window().its('userStore').then(userStore => {
             expect(userStore.user).to.be.null

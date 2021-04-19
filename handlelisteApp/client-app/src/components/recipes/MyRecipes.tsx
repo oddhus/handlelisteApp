@@ -15,7 +15,7 @@ export const MyRecipes: React.FC<Props> = observer(() => {
     <VStack>
       <RecipeList />
       {!recipeStore.loading && recipeStore.currentRecipeList.length === 0 && (
-        <Button onClick={() => history.push('/create-recipe')}>
+        <Button data-cy="create-recipe-btn" onClick={() => history.push('/create-recipe')}>
           {settingStore.language.createRecipe}
         </Button>
       )}

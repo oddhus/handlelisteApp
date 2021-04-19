@@ -260,6 +260,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                                   >
                                     <Input
                                       {...field}
+                                      data-cy={`ingredient-name${index}`}
                                       size="small"
                                       id={`items[${index}].itemName`}
                                       placeholder={
@@ -298,6 +299,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                                   <Input
                                     {...field}
                                     size="small"
+                                    data-cy={`ingredient-qunatity${index}`}
                                     id={`items[${index}].quantity`}
                                     placeholder={
                                       settingStore.language.shoppingList[0]
@@ -331,6 +333,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                                   }
                                 >
                                   <Select
+                                    data-cy={`unit-select${index}`}
                                     size="small"
                                     id={`items[${index}].unit`}
                                     {...field}
@@ -363,6 +366,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                         </Grid>
                       ))}
                     <IconButton
+                      data-cy="add-ingredient"
                       aria-label={settingStore.language.add}
                       onClick={() =>
                         arrayHelpers.push({
@@ -378,6 +382,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
               />
               <Center pt={2} pb={10}>
                 <Button
+                  data-cy="save-recipe"
                   paddingX={5}
                   mt={4}
                   colorScheme="brand"

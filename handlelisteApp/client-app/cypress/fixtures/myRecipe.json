@@ -1,0 +1,70 @@
+[
+    {
+        "recipeID": 14,
+        "recipeName": "asdf",
+        "shortDescription": "asdf",
+        "approach": "asfd",
+        "imgUrl": "",
+        "isOwner": true,
+        "hasLiked": false,
+        "items": [
+            {
+                "itemName": "asdfds",
+                "quantity": 1,
+                "unit": "PCS"
+            },
+            {
+                "itemName": "asdf",
+                "quantity": 1,
+                "unit": "PCS"
+            }
+        ]
+    },
+    {
+        "recipeID":3,
+        "recipeName":"Pizza",
+        "shortDescription":"Digg",
+        "approach":"namnam",
+        "imgUrl":"https://olavthon.imagevault.media/publishedmedia/2c1pfjmh23wxu714isnk/pizza.jpg",
+        "isOwner":false,
+        "hasLiked":false,
+        "items":[
+           {
+              "itemName":"pizza",
+              "quantity":1,
+              "unit":"PCS"
+           },
+           {
+              "itemName":"rømmedressing",
+              "quantity":1,
+              "unit":"PCS"
+           }
+        ]
+     },
+     {
+        "recipeID":4,
+        "recipeName":"TestOppskrift",
+        "shortDescription":"123",
+        "approach":"dsga",
+        "imgUrl":"",
+        "isOwner":false,
+        "hasLiked":false,
+        "items":[
+           {
+              "itemName":"123",
+              "quantity":1,
+              "unit":"PCS"
+           },
+           {
+              "itemName":"gsdg",
+              "quantity":1,
+              "unit":"PCS"
+           },
+           {
+              "itemName":"adfgfd",
+              "quantity":1,
+              "unit":"PCS"
+           }
+        ]
+     }
+]
