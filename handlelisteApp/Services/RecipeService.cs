@@ -43,6 +43,12 @@ namespace handlelisteApp.Services
                 Items = new List<ItemInRecipe>(),
                 UserSaved = new List<SavedRecipe>()
             };
+
+            if(recipe.Items == null || recipe.Items.Count == 0)
+            {
+                throw new ArgumentException(nameof(recipe)); 
+            }
+
             foreach (var item in recipe.Items)
             {
                 var storedItem = _itemRepository.FindByItemName(item.ItemName);

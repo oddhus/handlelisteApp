@@ -24,7 +24,7 @@ namespace handlelisteApp.Data
             return _context.Users.ToList();
         }
 
-        User IUserRepository.CreateNewUser(User user)
+        public User CreateNewUser(User user)
         {
             //EF does SELECT immediately following INSERT, so no need to re-SELECT
             _context.Add(user);
@@ -32,7 +32,7 @@ namespace handlelisteApp.Data
             return user;
         }
 
-        User IUserRepository.GetUserById(int id)
+        public User GetUserById(int id)
         {
             return _context.Users.Find(id);
         }

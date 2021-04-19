@@ -78,7 +78,15 @@ namespace handlelisteApp.Controllers
         [HttpPost]
         public ActionResult<RecipeDTO> CreateNewRecipe(RecipeDTO recipe)
         {
-            RecipeDTO savedRecipe = _recipeService.AddRecipe(recipe, GetUserId());
+            RecipeDTO savedRecipe;
+            try 
+            { 
+                savedRecipe = _recipeService.AddRecipe(recipe, GetUserId()); 
+            } catch (ArgumentException)
+            {
+                return BadRequest(new { message = "Recipes must have items" });
+            }
+            
             return savedRecipe;
         }
 
