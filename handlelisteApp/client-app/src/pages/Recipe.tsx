@@ -20,11 +20,12 @@ import { RecipeFavoriteButton } from '../components/recipes/RecipeFavoriteButton
 import { RecipeToShoppingList } from '../components/recipes/RecipeToShoppingList'
 import { Toast } from '../components/shared/Toast'
 import { useStore } from '../stores/store'
+import UserStore from "../stores/userStore";
 
 interface Props {}
 
 export const Recipe: React.FC<Props> = observer(() => {
-  const { settingStore, recipeStore, modalStore } = useStore()
+  const { settingStore, recipeStore, modalStore, userStore } = useStore()
   const { recipeId } = useParams<{ recipeId: string | undefined }>()
 
   useEffect(() => {
@@ -93,14 +94,15 @@ export const Recipe: React.FC<Props> = observer(() => {
         {recipeStore.currentRecipe.items.length === 0 && <Divider />}
         <Box minW="100%" pt={2}>
           <Center>
-            <Button
-              onClick={() => modalStore.openModal(<RecipeToShoppingList />)}
-              disabled={recipeStore.currentRecipe?.items.length === 0}
-              colorScheme="teal"
-              variant="outline"
+            {userStore.isLoggedIn && <Button
+                onClick={() => modalStore.openModal(<RecipeToShoppingList />)}
+                disabled={recipeStore.currentRecipe?.items.length === 0}
+                colorScheme="teal"
+                variant="outline"
             >
               {settingStore.language.addRecipeToShoppingList}
-            </Button>
+            </Button>}
+            
           </Center>
         </Box>
       </VStack>

@@ -10,6 +10,7 @@ import {
   Tabs,
   Button,
   Center,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
 import { MyRecipes } from '../components/recipes/MyRecipes'
@@ -104,12 +105,13 @@ export const Recipes: React.FC<Props> = observer(() => {
         onChange={(index) => recipeStore.setTabIndex(index)}
       >
         <TabList>
-          <Tab data-cy='myCookBookTab' isDisabled={!userStore.isLoggedIn}>
-            {settingStore.language.myRecipes}
-          </Tab>
-          <Tab data-cy='allRecipesTab'>{settingStore.language.allRecipes}</Tab>
+          { userStore.isLoggedIn && <Tab data-cy='myCookBookTab' isDisabled={!userStore.isLoggedIn}>
+            <Text fontSize="sm">{settingStore.language.myRecipes}</Text>
+          </Tab>}
+          <Tab data-cy='allRecipesTab'><Text fontSize="sm">{settingStore.language.allRecipes}</Text></Tab>
           {userStore.isLoggedIn ? (
-            <Tab data-cy='recommendedTab' >{settingStore.language.recommendations}</Tab>
+              <Tab> <Text fontSize="sm">{settingStore.language.recommendations}</Text></Tab>
+
           ) : null}
         </TabList>
         <SearchBar onOpen={onOpen} />

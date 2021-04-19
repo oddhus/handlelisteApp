@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
-namespace handlelisteApp.TEST.Data
+namespace handlelisteApp.TEST.Services
 {
     public class RecipeServiceTest
     {
@@ -28,6 +28,7 @@ namespace handlelisteApp.TEST.Data
         private SavedRecipeDTO savedRecipeDTO;
         private SavedRecipe savedRecipe;
         private Recipe _recipe;
+        private RecipeDTO recipeDTO;
         public RecipeServiceTest()
         {
             //Configure mapper
@@ -61,6 +62,18 @@ namespace handlelisteApp.TEST.Data
                 }
 
             };
+
+            recipeDTO = new RecipeDTO { 
+                RecipeName = "Recipe",
+                Approach = "abc",
+                Items = new List<ItemInRecipeDTO>()
+                {
+                    new ItemInRecipeDTO()
+                    {
+                        ItemName = "Item 1"
+                    }
+                }  
+                };
 
             Recipe recipe2 = new Recipe()
             {
@@ -120,6 +133,9 @@ namespace handlelisteApp.TEST.Data
             _mockRecipeRepo = new Mock<IRecipeRepository>();
             _mockRecipeRepo.Setup(r => r.SaveRecipe(savedRecipe)).Returns(savedRecipe);
             _mockRecipeRepo.Setup(r => r.GetSavedRecipes(userId)).Returns(savedRecipeList);
+            //_mockRecipeRepo.Setup(r => r.DeleteRecipe(_recipe)).Verifiable();
+            _mockRecipeRepo.Setup(r => r.GetRecipeById(_recipe.RecipeID)).Returns(_recipe);
+            _mockRecipeRepo.Setup(r => r.GetRecipeById(-1)).Returns((Recipe)null);
             _mockRecipeRepo.Setup(r => r.GetSavedRecipeByRecipeIdAndUserId(userId, recipeId)).Returns(savedRecipe);
 
             //Add mock repos to Service
@@ -181,6 +197,36 @@ namespace handlelisteApp.TEST.Data
         {
             List<RecipeDTO> recipes = _service.GetSavedRecipes(userId);
             Assert.NotEmpty(recipes);
+        }
+
+        [Fact]
+        public void ShouldCallAddRecipeOnRepositoryWhenAddingRecipe()
+        {
+            _service.AddRecipe(recipeDTO, userId);
+            _mockRecipeRepo.Verify(m => m.AddRecipe(It.IsAny<Recipe>()), Times.Once);
+
+        }
+
+        [Fact]
+        public void RecipeFromRecipeDTOShouldThrowExceptionIfRecipeHasNoItems()
+        {
+            RecipeDTO recipeWithoutItems = new RecipeDTO() { RecipeName = "Recipe without items" };
+
+            Assert.Throws<ArgumentException>(() => _service.AddRecipe(recipeWithoutItems, 1));
+        }
+
+        [Fact]
+        public void ShouldCallDeleteRecipeOnRepositoryWhenDeletingRecipe()
+        {
+            _service.DeleteRecipe(_recipe.RecipeID);
+            _mockRecipeRepo.Verify(m => m.DeleteRecipe(It.IsAny<Recipe>()), Times.Once);
+                
+        }
+
+        [Fact]
+        public void DeleteRecipeShouldReturnFalseIfGivenANullRecipe()
+        {
+            Assert.False(_service.DeleteRecipe(-1));
         }
 
     }
