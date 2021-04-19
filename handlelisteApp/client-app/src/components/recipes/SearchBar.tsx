@@ -1,5 +1,6 @@
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons'
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -20,12 +21,15 @@ import {
   withDefault,
 } from 'use-query-params'
 import { useStore } from '../../stores/store'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTh, faListUl } from '@fortawesome/free-solid-svg-icons'
+import { observer } from 'mobx-react-lite'
 
 interface Props {
   onOpen: Function
 }
 
-export const SearchBar: React.FC<Props> = ({ onOpen }) => {
+export const SearchBar: React.FC<Props> = observer(({ onOpen }) => {
   const { recipeStore, settingStore } = useStore()
   const [query, setQuery] = useQueryParams({
     searchText: StringParam,
@@ -35,7 +39,11 @@ export const SearchBar: React.FC<Props> = ({ onOpen }) => {
   const { items, searchText } = query
 
   const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery({ ...query, searchText: e.target.value.toLowerCase() })
+    setQuery({
+      ...query,
+      searchText:
+        e.target.value === '' ? undefined : e.target.value.toLowerCase(),
+    })
   }
 
   return (
@@ -85,22 +93,15 @@ export const SearchBar: React.FC<Props> = ({ onOpen }) => {
         </Button>
       </GridItem>
       <GridItem colSpan={[2, 1]} rowStart={[2, 1, 1]} colStart={[10, 12]}>
-        <FormControl display="flex" alignItems="center" width={'20%'}>
-          <Switch
-            onChange={() => {
-              recipeStore.cardView = !recipeStore.cardView
-            }}
+        <Box mt="5px" alignItems="center">
+          <FontAwesomeIcon
+            data-cy={recipeStore.cardView ? 'list-view' : 'card-view'}
+            size="2x"
+            icon={recipeStore.cardView ? faListUl : faTh}
+            onClick={() => (recipeStore.cardView = !recipeStore.cardView)}
           />
-          <FormLabel
-            htmlFor="email-alerts"
-            mb="0"
-            fontSize="sm"
-            style={{ marginLeft: '10px' }}
-          >
-            List view
-          </FormLabel>
-        </FormControl>
+        </Box>
       </GridItem>
     </Grid>
   )
-}
+})

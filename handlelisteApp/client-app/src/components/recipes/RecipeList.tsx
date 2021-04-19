@@ -25,7 +25,7 @@ export const RecipeList: React.FC<Props> = observer(() => {
   ) {
     return (
       <Center>
-        <Text>{settingStore.language.noRecipesFound}</Text>
+        <Text data-cy="noRecipe">{settingStore.language.noRecipesFound}</Text>
       </Center>
     )
   }
@@ -52,6 +52,7 @@ export const RecipeList: React.FC<Props> = observer(() => {
             ))
           : recipeStore.currentRecipeList.map((recipe) => (
               <RecipeListItem
+                data-cy="recipe-list-item"
                 key={recipe.recipeID}
                 recipe={recipe}
                 addable

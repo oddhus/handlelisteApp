@@ -69,7 +69,7 @@ export const AdvancedSearchDrawer: React.FC<Props> = ({ isOpen, onClose }) => {
   }
 
   const onReset = () => {
-    setQuery({ ...initialQuery, pageNumber: 1 })
+    setQuery({ ...initialQuery, pageNumber: 1, searchText: undefined })
   }
 
   const onSearch = () => {
