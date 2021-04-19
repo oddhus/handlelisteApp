@@ -105,9 +105,9 @@ export const Recipes: React.FC<Props> = observer(() => {
         onChange={(index) => recipeStore.setTabIndex(index)}
       >
         <TabList>
-          <Tab isDisabled={!userStore.isLoggedIn}>
-           <Text fontSize="sm">{settingStore.language.myRecipes}</Text> 
-          </Tab>
+          { userStore.isLoggedIn && <Tab isDisabled={!userStore.isLoggedIn}>
+            <Text fontSize="sm">{settingStore.language.myRecipes}</Text>
+          </Tab>}
           <Tab><Text fontSize="sm">{settingStore.language.allRecipes}</Text></Tab>
           {userStore.isLoggedIn ? (
               <Tab> <Text fontSize="sm">{settingStore.language.recommendations}</Text></Tab>
