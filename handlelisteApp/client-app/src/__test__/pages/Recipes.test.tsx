@@ -55,7 +55,7 @@ describe('RecipesPage', () => {
         </QueryParamProvider>
       )
       const div = container.querySelector('div')
-      expect(div).toHaveTextContent('Create recipe')
+      expect(div).toHaveTextContent('Advanced Search')
     })
   })
 })

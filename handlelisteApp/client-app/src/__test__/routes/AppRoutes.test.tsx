@@ -130,7 +130,7 @@ describe('AppRoutes', () => {
     it('displays recipesPage when url is /recipes', () => {
       const { container } = setup('/recipes')
       const header = container.querySelector('div')
-      expect(header).toHaveTextContent('Create recipe')
+      expect(header).toHaveTextContent('Advanced Search')
     })
 
     it('displays RecipePage when url is /recipes/:recipeId', () => {
