@@ -30,6 +30,12 @@ steps:
       cacheHitVar: 'CypressRestored'
     displayName: "Cache cypress binary"
 
+  - script: |
+      cd handlelisteApp/client-app
+      npm install
+    displayName: "Run npm install"
+    condition: or(eq(variables.CacheRestored, 'false'), eq(variables.CypressRestored, 'false'))
+
   - bash: |
       #cd handlelisteApp
       #dotnet run
@@ -37,12 +43,6 @@ steps:
       nohup dotnet run &
     displayName: Starting app in BG
 
-  - script: |
-      cd handlelisteApp/client-app
-      npm install
-    displayName: "Run npm install"
-    condition: or(eq(variables.CacheRestored, 'false'), eq(variables.CypressRestored, 'false'))
-  
   - script: |
       cd handlelisteApp/client-app
       npm run test:ci
@@ -91,9 +91,6 @@ steps:
       projects: $(solution)
       arguments: --configuration $(BuildConfiguration) --collect "XPlat Code Coverage"
 
-  - script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml;$(Build.SourcesDirectory)/**/cobertura-coverage.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
-    displayName: "Create Code Coverage Reports"
-
   - script: |
       cd handlelisteApp/client-app
       npm run cy:testh
@@ -101,6 +98,13 @@ steps:
     env:
       shop_USERNAME: $(shop_USERNAME)
       shop_PASSWORD: $(shop_PASSWORD)
+
+  - task: PublishTestResults@2
+    displayName: 'Publish cypress test reports'
+    inputs:
+      testResultsFiles: 'handlelisteApp\client-app\cypress\results\*'
+    condition: succeededOrFailed()
+    continueOnError: true
 
   - task: PublishBuildArtifacts@1
     inputs:
@@ -111,11 +115,21 @@ steps:
     displayName: 'Publish screenshots when there were issues'
 
   - task: PublishCodeCoverageResults@1
+    displayName: "Publish Cypress Code Coverage"
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: handlelisteApp\client-app\cypress\coverage\*
+      failIfCoverageEmpty: false
+
+  - task: PublishCodeCoverageResults@1
     displayName: "Publish Code Coverage"
     inputs:
       codeCoverageTool: Cobertura
       summaryFileLocation: $(Build.SourcesDirectory)/TestResults/Coverage/Reports/Cobertura.xml
       failIfCoverageEmpty: false
+
+  - script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml;$(Build.SourcesDirectory)/**/cobertura-coverage.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
+    displayName: "Create Code Coverage Reports"
 
   - task: DotNetCoreCLI@2
     inputs:

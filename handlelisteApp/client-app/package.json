@@ -61,7 +61,7 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -90,10 +90,16 @@
     ]
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.9.4",
+    "@cypress/instrument-cra": "^1.4.0",
     "@types/luxon": "^1.26.3",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/uuid": "^8.3.0",
     "cypress": "^7.1.0",
     "prettier": "2.2.1"
+  },
+  "nyc": {
+    "report-dir": "cypress/coverage",
+    "reporter": ["cobertura"]
   }
 }

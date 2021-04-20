@@ -20,5 +20,7 @@ module.exports = (on, config) => {
   config.env.username = process.env.shop_USERNAME
   config.env.password = process.env.shop_PASSWORD
 
+  require('@cypress/code-coverage/task')(on, config)
+
   return config
 }
