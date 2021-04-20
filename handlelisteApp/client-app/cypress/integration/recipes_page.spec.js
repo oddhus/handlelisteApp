@@ -46,13 +46,13 @@ describe('Recipe page', () => {
     cy.get('[data-cy="allRecipesTab"]').click()
     cy.get('[data-cy="myCookBookTab"]').click()
     cy.contains('asdf').should('be.visible')
-    cy.get('[data-cy="recipe-card"]').should('have.length', 11)
+    cy.get('[data-cy="recipe-card"]').should('have.length', 8)
   })
 
   it('Should filter recipes in my recipes when using search bar', function () {
-    cy.get('[data-cy=recipe-card-title]').should('have.length', 11)
+    cy.get('[data-cy=recipe-card-title]').should('have.length', 8)
     cy.get('.chakra-input').click().type('Pizza')
-    cy.get('[data-cy=recipe-card-title]').should('have.length', 9)
+    cy.get('[data-cy=recipe-card-title]').should('have.length', 6)
   })
 
   it('Should change url based on content in searchbar', function () {
