@@ -71,7 +71,12 @@ export default class RecipeStore {
     searchText?: string | null | undefined,
     items?: never[] | (string | null)[]
   ) => {
-    this.resetAndStartLoading()
+    //Only start and load if there are no recipes in the list, otherwise update silently
+    if (this.userRecipeList && this.userRecipeList.length > 0) {
+      this.currentRecipeList = this.userRecipeList
+    } else {
+      this.resetAndStartLoading()
+    }
 
     try {
       const userRecipes = await agent.recipes.getAllUserRecipes(id)
@@ -94,7 +99,17 @@ export default class RecipeStore {
   }
 
   getAllRecipes = async (query?: string | undefined) => {
-    this.resetAndStartLoading()
+    //Only start and load if there are no recipes in the list, otherwise update silently
+    if (
+      this.allRecipes &&
+      this.allRecipes.recipes &&
+      this.allRecipes.recipes.length > 0
+    ) {
+      this.currentRecipeList = this.allRecipes.recipes
+    } else {
+      this.resetAndStartLoading()
+    }
+
     try {
       const paginatedRecipes = await agent.recipes.getAllRecipes(query)
       runInAction(() => {
@@ -136,9 +151,7 @@ export default class RecipeStore {
         })
       }
     } catch (e) {
-      this.error(
-        'Failed to create recipe.'
-      )
+      this.error('Failed to create recipe.')
     }
   }
 
@@ -238,7 +251,13 @@ export default class RecipeStore {
     searchText?: string | null | undefined,
     items?: never[] | (string | null)[]
   ) {
-    this.resetAndStartLoading()
+    //Only start and load if there are no recipes in the list, otherwise update silently
+    if (this.recipieSuggestions && this.recipieSuggestions.length > 0) {
+      this.currentRecipeList = this.recipieSuggestions
+    } else {
+      this.resetAndStartLoading()
+    }
+
     try {
       const recipes = await agent.recipes.getRecipieSuggestions()
       runInAction(() => {

@@ -39,6 +39,7 @@ export const RecipeList: React.FC<Props> = observer(() => {
             : 'repeat(1, 1fr)'
         }
         gap={3}
+        minW="100%"
       >
         {recipeStore.cardView
           ? recipeStore.currentRecipeList.map((recipe) => (

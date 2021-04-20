@@ -66,6 +66,7 @@ export const Recipes: React.FC<Props> = observer(() => {
         items
       )
     } else if (recipeStore.tabIndex === 1) {
+      console.log('hi')
       recipeStore.getAllRecipes(stringify(query))
     } else if (recipeStore.tabIndex === 2) {
       recipeStore.getRecipieSuggestions(searchText, items)
@@ -105,38 +106,38 @@ export const Recipes: React.FC<Props> = observer(() => {
         onChange={(index) => recipeStore.setTabIndex(index)}
       >
         <TabList>
-          { userStore.isLoggedIn && <Tab data-cy='myCookBookTab' isDisabled={!userStore.isLoggedIn}>
-            <Text fontSize="sm">{settingStore.language.myRecipes}</Text>
-          </Tab>}
-          <Tab data-cy='allRecipesTab'><Text fontSize="sm">{settingStore.language.allRecipes}</Text></Tab>
+          {userStore.isLoggedIn && (
+            <Tab data-cy="myCookBookTab" isDisabled={!userStore.isLoggedIn}>
+              <Text fontSize="sm">{settingStore.language.myRecipes}</Text>
+            </Tab>
+          )}
+          <Tab data-cy="allRecipesTab">
+            <Text fontSize="sm">{settingStore.language.allRecipes}</Text>
+          </Tab>
           {userStore.isLoggedIn ? (
-              <Tab> <Text fontSize="sm">{settingStore.language.recommendations}</Text></Tab>
-
+            <Tab>
+              <Text fontSize="sm">{settingStore.language.recommendations}</Text>
+            </Tab>
           ) : null}
         </TabList>
         <SearchBar onOpen={onOpen} />
 
         <TabPanels>
-          <TabPanel pl={[0, 5]} pr={[0, 5]}>
-            {
-              recipeStore.tabIndex === 0 ? <MyRecipes /> : null
-            }
+          <TabPanel pl={[0, 0, 5]} pr={[0, 0, 5]}>
+            {recipeStore.tabIndex === 0 ? <MyRecipes /> : null}
           </TabPanel>
-          <TabPanel pl={[0, 5]} pr={[0, 5]}>
-          {
-              recipeStore.tabIndex === 1 ? (
+          <TabPanel pl={[0, 0, 5]} pr={[0, 0, 5]}>
+            {recipeStore.tabIndex === 1 ? (
               <>
-              <AllRecipes />
+                <AllRecipes />
                 <Center pt={4}>
                   <Pagination paginatedRecipe={recipeStore.allRecipes} />
-                </Center> </>
-                ) : null
-            }
+                </Center>
+              </>
+            ) : null}
           </TabPanel>
-          <TabPanel pl={[0, 5]} pr={[0, 5]}>
-          {
-              recipeStore.tabIndex === 2 ? <SuggestedRecipes /> : null
-            }
+          <TabPanel pl={[0, 0, 5]} pr={[0, 0, 5]}>
+            {recipeStore.tabIndex === 2 ? <SuggestedRecipes /> : null}
           </TabPanel>
         </TabPanels>
       </Tabs>
