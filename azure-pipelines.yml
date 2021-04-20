@@ -30,6 +30,12 @@ steps:
       cacheHitVar: 'CypressRestored'
     displayName: "Cache cypress binary"
 
+  - script: |
+      cd handlelisteApp/client-app
+      npm install
+    displayName: "Run npm install"
+    condition: or(eq(variables.CacheRestored, 'false'), eq(variables.CypressRestored, 'false'))
+
   - bash: |
       #cd handlelisteApp
       #dotnet run
@@ -37,12 +43,6 @@ steps:
       nohup dotnet run &
     displayName: Starting app in BG
 
-  - script: |
-      cd handlelisteApp/client-app
-      npm install
-    displayName: "Run npm install"
-    condition: or(eq(variables.CacheRestored, 'false'), eq(variables.CypressRestored, 'false'))
-  
   - script: |
       cd handlelisteApp/client-app
       npm run test:ci
