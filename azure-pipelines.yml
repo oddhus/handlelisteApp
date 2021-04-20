@@ -102,6 +102,13 @@ steps:
       shop_USERNAME: $(shop_USERNAME)
       shop_PASSWORD: $(shop_PASSWORD)
 
+  - task: PublishTestResults@2
+    displayName: 'Publish cypress test reports'
+    inputs:
+      testResultsFiles: 'handlelisteApp\client-app\cypress\results\*'
+    condition: succeededOrFailed()
+    continueOnError: true
+
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'handlelisteApp\client-app\cypress\screenshots'
@@ -109,6 +116,13 @@ steps:
     condition: failed()
     continueOnError: true
     displayName: 'Publish screenshots when there were issues'
+
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish Cypress Code Coverage"
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: handlelisteApp\client-app\cypress\coverage\*
+      failIfCoverageEmpty: false
 
   - task: PublishCodeCoverageResults@1
     displayName: "Publish Code Coverage"
