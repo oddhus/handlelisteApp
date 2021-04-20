@@ -1,5 +1,5 @@
 import { StarIcon } from '@chakra-ui/icons'
-import { Box, HStack, Spinner } from '@chakra-ui/react'
+import { Box, Button, HStack, Spinner } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { IRecipe } from '../../models/recipe'
@@ -19,15 +19,16 @@ export const RecipeFavoriteButton: React.FC<Props> = observer(
           <HStack>
             {recipeStore.loadingAddFavourite === recipe.recipeID &&
               side === 'left' && <Spinner size="sm" />}
-
-            <StarIcon
-              _hover={{
-                color: 'yellow.400',
-                cursor: 'pointer',
-              }}
-              color={recipe.hasLiked ? 'yellow.500' : '#CDCDCD'}
-              onClick={() => recipeStore.likeOrRemoveLikeOnRecipe(recipe)}
-            />
+            <Button variant="link" _focus={{ outline: 'none' }}>
+              <StarIcon
+                _hover={{
+                  color: 'yellow.400',
+                  cursor: 'pointer',
+                }}
+                color={recipe.hasLiked ? 'yellow.500' : '#CDCDCD'}
+                onClick={() => recipeStore.likeOrRemoveLikeOnRecipe(recipe)}
+              />
+            </Button>
             {recipeStore.loadingAddFavourite === recipe.recipeID &&
               side !== 'left' && <Spinner size="sm" />}
           </HStack>

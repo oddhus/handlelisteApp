@@ -1,6 +1,15 @@
 import React from 'react'
 
-import { Text, Box, Flex, Image, VStack, HStack } from '@chakra-ui/react'
+import {
+  Text,
+  Box,
+  Flex,
+  Image,
+  VStack,
+  HStack,
+  LinkBox,
+  LinkOverlay,
+} from '@chakra-ui/react'
 import { IRecipe } from '../../models/recipe'
 import { useHistory } from 'react-router-dom'
 import { RecipeActionButtons } from './RecipeActionButtons'
@@ -22,15 +31,15 @@ const RecipeCard: React.FC<Props> = ({
   const history = useHistory()
 
   return (
-    <Box
-      data-cy="recipe-card"
-      maxW="sm"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
+    <LinkBox
       _hover={{
         boxShadow: 'rgba(0, 0, 0, 0.15) 0px 18px 43px',
+        cursor: 'pointer',
       }}
+      overflow="hidden"
+      data-cy="recipe-card"
+      borderRadius="lg"
+      boxShadow="md"
     >
       <Image
         src={
@@ -43,41 +52,31 @@ const RecipeCard: React.FC<Props> = ({
         overflow="hidden"
         height="150px"
         width="100%"
-        onClick={() => {
-          history.push(`/recipes/${recipe.recipeID}`)
-        }}
-        _hover={{ cursor: 'pointer' }}
       />
       <Box px={4} pb={4} pt={2}>
         <VStack spacing={4}>
           <Box minW="100%" maxW="100%">
             <HStack justify="space-between" maxW="100%">
-              <Box
-                data-cy="recipe-card-title"
-                mt="1"
-                fontWeight="semibold"
-                as="h4"
-                isTruncated
+              <LinkOverlay
                 onClick={() => {
                   history.push(`/recipes/${recipe.recipeID}`)
                 }}
-                _hover={{ cursor: 'pointer' }}
               >
-                {recipe.recipeName}
-              </Box>
+                <Box
+                  data-cy="recipe-card-title"
+                  mt="1"
+                  fontWeight="semibold"
+                  as="h4"
+                  isTruncated
+                >
+                  {recipe.recipeName}
+                </Box>
+              </LinkOverlay>
               <RecipeFavoriteButton recipe={recipe} side="left" />
             </HStack>
 
             <Box minW="100%">
-              <Text
-                fontSize="sm"
-                isTruncated
-                maxW="100%"
-                onClick={() => {
-                  history.push(`/recipes/${recipe.recipeID}`)
-                }}
-                _hover={{ cursor: 'pointer' }}
-              >
+              <Text fontSize="sm" isTruncated maxW="100%">
                 {recipe.shortDescription}
               </Text>
             </Box>
@@ -93,7 +92,7 @@ const RecipeCard: React.FC<Props> = ({
           </Flex>
         </VStack>
       </Box>
-    </Box>
+    </LinkBox>
   )
 }
 

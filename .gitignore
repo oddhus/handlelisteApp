@@ -3,6 +3,7 @@
 
 # Test files
 *.xml
+**/cypress/screenshots/
 
 
 # User-specific files
