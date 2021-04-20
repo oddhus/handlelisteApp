@@ -13,7 +13,8 @@ import {
   Select,
   Stack,
   Image,
-  Textarea, Box, Img,
+  Textarea,
+  Box,
 } from '@chakra-ui/react'
 import {
   Field,
@@ -122,16 +123,17 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
             : settingStore.language.update}
         </Heading>
       </Center>
-      <Box minW="100%" style={{marginTop: '15px'}}>
+      <Box minW="100%" style={{ marginTop: '15px' }}>
         {recipeStore.currentCroppedImage && (
-            <Center>
-              <Image
-                  objectFit="cover"
-                  overflow="hidden"
-                  height="300px"
-                  width="100%"
-                  src={URL.createObjectURL(recipeStore.currentCroppedImage)} />
-            </Center>
+          <Center>
+            <Image
+              objectFit="cover"
+              overflow="hidden"
+              height="300px"
+              width="100%"
+              src={URL.createObjectURL(recipeStore.currentCroppedImage)}
+            />
+          </Center>
         )}
       </Box>
       <Formik
@@ -154,7 +156,7 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
         validationSchema={SignupSchema}
       >
         {(props: FormikProps<FormValues>) => {
-          const { values, isSubmitting, errors, touched } = props
+          const { values, errors, touched } = props
           return (
             <Form>
               <Field name="recipeName">
@@ -164,7 +166,10 @@ export const CreateRecipe: React.FC<Props> = observer(() => {
                       !!form.errors?.recipeName && !!form.touched?.recipeName
                     }
                   >
-                    <FormLabel htmlFor="recipeName" style={{ marginTop: '15px' }}>
+                    <FormLabel
+                      htmlFor="recipeName"
+                      style={{ marginTop: '15px' }}
+                    >
                       {settingStore.language.recipeName}
                     </FormLabel>
                     <Input

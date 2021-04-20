@@ -8,7 +8,7 @@ import { RecipeList } from './RecipeList'
 interface Props {}
 
 export const SuggestedRecipes: React.FC<Props> = observer(() => {
-  const { settingStore } = useStore()
+  const { settingStore, recipeStore } = useStore()
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -30,7 +30,7 @@ export const SuggestedRecipes: React.FC<Props> = observer(() => {
           />
         </Tooltip>
       </HStack>
-      <RecipeList />
+      <RecipeList recipes={recipeStore.filteredRecipeSuggestions} />
     </VStack>
   )
 })

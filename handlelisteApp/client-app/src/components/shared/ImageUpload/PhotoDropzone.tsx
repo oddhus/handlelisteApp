@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { ArrowUpIcon, Icon } from '@chakra-ui/icons'
+import { ArrowUpIcon } from '@chakra-ui/icons'
 import { Heading } from '@chakra-ui/react'
 
 interface Props {

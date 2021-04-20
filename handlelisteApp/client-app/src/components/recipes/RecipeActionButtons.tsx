@@ -11,11 +11,8 @@ import {
   MenuButton,
   Menu,
   MenuItem,
-  Box,
-  background,
 } from '@chakra-ui/react'
 import {
-  AddIcon,
   CalendarIcon,
   DeleteIcon,
   EditIcon,

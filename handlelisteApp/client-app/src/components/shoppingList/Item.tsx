@@ -9,7 +9,7 @@ import {
   Box,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd'
 import { Iitem } from '../../models/ShoppingList'
 import { useStore } from '../../stores/store'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Text, Link } from '@chakra-ui/react'
+import { Box, Link } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArchive } from '@fortawesome/free-solid-svg-icons'

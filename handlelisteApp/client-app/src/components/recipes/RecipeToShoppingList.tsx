@@ -13,7 +13,6 @@ import { IitemInRecipe } from '../../models/recipe'
 import { useStore } from '../../stores/store'
 import { ItemList } from './ItemList'
 import { SelectShoppingList } from './SelectShoppingList'
-import { useHistory } from 'react-router-dom'
 import { RecipeFavoriteButton } from './RecipeFavoriteButton'
 
 interface Props {}
@@ -24,20 +23,13 @@ interface CheckedItems {
 }
 
 export const RecipeToShoppingList: React.FC<Props> = observer(() => {
-  const {
-    settingStore,
-    recipeStore,
-    shoppingListStore,
-    modalStore,
-  } = useStore()
+  const { settingStore, recipeStore, shoppingListStore } = useStore()
   const [numberOfItems, setNumberOfItems] = useState<number[]>()
   const [checked, setCheckedItems] = useState<CheckedItems[]>([])
   const [selectedShoppingList, setSelectedShoppingList] = useState<
     number | undefined
   >(undefined)
   const [addToFavourites, setAddToFavourites] = useState(true)
-
-  const history = useHistory()
 
   useEffect(() => {
     if (recipeStore.currentRecipe) {

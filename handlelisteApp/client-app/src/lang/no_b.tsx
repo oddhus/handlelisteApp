@@ -36,6 +36,14 @@ export default class Norwegian_B implements ILanguage {
   recipes = 'Oppskrifter'
   recipe = 'Oppskrift'
   createRecipe = 'Lag ny oppskrift'
+  createRecipeFailed = 'Feilet å opprette oppskriften'
+  createdRecipe = 'Opprettet oppskriften!'
+  deletedRecipe = 'Slettet oppskriften!'
+  deleteRecipeFailed = 'Feilet å slette oppskriften'
+  retriveRecipesFailed = 'Feilet å hente oppskrifter'
+  retriveRecipeFailed = 'Feilet å hente oppskriften'
+  updateRecipe = 'Oppskriften ble oppdatert'
+  updateRecipeFailed = 'Klarte ikke å oppdaterte oppskriften'
   ingredient = 'Ingrediens'
   ingredients = 'Ingredienser'
   noIngredients = 'Ingen ingredienser...'
@@ -49,7 +57,7 @@ export default class Norwegian_B implements ILanguage {
   noRecipesFound = 'Fant ingen oppskrifter'
   noRecipeFound = 'Fant ingen oppskrift'
 
-  backToShoppingList = "Gå tilbake til din handeliste"
+  backToShoppingList = 'Gå tilbake til din handeliste'
 
   suggestedRecipes = 'Annbefalte oppskrifter'
   suggestedRecipesToolTip =

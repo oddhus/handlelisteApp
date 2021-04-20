@@ -13,8 +13,8 @@ export const MyRecipes: React.FC<Props> = observer(() => {
 
   return (
     <VStack minW="100%">
-      <RecipeList />
-      {!recipeStore.loading && recipeStore.currentRecipeList.length === 0 && (
+      <RecipeList recipes={recipeStore.filteredUserRecipeList} />
+      {!recipeStore.loading && recipeStore.userRecipeList.length === 0 && (
         <Button
           data-cy="create-recipe-btn"
           onClick={() => history.push('/create-recipe')}

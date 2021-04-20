@@ -14,6 +14,7 @@ jest.mock('../../stores/store', () => ({
     },
     recipeStore: {
       searchInRecipes: () => undefined,
+      userRecipeList: [],
 
       allRecipes: [],
       currentRecipeList: [],

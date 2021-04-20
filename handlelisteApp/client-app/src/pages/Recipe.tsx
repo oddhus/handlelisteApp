@@ -9,7 +9,7 @@ import {
   Divider,
   Button,
   HStack,
-  Img, Image,
+  Img,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
@@ -20,7 +20,6 @@ import { RecipeFavoriteButton } from '../components/recipes/RecipeFavoriteButton
 import { RecipeToShoppingList } from '../components/recipes/RecipeToShoppingList'
 import { Toast } from '../components/shared/Toast'
 import { useStore } from '../stores/store'
-import UserStore from "../stores/userStore";
 
 interface Props {}
 
@@ -58,10 +57,10 @@ export const Recipe: React.FC<Props> = observer(() => {
         <Box minW="100%">
           <Center>
             <Img
-                objectFit="cover"
-                overflow="hidden"
-                height="300px"
-                width="100%"
+              objectFit="cover"
+              overflow="hidden"
+              height="300px"
+              width="100%"
               src={
                 recipeStore.currentRecipe?.imgUrl
                   ? recipeStore.currentRecipe?.imgUrl
@@ -94,15 +93,16 @@ export const Recipe: React.FC<Props> = observer(() => {
         {recipeStore.currentRecipe.items.length === 0 && <Divider />}
         <Box minW="100%" pt={2}>
           <Center>
-            {userStore.isLoggedIn && <Button
+            {userStore.isLoggedIn && (
+              <Button
                 onClick={() => modalStore.openModal(<RecipeToShoppingList />)}
                 disabled={recipeStore.currentRecipe?.items.length === 0}
                 colorScheme="teal"
                 variant="outline"
-            >
-              {settingStore.language.addRecipeToShoppingList}
-            </Button>}
-            
+              >
+                {settingStore.language.addRecipeToShoppingList}
+              </Button>
+            )}
           </Center>
         </Box>
       </VStack>

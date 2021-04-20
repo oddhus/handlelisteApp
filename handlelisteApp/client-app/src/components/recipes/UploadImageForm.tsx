@@ -1,21 +1,7 @@
-import { CloseIcon } from '@chakra-ui/icons'
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  Radio,
-  RadioGroup,
-  Stack,
-  Image,
-  HStack,
-  VStack,
-  IconButton,
-} from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, HStack } from '@chakra-ui/react'
 import { FieldInputProps, FormikProps } from 'formik'
 import { observer } from 'mobx-react-lite'
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useStore } from '../../stores/store'
 import ImageUploader from '../shared/ImageUpload/ImageUploader'
 
@@ -25,7 +11,7 @@ interface Props {
 }
 
 export const UploadImageForm: React.FC<Props> = observer(({ form, field }) => {
-  const { recipeStore, settingStore, modalStore } = useStore()
+  const { recipeStore, modalStore } = useStore()
 
   return (
     <FormControl isInvalid={!!form.errors?.imgUrl && !!form.touched?.imgUrl}>

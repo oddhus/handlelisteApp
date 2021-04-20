@@ -1,4 +1,3 @@
-import React from 'react'
 import { ILanguage } from './Language'
 
 export default class English implements ILanguage {
@@ -31,12 +30,19 @@ export default class English implements ILanguage {
   endShoppingTrip = 'End shopping trip'
   editListName = 'Edit shopping list name'
   noItems = 'No items'
-
   myRecipes = 'My recipes'
   allRecipes = 'All recipes'
   recipes = 'Recipes'
   recipe = 'Recipe'
   createRecipe = 'Create recipe'
+  createRecipeFailed = 'Failed to create recipe'
+  createdRecipe = 'Recipe created successfully'
+  deletedRecipe = 'Successfully deleted recipe'
+  deleteRecipeFailed = 'Failed to delete recipe'
+  retriveRecipesFailed = 'Failed to retrive recipes'
+  retriveRecipeFailed = 'Failed to retrive recipe'
+  updateRecipeFailed = 'Failed to update recipe'
+  updateRecipe = 'Recipe updated successfully'
   ingredient = 'Ingredient'
   ingredients = 'Ingredients'
   noIngredients = 'No ingredients...'
@@ -49,7 +55,7 @@ export default class English implements ILanguage {
   noRecipeSelected = 'No recipe selected'
   noRecipesFound = 'No recipes found'
   noRecipeFound = 'No recipe found'
-  
+
   backToShoppingList = 'Back to my shopping list'
 
   suggestedRecipes = 'Suggested recipes'

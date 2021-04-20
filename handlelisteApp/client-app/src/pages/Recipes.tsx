@@ -66,7 +66,6 @@ export const Recipes: React.FC<Props> = observer(() => {
         items
       )
     } else if (recipeStore.tabIndex === 1) {
-      console.log('hi')
       recipeStore.getAllRecipes(stringify(query))
     } else if (recipeStore.tabIndex === 2) {
       recipeStore.getRecipieSuggestions(searchText, items)
@@ -124,20 +123,16 @@ export const Recipes: React.FC<Props> = observer(() => {
 
         <TabPanels>
           <TabPanel pl={[0, 0, 5]} pr={[0, 0, 5]}>
-            {recipeStore.tabIndex === 0 ? <MyRecipes /> : null}
+            <MyRecipes />
           </TabPanel>
           <TabPanel pl={[0, 0, 5]} pr={[0, 0, 5]}>
-            {recipeStore.tabIndex === 1 ? (
-              <>
-                <AllRecipes />
-                <Center pt={4}>
-                  <Pagination paginatedRecipe={recipeStore.allRecipes} />
-                </Center>
-              </>
-            ) : null}
+            <AllRecipes />
+            <Center pt={4}>
+              <Pagination paginatedRecipe={recipeStore.allRecipes} />
+            </Center>
           </TabPanel>
           <TabPanel pl={[0, 0, 5]} pr={[0, 0, 5]}>
-            {recipeStore.tabIndex === 2 ? <SuggestedRecipes /> : null}
+            <SuggestedRecipes />
           </TabPanel>
         </TabPanels>
       </Tabs>

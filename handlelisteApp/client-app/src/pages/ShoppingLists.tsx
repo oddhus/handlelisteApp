@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '../stores/store'
@@ -24,8 +24,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Box,
-  SimpleGrid,
 } from '@chakra-ui/react'
 import { IShoppingList } from '../models/ShoppingList'
 import { AddIcon, ChevronDownIcon, DeleteIcon } from '@chakra-ui/icons'
@@ -74,23 +72,23 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
         <Center>
           <ButtonGroup isAttached>
             <Button
-            colorScheme="brand"
-              leftIcon={<AddIcon/>}
+              colorScheme="brand"
+              leftIcon={<AddIcon />}
               onClick={() => {
-                onClickNewShoppingList(false) 
+                onClickNewShoppingList(false)
               }}
             >
               {settingStore.language.newShoppingList}
             </Button>
             <Menu>
               <MenuButton
-              backgroundColor="#539495"
-              _hover={{ backgroundColor: 'teal.600' }}
-              _active={{ backgroundColor: 'teal.800' }}
-              border="1px"
-              borderColor="teal.500"
+                backgroundColor="#539495"
+                _hover={{ backgroundColor: 'teal.600' }}
+                _active={{ backgroundColor: 'teal.800' }}
+                border="1px"
+                borderColor="teal.500"
                 as={IconButton}
-                icon={<ChevronDownIcon color="white"/>}
+                icon={<ChevronDownIcon color="white" />}
               ></MenuButton>
               <MenuList>
                 <MenuItem onClick={() => onClickNewShoppingList(true)}>

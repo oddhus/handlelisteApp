@@ -6,7 +6,7 @@ import { AppRoutes } from '../../routes/AppRoutes'
 import { Heading } from '@chakra-ui/react'
 import { MockLanguage } from '../MockLanguage'
 import { QueryParamProvider } from 'use-query-params'
-import {CreateRecipe} from "../../pages/CreateRecipe";
+import { CreateRecipe } from '../../pages/CreateRecipe'
 
 const setup = (path: string) => {
   return render(
@@ -88,6 +88,7 @@ jest.mock('../../stores/store', () => ({
       getRecipe: () => null,
       reset: () => null,
       currentRecipeList: [],
+      userRecipeList: [],
       allRecipes: [],
       loading: false,
       getUserRecipes: () => undefined,
@@ -123,7 +124,7 @@ describe('AppRoutes', () => {
       expect(getByTestId('signup-container')).toHaveTextContent('Sign up')
     })
     it('displays Create recipe when url is /create-recipe', () => {
-      const { getByTestId } = render(<CreateRecipe/>)
+      const { getByTestId } = render(<CreateRecipe />)
       expect(getByTestId('create-recipe-heading')).toBeInTheDocument()
     })
 

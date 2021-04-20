@@ -1,15 +1,8 @@
-import axios, {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse,
-  CancelToken,
-} from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios'
 import { IRecipe } from '../models/recipe'
 import { Iitem, IShoppingList } from '../models/ShoppingList'
 import { IUser } from '../models/user'
 import { store } from '../stores/store'
-import { history } from '../index'
-import { useToast } from '@chakra-ui/react'
 
 axios.defaults.baseURL = '/'
 

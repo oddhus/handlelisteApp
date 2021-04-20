@@ -2,8 +2,6 @@ import { CloseIcon, Search2Icon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
-  FormControl,
-  FormLabel,
   Grid,
   GridItem,
   IconButton,
@@ -11,7 +9,6 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Switch,
 } from '@chakra-ui/react'
 import React from 'react'
 import {

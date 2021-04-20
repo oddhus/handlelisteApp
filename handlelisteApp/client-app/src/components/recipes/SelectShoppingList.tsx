@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Select,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Button, FormControl, Select, Text } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router'

@@ -1,4 +1,3 @@
-import { Container } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import { Center, Text, Spinner, Stack } from '@chakra-ui/react'
 

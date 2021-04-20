@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import {
   ButtonGroup,
@@ -139,7 +139,7 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
               border="1px"
               borderColor="teal.500"
               as={IconButton}
-              icon={<ChevronDownIcon size="300px" color="white"/>}
+              icon={<ChevronDownIcon size="300px" color="white" />}
             ></MenuButton>
             <MenuList>
               <MenuItem onClick={() => sendToRecipes()}>

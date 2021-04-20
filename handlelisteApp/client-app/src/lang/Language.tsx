@@ -33,6 +33,14 @@ export interface ILanguage {
   recipes: string
   recipe: string
   createRecipe: string
+  createRecipeFailed: string
+  createdRecipe: string
+  deleteRecipeFailed: string
+  deletedRecipe: string
+  retriveRecipesFailed: string
+  retriveRecipeFailed: string
+  updateRecipe: string
+  updateRecipeFailed: string
   ingredient: string
   ingredients: string
   noIngredients: string

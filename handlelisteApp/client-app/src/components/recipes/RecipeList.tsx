@@ -5,13 +5,16 @@ import { useStore } from '../../stores/store'
 import { Spinner, Center, Text, Grid } from '@chakra-ui/react'
 import RecipeCard from './RecipeCard'
 import { RecipeListItem } from './RecipeListItem'
+import { IRecipe } from '../../models/recipe'
 
-interface Props {}
+interface Props {
+  recipes: IRecipe[] | undefined
+}
 
-export const RecipeList: React.FC<Props> = observer(() => {
+export const RecipeList: React.FC<Props> = observer(({ recipes }) => {
   const { recipeStore, settingStore } = useStore()
 
-  if (recipeStore.loading) {
+  if (recipeStore.loading && (!recipes || recipes.length === 0)) {
     return (
       <Center>
         <Spinner />
@@ -19,10 +22,7 @@ export const RecipeList: React.FC<Props> = observer(() => {
     )
   }
 
-  if (
-    !recipeStore.currentRecipeList ||
-    recipeStore.currentRecipeList.length === 0
-  ) {
+  if (!recipes || recipes.length === 0) {
     return (
       <Center>
         <Text data-cy="noRecipe">{settingStore.language.noRecipesFound}</Text>
@@ -42,7 +42,7 @@ export const RecipeList: React.FC<Props> = observer(() => {
         minW="100%"
       >
         {recipeStore.cardView
-          ? recipeStore.currentRecipeList.map((recipe) => (
+          ? recipes.map((recipe) => (
               <RecipeCard
                 key={recipe.recipeID}
                 recipe={recipe}
@@ -51,7 +51,7 @@ export const RecipeList: React.FC<Props> = observer(() => {
                 deleteable={recipe.isOwner}
               />
             ))
-          : recipeStore.currentRecipeList.map((recipe) => (
+          : recipes.map((recipe) => (
               <RecipeListItem
                 key={recipe.recipeID}
                 recipe={recipe}
