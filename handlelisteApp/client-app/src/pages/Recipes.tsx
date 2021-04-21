@@ -115,7 +115,7 @@ export const Recipes: React.FC<Props> = observer(() => {
             <Text fontSize="sm">{settingStore.language.allRecipes}</Text>
           </Tab>
           {userStore.isLoggedIn ? (
-            <Tab>
+            <Tab data-cy="recipeSuggestionTab">
               <Text fontSize="sm">{settingStore.language.recommendations}</Text>
             </Tab>
           ) : null}

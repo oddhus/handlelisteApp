@@ -147,7 +147,10 @@ export default class RecipeStore {
     this.loading = true
     let recipe = this.findExistingRecipe(id)
     if (recipe) {
-      this.currentRecipe = recipe
+      runInAction(() => {
+        this.currentRecipe = recipe
+        this.loading = false
+      })
       return
     }
 

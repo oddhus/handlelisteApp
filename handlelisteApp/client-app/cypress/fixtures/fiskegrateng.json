@@ -1,0 +1,36 @@
+{
+   "recipeID":2,
+   "recipeName":"Fiskegrateng",
+   "shortDescription":"Mors oppskrift",
+   "approach":"Først..",
+   "imgUrl":"https://res.cloudinary.com/norgesgruppen/image/upload/c_fill,f_jpg,h_352,q_auto:eco,w_629/qr0gty7lsfiwe4ctp4bh.jpg",
+   "isOwner":false,
+   "hasLiked":false,
+   "items":[
+      {
+         "itemName":"melk",
+         "quantity":1,
+         "unit":"L"
+      },
+      {
+         "itemName":"Fisk",
+         "quantity":1,
+         "unit":"PCS"
+      },
+      {
+         "itemName":"Makaroni",
+         "quantity":1,
+         "unit":"PCS"
+      },
+      {
+         "itemName":"Egg",
+         "quantity":4,
+         "unit":"PCS"
+      },
+      {
+         "itemName":"Mjøl",
+         "quantity":1,
+         "unit":"KG"
+      }
+   ]
+}
