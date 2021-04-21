@@ -80,7 +80,7 @@ export default class shoppingListStore {
         shoppinglistToAdd
       )
       runInAction(() => {
-        this.shoppingLists.push(addedList)
+        this.shoppingLists.unshift(addedList)
         this.shoppingList = addedList
       })
       history.push(`/shopping-list/${this.shoppingList.shoppingListID}`)

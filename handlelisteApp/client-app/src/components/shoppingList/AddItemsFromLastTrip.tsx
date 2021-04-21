@@ -28,19 +28,17 @@ export const AddItemsFromLastTrip: React.FC<Props> = observer(() => {
   const [items, setItems] = useState<CheckedItems[]>([])
 
   useEffect(() => {
-    setLastShoppinglist(
-      shoppingListStore.shoppingLists[
-        shoppingListStore.shoppingLists.length - 1
-      ]
-    )
-    const notBought = lastShopingList?.items.filter(
-      (item) => item.hasBeenBought === false
-    )
-    notBought &&
-      notBought.forEach((item) => {
-        setItems((items) => [...items, { isChecked: false, item: item }])
-      })
-  }, [lastShopingList])
+    if (shoppingListStore.shoppingLists.length > 1) {
+      setLastShoppinglist(shoppingListStore.shoppingLists[1])
+      const notBought = lastShopingList?.items.filter(
+        (item) => item.hasBeenBought === false
+      )
+      notBought &&
+        notBought.forEach((item) => {
+          setItems((items) => [...items, { isChecked: false, item: item }])
+        })
+    }
+  }, [lastShopingList, shoppingListStore.shoppingLists])
 
   const addItemsToShoppingList = () => {
     items &&

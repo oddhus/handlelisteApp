@@ -58,6 +58,7 @@ const RecipeCard: React.FC<Props> = ({
           <Box minW="100%" maxW="100%">
             <HStack justify="space-between" maxW="100%">
               <LinkOverlay
+                maxW="80%"
                 onClick={() => {
                   history.push(`/recipes/${recipe.recipeID}`)
                 }}
@@ -74,7 +75,6 @@ const RecipeCard: React.FC<Props> = ({
               </LinkOverlay>
               <RecipeFavoriteButton recipe={recipe} side="left" />
             </HStack>
-
             <Box minW="100%">
               <Text fontSize="sm" isTruncated maxW="100%">
                 {recipe.shortDescription}

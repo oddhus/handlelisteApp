@@ -30,6 +30,7 @@ import {
   CloseIcon,
   EditIcon,
 } from '@chakra-ui/icons'
+import { AddItemsFromLastTrip } from '../components/shoppingList/AddItemsFromLastTrip'
 
 interface Props {}
 
@@ -40,7 +41,7 @@ interface useParam {
 export const ShoppingListPage: React.FC<Props> = observer(() => {
   const history = useHistory()
   const paramObj: useParam = useParams()
-  const { shoppingListStore, settingStore } = useStore()
+  const { shoppingListStore, settingStore, modalStore } = useStore()
   const [shoppingListName, setShoppingListName] = useState(
     shoppingListStore.shoppingList.name
   )
@@ -145,6 +146,16 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
               <MenuItem onClick={() => sendToRecipes()}>
                 {settingStore.language.addItemsFromRecipe}
               </MenuItem>
+              {shoppingListStore.shoppingLists.length > 1 &&
+                shoppingListStore.shoppingLists[1].items.length > 0 && (
+                  <MenuItem
+                    onClick={() =>
+                      modalStore.openModal(<AddItemsFromLastTrip />)
+                    }
+                  >
+                    {settingStore.language.addItemsFromLastTrip2}
+                  </MenuItem>
+                )}
             </MenuList>
           </Menu>
         </ButtonGroup>
