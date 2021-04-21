@@ -31,7 +31,9 @@ export default class Norwegian_B implements ILanguage {
   editListName = 'Endre handleliste navn'
   noItems = 'Ingen varer'
 
+  myCookbook = 'Min kokebok'
   myRecipes = 'Mine oppskrifter'
+  savedRecipes = 'Lagrede oppskrifter'
   allRecipes = 'Alle oppskrifter'
   recipes = 'Oppskrifter'
   recipe = 'Oppskrift'

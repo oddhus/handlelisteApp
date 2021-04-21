@@ -119,6 +119,7 @@ const recipes = {
     return requests.get(query)
   },
   getRecipieSuggestions: () => requests.get('recipe/suggestions'),
+  getSavedRecipes: () => requests.get('recipe/favorite'),
 }
 
 const myKitchen = {

@@ -29,6 +29,8 @@ export interface ILanguage {
   noItems: string
 
   myRecipes: string
+  myCookbook: string
+  savedRecipes: string
   allRecipes: string
   recipes: string
   recipe: string

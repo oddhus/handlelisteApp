@@ -65,6 +65,7 @@ export const Recipes: React.FC<Props> = observer(() => {
         searchText,
         items
       )
+      recipeStore.getUserSavedRecipes(searchText, items)
     } else if (recipeStore.tabIndex === 1) {
       recipeStore.getAllRecipes(stringify(query))
     } else if (recipeStore.tabIndex === 2) {
@@ -107,7 +108,7 @@ export const Recipes: React.FC<Props> = observer(() => {
         <TabList>
           {userStore.isLoggedIn && (
             <Tab data-cy="myCookBookTab" isDisabled={!userStore.isLoggedIn}>
-              <Text fontSize="sm">{settingStore.language.myRecipes}</Text>
+              <Text fontSize="sm">{settingStore.language.myCookbook}</Text>
             </Tab>
           )}
           <Tab data-cy="allRecipesTab">

@@ -30,6 +30,9 @@ export default class English implements ILanguage {
   endShoppingTrip = 'End shopping trip'
   editListName = 'Edit shopping list name'
   noItems = 'No items'
+
+  myCookbook = 'My cookbook'
+  savedRecipes = 'Saved recipes'
   myRecipes = 'My recipes'
   allRecipes = 'All recipes'
   recipes = 'Recipes'

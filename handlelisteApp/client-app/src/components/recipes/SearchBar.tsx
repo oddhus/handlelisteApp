@@ -93,7 +93,7 @@ export const SearchBar: React.FC<Props> = observer(({ onOpen }) => {
         <Box mt="5px" alignItems="center">
           <FontAwesomeIcon
             data-cy={recipeStore.cardView ? 'list-view' : 'card-view'}
-            size="2x"
+            size="lg"
             icon={recipeStore.cardView ? faListUl : faTh}
             onClick={() => (recipeStore.cardView = !recipeStore.cardView)}
           />

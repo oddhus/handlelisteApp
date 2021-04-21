@@ -9,6 +9,7 @@ import {
   VStack,
   LinkBox,
   LinkOverlay,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
@@ -72,21 +73,23 @@ export const RecipeListItem: React.FC<Props> = observer(
                   justifyContent="flex-start"
                   alignItems="center"
                   minW="100%"
+                  maxW="100%"
                 >
-                  <VStack spacing={2}>
-                    <Box minW="100%" maxW="100%">
-                      <HStack spacing={2} pt={1}>
-                        <LinkOverlay
-                          onClick={() =>
-                            history.push(`recipe/${recipe.recipeID}`)
-                          }
-                        >
-                          <Heading size="md">{recipe.recipeName}</Heading>
-                        </LinkOverlay>
-                        <RecipeFavoriteButton recipe={recipe} />
-                      </HStack>
-                    </Box>
-                    <Box minW="100%" minH="100%">
+                  <VStack maxW="100%">
+                    <HStack maxW="100%">
+                      <LinkOverlay
+                        maxW={['70%', '90%']}
+                        onClick={() =>
+                          history.push(`recipe/${recipe.recipeID}`)
+                        }
+                      >
+                        <Heading size="md" isTruncated maxW="100%">
+                          {recipe.recipeName}
+                        </Heading>
+                      </LinkOverlay>
+                      <RecipeFavoriteButton recipe={recipe} />
+                    </HStack>
+                    <Box maxW="100%">
                       <Text noOfLines={2}>{recipe.shortDescription}</Text>
                     </Box>
                   </VStack>

@@ -9,6 +9,9 @@ export default class RecipeStore {
   currentRecipe: IRecipe | undefined = undefined
   filteredUserRecipeList: IRecipe[] = []
   userRecipeList: IRecipe[] = []
+
+  savedRecipeList: IRecipe[] = []
+  filteredSavedRecipeList: IRecipe[] = []
   filteredRecipeSuggestions: IRecipe[] = []
   recipeSuggestions: IRecipe[] = []
   allRecipes: IPaginatedRecipes | undefined = undefined
@@ -185,6 +188,32 @@ export default class RecipeStore {
     }
   }
 
+  getUserSavedRecipes = async (
+    searchText?: string | null | undefined,
+    items?: never[] | (string | null)[]
+  ) => {
+    this.loading = true
+    try {
+      const savedRecipes = await agent.recipes.getSavedRecipes()
+      if (savedRecipes) {
+        runInAction(() => {
+          this.savedRecipeList = savedRecipes || []
+          this.filteredSavedRecipeList = this.filterRecipes(
+            savedRecipes,
+            searchText,
+            items
+          )
+        })
+      } else {
+        this.error(store.settingStore.language.retriveRecipesFailed)
+      }
+    } catch (e) {
+      this.error(store.settingStore.language.retriveRecipeFailed)
+    } finally {
+      runInAction(() => (this.loading = false))
+    }
+  }
+
   getUserRecipes = async (
     id: number,
     searchText?: string | null | undefined,
@@ -222,8 +251,19 @@ export default class RecipeStore {
     try {
       if (!recipe.hasLiked) {
         await agent.recipe.likeRecipe(recipe.recipeID)
+        if (!recipe.isOwner) {
+          this.savedRecipeList.push(recipe)
+        }
       } else {
         await agent.recipe.deleteRecipeLike(recipe.recipeID)
+        if (!recipe.isOwner) {
+          this.savedRecipeList = this.savedRecipeList.filter(
+            (savedRecipe) => savedRecipe.recipeID !== recipe.recipeID
+          )
+          this.filteredSavedRecipeList = this.filteredSavedRecipeList.filter(
+            (savedRecipe) => savedRecipe.recipeID !== recipe.recipeID
+          )
+        }
       }
       runInAction(() => (recipe.hasLiked = !recipe.hasLiked))
     } catch (error) {

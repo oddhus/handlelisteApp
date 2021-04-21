@@ -91,6 +91,7 @@ namespace handlelisteApp.Data
         public IEnumerable<Recipe> GetSavedRecipes(int userId)
         {
             return _context.Recipes
+                .Where(r => r.UserID != userId)
                 .Where(r => _context.SavedRecipes.Any(sr =>
                         sr.UserId == userId && r.RecipeID == sr.RecipeId))
                 .Include(r => r.Items)
