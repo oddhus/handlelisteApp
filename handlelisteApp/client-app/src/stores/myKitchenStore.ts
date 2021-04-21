@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import {makeAutoObservable, runInAction} from 'mobx'
 
 import {IMyKitchenList} from "../models/myKitchenList";
