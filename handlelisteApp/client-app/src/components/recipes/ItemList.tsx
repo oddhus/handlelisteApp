@@ -72,7 +72,10 @@ export const ItemList: React.FC<Props> = observer(
                     />
                   </Td>
                 )}
-                <Td>{item.itemName}</Td>
+                <Td>
+                  {item.itemName[0].toUpperCase() +
+                    item.itemName.substr(1).toLowerCase()}
+                </Td>
                 <Td isNumeric={!onChangeNumberOfItems || !numberOfItems}>
                   {onChangeNumberOfItems && numberOfItems ? (
                     <Text

@@ -15,7 +15,8 @@ jest.mock('../../stores/store', () => ({
     recipeStore: {
       searchInRecipes: () => undefined,
       userRecipeList: [],
-
+      filteredUserRecipeList: [],
+      filteredSavedRecipeList: [],
       allRecipes: [],
       currentRecipeList: [],
       loading: false,

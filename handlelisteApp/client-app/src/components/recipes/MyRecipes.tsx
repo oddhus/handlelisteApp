@@ -24,11 +24,11 @@ interface Props {}
 export const MyRecipes: React.FC<Props> = observer(() => {
   const { recipeStore, settingStore } = useStore()
   const history = useHistory()
-  const [isLargerThan450] = useMediaQuery('(min-width: 450px)')
+  const [isLargerThan650] = useMediaQuery('(min-width: 650px)')
 
   return (
     <>
-      {isLargerThan450 && !recipeStore.cardView ? (
+      {isLargerThan650 && !recipeStore.cardView ? (
         <SimpleGrid columns={2} spacing={5}>
           <Box>
             <Center>
