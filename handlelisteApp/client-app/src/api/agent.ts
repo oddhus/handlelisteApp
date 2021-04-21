@@ -122,6 +122,7 @@ const recipes = {
   getSavedRecipes: () => requests.get('recipe/favorite'),
 }
 
+/* istanbul ignore next */
 const myKitchen = {
   addItemToMyKitchen: (item: Iitem) => requests.post('mykitchen', item),
   updateItemInMyKitchen: (id: number) => requests.put('mykitchen/' + id, {}),
