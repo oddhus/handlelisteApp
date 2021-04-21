@@ -57,7 +57,7 @@ namespace handlelisteApp.Test.Data
                 RecipeID = 0,
                 RecipeName = "EggRecipe",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Eggs, Quantity = 1 } },
-                UserID = 1
+                UserID = 2
             };
             EggRecipe2 = new Recipe
             {
@@ -72,7 +72,7 @@ namespace handlelisteApp.Test.Data
                 RecipeID = 2,
                 RecipeName = "MilkRecipe2",
                 Items = new List<ItemInRecipe>() { new ItemInRecipe { Item = Milk, Quantity = 1 } },
-                UserID = 1
+                UserID = 2
             };
             MilkRecipe2 = new Recipe
             {
@@ -184,9 +184,9 @@ namespace handlelisteApp.Test.Data
         public void GetAllUserRecipesReturnsRecipesByThatUserAndNoOtherRecipes()
         {
             var result = _recipeRepository.GetAllUserRecipes(1);
-            Assert.Contains(MilkRecipe, result);
+            Assert.DoesNotContain(MilkRecipe, result);
             Assert.Contains(MilkRecipe2, result);
-            Assert.Contains(EggRecipe, result);
+            Assert.DoesNotContain(EggRecipe, result);
             Assert.Contains(EggRecipe2, result);
             Assert.DoesNotContain(MilkAndEggsRecipe, result);
             Assert.DoesNotContain(CheeseRecipe, result);
