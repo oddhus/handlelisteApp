@@ -121,15 +121,17 @@ steps:
       summaryFileLocation: handlelisteApp\client-app\cypress\coverage\*
       failIfCoverageEmpty: false
 
+
+  - script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml;handlelisteApp\client-app\cypress\coverage\*;$(Build.SourcesDirectory)/**/cobertura-coverage.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
+    displayName: "Create Code Coverage Reports"
+
+
   - task: PublishCodeCoverageResults@1
     displayName: "Publish Code Coverage"
     inputs:
       codeCoverageTool: Cobertura
       summaryFileLocation: $(Build.SourcesDirectory)/TestResults/Coverage/Reports/Cobertura.xml
       failIfCoverageEmpty: false
-
-  - script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml;$(Build.SourcesDirectory)/**/cobertura-coverage.xml -targetDir:$(Build.SourcesDirectory)/TestResults/Coverage/Reports -reporttypes:Cobertura
-    displayName: "Create Code Coverage Reports"
 
   - task: DotNetCoreCLI@2
     inputs:
