@@ -48,15 +48,6 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
     shoppingListStore.resetShoppingList()
     shoppingListStore.resetFeedBack()
     shoppingListStore.addShoppinglist()
-    if (
-      shoppingListStore.shoppingLists.length > 0 &&
-      shoppingListStore.shoppingLists[
-        shoppingListStore.shoppingLists.length - 1
-      ].items.length > 0 &&
-      addPrevious
-    ) {
-      modalStore.openModal(<AddItemsFromLastTrip />)
-    }
   }
 
   if (shoppingListStore.isLoading) {
@@ -80,22 +71,6 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
             >
               {settingStore.language.newShoppingList}
             </Button>
-            <Menu>
-              <MenuButton
-                backgroundColor="#539495"
-                _hover={{ backgroundColor: 'teal.600' }}
-                _active={{ backgroundColor: 'teal.800' }}
-                border="1px"
-                borderColor="teal.500"
-                as={IconButton}
-                icon={<ChevronDownIcon color="white" />}
-              ></MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => onClickNewShoppingList(true)}>
-                  {settingStore.language.addItemsFromLastTripOption}
-                </MenuItem>
-              </MenuList>
-            </Menu>
           </ButtonGroup>
         </Center>
         {shoppingListStore.isLoading ? (

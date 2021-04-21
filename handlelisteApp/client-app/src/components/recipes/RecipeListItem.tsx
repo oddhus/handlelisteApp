@@ -78,7 +78,7 @@ export const RecipeListItem: React.FC<Props> = observer(
                   <VStack maxW="100%">
                     <HStack maxW="100%">
                       <LinkOverlay
-                        maxW={['70%', '90%']}
+                        maxW={['70%', '80%']}
                         onClick={() =>
                           history.push(`recipe/${recipe.recipeID}`)
                         }

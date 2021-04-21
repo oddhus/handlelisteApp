@@ -103,5 +103,6 @@ export interface ILanguage {
   addItem: string
   addItemsFromLastTrip: string
   addItemsFromLastTripOption: string
+  addItemsFromLastTrip2: string
   noThanks: string
 }

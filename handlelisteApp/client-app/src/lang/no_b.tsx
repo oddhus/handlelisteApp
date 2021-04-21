@@ -102,6 +102,7 @@ export default class Norwegian_B implements ILanguage {
 
   archiveShoppingList = 'Arkiver handlelisten'
   addItemsFromRecipe = 'Legg til varer fra en oppskrift'
+  addItemsFromLastTrip2 = 'Legg til varer fra forrige handletur'
   addItem = 'Legg til vare'
   addItemsFromLastTrip = 'Ønsker du å legge til varer fra din siste handletur?'
   addItemsFromLastTripOption = 'Lag ny handleliste og legg til ukjøpte varer'

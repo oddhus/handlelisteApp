@@ -309,6 +309,11 @@ export default class RecipeStore {
         searchText,
         items
       )
+      this.filteredSavedRecipeList = this.filterRecipes(
+        this.savedRecipeList,
+        searchText,
+        items
+      )
     } else if (this.tabIndex === 1) {
       this.debouncedGetRecipes(searchText)
     } else if (
