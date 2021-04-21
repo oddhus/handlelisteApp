@@ -148,6 +148,7 @@ export default class RecipeStore {
     let recipe = this.findExistingRecipe(id)
     if (recipe) {
       this.currentRecipe = recipe
+      return
     }
 
     try {
