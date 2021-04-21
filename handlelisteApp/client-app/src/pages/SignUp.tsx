@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React from 'react'
 import { Button, Container, Heading } from '@chakra-ui/react'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
@@ -11,38 +11,6 @@ interface Props {}
 export const SignUp: React.FC<Props> = observer(() => {
   const { userStore, settingStore } = useStore()
 
-  const [emailAddress, setEmailAddress] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [userAge, setAge] = useState(null)
-  const [repeatPassword, setRepeatPassword] = useState('')
-
-  const onchangeEmailHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmailAddress(event.target.value)
-  }
-  const onchangeUsernameHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value)
-  }
-  const onchangeAgeHandler = (event: any) => {
-    setAge(event.target.value)
-  }
-  const onchangePasswordHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
-  const onchangeRepeatPasswordHandler = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setRepeatPassword(event.target.value)
-  }
-
-  const registerNewUser = () => {
-    userStore.registerNewUser({
-      emailAddress,
-      username,
-      password,
-      userAge,
-    })
-  }
   const validationSchema = Yup.object({
     emailAddress: Yup.string()
       .email()

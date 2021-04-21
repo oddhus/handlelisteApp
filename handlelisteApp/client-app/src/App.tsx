@@ -9,7 +9,7 @@ import { history } from './index'
 import Footer from "./components/shared/Footer";
 
 function App() {
-  const { commonStore, userStore, settingStore } = useStore()
+  const { commonStore, userStore, settingStore, recipeStore } = useStore()
 
   useEffect(() => {
     if (commonStore.token) {
@@ -58,6 +58,8 @@ function App() {
     if (window.Cypress && typeof window !== "undefined") {
       //@ts-ignore
       window.userStore = userStore
+      //@ts-ignore
+      window.recipeStore = recipeStore
     }
 
   }, [userStore])
