@@ -18,6 +18,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Spinner,
 } from '@chakra-ui/react'
 
 import { AddItem } from '../components/shoppingList/AddItem'
@@ -159,7 +160,7 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
             </MenuList>
           </Menu>
         </ButtonGroup>
-        <ShoppingList />
+        {shoppingListStore.isLoading ? <Spinner /> : <ShoppingList />}
       </VStack>
 
       {shoppingListStore.shoppingList.items.length !== 0 && (

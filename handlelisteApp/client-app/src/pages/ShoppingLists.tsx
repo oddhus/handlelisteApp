@@ -20,20 +20,15 @@ import {
   useMediaQuery,
   Flex,
   ButtonGroup,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
 } from '@chakra-ui/react'
 import { IShoppingList } from '../models/ShoppingList'
-import { AddIcon, ChevronDownIcon, DeleteIcon } from '@chakra-ui/icons'
-import { AddItemsFromLastTrip } from '../components/shoppingList/AddItemsFromLastTrip'
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 
 interface Props {}
 
 export const ShoppingLists: React.FC<Props> = observer(() => {
   const history = useHistory()
-  const { shoppingListStore, settingStore, modalStore } = useStore()
+  const { shoppingListStore, settingStore } = useStore()
   const [isLargerThan450] = useMediaQuery('(min-width: 450px)')
 
   useEffect(() => {
@@ -44,14 +39,10 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
     shoppingListStore.deleteShoppingList(shoppingList)
   }
 
-  const onClickNewShoppingList = (addPrevious: boolean) => {
+  const onClickNewShoppingList = () => {
     shoppingListStore.resetShoppingList()
     shoppingListStore.resetFeedBack()
     shoppingListStore.addShoppinglist()
-  }
-
-  if (shoppingListStore.isLoading) {
-    return <Container maxW="container.md"></Container>
   }
 
   return (
@@ -66,7 +57,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
               colorScheme="brand"
               leftIcon={<AddIcon />}
               onClick={() => {
-                onClickNewShoppingList(false)
+                onClickNewShoppingList()
               }}
             >
               {settingStore.language.newShoppingList}

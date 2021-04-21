@@ -135,18 +135,22 @@ export default class shoppingListStore {
   }
 
   fetchShoppingLists = async () => {
-    try {
+    if (this.shoppingLists.length === 0) {
       this.isLoading = true
+    }
+
+    try {
       let shoppingLists = await agent.shoppingLists.getShoppingLists()
       if (!shoppingLists) {
         shoppingLists = []
       }
       runInAction(() => {
         this.shoppingLists = shoppingLists
-        this.isLoading = false
       })
     } catch (e) {
       this.error(store.settingStore.language.somethingError)
+    } finally {
+      runInAction(() => (this.isLoading = false))
     }
   }
 
@@ -158,12 +162,15 @@ export default class shoppingListStore {
       this.shoppingList = shoppingList
     } else {
       try {
+        this.isLoading = true
         const fetchedShoppingList = await agent.shoppingList.getShoppingList(id)
         runInAction(() => {
           this.shoppingList = fetchedShoppingList
         })
       } catch (e) {
         this.error(store.settingStore.language.somethingError)
+      } finally {
+        runInAction(() => (this.isLoading = false))
       }
     }
   }
@@ -284,7 +291,6 @@ export default class shoppingListStore {
       status: 'error',
       text,
     }
-    this.isLoading = false
   }
 
   private success(text?: string) {
@@ -292,6 +298,5 @@ export default class shoppingListStore {
       status: 'success',
       text,
     }
-    this.isLoading = false
   }
 }
