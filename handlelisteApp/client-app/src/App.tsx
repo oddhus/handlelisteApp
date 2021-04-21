@@ -33,6 +33,7 @@ function App() {
       switch (browserLang) {
         case 'nb-NO':
         case 'nb':
+      /* istanbul ignore next */
         case 'NO':
           settingStore.setLanguage('no')
           commonStore.setLang('no')
@@ -43,6 +44,7 @@ function App() {
           settingStore.setLanguage('en')
           commonStore.setLang('en')
           break
+        /* istanbul ignore next */
         default:
           settingStore.setLanguage('en')
           commonStore.setLang('en')
@@ -50,7 +52,7 @@ function App() {
     }
   }, [commonStore, settingStore])
 
-
+/* istanbul ignore next */
   useEffect(() => {    
     //@ts-ignore
     if (window.Cypress && typeof window !== "undefined") {

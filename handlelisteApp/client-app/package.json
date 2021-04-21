@@ -100,6 +100,9 @@
   },
   "nyc": {
     "report-dir": "cypress/coverage",
-    "reporter": ["cobertura"]
+    "reporter": ["cobertura"],
+    "exclude": ["src/reportWebVitals.ts", 
+                "src/stores/myKitchenStore.ts",
+                "src/pages/HomePage.tsx"]
   }
 }
