@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace handlelisteApp.Models
 {
+    [ExcludeFromCodeCoverage]
     public class ShoppingList
     {
         public int ShoppingListID { get; set; }
