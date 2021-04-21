@@ -37,6 +37,7 @@ jest.mock('../../stores/store', () => ({
         text: 'Bra',
         status: 'success',
       },
+      shoppingLists: [],
       getShoppinglist(id: number) {
         return new Promise((resolve, reject) => {
           process.nextTick(() =>
