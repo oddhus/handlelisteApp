@@ -1,0 +1,69 @@
+[
+    {
+       "name":"New super duper cool Shopping list",
+       "shoppingListID":38,
+       "items":[
+          
+       ],
+       "createdOn":"2021-04-22T15:42:40.6204733",
+       "updatedOn":"2021-04-22T15:42:40.6204764"
+    },
+    {
+       "name":"Spar",
+       "shoppingListID":39,
+       "items":[
+        {
+           "itemName":"Pottis",
+           "quantity":3,
+           "hasBeenBought":false,
+           "category":null,
+           "itemIdentifier":"a8fbd8e2-6492-4fec-9e84-6f3059647bf4",
+           "order":-4
+        },
+        {
+           "itemName":"Pepsi max",
+           "quantity":6,
+           "hasBeenBought":true,
+           "category":null,
+           "itemIdentifier":"17f97644-dc06-4f99-a056-9b35e2666505",
+           "order":-3
+        },
+        {
+           "itemName":"Brunost",
+           "quantity":1,
+           "hasBeenBought":true,
+           "category":null,
+           "itemIdentifier":"60ea23b7-fa85-49a1-b012-cb102ae5057e",
+           "order":-2
+        },
+        {
+           "itemName":"Fisk",
+           "quantity":1,
+           "hasBeenBought":true,
+           "category":null,
+           "itemIdentifier":"ac0d2ede-082b-4178-8859-ece708102d8a",
+           "order":-1
+        }
+     ],
+       "createdOn":"2021-04-22T15:42:38.5789277",
+       "updatedOn":"2021-04-22T15:42:38.5789304"
+    },
+    {
+        "name":"Kiwi",
+        "shoppingListID":40,
+        "items":[
+           
+        ],
+        "createdOn":"2021-04-22T15:42:38.5789277",
+        "updatedOn":"2021-04-22T15:42:38.5789304"
+     },
+     {
+        "name":"Coop",
+        "shoppingListID":41,
+        "items":[
+           
+        ],
+        "createdOn":"2021-04-22T15:42:38.5789277",
+        "updatedOn":"2021-04-22T15:42:38.5789304"
+     }
+ ]

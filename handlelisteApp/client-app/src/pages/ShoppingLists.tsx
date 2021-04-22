@@ -54,6 +54,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
         <Center>
           <ButtonGroup isAttached>
             <Button
+              data-cy="new-shoppinglist"
               colorScheme="brand"
               leftIcon={<AddIcon />}
               onClick={() => {
@@ -110,6 +111,7 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
                   >
                     <VStack spacing={0} justify="flex-start">
                       <Text
+                        data-cy="shoppinglist-name"
                         fontSize={isLargerThan450 ? 'lg' : 'md'}
                         color="teal.600"
                         isTruncated
@@ -128,6 +130,8 @@ export const ShoppingLists: React.FC<Props> = observer(() => {
                   <GridItem colSpan={2} minW="100%">
                     <Flex justify="flex-end">
                       <IconButton
+                        data-cy={`delet-shoppinglist${shoppingList.shoppingListID}`}
+                        data-testid="delete-shoppinglist"
                         colorScheme="red"
                         variant="ghost"
                         aria-label="Call Segun"

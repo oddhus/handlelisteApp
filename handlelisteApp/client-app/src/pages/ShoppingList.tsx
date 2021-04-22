@@ -112,6 +112,7 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
       <VStack spacing={6}>
         {shoppingListName !== '' && (
           <Editable
+            data-cy="shoppinglist-title"
             fontWeight="bold"
             textAlign="center"
             defaultValue={shoppingListName}
