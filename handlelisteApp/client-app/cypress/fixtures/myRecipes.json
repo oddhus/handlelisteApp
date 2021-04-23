@@ -31,7 +31,7 @@
         "items":[
            {
               "itemName":"pizza",
-              "quantity":1,
+              "quantity":2,
               "unit":"PCS"
            },
            {
@@ -48,7 +48,7 @@
         "approach":"dsga",
         "imgUrl":"",
         "isOwner":false,
-        "hasLiked":false,
+        "hasLiked":true,
         "items":[
            {
               "itemName":"123",
@@ -57,7 +57,7 @@
            },
            {
               "itemName":"gsdg",
-              "quantity":1,
+              "quantity":6,
               "unit":"PCS"
            },
            {

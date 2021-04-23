@@ -95,6 +95,7 @@ export const Recipe: React.FC<Props> = observer(() => {
           <Center>
             {userStore.isLoggedIn && (
               <Button
+                data-cy="add-to-recipe"
                 onClick={() => modalStore.openModal(<RecipeToShoppingList />)}
                 disabled={recipeStore.currentRecipe?.items.length === 0}
                 colorScheme="teal"

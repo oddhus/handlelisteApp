@@ -17,7 +17,7 @@ function translateFromNo(itemList: IitemInRecipe[]){
     itemList.forEach(item => {
        switch (item.unit){
            case 'STK':
-               item.unit = "pcs"
+               item.unit = "PCS"
                break; 
            case 'PK':
                item.unit = 'PCK'

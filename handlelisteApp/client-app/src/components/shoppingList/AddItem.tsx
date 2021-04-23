@@ -11,6 +11,7 @@ export const AddItem: React.FC<Props> = () => {
 
   return (
     <Button
+      data-cy="add-item"
       aria-label={settingStore.language.add}
       onClick={() => shoppingListStore.insertEmptyItem()}
       leftIcon={<AddIcon />}

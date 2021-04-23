@@ -78,7 +78,7 @@ export const MyRecipes: React.FC<Props> = observer(() => {
 
           <AccordionItem>
             <h2>
-              <AccordionButton>
+              <AccordionButton data-cy="favorites-tab">
                 <Box flex="1" textAlign="left">
                   <Text fontWeight="700">{`Favorites (${recipeStore.filteredSavedRecipeList.length})`}</Text>
                 </Box>

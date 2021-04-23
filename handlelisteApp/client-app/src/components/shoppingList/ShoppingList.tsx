@@ -8,7 +8,7 @@ import { Center, Text } from '@chakra-ui/react'
 interface Props {}
 export const ShoppingList: React.FC<Props> = observer(() => {
   const { shoppingListStore, settingStore } = useStore()
-
+  /* istanbul ignore next */
   const handleOnDragEnd = (result: any) => {
     if (!result.destination) return
     const items = Array.from(shoppingListStore.shoppingList.items)

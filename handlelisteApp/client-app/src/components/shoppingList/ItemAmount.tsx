@@ -21,6 +21,7 @@ export const ItemAmount: React.FC<Props> = observer(({ item }) => {
   return (
     <HStack pl={[1, 5]}>
       <NumberInput
+        data-cy="number-of-items"
         onChange={(valueString) => {
           shoppingListStore.onSetQuantity(item, parseInt(valueString))
         }}
@@ -31,9 +32,11 @@ export const ItemAmount: React.FC<Props> = observer(({ item }) => {
         <NumberInputField />
         <NumberInputStepper>
           <NumberIncrementStepper
+            data-cy="item-increment"
             onClick={() => shoppingListStore.onChangeQuantity(item, true)}
           />
           <NumberDecrementStepper
+            data-cy="item-decrement"
             onClick={() => shoppingListStore.onChangeQuantity(item, false)}
           />
         </NumberInputStepper>

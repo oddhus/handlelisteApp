@@ -62,6 +62,7 @@ export const Item: React.FC<Props> = observer(
               minH="100%"
             >
               <Checkbox
+                data-cy="item-bought-checkbox"
                 isChecked={item.hasBeenBought}
                 onChange={() => shoppingListStore.onChecked(item)}
                 colorScheme="brand"
@@ -83,6 +84,7 @@ export const Item: React.FC<Props> = observer(
               </Box>
             ) : (
               <Input
+                data-cy="item-name"
                 variant="flushed"
                 placeholder="New Item"
                 autoFocus
@@ -105,6 +107,7 @@ export const Item: React.FC<Props> = observer(
           <GridItem colSpan={[3, 2]} justifyContent="flex-end">
             <Box minW="100%" justifyContent="flex-end" display="flex">
               <IconButton
+                data-cy="delete-item"
                 variant="ghost"
                 colorScheme="red"
                 aria-label="delete item"

@@ -136,6 +136,7 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
           <AddItem />
           <Menu>
             <MenuButton
+              data-cy="shoppinglist-menu"
               backgroundColor="#539495"
               _hover={{ backgroundColor: 'teal.600' }}
               _active={{ backgroundColor: 'teal.800' }}
@@ -145,12 +146,13 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
               icon={<ChevronDownIcon size="300px" color="white" />}
             ></MenuButton>
             <MenuList>
-              <MenuItem onClick={() => sendToRecipes()}>
+              <MenuItem data-cy="from-recipe" onClick={() => sendToRecipes()}>
                 {settingStore.language.addItemsFromRecipe}
               </MenuItem>
               {shoppingListStore.shoppingLists.length > 1 &&
                 shoppingListStore.shoppingLists[1].items.length > 0 && (
                   <MenuItem
+                    data-cy="item-from-last-trip"
                     onClick={() =>
                       modalStore.openModal(<AddItemsFromLastTrip />)
                     }
@@ -167,6 +169,7 @@ export const ShoppingListPage: React.FC<Props> = observer(() => {
       {shoppingListStore.shoppingList.items.length !== 0 && (
         <Center className="itemList">
           <Button
+            data-cy="Archive shoppinglist"
             mt={16}
             variant="outline"
             //does nothing for the time being

@@ -147,6 +147,7 @@ export const RecipeToShoppingList: React.FC<Props> = observer(() => {
               </Button>
               {!!shoppingListStore.backToMyShoppingList && (
                 <Button
+                  data-cy="add-return"
                   disabled={
                     !selectedShoppingList &&
                     !shoppingListStore.backToMyShoppingList
