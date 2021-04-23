@@ -19,7 +19,7 @@ describe('Shoppinglist page', () => {
         cy.visit('shopping-list')
         cy.get('[data-testid=delete-shoppinglist]', {timeout: 5000}).first().click()
         cy.wait(4000)
-        cy.get('[data-testid=delete-shoppinglist]' {timeout: 4000}).click()
+        cy.get('[data-testid=delete-shoppinglist]', {timeout: 4000}).click()
     })
 
     it('Should have standard values when first creating shoppinglist ', function () {
