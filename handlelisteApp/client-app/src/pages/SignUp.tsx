@@ -30,7 +30,7 @@ export const SignUp: React.FC<Props> = observer(() => {
         initialValues={{ emailAddress: '', username: '', password: '' }}
         onSubmit={(values) => userStore.registerNewUser(values)}
       >
-        {({ values, handleChange, handleSubmit }) => (
+        {({ values, handleChange, handleSubmit, isSubmitting }) => (
           <Form onSubmit={handleSubmit} autoComplete="off">
             <InputText
               placeholder={settingStore.language.emailAddress}
@@ -54,7 +54,7 @@ export const SignUp: React.FC<Props> = observer(() => {
               style={{ marginTop: '10px' }}
               aria-label={settingStore.language.signUp}
               data-testid="signup-button"
-              isLoading={userStore.loading}
+              isLoading={userStore.loading || isSubmitting}
             >
               {settingStore.language.signUp}
             </Button>

@@ -47,7 +47,7 @@ export const SignIn: React.FC<Props> = observer(() => {
               )
           }
         >
-          {({ handleSubmit, errors }) => (
+          {({ handleSubmit, errors, isSubmitting }) => (
             <Form className="ui form" onSubmit={handleSubmit}>
               <ErrorMessage
                 name="error"
@@ -77,7 +77,7 @@ export const SignIn: React.FC<Props> = observer(() => {
                 style={{ marginTop: '10px' }}
                 colorScheme="brand"
                 type="submit"
-                isLoading={userStore.loading}
+                isLoading={userStore.loading || isSubmitting}
               >
                 {settingStore.language.login}
               </Button>

@@ -290,6 +290,9 @@ export default class RecipeStore {
       this.currentRecipe = undefined
       this.userRecipeList = []
       this.allRecipes = undefined
+      this.filteredRecipeSuggestions = []
+      this.filteredSavedRecipeList = []
+      this.filteredUserRecipeList = []
       this.loading = false
       this.tabIndex = 0
       this.isOwnerOfCurrentRecipe = false
