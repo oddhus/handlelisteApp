@@ -86,7 +86,7 @@ export const Recipe: React.FC<Props> = observer(() => {
         <Text fontSize="xl" as="i">
           {recipeStore.currentRecipe!.shortDescription}
         </Text>
-        <Text fontSize="md">{recipeStore.currentRecipe!.approach}</Text>
+        <Text fontSize="md" style={{ whiteSpace: 'pre-line' }}>{recipeStore.currentRecipe!.approach}</Text>
         <Box minW="100%">
           <ItemList items={recipeStore.currentRecipe!.items} />
         </Box>
