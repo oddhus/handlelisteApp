@@ -71,12 +71,11 @@ export const RecipeListItem: React.FC<Props> = observer(
                 <Box
                   display="flex"
                   justifyContent="flex-start"
-                  alignItems="center"
                   minW="100%"
                   maxW="100%"
                 >
-                  <VStack maxW="100%">
-                    <HStack maxW="100%">
+                  <VStack maxW="100%" minW="100%">
+                    <HStack maxW="100%" minW="100%">
                       <LinkOverlay
                         maxW={['70%', '80%']}
                         onClick={() =>
@@ -89,7 +88,7 @@ export const RecipeListItem: React.FC<Props> = observer(
                       </LinkOverlay>
                       <RecipeFavoriteButton recipe={recipe} />
                     </HStack>
-                    <Box maxW="100%">
+                    <Box maxW="100%" minW="100%">
                       <Text noOfLines={2}>{recipe.shortDescription}</Text>
                     </Box>
                   </VStack>

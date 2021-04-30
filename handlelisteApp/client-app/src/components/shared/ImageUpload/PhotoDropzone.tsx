@@ -43,7 +43,7 @@ const PhotoDropzone: React.FC<Props> = ({ setFiles }) => {
       <input {...getInputProps()} />
       <ArrowUpIcon w={20} h={20} />
       <Heading as="h5" size="sm">
-        Drop Image here
+        Drop Image here or click to browse
       </Heading>
     </div>
   )
